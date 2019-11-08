@@ -199,8 +199,8 @@
 											</div>
 										</div>
 
-
-										<div class="form-group">
+  <input type="hidden"  name="fr_rate" id="fr_rate" value="9" />
+										<%-- <div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Rating</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<select class="form-control input-sm" name="fr_rate"
@@ -231,7 +231,7 @@
 												
 												</select>
 											</div>
-										</div>
+										</div> --%>
 
 
 										<div class="form-group">
@@ -244,7 +244,7 @@
 										</div>
 
 
-										<div class="form-group">
+										<%-- <div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Pastries</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="kg_1" id="kg_1" placeholder="Qty"
@@ -276,15 +276,42 @@
 													onKeyPress="return isNumberCommaDot(event)" />
 											</div>
 										</div>
-
+ --%>
+ <input type="hidden"  name="kg_1" id="kg_1" value="0" />
+  <input type="hidden"  name="kg_2" id="kg_2" value="0" />
+   <input type="hidden"  name="kg_3" id="kg_3" value="0" />
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Above
-												1 Kg Cake</label>
+											<label class="col-sm-3 col-lg-2 control-label">Is Own Store?</label>
 											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_4" id="kg_4" placeholder="Qty"
-													value="${franchiseeList.frKg4}" class="form-control"
-													data-rule-required="true" data-rule-number="true"
-													onKeyPress="return isNumberCommaDot(event)" />
+											 <c:choose>
+													<c:when test="${franchiseeList.frKg4==0}">
+														<label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="0" checked>
+													No
+												</label> <label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="1" />
+													Yes
+												</label>
+													</c:when>
+													<c:when test="${franchiseeList.frKg4==1}">
+														<label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="0" >
+													No
+												</label> <label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="1" checked/>
+													Yes
+												</label>
+													</c:when>
+													<c:otherwise>
+												<label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="0" checked>
+													No
+												</label> <label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="1" />
+													Yes
+												</label>
+													</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 

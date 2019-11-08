@@ -566,7 +566,13 @@ form.submit();
 													tr.append($('<td class="col-md-2" style="text-align:right;"></td>').html(bill.taxableAmt.toFixed(2)));
 													tr.append($('<td class="col-sm-1" style="text-align:right;"></td>').html(bill.totalTax.toFixed(2)));
 													tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html(bill.grandTotal.toFixed(2)));
-													tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='BillDetail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+													if (bill.status == 1) {
+														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Pending"));
+
+													} else if (bill.status == 2) {
+														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Received"));
+													}
+													tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
 													$('#table1 tbody').append(tr);
 												}
 													
@@ -586,7 +592,13 @@ form.submit();
 														tr.append($('<td class="col-md-2" style="text-align:right;"></td>').html(bill.taxableAmt.toFixed(2)));
 														tr.append($('<td class="col-sm-1" style="text-align:right;"></td>').html(bill.totalTax.toFixed(2)));
 														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html(bill.grandTotal.toFixed(2)));
-														tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='BillDetail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+														if (bill.status == 1) {
+															tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Pending"));
+
+														} else if (bill.status == 2) {
+															tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Received"));
+														}
+														tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
 														$('#table1 tbody').append(tr);
 													
 											document.getElementById("expExcel2").disabled=false;

@@ -117,6 +117,9 @@ public class DiscountController {
 			String[] frId = request.getParameterValues("fr_id");
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			float discPer = Float.parseFloat(request.getParameter("disc_per"));
+			float discPer2 = Float.parseFloat(request.getParameter("disc_per2"));
+			float discPer3 = Float.parseFloat(request.getParameter("disc_per3"));
+			float discPer4 = Float.parseFloat(request.getParameter("disc_per4"));
 			RestTemplate rest = new RestTemplate();
 
 			StringBuilder sb = new StringBuilder();
@@ -151,9 +154,9 @@ public class DiscountController {
 			disc.setInt1(0);
 			disc.setInt2(0);
 			disc.setInt3(0);
-			disc.setVar1("");
-			disc.setVar2("");
-			disc.setVar3("");
+			disc.setVar1(""+discPer2);
+			disc.setVar2(""+discPer3);
+			disc.setVar3(""+discPer4);
 
 			Discount discount = rest.postForObject(Constants.url + "/saveDiscount", disc, Discount.class);
 

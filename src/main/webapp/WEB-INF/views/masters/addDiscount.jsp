@@ -282,12 +282,39 @@ select {
 											</div>
 										</div>
 										        <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label" for="credit_days">Discount %
+									<label class="col-sm-3 col-lg-2 control-label" for="disc">Discount %
 										</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="disc_per" id="disc_per"
 											placeholder="Discount %" class="form-control"
 											data-rule-required="true" data-rule-number="true" value="${discount.discPer}"/>
+									</div>
+								</div>
+								        <div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label" for="credit_days">Dairy Mart Disc%
+										</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<input type="text" name="disc_per2" id="disc_per2"
+											placeholder="Dairy Mart Discount %" class="form-control"
+											data-rule-required="true" data-rule-number="true" value="${discount.var1}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label" for="credit_days">Other Disc1%
+										</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<input type="text" name="disc_per3" id="disc_per3"
+											placeholder="Other Discount 1 %" class="form-control"
+											data-rule-required="true" data-rule-number="true" value="${discount.var2}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label" for="credit_days">Other Disc2%
+										</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<input type="text" name="disc_per4" id="disc_per4"
+											placeholder="Other Discount 2 %" class="form-control"
+											data-rule-required="true" data-rule-number="true" value="${discount.var3}"/>
 									</div>
 								</div>
                             			<div class="form-group">

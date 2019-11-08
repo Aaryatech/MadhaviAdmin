@@ -114,6 +114,7 @@
 															<th class="col-md-2">Category</th>
 														<th class="col-md-2">Items</th>
 														<th class="col-md-2">Discount %</th>
+														<th class="col-md-2">Dairy Mart Disc%</th>
 													    <th class="col-md-2">Status</th> 
 														<th class="col-md-2" width="90px">Action</th>
 													</tr>
@@ -131,6 +132,7 @@
 														<th class="col-md-2">Category</th>
 														<th class="col-md-2">Items</th>
 														<th class="col-md-2">Discount %</th>
+														<th class="col-md-2">Dairy Mart Disc%</th>
 													    <th class="col-md-2">Status</th> 
 														<th class="col-md-2" width="90px">Action</th>
 													</tr>
@@ -150,6 +152,8 @@
 																	value="${discList.itemId}" /></td>
 															<td align="left"><c:out
 																	value="${discList.discPer}" /></td>
+															<td align="left"><c:out
+																	value="${discList.var1}" /></td>
 															
 															<td align="left"><c:choose><c:when test="${discList.isActive==1}">
 															Active

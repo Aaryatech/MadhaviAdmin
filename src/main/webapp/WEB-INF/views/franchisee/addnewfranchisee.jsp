@@ -145,7 +145,7 @@
 												Date</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker" id="fr_opening_date"
-													size="16" type="text" name="fr_opening_date" 
+													size="16" type="text" name="fr_opening_date"  autocomplete="off"
 													placeholder="Opening Date" />
 											</div>
 										</div>
@@ -155,7 +155,7 @@
 											<label class="col-sm-3 col-lg-2 control-label" for="fr_name">Franchisee
 												Name</label>
 											<div class="col-sm-6 col-lg-4 controls">
-												<input type="text" name="fr_name" id="fr_name"
+												<input type="text" name="fr_name" id="fr_name" autocomplete="off"
 													data-rule-required="true" class="form-control"
 													placeholder="Name" required />
 											</div>
@@ -166,7 +166,7 @@
 												Address</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<textarea rows="4" cols="25" name="fr_addr" id="fr_addr"
-													placeholder="Address" class="form-control"
+													placeholder="Address" class="form-control" autocomplete="off"
 													form="validation-form" required></textarea>
 											</div>
 										</div>
@@ -177,7 +177,7 @@
 											<div class="col-sm-9 col-lg-4 controls">
 												<input type="text" name="fr_target" id="fr_target"
 													placeholder="Target Per Year" class="form-control"
-													data-rule-required="true" data-rule-number="true"
+													data-rule-required="true" data-rule-number="true" autocomplete="off"
 													onKeyPress="return isNumberCommaDot(event)" />
 											</div>
 										</div>
@@ -242,8 +242,8 @@
 											</div>
 										</div>
 
-
-										<div class="form-group">
+                                         <input type="hidden"  name="fr_rate" id="fr_rate" value="9" />
+										<!-- <div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Rating</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<select class="form-control input-sm" name="fr_rate"
@@ -261,20 +261,22 @@
 
 												</select>
 											</div>
-										</div>
+										</div> -->
 
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">City</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="fr_city" id="fr_city"
-													placeholder="City" class="form-control"
+													placeholder="City" class="form-control" autocomplete="off"
 													data-rule-required="true" />
 											</div>
 										</div>
 
-
-										<div class="form-group">
+ <input type="hidden"  name="kg_1" id="kg_1" value="0" />
+  <input type="hidden"  name="kg_2" id="kg_2" value="0" />
+   <input type="hidden"  name="kg_3" id="kg_3" value="0" />
+									<!-- 	<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Pastries</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="kg_1" id="kg_1" placeholder="Qty"
@@ -304,16 +306,22 @@
 													data-rule-number="true" 
 													onKeyPress="return isNumberCommaDot(event)" />
 											</div>
-										</div>
-
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Above
-												1 Kg Cake</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_4" id="kg_4" placeholder="Qty"
+										</div> <input type="text" name="kg_4" id="kg_4" placeholder="Qty"
 													class="form-control" data-rule-required="true"
 													data-rule-number="true" value="0"
-													onKeyPress="return isNumberCommaDot(event)" />
+													onKeyPress="return isNumberCommaDot(event)" />-->
+
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Is Own Store?</label>
+											<div class="col-sm-9 col-lg-10 controls">
+												
+													<label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="0" checked>
+													No
+												</label> <label class="radio-inline"> <input type="radio"
+													name="kg_4" id="optionsR1" value="1" />
+													Yes
+												</label>
 											</div>
 										</div>
 
@@ -323,7 +331,7 @@
 												for="fr_password">Password</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="password" name="fr_password" id="fr_password"
-													class="form-control" data-rule-required="true"
+													class="form-control" data-rule-required="true" autocomplete="off"
 													data-rule-minlength="6" placeholder="Password" />
 											</div>
 										</div>
@@ -332,7 +340,7 @@
 											<label class="col-sm-3 col-lg-2 control-label"
 												for="fr_confirm_password">Confirm Password</label>
 											<div class="col-sm-6 col-lg-4 controls">
-												<input type="password" name="fr_confirm_password"
+												<input type="password" name="fr_confirm_password" autocomplete="off"
 													id="fr_confirm_password" class="form-control"
 													data-rule-required="true" data-rule-minlength="6"
 													data-rule-equalTo="#fr_password"
@@ -345,7 +353,7 @@
 												Address:</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="email" name="fr_email" id="fr_email"
-													class="form-control" data-rule-required="true"
+													class="form-control" data-rule-required="true" autocomplete="off"
 													data-rule-email="true" placeholder="Enter Email Id" />
 											</div>
 										</div>
@@ -357,7 +365,7 @@
 												<input type="text" name="fr_mob" id="fr_mob"
 													placeholder="Mobile" class="form-control"
 													data-rule-required="true" data-rule-minlength="10"
-													data-rule-maxlength="10"
+													data-rule-maxlength="10" autocomplete="off"
 													onKeyPress="return isNumberCommaDot(event)" />
 											</div>
 										</div>
@@ -367,7 +375,7 @@
 											<label class="col-sm-3 col-lg-2 control-label">Owner
 												Name</label>
 											<div class="col-sm-9 col-lg-4 controls">
-												<input type="text" name="fr_owner" id="fr_owner"
+												<input type="text" name="fr_owner" id="fr_owner" autocomplete="off"
 													placeholder="Owner Name" class="form-control"
 													data-rule-required="true" />
 											</div>
@@ -377,7 +385,7 @@
 												Birthdate</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker" id="fr_birth_date"
-													size="16" type="text" name="fr_birth_date" 
+													size="16" type="text" name="fr_birth_date"  autocomplete="off"
 													placeholder="Birthdate" />
 											</div>
 										</div>
@@ -387,7 +395,7 @@
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker"
 													id="fba_license_date" size="16" type="text"
-													name="fba_license_date" required
+													name="fba_license_date" required autocomplete="off"
 													placeholder="FDA License Date" />
 											</div>
 										</div>
@@ -397,7 +405,7 @@
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker"
 													id="fr_agreement_date" size="16" type="text"
-													name="fr_agreement_date" 
+													name="fr_agreement_date"  autocomplete="off"
 													placeholder="Agreement Date" />
 											</div>
 										</div>
@@ -426,7 +434,7 @@
 											<div class="col-sm-9 col-lg-4 controls">
 												<input type="text" name="fr_gst_no" id="fr_gst_no"
 													placeholder="GST Number" class="form-control"
-													data-rule-required="true"
+													data-rule-required="true" autocomplete="off"
 													onKeyPress="return isNumberCommaDot(event)" />
 											</div>
 										</div>

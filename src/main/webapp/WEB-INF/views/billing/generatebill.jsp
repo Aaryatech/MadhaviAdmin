@@ -433,6 +433,14 @@
 													function(key, bill) {
 														
 														if(bill.orderQty>0){
+															var cls ="";
+															if(bill.isOwnFr==1)
+																{
+																cls="color:green;";
+																}else
+																{
+																cls="";
+																}	
 
 														var index = key + 1;
 													
@@ -440,15 +448,16 @@
 															tr="<tr>";
 														
 
-														var index = "<td>&nbsp;"
+														var index = "<td style="+cls+">&nbsp;"
 																+ index
 																+ "</td>";
 
-														var frName = "<td>&nbsp;"
+																
+														var frName = "<td style="+cls+">&nbsp;"
 																+ bill.frName
 																+ "</td>";
 
-														var menuTitle = "<td>&nbsp;"
+														var menuTitle = "<td >&nbsp;"
 																+ bill.menuTitle
 																+ "</td>";
 

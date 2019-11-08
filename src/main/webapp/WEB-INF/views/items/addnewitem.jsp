@@ -409,7 +409,7 @@
 								</div>
 
                                 <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Station No</label>
+									<label class="col-sm-3 col-lg-2 control-label">Dairy-Mart Limit</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp2" id="item_mrp2"
 											placeholder="Item Mrp2" class="form-control"

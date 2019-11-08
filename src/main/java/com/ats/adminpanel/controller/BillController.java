@@ -457,6 +457,10 @@ public class BillController {
 						header.setPartyAddress(gBill.getPartyAddress());// new
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
 						header.setExVarchar1(sectionId);
+						if(gBill.getIsOwnFr()==1)
+						header.setExVarchar2("1");//For Delivery Chalan
+						else
+						header.setExVarchar2("0");//For Bill --Previous
 					}
 
 				}
