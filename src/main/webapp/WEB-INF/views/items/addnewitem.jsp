@@ -398,6 +398,46 @@
 										</label>
 									</div>
 								</div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Saleable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isSaleable" id="radio1" value="0" checked>
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isSaleable" id="radio1" value="1"
+											data-rule-required="false" />Yes
+										</label> 
+									</div>
+								</div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Stockable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isStockable" id="radio2" value="0" checked>
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isStockable" id="radio2" value="1"
+											data-rule-required="false" />Yes
+										</label> 
+									</div>
+								</div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Factory/Fr/Both</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="1" checked>
+											Factory
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="2"
+											data-rule-required="false" />Franchise
+										</label> 
+										<label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="3"
+											data-rule-required="false" />Both
+										</label> 
+									</div>
+								</div>
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item
 										Shelf Life</label>

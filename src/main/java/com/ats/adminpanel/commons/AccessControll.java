@@ -16,7 +16,7 @@ public class AccessControll {
 
 		try {
 
-			System.out.println("in function newModuleList " + newModuleList);
+		//	System.out.println("in function newModuleList " + newModuleList);
 
 			int viewMappingFound = 0;
 
@@ -27,24 +27,24 @@ public class AccessControll {
 					if (newModuleList.get(i).getSubModuleJsonList().get(j).getSubModuleMapping().equals(viewMapping)) {
 						viewMappingFound = 1;
 
-						System.out.println("Mapping Found");
+					//	System.out.println("Mapping Found");
 
 						if (view.equals("1")) {
 
-							System.out.println("in view");
+						//	System.out.println("in view");
 							info.setError(false);
 							info.setMessage("Have Access");
 
 						} else if (add.equals("1")) {
 
-							System.out.println("in add");
+						//	System.out.println("in add");
 
 							if (newModuleList.get(i).getSubModuleJsonList().get(j).getAddApproveConfig().equals(add)) {
-								System.out.println("in add if");
+							//	System.out.println("in add if");
 								info.setError(false);
 								info.setMessage("Have Access");
 							} else {
-								System.out.println("in add else");
+							//	System.out.println("in add else");
 								info.setError(true);
 								info.setMessage("Access denied");
 							}
@@ -52,28 +52,28 @@ public class AccessControll {
 
 							System.out.println("in edit");
 							if (newModuleList.get(i).getSubModuleJsonList().get(j).getEditReject().equals(edit)) {
-								System.out.println("in edit if");
+							//	System.out.println("in edit if");
 								info.setError(false);
 								info.setMessage("Have Access");
 							} else {
-								System.out.println("in edit else");
+							//	System.out.println("in edit else");
 								info.setError(true);
 								info.setMessage("Access denied");
 							}
 						} else if (delete.equals("1")) {
-							System.out.println("in delete");
+							//System.out.println("in delete");
 							if (newModuleList.get(i).getSubModuleJsonList().get(j).getDeleteRejectApprove()
 									.equals(delete)) {
-								System.out.println("in edit if");
+							//	System.out.println("in edit if");
 								info.setError(false);
 								info.setMessage("Have Access");
 							} else {
-								System.out.println("in edit else");
+						//		System.out.println("in edit else");
 								info.setError(true);
 								info.setMessage("Access denied");
 							}
 						} else {
-							System.out.println("in else");
+						//	System.out.println("in else");
 							info.setError(true);
 							info.setMessage("Access denied");
 						}
@@ -84,7 +84,7 @@ public class AccessControll {
 			}
 
 			if (viewMappingFound == 0) {
-				System.out.println("mapping not found");
+				//System.out.println("mapping not found");
 				info.setError(true);
 				info.setMessage("Access Denied");
 			}

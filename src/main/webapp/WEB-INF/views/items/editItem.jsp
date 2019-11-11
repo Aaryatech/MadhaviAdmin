@@ -452,7 +452,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">GRN Type</label>
 											<div class="col-sm-9 col-lg-10 controls">
-												<label class="radio-inline"> </label>
+											
 												<c:choose>
 													<c:when test="${strGrnAppl.equals('0')}">
 
@@ -520,7 +520,78 @@
 
 											</div>
 										</div>
-										
+										<c:set var="flag11" value=""></c:set><c:set var="flag12" value=""></c:set>
+										<c:set var="flag21" value=""></c:set>	<c:set var="flag22" value=""></c:set>
+										<c:set var="flag3" value=""></c:set>
+										<c:set var="flag4" value=""></c:set>
+										<c:set var="flag5" value=""></c:set>
+											<c:choose>
+													<c:when test="${item.isSaleable==0}">
+													<c:set var="flag11" value="checked"></c:set>
+													</c:when>
+													<c:when test="${item.isSaleable==1}">
+													<c:set var="flag12" value="checked"></c:set>
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when test="${item.isStockable==0}">
+													<c:set var="flag21" value="checked"></c:set>
+													</c:when>
+														<c:when test="${item.isStockable==1}">
+													<c:set var="flag22" value="checked"></c:set>
+													</c:when>
+													</c:choose>
+												<c:choose>
+													<c:when test="${item.isFactOrFr==1}">
+													<c:set var="flag3" value="checked"></c:set>
+													</c:when>
+														<c:when test="${item.isFactOrFr==2}">
+													<c:set var="flag4" value="checked"></c:set>
+													</c:when>
+														<c:when test="${item.isFactOrFr==3}">
+													<c:set var="flag5" value="checked"></c:set>
+													</c:when>
+											</c:choose>
+										<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Saleable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isSaleable" id="radio1" value="0"  ${flag11} />
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isSaleable" id="radio1" value="1"
+											data-rule-required="false" ${flag12} />Yes
+										</label> 
+									</div>
+								</div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Stockable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isStockable" id="radio2" value="0" ${flag21} />
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isStockable" id="radio2" value="1"
+											data-rule-required="false" ${flag22}  />Yes
+										</label> 
+									</div>
+								</div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Factory/Fr/Both</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="1" ${flag3} />
+											Factory
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="2"
+											data-rule-required="false" ${flag4} />Franchise
+										</label> 
+										<label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="3"
+											data-rule-required="false"  ${flag5} />Both
+										</label> 
+									</div>
+								</div>	
 										 <div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item Shelf Life</label>
 									<div class="col-sm-9 col-lg-10 controls">

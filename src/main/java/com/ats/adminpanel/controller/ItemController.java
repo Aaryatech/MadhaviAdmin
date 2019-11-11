@@ -678,10 +678,12 @@ public class ItemController {
 		int grnTwo = Integer.parseInt(request.getParameter("grn_two"));
 
 		int itemShelfLife = Integer.parseInt(request.getParameter("item_shelf_life"));
-
-		logger.info("Add new item request mapping.");
-
-		// String itemImage = ImageS3Util.uploadItemImage(file);
+		
+		int isSaleable = Integer.parseInt(request.getParameter("isSaleable"));
+		
+		int isStockable = Integer.parseInt(request.getParameter("isStockable"));
+		
+		int isFactOrFr = Integer.parseInt(request.getParameter("isFactOrFr"));
 
 		VpsImageUpload upload = new VpsImageUpload();
 
@@ -690,25 +692,9 @@ public class ItemController {
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-		Date date = new Date();
-
-		System.out.println(sdf.format(cal.getTime()));
-
 		String curTimeStamp = sdf.format(cal.getTime());
 
-		/*
-		 * try {
-		 * 
-		 * upload.saveUploadedFiles(file, Constants.ITEM_IMAGE_TYPE, curTimeStamp + "-"
-		 * + file.get(0).getOriginalFilename()); // upload.saveUploadedFiles(file,
-		 * Constants.ITEM_IMAGE_TYPE, itemName);
-		 * System.out.println("upload method called " + file.toString());
-		 * 
-		 * } catch (IOException e) {
-		 * 
-		 * System.out.println("Exce in File Upload In Item Insert " + e.getMessage());
-		 * e.printStackTrace(); }
-		 */
+		
 		RestTemplate rest = new RestTemplate();
 		try {
 
@@ -756,9 +742,12 @@ public class ItemController {
 		map.add("itemSortId", itemSortId);
 		map.add("grnTwo", grnTwo);
 		map.add("itemShelfLife", itemShelfLife);
+		map.add("isSaleable", isSaleable);
+		map.add("isStockable", isStockable);
+		map.add("isFactOrFr", isFactOrFr);
+		
 		try {
 			Item itemRes = rest.postForObject("" + Constants.url + "insertItem", map, Item.class);
-
 			if (itemRes != null) {
 				isError = false;
 
@@ -776,6 +765,7 @@ public class ItemController {
 			return "redirect:/addItem";
 
 		}
+		//return "redirect:/addItem";
 
 	}
 
@@ -1284,6 +1274,12 @@ public class ItemController {
 		int grnTwo = Integer.parseInt(request.getParameter("grn_two"));
 		int id = Integer.parseInt(request.getParameter("itemId"));
 		int shelfLife = Integer.parseInt(request.getParameter("item_shelf_life"));
+		
+        int isSaleable = Integer.parseInt(request.getParameter("isSaleable"));
+		
+		int isStockable = Integer.parseInt(request.getParameter("isStockable"));
+		
+		int isFactOrFr = Integer.parseInt(request.getParameter("isFactOrFr"));
 
 		logger.info("Add new item request mapping.");
 		RestTemplate rest = new RestTemplate();
@@ -1356,6 +1352,10 @@ public class ItemController {
 		map.add("id", id);
 
 		map.add("itemShelfLife", shelfLife);
+		map.add("isSaleable", isSaleable);
+		map.add("isStockable", isStockable);
+		map.add("isFactOrFr", isFactOrFr);
+		
 		ErrorMessage errorResponse = rest.postForObject("" + Constants.url + "updateItem", map, ErrorMessage.class);
 
 		return "redirect:/itemList";

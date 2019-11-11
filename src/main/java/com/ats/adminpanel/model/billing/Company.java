@@ -50,7 +50,16 @@ public class Company implements Serializable{
 	
 	private String exVar6;
 	
+	private String delChalanPrefix;
+
 	
+	public String getDelChalanPrefix() {
+		return delChalanPrefix;
+	}
+
+	public void setDelChalanPrefix(String delChalanPrefix) {
+		this.delChalanPrefix = delChalanPrefix;
+	}
 
 	public String getPanNo() {
 		return panNo;
@@ -235,7 +244,10 @@ public class Company implements Serializable{
 				+ stateCode + ", state=" + state + ", cinNo=" + cinNo + ", fdaDeclaration=" + fdaDeclaration
 				+ ", fdaLicenceNo=" + fdaLicenceNo + ", fromDate=" + fromDate + ", toDate=" + toDate + ", delStatus="
 				+ delStatus + ", panNo=" + panNo + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exVar6=" + exVar6 + "]";
+				+ ", exVar4=" + exVar4 + ", exVar5=" + exVar5 + ", exVar6=" + exVar6 + ", delChalanPrefix="
+				+ delChalanPrefix + "]";
 	}
+
+	
     
 }
