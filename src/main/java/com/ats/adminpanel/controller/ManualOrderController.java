@@ -133,7 +133,8 @@ public class ManualOrderController {
 	public @ResponseBody List<Orders> commonItemById(@RequestParam(value = "menuId", required = true) int menuId,
 			@RequestParam(value = "frId", required = true) int frId,
 			@RequestParam(value = "by", required = true) int by,
-			@RequestParam(value = "ordertype", required = true) int ordertype) throws ParseException {
+			@RequestParam(value = "ordertype", required = true) int ordertype,
+			@RequestParam(value = "isDairyMart", required = true) int isDairyMart) throws ParseException {
 
 		try {
 			orderList = new ArrayList<Orders>();

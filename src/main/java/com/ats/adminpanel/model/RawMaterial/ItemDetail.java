@@ -1,5 +1,6 @@
 package com.ats.adminpanel.model.RawMaterial;
 
+
 public class ItemDetail {
 
 
@@ -26,8 +27,26 @@ public class ItemDetail {
 	
 	private int delStatus;
 
+	private int int1;
 	
+	private int int2;
 	
+	public int getInt1() {
+		return int1;
+	}
+
+	public void setInt1(int int1) {
+		this.int1 = int1;
+	}
+
+	public int getInt2() {
+		return int2;
+	}
+
+	public void setInt2(int int2) {
+		this.int2 = int2;
+	}
+
 	public int getNoOfPiecesPerItem() {
 		return noOfPiecesPerItem;
 	}
@@ -121,7 +140,7 @@ public class ItemDetail {
 		return "ItemDetail [itemDetailId=" + itemDetailId + ", itemId=" + itemId + ", itemName=" + itemName
 				+ ", noOfPiecesPerItem=" + noOfPiecesPerItem + ", rmId=" + rmId + ", rmName=" + rmName + ", rmType="
 				+ rmType + ", rmUomId=" + rmUomId + ", rmQty=" + rmQty + ", rmWeight=" + rmWeight + ", delStatus="
-				+ delStatus + "]";
+				+ delStatus + ", int1=" + int1 + ", int2=" + int2 + "]";
 	}
     
 	

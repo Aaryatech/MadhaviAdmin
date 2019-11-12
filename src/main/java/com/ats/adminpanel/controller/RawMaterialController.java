@@ -1651,7 +1651,8 @@ public class RawMaterialController {
 		int rmWeight = Integer.parseInt(request.getParameter("rmWeight"));
 
 		float rmQty = Float.parseFloat(request.getParameter("rmQty"));
-
+		int type = Integer.parseInt(request.getParameter("type"));
+		System.out.println("type:" + type);
 		ItemDetail itemDetail = new ItemDetail();
 
 		itemDetail.setItemId(itemId);
@@ -1662,7 +1663,8 @@ public class RawMaterialController {
 		itemDetail.setRmWeight(rmWeight);
 		itemDetail.setRmType(rmType);
 		itemDetail.setNoOfPiecesPerItem(noOfPiecesPerItem);
-
+		itemDetail.setInt1(type);
+		itemDetail.setInt2(0);
 		for (CommonConf commonConf : commonConfs) {
 			if (commonConf.getId() == itemDetail.getRmId()) {
 				itemDetail.setRmUomId(commonConf.getRmUomId());
@@ -1713,6 +1715,8 @@ public class RawMaterialController {
 				itemDetail.setRmUomId(itemDetailsList.getItemDetailList().get(i).getRmUomId());
 				itemDetail.setRmWeight(itemDetailsList.getItemDetailList().get(i).getRmWeight());
 				itemDetail.setDelStatus(itemDetailsList.getItemDetailList().get(i).getDelStatus());
+				itemDetail.setInt1(itemDetailsList.getItemDetailList().get(i).getInt1());
+				itemDetail.setInt2(itemDetailsList.getItemDetailList().get(i).getInt2());
 				itemDetailList.add(itemDetail);
 			}
 		} catch (Exception e) {
@@ -1748,7 +1752,8 @@ public class RawMaterialController {
 		float rmQty = Float.parseFloat(request.getParameter("rmQty"));
 
 		int index = Integer.parseInt(request.getParameter("key"));
-		System.out.println("Key:" + index);
+		int int1 = Integer.parseInt(request.getParameter("type"));
+		System.out.println("int1:" + int1);
 
 		System.out.println("itemDetailList::" + itemDetailList.toString());
 		for (int i = 0; i < itemDetailList.size(); i++) {
@@ -1762,7 +1767,8 @@ public class RawMaterialController {
 				itemDetailList.get(index).setRmQty(rmQty);
 				itemDetailList.get(index).setRmType(rmType);
 				itemDetailList.get(index).setNoOfPiecesPerItem(noOfPiecesPerItem);
-
+				itemDetailList.get(index).setInt1(int1);
+				itemDetailList.get(index).setInt2(0);
 				for (CommonConf commonConf : commonConfs) {
 					if (commonConf.getId() == itemDetailList.get(index).getRmId()) {
 						itemDetailList.get(index).setRmUomId(commonConf.getRmUomId());
