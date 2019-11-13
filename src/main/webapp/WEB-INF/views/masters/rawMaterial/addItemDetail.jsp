@@ -96,10 +96,12 @@
 									</div>
                                     <label class="col-sm-2 col-lg-2 control-label">Type</label>
 									<div class="col-sm-6 col-lg-2 controls">
-                                    <select name="type" id="type" class="form-control" placeholder="Type" data-rule-required="true"  onchange="return rmTypeChange(this.value)">
+                                    <select name="type" id="type" class="form-control" placeholder="Type" data-rule-required="true"  
+                                    onchange="return rmTypeChange(this.value)" tabindex="-1">
 											<option value="">Select Type</option>
-											<option value="0" selected>Factory End</option>
 											<option value="1">Franchise End</option>
+											<option value="0">Factory End</option>
+											
 									
 								   </select>
 									
@@ -191,6 +193,8 @@
 								
 					<div class="row">
 						<div class="col-md-12" style="text-align: center"> -->
+						
+					
 							<input type="button" class="btn btn-info" value="ADD" name="add" id="add">
                           <!--   <input type="button" class="btn btn-info" value="CANCEL" name="cancel" id="cancel"> -->
 
@@ -562,9 +566,105 @@ var editFlag=false;
 var key1=0;
 
 $(document).ready(function() {
-	$("#add").click(function() {
-		var type = $("#type").val();
+	$("#cancel").click(function() {
+		// document.getElementById("rm_weight").value="";
+		 document.getElementById("rm_type").selectedIndex = "0"; 
+			var html = '<option value="0" selected >Select Raw Material</option>';
+			html += '</option>';
+			$('#rm_id').html(html);
+			$("#rm_id").trigger("chosen:updated");
+		 document.getElementById("rm_id").selectedIndex = "0"; 
+		 document.getElementById("rm_qty").value="";
+		 document.getElementById("base_qty").value ="";
+		 document.getElementById("rm_group").selectedIndex = "0";  
+		 document.getElementById("rm_cat").selectedIndex = "0";  
+	});
+});
 
+function editItemDetail(token){
+ 
+	editFlag=true;
+	var type = $("#type").val();
+	$.getJSON('${editItemDetail}', {
+		
+		key:token,
+		ajax : 'true',
+
+	}, function(data) {
+	   
+		var len = data.length;
+		if(type!="" && type!=null){
+        if(type==0){
+        	
+		if(data.rmType==2)
+			{
+			 document.getElementById("rm_group").options.selectedIndex =0;
+			 document.getElementById("rm_cat").options.selectedIndex =0;
+
+			 document.getElementById("rm_group").disabled = true;
+			 document.getElementById("rm_cat").disabled = true;
+			}
+		   document.getElementById("rm_group").disabled = true;
+		   document.getElementById("rm_cat").disabled = true;
+		         document.getElementById("rm_weight").value=data.rmWeight;
+				 document.getElementById("rm_qty").value=data.rmQty;
+				 document.getElementById("rm_type").options.selectedIndex =data.rmType;
+				 document.getElementById("base_qty").value =data.noOfPiecesPerItem;
+				 document.getElementById("rm_id").options.selectedIndex =data.rmId;
+				 
+				 key1=token;
+				 
+					appendRmItem(data.rmId);
+	}
+	else
+		{
+		  document.getElementById("rm_group").options.selectedIndex =0;
+			 document.getElementById("rm_cat").options.selectedIndex =0;
+			 document.getElementById("rm_type").options.selectedIndex =0;	
+
+			 document.getElementById("rm_group").disabled = true;
+			 document.getElementById("rm_cat").disabled = true;
+			 document.getElementById("rm_type").disabled = true;
+			 $('#loader').show();
+				$.getJSON('${setAllItemSelected}', {
+								ajax : 'true',
+							},  function(data1) {
+								$('#loader').hide();
+
+								var html = '<option value="0" selected >Select Raw Material</option>';
+								var len = data1.length;
+								for ( var i = 0; i < len; i++) {
+									if(data.rmId==data1[i].id){
+									html += '<option value="' + data1[i].id + '"selected>'
+											+ data1[i].itemName + '</option>';
+									}else
+										{
+										html += '<option value="' + data1[i].id + '">'
+										+ data1[i].itemName + '</option>';	
+										}
+								}
+								html += '</option>';
+								$('#rm_id').html(html);
+								$("#rm_id").trigger("chosen:updated");
+							});
+		  document.getElementById("rm_weight").value=data.rmWeight;
+		  document.getElementById("rm_qty").value=data.rmQty;
+		  document.getElementById("base_qty").value =data.noOfPiecesPerItem;
+		  key1=token;
+		  
+		}
+	}else{
+		alert("Please Select Type")
+	}
+		
+	});
+	
+}
+
+$(document).ready(function() {
+	$("#add").click(function() {
+	var type = $("#type").val();
+		
 	var isValid = validation(type);
 	if (isValid) {
 		
@@ -751,96 +851,9 @@ $(document).ready(function() {
 });
 
 });
-$(document).ready(function() {
-	$("#cancel").click(function() {
-		// document.getElementById("rm_weight").value="";
-		 document.getElementById("rm_type").selectedIndex = "0"; 
-			var html = '<option value="0" selected >Select Raw Material</option>';
-			html += '</option>';
-			$('#rm_id').html(html);
-			$("#rm_id").trigger("chosen:updated");
-		 document.getElementById("rm_id").selectedIndex = "0"; 
-		 document.getElementById("rm_qty").value="";
-		 document.getElementById("base_qty").value ="";
-		 document.getElementById("rm_group").selectedIndex = "0";  
-		 document.getElementById("rm_cat").selectedIndex = "0";  
-	});
-});
 
-function editItemDetail(token){
- 
-	editFlag=true;
-	var type = $("#type").val();
-	$.getJSON('${editItemDetail}', {
-		
-		key:token,
-		ajax : 'true',
-
-	}, function(data) {
-	   
-
-		var len = data.length;
-        if(type==0){
-        	
-		if(data.rmType==2)
-			{
-			 document.getElementById("rm_group").options.selectedIndex =0;
-			 document.getElementById("rm_cat").options.selectedIndex =0;
-
-			 document.getElementById("rm_group").disabled = true;
-			 document.getElementById("rm_cat").disabled = true;
-			}
-		   document.getElementById("rm_group").disabled = true;
-		   document.getElementById("rm_cat").disabled = true;
-		         document.getElementById("rm_weight").value=data.rmWeight;
-				 document.getElementById("rm_qty").value=data.rmQty;
-				 document.getElementById("rm_type").options.selectedIndex =data.rmType;
-				 document.getElementById("base_qty").value =data.noOfPiecesPerItem;
-				 document.getElementById("rm_id").options.selectedIndex =data.rmId;
-				 key1=token;
-				 
-					appendRmItem(data.rmId);
-	}
-	else
-		{
-		  document.getElementById("rm_group").options.selectedIndex =0;
-			 document.getElementById("rm_cat").options.selectedIndex =0;
-			 document.getElementById("rm_type").options.selectedIndex =0;	
-
-			 document.getElementById("rm_group").disabled = true;
-			 document.getElementById("rm_cat").disabled = true;
-			 document.getElementById("rm_type").disabled = true;
-			 $('#loader').show();
-				$.getJSON('${setAllItemSelected}', {
-								ajax : 'true',
-							},  function(data1) {
-								$('#loader').hide();
-
-								var html = '<option value="0" selected >Select Raw Material</option>';
-								var len = data1.length;
-								for ( var i = 0; i < len; i++) {
-									if(data.rmId==data1[i].id){
-									html += '<option value="' + data1[i].id + '"selected>'
-											+ data1[i].itemName + '</option>';
-									}else
-										{
-										html += '<option value="' + data1[i].id + '">'
-										+ data1[i].itemName + '</option>';	
-										}
-								}
-								html += '</option>';
-								$('#rm_id').html(html);
-								$("#rm_id").trigger("chosen:updated");
-							});
-		  document.getElementById("rm_weight").value=data.rmWeight;
-		  document.getElementById("rm_qty").value=data.rmQty;
-		  document.getElementById("base_qty").value =data.noOfPiecesPerItem;
-		}
-	});
-	
-}
 function validation(type) {
-	
+		
 	var baseQty = $("#base_qty").val();
 	var rmType = $("#rm_type").val();
 	var numbers = /^[0-9]+$/; 
@@ -849,21 +862,22 @@ function validation(type) {
 	var rmQty = $("#rm_qty").val();
 
 	var isValid = true;
+	if(type!=null && type!=""){
 	if (rmType==0 && type==0) { 
 		isValid = false;
-		alert("Please Select  RM Type");
+		alert("Please Select RM Type");
 	} else if (rmId ==0) {
 		isValid = false;
 		alert("Please Select RM ");
 	}else if (rmQty == ""||rmQty=='0') {
 		isValid = false;
 		alert("Please Enter Valid RM Qty");
-	}else/*  if (rmWeight == ""||rmWeight=='0'||isNaN(rmWeight) || rmWeight < 1) {
-		isValid = false;
-		alert("Please Enter Valid RM Weight");
-	}else */ if (baseQty == ""||isNaN(baseQty) || baseQty < 1) {
+	}else if (baseQty == ""||isNaN(baseQty) || baseQty < 1) {
 		isValid = false;
 		alert("Please Enter No. of Pieces Per Item.");
+	}
+	}else{
+		alert("Please Select Type");
 	}
 	return isValid;
 }
