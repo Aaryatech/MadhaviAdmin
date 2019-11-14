@@ -439,6 +439,35 @@
 									</div>
 								</div>
 								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Billable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio" onclick="checkIsBillable(this.value)"
+											name="isBillable" id="radio4" value="0">
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isBillable" id="radio4" value="1" onclick="checkIsBillable(this.value)"
+											data-rule-required="false" checked/>Yes
+										</label> 
+									</div>
+								</div>
+								
+								<div class="form-group" id="divhide" style="display: none;">
+									<label class="col-sm-3 col-lg-2 control-label">Items</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<select data-placeholder="Select Items" name="billable_item"
+												class="form-control chosen" tabindex="-1" id="billable_item" 
+													multiple="multiple">
+                                          <c:forEach items="${itemList}" var="items">
+											<option value="${items.id}">${items.itemName}</option>
+											
+											</c:forEach>
+										
+										</select>
+												
+										</div>
+									</div>
+								
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item
 										Shelf Life</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -574,6 +603,16 @@
 
 				});
 			}
+			
+function checkIsBillable(res) {
+	if (res == 0) {		
+		document.getElementById("divhide").style = "visible"
+		
+	} else if (res == 1) {
+		document.getElementById("divhide").style = "display:none"
+		
+	}
+} 
 </script>
 	<script type="text/javascript">
 		$(document)
