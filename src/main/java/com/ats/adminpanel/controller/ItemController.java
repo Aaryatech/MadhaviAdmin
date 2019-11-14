@@ -646,7 +646,7 @@ public class ItemController {
 	public String addItemProcess(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("item_image") List<MultipartFile> file) {
 		ModelAndView mav = new ModelAndView("items/itemlist");
-
+		
 		String itemId = request.getParameter("item_id");
 
 		int minQty = Integer.parseInt(request.getParameter("min_qty"));
@@ -749,7 +749,7 @@ public class ItemController {
 			e.printStackTrace();
 		}
 
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		MultiValueMap<String, Object> map  = new LinkedMultiValueMap<String, Object>();
 
 		map.add("itemId", itemId);
 		map.add("itemName", itemName);
@@ -785,6 +785,19 @@ public class ItemController {
 				isError = false;
 
 				suppId = itemRes.getId();
+				logger.info("Item Id -----------------"+suppId);
+				
+				int ans =  itemRes.getExtInt1();
+				logger.info("Ext Int1 -----------------"+ans);
+				
+				if(ans==1) {				
+					MultiValueMap<String, Object> mavp = new LinkedMultiValueMap<String, Object>();
+
+					mavp.add("itmId", suppId);
+					Info var = rest.postForObject("" + Constants.url + "updtBillableItem", mavp, Info.class);
+					logger.info("Response -----------------"+var);
+				}
+				
 				suppCatId = Integer.parseInt(itemGrp1);
 				suppItemName = itemRes.getItemName();
 				return "redirect:/showAddItemSup";
