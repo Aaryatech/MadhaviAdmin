@@ -134,12 +134,15 @@ public class ManualOrderController {
 			@RequestParam(value = "frId", required = true) int frId,
 			@RequestParam(value = "by", required = true) int by,
 			@RequestParam(value = "ordertype", required = true) int ordertype,
-			@RequestParam(value = "isDairyMart", required = true) int isDairyMart) throws ParseException {
+			@RequestParam(value = "isDairyMart", required = true) int isDairyMart,
+			@RequestParam(value = "delType", required = true) int delType,
+			@RequestParam(value = "delDate", required = true) String delDate) throws ParseException {
 
 		try {
 			orderList = new ArrayList<Orders>();
 			RestTemplate restTemplate = new RestTemplate();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 
 			Date today = new Date();
 			Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
@@ -159,13 +162,20 @@ public class ManualOrderController {
 			System.out.println("Finding Item List for Selected CatId=" + selectedCatId);
 
 			java.util.Date utilDate = new java.util.Date(sqlCurrDate.getTime());
-
+            if(delType==3)
+            {
+            	java.util.Date uDate = sdf1.parse(delDate);
+            	java.sql.Date sqDate= new java.sql.Date(uDate.getTime());
+            	utilDate  = new Date(sqDate.getTime() - (1000 * 60 * 60 * 24));
+            }
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemGrp1", selectedCatId);
 			map.add("menuId", menuId);
 			map.add("frId", frId);
 			map.add("prodDate", formatter.format(utilDate));
 			map.add("ordertype", ordertype);
+			map.add("isDairyMart", isDairyMart);
 			ItemForMOrder[] itemRes = restTemplate.postForObject(Constants.url + "getItemListForMOrder", map,
 					ItemForMOrder[].class);
 			ArrayList<ItemForMOrder> itemList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
@@ -223,10 +233,23 @@ public class ManualOrderController {
 				order.setItemId(String.valueOf(item.getId()));
 				order.setItemName(item.getItemName() + "--[" + franchiseeList.getFrCode() + "]");
 				order.setFrId(frId);
-				if (menuId == 29 || menuId == 86 || menuId == 87 || menuId == 68 || menuId == 75 ) {
+			    if (delType==1) {   ///	menuId == 29 || menuId == 86 || menuId == 87 || menuId == 68 || menuId == 75 
 					order.setDeliveryDate(sqlCurrDate);
-				} else {
+					order.setProductionDate(sqlCurrDate);
+				} else 
+				if (delType==2) 
+				{
 					order.setDeliveryDate(sqlTommDate);
+					order.setProductionDate(sqlCurrDate);
+				}else
+				{
+					java.util.Date date = sdf1.parse(delDate);
+					java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+					Date prodDate = new Date(sqlDate.getTime() - (1000 * 60 * 60 * 24));
+					java.sql.Date sqlProdDate = new java.sql.Date(prodDate.getTime());
+					
+					order.setDeliveryDate(sqlDate);
+					order.setProductionDate(sqlProdDate);
 				}
 				order.setMinQty(item.getMinQty());
 				order.setIsEdit(0);
@@ -240,7 +263,7 @@ public class ManualOrderController {
 				order.setOrderStatus(0);
 				order.setOrderType(item.getItemGrp1());
 				order.setOrderSubType(item.getItemGrp2());
-				order.setProductionDate(sqlCurrDate);
+				
 				// order.setRefId(item.getId());
 				orderList.add(order);
 
@@ -258,6 +281,7 @@ public class ManualOrderController {
 		ArrayList<ItemForMOrder> itemsList = new ArrayList<ItemForMOrder>();
 		try {
 			int menuId = Integer.parseInt(request.getParameter("menuId"));
+			int isDairyMart = Integer.parseInt(request.getParameter("isDairyMart"));
 			RestTemplate restTemplate = new RestTemplate();
 			List<Menu> menuList = franchiseeAndMenuList.getAllMenu();
 			Menu frMenu = new Menu();
@@ -281,6 +305,7 @@ public class ManualOrderController {
 			map.add("frId", 0);
 			map.add("prodDate", formatter.format(utilDate));
 			map.add("ordertype", 2);
+			map.add("isDairyMart", isDairyMart);
 			ItemForMOrder[] itemRes = restTemplate.postForObject(Constants.url + "getItemListForMOrder", map,
 					ItemForMOrder[].class);
 			itemsList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
@@ -306,6 +331,8 @@ public class ManualOrderController {
 			System.err.println(ordertype+"ordertype");
 			int itemId=Integer.parseInt(request.getParameter("itemId"));
 			int qty=Integer.parseInt(request.getParameter("qty"));
+			int isDairyMart=Integer.parseInt(request.getParameter("isDairyMart"));
+			
 			frIdString = frIdString.substring(1, frIdString.length() - 1);
 			frIdString = frIdString.replaceAll("\"", "");
 			List<String> frId = Arrays.asList(frIdString.split(","));
@@ -340,6 +367,7 @@ public class ManualOrderController {
 			map.add("frId", frId.get(0));
 			map.add("prodDate", formatter.format(utilDate));
 			map.add("ordertype", ordertype);
+			map.add("isDairyMart", isDairyMart);
 			ItemForMOrder[] itemRes = restTemplate.postForObject(Constants.url + "getItemListForMOrder", map,
 					ItemForMOrder[].class);
 			ArrayList<ItemForMOrder> itemList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
@@ -639,16 +667,13 @@ public class ManualOrderController {
 				for (int i = 0; i < orderList.size(); i++) {
 					
 					int qty = Integer.parseInt(request.getParameter("qty" + orderList.get(i).getItemId()+""+frId));
-					if (submitorder == null) {
-						System.err.println("submitorder");
-						float discPer = Float
-								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId()+""+frId));// new on 15
-																											// feb for
-																											// dis on
-																											// bill
-						orderList.get(i).setIsPositive(discPer);// new on 15 feb for dis on bill
+					//if (submitorder == null) {
+						//System.err.println("submitorder");
+						float discPer = Float.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId()+""+frId));// new on 15
+																											// feb for// dis on// bill
+					    orderList.get(i).setIsPositive(discPer);// new on 15 feb for dis on bill
 						System.err.println("discPer==" + discPer);
-					}
+				//	}
 					orderList.get(i).setEditQty(qty);
 					orderList.get(i).setOrderQty(qty);
 					if (qty > 0 && orderList.get(i).getFrId()==Integer.parseInt(frId)) {

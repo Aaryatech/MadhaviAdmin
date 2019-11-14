@@ -14,104 +14,9 @@
 <title>Manual Order</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
-<!--base css styles-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/assets/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/assets/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/assets/data-tables/bootstrap3/dataTables.bootstrap.css" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.css" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/compiled/timepicker.css" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/assets/clockface/css/clockface.css" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.css" />
 
-<!--page specific css styles-->
-
-<!--flaty css styles-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/flaty.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/flaty-responsive.css">
-
-<link rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/img/favicon.png">
-
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-
-<!--page specific css styles-->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
-
-<!--basic scripts-->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script>
-											window.jQuery
-													|| document
-															.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
-										</script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
-
-<!--page specific plugin scripts-->
-<script
-	src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.resize.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.pie.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.stack.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.tooltip.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/assets/sparkline/jquery.sparkline.min.js"></script>
-
-<!--flaty scripts-->
-<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-<!--page specific plugin scripts-->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-<!-- http://forum.springsource.org/showthread.php?110258-dual-select-dropdown-lists -->
-<!-- http://api.jquery.com/jQuery.getJSON/ -->
-
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
-<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 <style type="text/css">
 select {
     width: 180px;
@@ -121,7 +26,7 @@ select {
 <style>
 .switch {
   position: relative;
-  display: inline-block;
+  /* display: inline-block; */
   width: 60px;
   height: 41px;
 }
@@ -234,6 +139,7 @@ input:checked + .slider:before {
 
 </head>
 <body onload="showPdf('${billNo}')">
+<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
 	<c:url var="setAllItemSelected" value="/setAllItemSelected" />
 	<c:url var="findFranchiseeData" value="/findFranchiseeData" />
@@ -309,12 +215,12 @@ input:checked + .slider:before {
     <input type="radio" name="ordertype" class="order" value="1" id="or2" onchange="checkCheckedStatus()">
    <label for="or2"> Manual Bill </label>
   </label>		
-  <label class="col-sm-3 col-lg-2 control-label">
+ <!--  <label class="col-sm-3 col-lg-2 control-label">
     <input type="radio" name="ordertype" class="order" value="2" id="or3" onchange="checkCheckedStatus()">
    <label for="or3"> Multiple FR Bill </label>
-  </label>	<label class="col-sm-3 col-lg-2 control-label">	 Is Dairy Mart?	</label>
+  </label> -->	<label class="col-sm-3 col-lg-2 control-label">	 Is Dairy Mart?	</label>
   <label class="switch">
-  <input type="checkbox" id="isDairyMart" name="isDairyMart"  >
+  <input type="checkbox" id="isDairyMart" name="isDairyMart" onchange="onDairyMartCheck()" >
   <span class="slider round"></span>
 </label>
 
@@ -400,7 +306,21 @@ input:checked + .slider:before {
 <label class="col-sm-3 col-lg-2 control-label">
     <input type="radio" name="typename" class="type" value="1" id="t2" onchange="checkOrderByStatus()">
     <label for="t2">By MRP</label>
-  </label>									    
+  </label>			
+  	<label class="col-sm-3 col-lg-1	 control-label">Delivery</label>
+						<div class="col-sm-6 col-lg-2 controls date_select">
+							<select data-placeholder="Choose Menu"
+								class="form-control chosen" id="delType" name="delType" onchange="onDelChange(this.value)">
+								<option value="">Select Delivery</option>
+	                            <option value="1">Same Day</option>
+	                        	<option value="2">Regular</option>
+	                        	<option value="3">Advance Order</option>
+							</select>
+		</div>		
+		<div class="col-sm-5 col-lg-2 controls" id="dt" style="display: none;">
+										<input class="form-control date-picker" id="delDate" size="16"
+											type="text" name="delDate"  placeholder="dd-MM-yyyy" required autocomplete="off"/>
+									</div>				    
   </div>
 		<div class="form-group">
 		<div id="singleOrder">
@@ -550,8 +470,69 @@ input:checked + .slider:before {
 		<!-- END Content -->
 	</div>
 	<!-- END Container -->
- <script
-	src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script> 
+ <!--basic scripts-->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
+	</script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+
+	<!--page specific plugin scripts-->
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.resize.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.pie.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.stack.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.tooltip.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/sparkline/jquery.sparkline.min.js"></script>
+
+
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
+
+
+
+
+
+	<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script>
 $(function() {
     $('#typeselector').change(function(){
@@ -570,9 +551,13 @@ $(function() {
     	var isValid=validation();
     	if(isValid){
     	var type = $('.type:checked').val();
-    	var ordertype = $('.order:checked').val();alert(ordertype);
+    	var delType=$('#delType').val();
+    	var ordertype = $('.order:checked').val();
        // document.getElementById("myCheck").checked = true;alert("ji7")
         var isChecked = $('#isDairyMart').is(':checked');
+        var delDate=null;
+		 if(delType==3)
+		   delDate=$('#delDate').val();	
         var isDairyMart=0;
         if(isChecked==true)
         	{
@@ -588,6 +573,8 @@ $(function() {
                     by:type,
                     ordertype:ordertype,
                     isDairyMart:isDairyMart,
+                    delType:delType,
+                    delDate:delDate,
                     ajax : 'true'
                 }, function(data) {
                 		 $('#loader').hide();
@@ -613,18 +600,13 @@ $(function() {
              		  		{
                  		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChange('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+' > '));
 
-                 		     if(item.isPositive>0){
-             		  		    tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('Y'));
-                 		     }else
-                 		     {
-                 		        tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('N'));
-                 		     }
+                 		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control"  min="0"  width=20px; onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"  name=discper'+item.itemId+""+item.frId+' id=discper'+item.itemId+""+item.frId+' value='+item.isPositive+' > '));
 
              		  		}
              		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderMrp.toFixed(2)));
              		  	
              		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderRate.toFixed(2)));
-             		  	var total=item.orderQty*item.orderRate;
+             		  	var total=(item.orderQty*item.orderRate)-(item.isPositive*((item.orderQty*item.orderRate)/100));
              		  	tr.append($('<td style="text-align:right;" id=total'+item.itemId+""+item.frId+' ></td>').html(total.toFixed(2)));
              		  	
              		  
@@ -644,8 +626,17 @@ $(function() {
     	var itemId = $('#itemId').val();
     	var qty = $('#qty').val();
     	var frId =$('#fr_id1').val();
-    
-    
+    	var delType=$('#delType').val();
+    	 var isChecked = $('#isDairyMart').is(':checked');
+    	 var delDate=null;
+ 		 if(delType==3)
+ 		   delDate=$('#delDate').val();	
+ 		
+         var isDairyMart=0;
+         if(isChecked==true)
+         	{
+         	isDairyMart=1;
+         	}
           	 $('#loader').show();
           
                 $.getJSON('${findItemsByCatIdForMulFr}', {
@@ -656,6 +647,8 @@ $(function() {
                     itemId:itemId,
                     qty:qty,
                     flagRate:flagRate,
+                    isDairyMart:isDairyMart,
+                    delDate:delDate,
                     ajax : 'true'
                 }, function(data) {
                 	$('#loader').hide();
@@ -681,18 +674,15 @@ $(function() {
              		  		{
                  		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChange('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+'   > '));
 
-                 		     if(item.isPositive>0){
-             		  		    tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('Y'));
-                 		     }else
-                 		     {
-                 		        tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('N'));
-                 		     }
+                 		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control"  min="0"  width=20px; onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"  name=discper'+item.itemId+""+item.frId+' id=discper'+item.itemId+""+item.frId+' value='+item.isPositive+'  > '));
+
 
              		  		}
              		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderMrp.toFixed(2)));
              		  	
              		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderRate.toFixed(2)));
-             		  	var total=item.orderQty*item.orderRate;
+             		  	var total=(item.orderQty*item.orderRate)-(item.isPositive*((item.orderQty*item.orderRate)/100));
+
              		  	tr.append($('<td style="text-align:right;" id=total'+item.itemId+""+item.frId+' ></td>').html(total.toFixed(2)));
              		  	
              		  
@@ -706,23 +696,19 @@ $(function() {
 <script type="text/javascript">
 		function onChange(rate,id,frId) {
 
-			//calculate total value  
 			var qty = $('#qty'+id+''+frId).val();
-			
-			
+			var discPer = $('#discper'+id+''+frId).val();
 			var minqty = $('#minqty'+id+''+frId).val();
 			
 			if(qty % minqty==0){
-			    var total = rate * qty;
-			
+			    var total = (rate * qty)-(discPer*((rate * qty)/100));
+			        total = total.toFixed(2)
 			   $('#total'+id+''+frId).html(total);
 			}else
 			{
 				 var total =0;
-				 
 				alert("Please Enter Qty Multiple of Minimum Qty");
 				$('#qty'+id+''+frId).val(0);
-				
 				$('#total'+id+''+frId).html(total);
 				$('#qty'+id+''+frId).focus();
 			}
@@ -909,6 +895,8 @@ function validation() {
 	
 	var frId = $('#fr_id').val();
 	var menuId = $('#menu').val();
+	var delType= $('#delType').val();
+
 	//var itemId=$('#items').val();
 	//var qty=$("#qty").val();
     var sectionId=$('#sectionId').val();
@@ -922,7 +910,18 @@ function validation() {
 	}else if (sectionId == ""||sectionId ==0) {
 		isValid = false;
 		alert("Please Select Section ");
-	}
+	}else if (delType == ""||delType ==0) {
+		isValid = false;
+		alert("Please Select Delivery Type ");
+	}else if(delType==3)
+		{
+		var delDate= $('#delDate').val();
+		if(delDate=="" || delDate==null)
+			{
+			isValid = false;
+			alert("Please Select Delivery Date ");
+			}
+		}
 	return isValid;
 }
 function validation1() {
@@ -932,6 +931,7 @@ function validation1() {
 	var itemId=$('#itemId').val();
 	var qty=$("#qty").val();
     var sectionId=$('#sectionId').val();
+	var delType= $('#delType').val();
 	var isValid = true;
 	if (frId == ""||frId==0) { 
 		isValid = false;
@@ -942,7 +942,18 @@ function validation1() {
 	}else if (sectionId == ""||sectionId ==0) {
 		isValid = false;
 		alert("Please Select Section ");
-	}
+	}else if (delType == ""||delType ==0) {
+		isValid = false;
+		alert("Please Select Delivery Type ");
+	}else if(delType==3)
+		{
+		var delDate= $('#delDate').val();
+		if(delDate=="" || delDate==null)
+			{
+			isValid = false;
+			alert("Please Select Delivery Date ");
+			}
+		}
 	else if (itemId == ""||itemId ==0) {
 		isValid = false;
 		alert("Please Select Item ");
@@ -1190,9 +1201,16 @@ function checkOrderByStatus()
       }
 }
 function onCatIdChangeForManOrder(menuId) {
+	 var isChecked = $('#isDairyMart').is(':checked');
+  	 var isDairyMart=0;
+     if(isChecked==true)
+     	{
+     	isDairyMart=1;
+     	}
 	
 	$.getJSON('${getItemsByCatIdManOrder}', {
 		menuId : menuId,
+		isDairyMart:isDairyMart,
 		ajax : 'true'
 	}, function(data) {
 		var len = data.length;
@@ -1216,6 +1234,26 @@ function onCatIdChangeForManOrder(menuId) {
 
 	});
 	
+}
+</script>
+<script type="text/javascript">
+function onDairyMartCheck()
+{
+	   var ordertype = $('.order:checked').val();
+       if(ordertype==2)
+    	  onSearchMulFr();
+       else
+     	  onSearch();  
+}
+function onDelChange(type)
+{
+	if(type==3) {
+	$('#dt').show();
+	}else
+		{
+		$('#dt').hide();
+		}
+
 }
 </script>
 <script>
