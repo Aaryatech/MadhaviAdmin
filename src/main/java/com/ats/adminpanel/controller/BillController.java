@@ -457,10 +457,10 @@ public class BillController {
 						header.setPartyAddress(gBill.getPartyAddress());// new
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
 						header.setExVarchar1(sectionId);
-						if(gBill.getIsOwnFr()==1)
-						header.setExVarchar2("1");//For Delivery Chalan
+						if (gBill.getIsOwnFr() == 1)
+							header.setExVarchar2("1");// For Delivery Chalan
 						else
-						header.setExVarchar2("0");//For Bill --Previous
+							header.setExVarchar2("0");// For Bill --Previous
 					}
 
 				}
@@ -852,74 +852,7 @@ public class BillController {
 		return generateBillList.getGenerateBills();
 	}
 
-	@RequestMapping(value = "/showBillList", method = RequestMethod.GET)
-	public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView model = null;
-		HttpSession session = request.getSession();
-
-		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		Info view = AccessControll.checkAccess("showBillList", "showBillList", "1", "0", "0", "0", newModuleList);
-
-		if (view.getError() == true) {
-
-			model = new ModelAndView("accessDenied");
-
-		} else {
-			model = new ModelAndView("billing/viewbillheader");
-
-			Constants.mainAct = 2;
-			Constants.subAct = 20;
-			try {
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-				RestTemplate restTemplate = new RestTemplate();
-
-				List<Menu> menuList = new ArrayList<Menu>();
-
-				ZoneId z = ZoneId.of("Asia/Calcutta");
-
-				LocalDate date = LocalDate.now(z);
-				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
-				String todaysDate = date.format(formatters);
-
-				AllMenuResponse allMenuResponse = restTemplate.getForObject(Constants.url + "getAllMenu",
-						AllMenuResponse.class);
-
-				menuList = allMenuResponse.getMenuConfigurationPage();
-
-				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
-
-				AllRoutesListResponse allRouteListResponse = restTemplate.getForObject(Constants.url + "showRouteList",
-						AllRoutesListResponse.class);
-
-				List<Route> routeList = new ArrayList<Route>();
-
-				routeList = allRouteListResponse.getRoute();
-
-				map.add("fromDate", todaysDate);
-				map.add("toDate", todaysDate);
-				// System.out.println("Inside is All fr Selected " + isAllFrSelected);
-
-				GetBillHeaderResponse billHeaderResponse = restTemplate
-						.postForObject(Constants.url + "getBillHeaderForAllFr", map, GetBillHeaderResponse.class);
-
-				billHeadersList = billHeaderResponse.getGetBillHeaders();
-
-				model.addObject("routeList", routeList);
-				model.addObject("todaysDate", todaysDate);
-				model.addObject("menuList", menuList);
-				model.addObject("allFrIdNameList", allFrIdNameList.getFrIdNamesList());
-				model.addObject("billHeadersList", billHeadersList);
-
-			} catch (Exception e) {
-				System.out.println("Exce in view Bills " + e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		return model;
-
-	}
+	
 
 	@RequestMapping(value = "/showBillListForPrint", method = RequestMethod.GET)
 	public ModelAndView showBillListForPrint(HttpServletRequest request, HttpServletResponse response) {
@@ -965,7 +898,9 @@ public class BillController {
 				List<Route> routeList = new ArrayList<Route>();
 
 				routeList = allRouteListResponse.getRoute();
+				model.addObject("allFrIdNameList", allFrIdNameList.getFrIdNamesList());
 
+				model.addObject("routeList", routeList);
 				String fromDate = request.getParameter("from_date");
 				String toDate = request.getParameter("to_date");
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -1001,10 +936,8 @@ public class BillController {
 				System.out.println(
 						"First Header : bill header for print with address :  " + billHeadersListForPrint.toString());
 
-				model.addObject("routeList", routeList);
 				model.addObject("todaysDate", todaysDate);
 				model.addObject("menuList", menuList);
-				model.addObject("allFrIdNameList", allFrIdNameList.getFrIdNamesList());
 
 			} catch (Exception e) {
 				System.out.println("Exce in view Bills " + e.getMessage());
@@ -2097,6 +2030,82 @@ public class BillController {
 
 	}
 
+	
+	@RequestMapping(value = "/showBillList", method = RequestMethod.GET)
+	public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("showBillList", "showBillList", "1", "0", "0", "0", newModuleList);
+
+		if (view.getError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+			model = new ModelAndView("billing/viewbillheader");
+
+			Constants.mainAct = 2;
+			Constants.subAct = 20;
+			try {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				List<Menu> menuList = new ArrayList<Menu>();
+
+				ZoneId z = ZoneId.of("Asia/Calcutta");
+
+				LocalDate date = LocalDate.now(z);
+				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
+				String todaysDate = date.format(formatters);
+
+				AllMenuResponse allMenuResponse = restTemplate.getForObject(Constants.url + "getAllMenu",
+						AllMenuResponse.class);
+
+				menuList = allMenuResponse.getMenuConfigurationPage();
+
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+				AllRoutesListResponse allRouteListResponse = restTemplate.getForObject(Constants.url + "showRouteList",
+						AllRoutesListResponse.class);
+
+				List<Route> routeList = new ArrayList<Route>();
+
+				routeList = allRouteListResponse.getRoute();
+
+				model.addObject("routeList", routeList);
+				model.addObject("todaysDate", todaysDate);
+				model.addObject("menuList", menuList);
+				model.addObject("allFrIdNameList", allFrIdNameList.getFrIdNamesList());
+
+				System.err.println("Inside is All fr Selected " + allFrIdNameList.toString());
+				System.err.println("Inside is All routeList Selected " + routeList.toString());
+
+				
+
+				// to get bill list
+				map.add("typeId", 0);
+				map.add("fromDate", todaysDate);
+				map.add("toDate", todaysDate);
+				
+				GetBillHeaderResponse billHeaderResponse = restTemplate
+						.postForObject(Constants.url + "getBillHeaderForAllFr", map, GetBillHeaderResponse.class);
+
+				billHeadersList = billHeaderResponse.getGetBillHeaders();
+
+				model.addObject("billHeadersList", billHeadersList);
+
+			} catch (Exception e) {
+				System.out.println("Exce in view Bills " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return model;
+
+	} 
 	// List<GetBillHeader> billHeadersList;
 	@RequestMapping(value = "/getBillListProcess", method = RequestMethod.GET)
 	public @ResponseBody List<GetBillHeader> getBillListProcess(HttpServletRequest request,
@@ -2114,6 +2123,7 @@ public class BillController {
 			RestTemplate restTemplate = new RestTemplate();
 
 			String routeId = "0";
+			String typeId = "0";
 			String frIdString = "";
 
 			System.out.println("inside getBillListProcess ajax call");
@@ -2122,6 +2132,7 @@ public class BillController {
 			String fromDate = request.getParameter("from_date");
 			String toDate = request.getParameter("to_date");
 			routeId = request.getParameter("route_id");
+			typeId = request.getParameter("typeId");
 
 			System.out.println("routeId= " + routeId);
 
@@ -2166,6 +2177,7 @@ public class BillController {
 
 			if (isAllFrSelected) {
 
+				map.add("typeId", typeId);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				System.out.println("Inside is All fr Selected " + isAllFrSelected);
@@ -2179,6 +2191,7 @@ public class BillController {
 
 			} else { // few franchisee selected
 
+				map.add("typeId", typeId);
 				map.add("frId", frIdString);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);

@@ -4,10 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style>
-	table{
-  width:100%;
-  border:1px solid #ddd;
-}</style>
+table {
+	width: 100%;
+	border: 1px solid #ddd;
+}
+</style>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
@@ -31,7 +32,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
+			<!-- 	<div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>View Your Bills
@@ -47,8 +48,9 @@
 			</c:set>
 			<c:set var="isDelete" value="0">
 			</c:set>
-			
-			<input type="hidden" id="modList" value="${sessionScope.newModuleList}">
+
+			<input type="hidden" id="modList"
+				value="${sessionScope.newModuleList}">
 
 			<c:forEach items="${sessionScope.newModuleList}" var="modules">
 				<c:forEach items="${modules.subModuleJsonList}" var="subModule">
@@ -92,10 +94,10 @@
 					</c:choose>
 				</c:forEach>
 			</c:forEach>
-			
-			<input type="hidden" id="isDelete" value="${isDelete}">
-						<input type="hidden" id="isEdit" value="${isEdit}">
-			
+
+			<input type="hidden" id="isDelete" value="${isDelete}"> <input
+				type="hidden" id="isEdit" value="${isEdit}">
+
 
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -119,11 +121,14 @@
 
 						<div class="box-content">
 							<form class="form-horizontal" method="get" id="validation-form">
-							<input type="hidden" class="form-control" id="transport_mode" name="transport_mode" value="By Road"/>
-							<input type="hidden" class="form-control" name="vehicle_no" id="vehicle_no"	value="0"  />
-							<input type="hidden" class="form-control" name="billnumber" id="billnumber"	value="0"  />
-							<input type="hidden" class="form-control" name="issinglepdf" id="issinglepdf" 	value="0" />
-							
+								<input type="hidden" class="form-control" id="transport_mode"
+									name="transport_mode" value="By Road" /> <input type="hidden"
+									class="form-control" name="vehicle_no" id="vehicle_no"
+									value="0" /> <input type="hidden" class="form-control"
+									name="billnumber" id="billnumber" value="0" /> <input
+									type="hidden" class="form-control" name="issinglepdf"
+									id="issinglepdf" value="0" />
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">From
 										Date</label>
@@ -169,7 +174,7 @@
 
 
 									<label for="textfield2" class="col-xs-1 col-lg-1 control-label">
-										OR </label> 
+										OR </label>
 									<div class="col-sm-9 col-lg-3 controls">
 
 
@@ -178,31 +183,41 @@
 
 											<option value="0">Select Route</option>
 											<c:forEach items="${routeList}" var="route" varStatus="count">
-												<option value="${route.routeId}"> ${route.routeName}</option>
+												<option value="${route.routeId}">
+													${route.routeName}</option>
 
 											</c:forEach>
 
 										</select>
 									</div>
-								<!-- </div>
 
 
+								</div>
+
+								<div class="form-group">
+ 
 
 
+									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">Select</label>
+									<div class="col-sm-9 col-lg-3 controls">
+ 										<select class="form-control chosen" tabindex="6"
+											name="type_id" id="type_id">
 
+ 											<option value="1">Franchise Bill</option>
+											<option value="2">Delivery Chalan</option>
+											<option value="3">Company Outlet Bill</option>
+ 
 
-
-
-
-								<div align="center" class="form-group">
-									<div
-										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0"> -->
-										<input type="button" class="btn btn-primary" value="Search"
-											id="callSubmit" onclick="callSearch()">
-
-
+										</select>
 									</div>
-								
+
+
+
+									<input type="button" class="btn btn-primary" value="Search"
+										id="callSubmit" onclick="callSearch()">
+
+
+								</div>
 
 
 
@@ -241,7 +256,7 @@
 										<div id="table-scroll" class="table-scroll">
 
 											<div id="faux-table" class="faux-table" aria="hidden">
-											<!-- 	<table id="table2" class="table table-advance" border="1" >
+												<!-- 	<table id="table2" class="table table-advance" border="1" >
 													<thead>
 														<tr class="bgpink">
 															<th class="col-sm-1" align="left">Sr No</th>
@@ -260,11 +275,11 @@
 											</div>
 											<div class="table-wrap">
 
-												<table id="table1" class="table table-advance" border="1" >
+												<table id="table1" class="table table-advance" border="1">
 													<thead>
 														<tr class="bgpink">
-														<th class="col-sm-1"><input type="checkbox"
-													onClick="selectBillNo(this)" /> All<br /></th>
+															<th class="col-sm-1"><input type="checkbox"
+																onClick="selectBillNo(this)" /> All<br /></th>
 															<th class="col-sm-1" align="left">Sr No</th>
 															<th class="col-md-1" align="left">Inv No</th>
 															<th class="col-md-1" align="left">Date</th>
@@ -297,9 +312,9 @@
 															var="billHeadersList" varStatus="count">
 
 															<tr>
-															<td class="col-sm-1"><input type="checkbox" name="select_to_print"
-																id="${billHeadersList.billNo}"
-																value="${billHeadersList.billNo}"/></td>
+																<td class="col-sm-1"><input type="checkbox"
+																	name="select_to_print" id="${billHeadersList.billNo}"
+																	value="${billHeadersList.billNo}" /></td>
 																<td class="col-sm-1"><c:out
 																		value="${count.index+1}" /></td>
 																<td class="col-md-1" align="left"><c:out
@@ -310,27 +325,25 @@
 
 																<td class="col-md-2" align="left"><c:out
 																		value="${billHeadersList.frName}" /></td>
-																<td class="col-md-1" style="text-align:right;"><c:out
+																<td class="col-md-1" style="text-align: right;"><c:out
 																		value="${billHeadersList.taxableAmt}" /></td>
-																<td class="col-md-1" style="text-align:right;"><c:out
+																<td class="col-md-1" style="text-align: right;"><c:out
 																		value="${billHeadersList.totalTax}" /></td>
-																<td style="text-align:right;"><c:out
+																<td style="text-align: right;"><c:out
 																		value="${billHeadersList.grandTotal}" /></td>
-															
-															<c:choose>
-																<c:when test="${billHeadersList.status==1}">
-																	<td align="left"><c:out
-																			value="Pending" /></td>
-																</c:when>
-																
-																<c:when test="${billHeadersList.status==2}">
-																	<td align="left"><c:out
-																			value="Received" /></td>
-																</c:when>
-															</c:choose>
-															
-															
-															
+
+																<c:choose>
+																	<c:when test="${billHeadersList.status==1}">
+																		<td align="left"><c:out value="Pending" /></td>
+																	</c:when>
+
+																	<c:when test="${billHeadersList.status==2}">
+																		<td align="left"><c:out value="Received" /></td>
+																	</c:when>
+																</c:choose>
+
+
+
 
 																<c:choose>
 																	<c:when test="${isEdit==1 and isDelete==1}">
@@ -343,10 +356,11 @@
 																				class='fa fa-info  fa-lg'></i></a>&nbsp; <a
 																			href="${pageContext.request.contextPath}/deleteBill/${billHeadersList.billNo}/${billHeadersList.frName}"><abbr
 																				title='Delete Bill'></abbr> <i
-																				class='fa fa-trash-o  fa-lg'></i></a>
-														 &nbsp;&nbsp;<input type="button"  id="btn_submit_pdf" onclick="generateSinglePdf(${billHeadersList.billNo})"   style="padding: 0px 4px;font-size: 14px;"
-															class="btn btn-primary"
-															value="PDF" /></td>	
+																				class='fa fa-trash-o  fa-lg'></i></a> &nbsp;&nbsp;<input
+																			type="button" id="btn_submit_pdf"
+																			onclick="generateSinglePdf(${billHeadersList.billNo})"
+																			style="padding: 0px 4px; font-size: 14px;"
+																			class="btn btn-primary" value="PDF" /></td>
 																	</c:when>
 
 																	<c:when test="${isEdit==1 and isDelete==0}">
@@ -357,51 +371,54 @@
 																			href="${pageContext.request.contextPath}/viewBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}"><abbr
 																				title='View Bill'></abbr> <i
 																				class='fa fa-info  fa-lg'></i></a>&nbsp; <a
-																			href="${pageContext.request.contextPath}/deleteBill/${billHeadersList.billNo}/${billHeadersList.frName}" class="disableClick"><abbr
-																				title='Delete Bill'></abbr> <i
-																				class='fa fa-trash-o  fa-lg'></i></a>
-                                                                     &nbsp;&nbsp;<input type="button"  id="btn_submit_pdf"  onclick="generateSinglePdf(${billHeadersList.billNo})" style="padding: 0px 4px;font-size: 14px;"
-															class="btn btn-primary"
-															value="PDF" /></td>
+																			href="${pageContext.request.contextPath}/deleteBill/${billHeadersList.billNo}/${billHeadersList.frName}"
+																			class="disableClick"><abbr title='Delete Bill'></abbr>
+																				<i class='fa fa-trash-o  fa-lg'></i></a> &nbsp;&nbsp;<input
+																			type="button" id="btn_submit_pdf"
+																			onclick="generateSinglePdf(${billHeadersList.billNo})"
+																			style="padding: 0px 4px; font-size: 14px;"
+																			class="btn btn-primary" value="PDF" /></td>
 																	</c:when>
 
 																	<c:when test="${isEdit==0 and isDelete==1}">
 																		<td align="left" class="col-md-2"><a
-																			href="${pageContext.request.contextPath}/updateBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}" class="disableClick"><abbr
-																				title='Update Bill'></abbr> <i
-																				class='fa fa-edit  fa-lg'></i></a>&nbsp; <a
+																			href="${pageContext.request.contextPath}/updateBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}"
+																			class="disableClick"><abbr title='Update Bill'></abbr>
+																				<i class='fa fa-edit  fa-lg'></i></a>&nbsp; <a
 																			href="${pageContext.request.contextPath}/viewBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}"><abbr
 																				title='View Bill'></abbr> <i
 																				class='fa fa-info  fa-lg'></i></a>&nbsp; <a
 																			href="${pageContext.request.contextPath}/deleteBill/${billHeadersList.billNo}/${billHeadersList.frName}"><abbr
 																				title='Delete Bill'></abbr> <i
-																				class='fa fa-trash-o  fa-lg'></i></a>
-                                                                            &nbsp;&nbsp;<input type="button"  id="btn_submit_pdf" onclick="generateSinglePdf(${billHeadersList.billNo})"   style="padding: 0px 4px;font-size: 14px;"
-															class="btn btn-primary"
-															value="PDF" />	</td>
+																				class='fa fa-trash-o  fa-lg'></i></a> &nbsp;&nbsp;<input
+																			type="button" id="btn_submit_pdf"
+																			onclick="generateSinglePdf(${billHeadersList.billNo})"
+																			style="padding: 0px 4px; font-size: 14px;"
+																			class="btn btn-primary" value="PDF" /></td>
 																	</c:when>
 
 																	<c:otherwise>
 
 																		<td align="left" class="col-md-2"><a
-																			href="${pageContext.request.contextPath}/updateBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}" class="disableClick"><abbr
-																				title='Update Bill'></abbr> <i
-																				class='fa fa-edit  fa-lg'></i></a>&nbsp; <a
+																			href="${pageContext.request.contextPath}/updateBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}"
+																			class="disableClick"><abbr title='Update Bill'></abbr>
+																				<i class='fa fa-edit  fa-lg'></i></a>&nbsp; <a
 																			href="${pageContext.request.contextPath}/viewBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}"><abbr
 																				title='View Bill'></abbr> <i
 																				class='fa fa-info  fa-lg'></i></a>&nbsp; <a
-																			href="${pageContext.request.contextPath}/deleteBill/${billHeadersList.billNo}/${billHeadersList.frName}" class="disableClick"><abbr
-																				title='Delete Bill'></abbr> <i
-																				class='fa fa-trash-o  fa-lg'></i></a>
-                                                                       &nbsp;&nbsp;<input type="button"  id="btn_submit_pdf" onclick="generateSinglePdf(${billHeadersList.billNo})" style="padding: 0px 4px;font-size: 14px;"
-															class="btn btn-primary"
-															value="PDF" />	</td>
+																			href="${pageContext.request.contextPath}/deleteBill/${billHeadersList.billNo}/${billHeadersList.frName}"
+																			class="disableClick"><abbr title='Delete Bill'></abbr>
+																				<i class='fa fa-trash-o  fa-lg'></i></a> &nbsp;&nbsp;<input
+																			type="button" id="btn_submit_pdf"
+																			onclick="generateSinglePdf(${billHeadersList.billNo})"
+																			style="padding: 0px 4px; font-size: 14px;"
+																			class="btn btn-primary" value="PDF" /></td>
 																	</c:otherwise>
 																</c:choose>
 
 
 
-<%-- 
+																<%-- 
 																<td align="left"><a
 																	href="${pageContext.request.contextPath}/updateBillDetails/${billHeadersList.billNo}/${billHeadersList.frName}"><abbr
 																		title='Update Bill'></abbr> <i
@@ -433,24 +450,26 @@
 											</div>
 										</div>
 
-	<input type="button" id="btn_submit" class="btn btn-primary" onclick="submitBill()"	value="BillDetail" />
+										<input type="button" id="btn_submit" class="btn btn-primary"
+											onclick="submitBill()" value="BillDetail" />
 
 									</div>
 							</form>
 						</div>
-					</div></div>
+					</div>
 				</div>
 			</div>
-			<!-- END Main Content -->
-			<footer>
-				<p>2018 © MONGINIS.</p>
-			</footer>
-
-
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!-- END Content -->
+		<!-- END Main Content -->
+		<footer>
+			<p>2018 © MONGINIS.</p>
+		</footer>
+
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+	</div>
+	<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -545,7 +564,7 @@
 
 		});
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 	function validate() {
 
 		var selectedFr = $("#fr_id").val();
@@ -564,7 +583,7 @@
 
 	}
 	</script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		function submitBill() {
 			var form = document.getElementById("validation-form").target="_blank";
 			var form = document.getElementById("validation-form");
@@ -643,6 +662,7 @@
 			var toDate = document.getElementById("dp2").value;
 
 			var routeId = document.getElementById("route_id").value;
+			var typeId = document.getElementById("type_id").value;
 
 			$('#loader').show();
 
@@ -654,6 +674,8 @@
 								from_date : fromDate,
 								to_date : toDate,
 								route_id : routeId,
+								typeId : typeId,
+								
 								ajax : 'true'
 							},
 							function(data) {
