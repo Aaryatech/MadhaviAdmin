@@ -389,8 +389,8 @@ public class FranchiseeController {
 		RestTemplate restTemplate = new RestTemplate();
 
 		List<Item> itemList = new ArrayList<Item>();
-		AllItemsListResponse itemListResponse = restTemplate.getForObject(Constants.url + "getAllItems",
-				AllItemsListResponse.class);
+		AllItemsListResponse itemListResponse = restTemplate.getForObject(Constants.url + "getAllStockableItems",
+				AllItemsListResponse.class);// getAllItems
 		itemList = itemListResponse.getItems();
 
 		return itemList;
@@ -993,7 +993,7 @@ public class FranchiseeController {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("itemGrp1", catId);
 
-		Item[] item = restTemplate.postForObject(Constants.url + "getItemsByCatId", map, Item[].class);
+		Item[] item = restTemplate.postForObject(Constants.url + "getStockableItemsByCatId", map, Item[].class);	// getItemsByCatId
 		ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
 		logger.info("Filter Item List " + itemList.toString());
 
@@ -1137,9 +1137,10 @@ public class FranchiseeController {
 					List<Item> tempAllItemsList = getItemByMenuId;
 					List<Item> selectedItems = new ArrayList<Item>();
 					String frPrevItems = franchiseeList.getItemShow();
-
+					logger.info("frItemList List: " + frPrevItems);
+					
 					List<String> frPrevItemsList = Arrays.asList(frPrevItems.split("\\s*,\\s*"));
-					logger.info("frPrevItemsList SiZe: " + frPrevItemsList.size());
+					logger.info("frPrevItemsList SiZe: " + frPrevItemsList.size());					
 					logger.info("getItemByMenuId SiZe: " + getItemByMenuId.size());
 
 					int countOuter = 0;
@@ -1538,7 +1539,7 @@ public class FranchiseeController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemGrp1", selectedCatId);
 
-			Item[] item = restTemplate.postForObject(Constants.url + "getItemsByCatId", map, Item[].class);
+			Item[] item = restTemplate.postForObject(Constants.url + "/getStockableItemsByCatId", map, Item[].class); //getItemsByCatId
 			ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
 			logger.info("Filter Item List " + itemList.toString());
 

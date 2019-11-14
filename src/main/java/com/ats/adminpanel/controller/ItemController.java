@@ -197,6 +197,12 @@ public class ItemController {
 				System.out.println("Add Item Request");
 
 				RestTemplate restTemplate = new RestTemplate();
+				
+				Item[] item = restTemplate.getForObject(Constants.url + "/getItems", Item[].class); //getItemsByCatId
+				ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
+				logger.info("itemList Found" + itemList.toString());
+				model.addObject("itemList", itemList);
+				
 				// CategoryListResponse
 				categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
 						CategoryListResponse.class);
@@ -207,6 +213,8 @@ public class ItemController {
 				// "getUniqueItemCode", Integer.class);
 
 				// model.addObject("itemId", maxId);
+				
+				
 				model.addObject("mCategoryList", mCategoryList);
 				model.addObject("isError", isError);
 				isError = false;
@@ -684,6 +692,28 @@ public class ItemController {
 		int isStockable = Integer.parseInt(request.getParameter("isStockable"));
 		
 		int isFactOrFr = Integer.parseInt(request.getParameter("isFactOrFr"));
+		
+		int isBillable = Integer.parseInt(request.getParameter("isBillable"));
+		
+		String[] subCat = request.getParameterValues("billable_item");  
+		
+		String billIitems = null;
+		if(subCat!=null) {
+		logger.info(" array is" + subCat[0]);
+
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < subCat.length; i++) {
+			sb = sb.append(subCat[i] + ",");
+
+		}
+		 billIitems = sb.toString();
+		billIitems = billIitems.substring(0, billIitems.length() - 1);
+
+		logger.info("Billable Iitems---------" + billIitems);
+		}else {
+			 billIitems = "0";
+		}
 
 		VpsImageUpload upload = new VpsImageUpload();
 
@@ -745,9 +775,12 @@ public class ItemController {
 		map.add("isSaleable", isSaleable);
 		map.add("isStockable", isStockable);
 		map.add("isFactOrFr", isFactOrFr);
+		map.add("isBillable", isBillable);
+		map.add("billIitems", billIitems);
 		
 		try {
 			Item itemRes = rest.postForObject("" + Constants.url + "insertItem", map, Item.class);
+			
 			if (itemRes != null) {
 				isError = false;
 

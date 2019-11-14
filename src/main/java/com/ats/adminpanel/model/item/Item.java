@@ -61,11 +61,11 @@ private float extFloat1;
 
 private float extFloat2;
 
-private float extVar1;
+private String extVar1;
 
-private float extVar2;
+private String extVar2;
 
-private float extVar3;
+private String extVar3;
 
 public int getIsSaleable() {
 	return isSaleable;
@@ -137,32 +137,32 @@ public void setExtFloat2(float extFloat2) {
 }
 
 
-public float getExtVar1() {
+public String getExtVar1() {
 	return extVar1;
 }
 
 
-public void setExtVar1(float extVar1) {
+public void setExtVar1(String extVar1) {
 	this.extVar1 = extVar1;
 }
 
 
-public float getExtVar2() {
+public String getExtVar2() {
 	return extVar2;
 }
 
 
-public void setExtVar2(float extVar2) {
+public void setExtVar2(String extVar2) {
 	this.extVar2 = extVar2;
 }
 
 
-public float getExtVar3() {
+public String getExtVar3() {
 	return extVar3;
 }
 
 
-public void setExtVar3(float extVar3) {
+public void setExtVar3(String extVar3) {
 	this.extVar3 = extVar3;
 }
 
