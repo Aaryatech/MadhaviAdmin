@@ -736,6 +736,7 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
+			String typeId = request.getParameter("typeId");
 
 			String selectedCat = request.getParameter("cat_id_list");
 			List<String> catIdList = new ArrayList<>();
@@ -793,6 +794,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catIdList", selectedCat);
+				map.add("typeId", typeId);
 
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
@@ -812,6 +814,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catIdList", selectedCat);
+				map.add("typeId", typeId);
 
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
