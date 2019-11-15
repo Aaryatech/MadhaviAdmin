@@ -44,7 +44,7 @@ min-height: 90px;
 .table-scroll th{
 	padding: 22px 0px;
 	vertical-align: top;
-	background:  	#f3b5db !important;
+	background:  	#f95d64 !important; //changed  #f3b5db
     color: #ffffff !important;
 
 }

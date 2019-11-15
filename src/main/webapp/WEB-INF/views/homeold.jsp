@@ -126,7 +126,7 @@
 			<!-- BEGIN Navlist -->
 			<a class="navbar-brand" href="#"
 				style="width: 100%; text-align: center; padding: 15px 0px;"> <img
-				src="resources/img/monginislogo.png" style="position: relative;"
+				src="resources/img/MadhviLogo.jpg" style="position: relative;"
 				alt="">
 			</a>
 			<div style="clear: both;"></div>

@@ -215,7 +215,7 @@
 							<div class="col-md-12 table-responsive">
 								<table class="table table-bordered table-striped fill-head "
 									style="width: 100%" id="table_grid">
-									<thead style="background-color: #f3b5db;">
+									<thead style="background-color: #f95d64;">
 										<tr>
 											<th>Sr.No.</th>
 											<th>Item Name</th>
@@ -253,7 +253,7 @@
 						<div class="col-md-12 table-responsive">
 							<table style="width: 100%; border: 1px;" id="table_grid1"
 								border="1">
-								<thead style="background-color: #f3b5db;">
+								<thead style="background-color: #f95d64;">
 									<tr>
 										<th>Sr.No.</th>
 										<th>Item Name</th>
