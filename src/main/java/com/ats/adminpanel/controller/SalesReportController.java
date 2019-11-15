@@ -1551,6 +1551,7 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
+			String typeId = request.getParameter("typeId");
 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
@@ -1594,6 +1595,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeId", typeId);
 
 			System.out.println(map);
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
@@ -2189,6 +2191,9 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
+			String typeId = request.getParameter("typeId");
+			
+			System.out.println("Inside get Sale Bill typeId"+typeId);
 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
@@ -2232,6 +2237,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeId", typeId);
 
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};
@@ -2392,167 +2398,11 @@ public class SalesReportController {
 		return saleList;
 	}
 
-	/*
-	 * @RequestMapping(value = "/getSaleBillwiseGrpByMonth", method =
-	 * RequestMethod.GET) public @ResponseBody List<SalesReportBillwise>
-	 * getSaleBillwiseGrpByMonth(HttpServletRequest request, HttpServletResponse
-	 * response) {
-	 * 
-	 * List<SalesReportBillwise> saleList = new ArrayList<>(); String fromDate = "";
-	 * String toDate = ""; try { System.out.println("Inside get Sale Bill Wise");
-	 * String selectedFr = request.getParameter("fr_id_list"); fromDate =
-	 * request.getParameter("fromDate"); toDate = request.getParameter("toDate");
-	 * String routeId = request.getParameter("route_id");
-	 * 
-	 * boolean isAllFrSelected = false; selectedFr = selectedFr.substring(1,
-	 * selectedFr.length() - 1); selectedFr = selectedFr.replaceAll("\"", "");
-	 * 
-	 * if (!routeId.equalsIgnoreCase("0")) {
-	 * 
-	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
-	 * Object>();
-	 * 
-	 * RestTemplate restTemplate = new RestTemplate();
-	 * 
-	 * map.add("routeId", routeId);
-	 * 
-	 * FrNameIdByRouteIdResponse frNameId = restTemplate.postForObject(Constants.url
-	 * + "getFrNameIdByRouteId", map, FrNameIdByRouteIdResponse.class);
-	 * 
-	 * List<FrNameIdByRouteId> frNameIdByRouteIdList =
-	 * frNameId.getFrNameIdByRouteIds();
-	 * 
-	 * System.out.println("route wise franchisee " +
-	 * frNameIdByRouteIdList.toString());
-	 * 
-	 * StringBuilder sbForRouteFrId = new StringBuilder(); for (int i = 0; i <
-	 * frNameIdByRouteIdList.size(); i++) {
-	 * 
-	 * sbForRouteFrId =
-	 * sbForRouteFrId.append(frNameIdByRouteIdList.get(i).getFrId().toString() +
-	 * ",");
-	 * 
-	 * }
-	 * 
-	 * String strFrIdRouteWise = sbForRouteFrId.toString(); selectedFr =
-	 * strFrIdRouteWise.substring(0, strFrIdRouteWise.length() - 1);
-	 * System.out.println("fr Id Route WISE = " + selectedFr);
-	 * 
-	 * } // end of if
-	 * 
-	 * if (frList.contains("-1")) { isAllFrSelected = true; }
-	 * 
-	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
-	 * Object>(); RestTemplate restTemplate = new RestTemplate();
-	 * 
-	 * if (isAllFrSelected) {
-	 * 
-	 * System.out.println("Inside If all fr Selected ");
-	 * 
-	 * map.add("fromDate", fromDate); map.add("toDate", toDate);
-	 * 
-	 * ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new
-	 * ParameterizedTypeReference<List<SalesReportBillwise>>() { };
-	 * ResponseEntity<List<SalesReportBillwise>> responseEntity =
-	 * restTemplate.exchange( Constants.url + "getSaleReportBillwiseByMonthAllFr",
-	 * HttpMethod.POST, new HttpEntity<>(map), typeRef);
-	 * 
-	 * saleList = responseEntity.getBody(); saleListForPdf = new ArrayList<>();
-	 * 
-	 * saleListForPdf = saleList;
-	 * 
-	 * System.out.println("sales List Bill Wise " + saleList.toString());
-	 * 
-	 * } else { System.out.println("Inside else Few fr Selected ");
-	 * 
-	 * map.add("frIdList", selectedFr); map.add("fromDate", fromDate);
-	 * map.add("toDate", toDate);
-	 * 
-	 * ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new
-	 * ParameterizedTypeReference<List<SalesReportBillwise>>() { };
-	 * ResponseEntity<List<SalesReportBillwise>> responseEntity =
-	 * restTemplate.exchange( Constants.url + "getSaleReportBillwiseByMonth",
-	 * HttpMethod.POST, new HttpEntity<>(map), typeRef);
-	 * 
-	 * saleList = responseEntity.getBody(); saleListForPdf = new ArrayList<>();
-	 * 
-	 * saleListForPdf = saleList;
-	 * 
-	 * System.out.println("sales List Bill Wise " + saleList.toString());
-	 * 
-	 * } } catch (
-	 * 
-	 * Exception e) { System.out.println("get sale Report Bill Wise " +
-	 * e.getMessage()); e.printStackTrace();
-	 * 
-	 * }
-	 * 
-	 * // exportToExcel List<ExportToExcel> exportToExcelList = new
-	 * ArrayList<ExportToExcel>();
-	 * 
-	 * ExportToExcel expoExcel = new ExportToExcel(); List<String> rowData = new
-	 * ArrayList<String>();
-	 * 
-	 * rowData.add("Sr No"); rowData.add("Month"); rowData.add("Franchisee Name");
-	 * rowData.add("Franchisee City"); rowData.add("Franchisee Gst No");
-	 * rowData.add("SGST sum"); rowData.add("CGST sum"); rowData.add("IGST sum");
-	 * rowData.add("Total Tax"); rowData.add("Taxable Amt");
-	 * rowData.add("Grand Total");
-	 * 
-	 * float taxableAmt = 0.0f; float cgstSum = 0.0f; float sgstSum = 0.0f; float
-	 * igstSum = 0.0f; float grandTotal = 0.0f; float totalTax = 0.0f;
-	 * 
-	 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel); for (int i =
-	 * 0; i < saleList.size(); i++) { expoExcel = new ExportToExcel(); rowData = new
-	 * ArrayList<String>();
-	 * 
-	 * taxableAmt = taxableAmt + saleList.get(i).getTaxableAmt(); cgstSum = cgstSum
-	 * + saleList.get(i).getCgstSum(); sgstSum = sgstSum +
-	 * saleList.get(i).getSgstSum(); igstSum = igstSum +
-	 * saleList.get(i).getIgstSum(); totalTax = totalTax +
-	 * saleList.get(i).getTotalTax(); grandTotal = grandTotal +
-	 * saleList.get(i).getGrandTotal();
-	 * 
-	 * rowData.add("" + (i + 1)); rowData.add("" + saleList.get(i).getMonth());
-	 * rowData.add(saleList.get(i).getFrName());
-	 * rowData.add(saleList.get(i).getFrCity());
-	 * rowData.add(saleList.get(i).getFrGstNo()); rowData.add("" +
-	 * saleList.get(i).getSgstSum()); rowData.add("" +
-	 * saleList.get(i).getCgstSum()); rowData.add("" +
-	 * saleList.get(i).getIgstSum()); rowData.add("" +
-	 * saleList.get(i).getTotalTax()); rowData.add("" +
-	 * saleList.get(i).getTaxableAmt()); rowData.add("" +
-	 * saleList.get(i).getGrandTotal());
-	 * 
-	 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel);
-	 * 
-	 * }
-	 * 
-	 * expoExcel = new ExportToExcel(); rowData = new ArrayList<String>();
-	 * rowData.add(""); rowData.add("Total"); rowData.add(""); rowData.add("");
-	 * rowData.add(""); rowData.add("" + roundUp(sgstSum)); rowData.add("" +
-	 * roundUp(cgstSum)); rowData.add("" + roundUp(igstSum)); rowData.add("" +
-	 * roundUp(totalTax)); rowData.add("" + roundUp(taxableAmt)); rowData.add("" +
-	 * roundUp(grandTotal));
-	 * 
-	 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel);
-	 * 
-	 * HttpSession session = request.getSession();
-	 * session.setAttribute("exportExcelListNew", exportToExcelList);
-	 * session.setAttribute("excelNameNew", "SalesReportBillwise");
-	 * session.setAttribute("reportNameNew", "Month-wise Report");
-	 * session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: "
-	 * + toDate + " "); session.setAttribute("mergeUpto1", "$A$1:$L$1");
-	 * session.setAttribute("mergeUpto2", "$A$2:$L$2");
-	 * 
-	 * return saleList;
-	 * 
-	 * }
-	 */
+	
 
-	@RequestMapping(value = "pdf/showSaleBillwiseGrpByMonthPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleBillwiseGrpByMonthPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{typeId}", method = RequestMethod.GET)
 	public ModelAndView showSaleBillwiseGrpByMonthPdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String typeId,HttpServletRequest request,
 			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesgrpbymonthPdf");
@@ -2600,6 +2450,8 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeId", typeId);
+
 
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};
