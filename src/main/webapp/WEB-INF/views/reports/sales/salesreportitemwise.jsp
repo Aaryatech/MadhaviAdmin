@@ -141,18 +141,23 @@
 				<div class="row">
 				<div class="form-group">
 				
-					<label for="textfield2" class="col-xs-3 col-lg-2 control-label">Select</label>
-					<div class="col-sm-6 col-lg-4 controls">
-						<select class="form-control chosen" tabindex="6" name="type_id"
-							id="type_id">
+					<label class="col-sm-3 col-lg-2 control-label">Select
+						</label>
+					<div class="col-sm-6 col-lg-4">
 
+						<select data-placeholder="Choose "
+							class="form-control chosen" multiple="multiple" tabindex="6"
+							id="type_id" name="type_id">
+							<option value="-1"><c:out value="All" /></option>
 							<option value="1">Franchise Bill</option>
 							<option value="2">Delivery Chalan</option>
 							<option value="3">Company Outlet Bill</option>
-
-
 						</select>
+
 					</div>
+
+
+
 				
 				</div>
 				
@@ -271,7 +276,7 @@
 				toDate : to_date,
 				route_id : routeId,
 				catId : catId,
-				typeId : typeId,
+				typeId : JSON.stringify(typeId),
 				ajax : 'true'
 
 			}, function(data) {

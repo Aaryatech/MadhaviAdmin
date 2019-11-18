@@ -736,7 +736,7 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
-			String typeId = request.getParameter("typeId");
+		
 
 			String selectedCat = request.getParameter("cat_id_list");
 			List<String> catIdList = new ArrayList<>();
@@ -751,6 +751,11 @@ public class SalesReportController {
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
+			
+			
+			String selectedType = request.getParameter("typeId");
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -794,7 +799,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catIdList", selectedCat);
-				map.add("typeId", typeId);
+				map.add("typeIdList", selectedType);
 
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
@@ -814,7 +819,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catIdList", selectedCat);
-				map.add("typeId", typeId);
+				map.add("typeIdList", selectedType);
 
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
@@ -946,7 +951,7 @@ public class SalesReportController {
 
 	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByDatePdf(@PathVariable String fDate, @PathVariable String tDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,@PathVariable int typeId,
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,@PathVariable String typeIdList,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesbydatePdf");
@@ -981,6 +986,9 @@ public class SalesReportController {
 				String strFrIdRouteWise = sbForRouteFrId.toString();
 				selectedFr = strFrIdRouteWise.substring(0, strFrIdRouteWise.length() - 1);
 				System.out.println("fr Id Route WISE = " + selectedFr);
+			 
+			 
+
 
 			} // end of if
 
@@ -997,7 +1005,7 @@ public class SalesReportController {
 				map.add("catIdList", selectedCat);
 				map.add("fromDate", fDate);
 				map.add("toDate", tDate);
-				map.add("typeId", typeId);
+				map.add("typeIdList", typeIdList);
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
 				ResponseEntity<List<SalesReportBillwise>> responseEntity = restTemplate.exchange(
@@ -1015,7 +1023,7 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("fromDate", fDate);
 				map.add("toDate", tDate);
-				map.add("typeId", typeId);
+				map.add("typeIdList", typeIdList);
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
 				ResponseEntity<List<SalesReportBillwise>> responseEntity = restTemplate.exchange(
@@ -1552,13 +1560,19 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
-			String typeId = request.getParameter("typeId");
 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
+			
+			
+			String selectedType = request.getParameter("typeId");
+
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
+			System.err.println("selectedType**"+selectedType.toString());
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -1596,7 +1610,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
-			map.add("typeId", typeId);
+			map.add("typeIdList", selectedType);
 
 			System.out.println(map);
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
@@ -1923,7 +1937,7 @@ public class SalesReportController {
 	 */
 
 	@RequestMapping(value = "pdf/showSaleBillwiseGrpByDatePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
-	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate, @PathVariable int typeId,
+	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate, @PathVariable String typeIdList,
 			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -2062,7 +2076,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
-			map.add("typeId", typeId);
+			map.add("typeIdList", typeIdList);
 
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};
@@ -2193,10 +2207,12 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
-			String typeId = request.getParameter("typeId");
-			
-			System.out.println("Inside get Sale Bill typeId"+typeId);
+ 			String selectedType = request.getParameter("typeId");
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
 
+			
+ 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
 
@@ -2239,7 +2255,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
-			map.add("typeId", typeId);
+			map.add("typeIdList", selectedType);
 
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};
@@ -3439,14 +3455,18 @@ public class SalesReportController {
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
 			int catId = Integer.parseInt(request.getParameter("catId"));
-			String typeId = request.getParameter("typeId");
-
+ 
 			boolean isAllFrSelected = false;
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
+			
+			String selectedType = request.getParameter("typeId");
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
+
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -3492,7 +3512,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catId", catId);
-				map.add("typeId", typeId);
+				map.add("typeIdList", selectedType);
 			} else {
 				System.out.println("Inside else Few fr Selected ");
 
@@ -3500,7 +3520,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catId", catId);
-				map.add("typeId", typeId);
+				map.add("typeIdList", selectedType);
 				ParameterizedTypeReference<List<SalesReportItemwise>> typeRef = new ParameterizedTypeReference<List<SalesReportItemwise>>() {
 				};
 				ResponseEntity<List<SalesReportItemwise>> responseEntity = restTemplate.exchange(

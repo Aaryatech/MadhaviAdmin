@@ -148,27 +148,33 @@
 						</select>
 
 					</div>
-					
-					
-					<label for="textfield2" class="col-xs-3 col-lg-2 control-label">Select</label>
-						<div class="col-sm-6 col-lg-4 controls">
-						<select class="form-control chosen" tabindex="6" name="type_id"
-							id="type_id">
 
+
+				 
+				<label class="col-sm-3 col-lg-2 control-label">Select
+						</label>
+					<div class="col-sm-6 col-lg-4">
+
+						<select data-placeholder="Choose "
+							class="form-control chosen" multiple="multiple" tabindex="6"
+							id="type_id" name="type_id">
+							<option value="-1"><c:out value="All" /></option>
 							<option value="1">Franchise Bill</option>
 							<option value="2">Delivery Chalan</option>
 							<option value="3">Company Outlet Bill</option>
-
-
 						</select>
-					</div>
-					
 
-					
+					</div>
+
+
+
+
+
+
 				</div>
 				<br>
 				<div class="row">
-				<div class="col-md-6" style="text-align: right;">
+					<div class="col-md-6" style="text-align: right;">
 						<button class="btn btn-info" onclick="searchReport()">Search
 							Billwise Report</button>
 
@@ -181,7 +187,7 @@
 								target="_blank">PDF</a> --%>
 
 					</div>
-					</div>
+				</div>
 
 
 				<div align="center" id="loader" style="display: none">
@@ -358,7 +364,7 @@
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
 
-				var typeId =$("#type_id").val(); 
+				var typeId = $("#type_id").val();
 
 				var selectStatus = document.getElementById("selectStatus").value;
 				//alert(selectStatus);
@@ -374,7 +380,7 @@
 									fromDate : from_date,
 									toDate : to_date,
 									route_id : routeId,
-									typeId : typeId,
+									typeId : JSON.stringify(typeId),
 									ajax : 'true'
 
 								},
@@ -1274,7 +1280,7 @@
 				var routeId = $("#selectRoute").val();
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
-				var typeId =$("#type_id").val(); 
+				var typeIdList = $("#type_id").val();
 
 				window
 						.open('pdfForReport?url=pdf/showSaleBillwiseGrpByDatePdf/'
@@ -1283,7 +1289,7 @@
 								+ to_date
 								+ '/'
 								+ selectedFr
-								+ '/' + routeId + '/'+ typeId + '/');
+								+ '/' + routeId + '/' + typeIdList + '/');
 
 			}
 			function exportToExcel() {
