@@ -139,6 +139,24 @@
 
 				<br>
 				<div class="row">
+				<div class="form-group">
+				
+					<label for="textfield2" class="col-xs-3 col-lg-2 control-label">Select</label>
+					<div class="col-sm-6 col-lg-4 controls">
+						<select class="form-control chosen" tabindex="6" name="type_id"
+							id="type_id">
+
+							<option value="1">Franchise Bill</option>
+							<option value="2">Delivery Chalan</option>
+							<option value="3">Company Outlet Bill</option>
+
+
+						</select>
+					</div>
+				
+				</div>
+				
+				
 					<div class="col-md-12" style="text-align: center;">
 						<button class="btn btn-info" onclick="searchReport()">Search
 							Report</button>
@@ -242,6 +260,7 @@
 			var catId = $("#selectCat").val();
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
+			var typeId =$("#type_id").val(); 	
 			$('#loader').show();
 
 			$.getJSON('${getBillList}',
@@ -252,6 +271,7 @@
 				toDate : to_date,
 				route_id : routeId,
 				catId : catId,
+				typeId : typeId,
 				ajax : 'true'
 
 			}, function(data) {

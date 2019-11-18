@@ -3437,6 +3437,7 @@ public class SalesReportController {
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
 			int catId = Integer.parseInt(request.getParameter("catId"));
+			String typeId = request.getParameter("typeId");
 
 			boolean isAllFrSelected = false;
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
@@ -3489,6 +3490,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catId", catId);
+				map.add("typeId", typeId);
 			} else {
 				System.out.println("Inside else Few fr Selected ");
 
@@ -3496,6 +3498,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catId", catId);
+				map.add("typeId", typeId);
 				ParameterizedTypeReference<List<SalesReportItemwise>> typeRef = new ParameterizedTypeReference<List<SalesReportItemwise>>() {
 				};
 				ResponseEntity<List<SalesReportItemwise>> responseEntity = restTemplate.exchange(
@@ -3616,9 +3619,9 @@ public class SalesReportController {
 
 	// pdf for r8 to be done
 	// pdf for r8
-	@RequestMapping(value = "pdf/showSaleReportItemwisePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{catId}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleReportItemwisePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{catId}/{typeId}", method = RequestMethod.GET)
 	public ModelAndView showSaleReportItemwisePdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable int catId,
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable int catId,@PathVariable int typeId,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesreportitemwisePdf");
@@ -3670,6 +3673,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catId", catId);
+				map.add("typeId", typeId);
 			} else {
 				System.out.println("Inside else Few fr Selected ");
 
@@ -3677,6 +3681,7 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("catId", catId);
+				map.add("typeId", typeId);
 				ParameterizedTypeReference<List<SalesReportItemwise>> typeRef = new ParameterizedTypeReference<List<SalesReportItemwise>>() {
 				};
 				ResponseEntity<List<SalesReportItemwise>> responseEntity = restTemplate.exchange(
