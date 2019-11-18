@@ -479,6 +479,8 @@
 			var selectedFr = $("#selectFr").val();
 			var routeId = $("#selectRoute").val();
 			var selectedCat = $("#item_grp1").val();
+			var typeId = $("#type_id").val();
+
 
 			window
 					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'
@@ -487,7 +489,7 @@
 							+ to_date
 							+ '/'
 							+ selectedFr
-							+ '/' + routeId + '/' + selectedCat + '/');
+							+ '/' + routeId + '/' + selectedCat + '/'+ typeId + '/');
 
 			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 

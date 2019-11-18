@@ -946,7 +946,7 @@ public class SalesReportController {
 
 	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByDatePdf(@PathVariable String fDate, @PathVariable String tDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,@PathVariable int typeId,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesbydatePdf");
@@ -997,6 +997,7 @@ public class SalesReportController {
 				map.add("catIdList", selectedCat);
 				map.add("fromDate", fDate);
 				map.add("toDate", tDate);
+				map.add("typeId", typeId);
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
 				ResponseEntity<List<SalesReportBillwise>> responseEntity = restTemplate.exchange(
@@ -1014,7 +1015,7 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("fromDate", fDate);
 				map.add("toDate", tDate);
-
+				map.add("typeId", typeId);
 				ParameterizedTypeReference<List<SalesReportBillwise>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwise>>() {
 				};
 				ResponseEntity<List<SalesReportBillwise>> responseEntity = restTemplate.exchange(
@@ -1922,7 +1923,7 @@ public class SalesReportController {
 	 */
 
 	@RequestMapping(value = "pdf/showSaleBillwiseGrpByDatePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
-	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate,
+	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate, @PathVariable int typeId,
 			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -2061,6 +2062,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeId", typeId);
 
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};

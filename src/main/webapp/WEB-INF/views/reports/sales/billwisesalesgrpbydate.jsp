@@ -1274,6 +1274,7 @@
 				var routeId = $("#selectRoute").val();
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
+				var typeId =$("#type_id").val(); 
 
 				window
 						.open('pdfForReport?url=pdf/showSaleBillwiseGrpByDatePdf/'
@@ -1282,7 +1283,7 @@
 								+ to_date
 								+ '/'
 								+ selectedFr
-								+ '/' + routeId + '/');
+								+ '/' + routeId + '/'+ typeId + '/');
 
 			}
 			function exportToExcel() {
