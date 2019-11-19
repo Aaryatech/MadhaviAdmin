@@ -3819,8 +3819,13 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
-
+			String selectedType = request.getParameter("typeId");
+			
 			String selectedFr;
+ 			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			// selectedFr = selectedFr.replaceAll("\"", "");
+
+			
 
 			// boolean isAllFrSelected = false;
 			// selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
@@ -3871,6 +3876,8 @@ public class SalesReportController {
 
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeIdList", selectedType);
+			
 
 			ParameterizedTypeReference<List<SalesReportBillwiseAllFr>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwiseAllFr>>() {
 			};
@@ -3996,8 +4003,8 @@ public class SalesReportController {
 	// pdf to be done
 
 	// pdf report 7
-	@RequestMapping(value = "pdf/showSaleReportBillwiseAllFrPdf/{fromDate}/{toDate}", method = RequestMethod.GET)
-	public ModelAndView showSaleReportBillwiseAllFrPdf(@PathVariable String fromDate, @PathVariable String toDate,
+	@RequestMapping(value = "pdf/showSaleReportBillwiseAllFrPdf/{fromDate}/{toDate}/{typeId}", method = RequestMethod.GET)
+	public ModelAndView showSaleReportBillwiseAllFrPdf(@PathVariable String fromDate, @PathVariable String toDate,@PathVariable String typeId,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salereportbillallfrPdf");
@@ -4061,6 +4068,7 @@ public class SalesReportController {
 			// map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeIdList", typeId);
 
 			ParameterizedTypeReference<List<SalesReportBillwiseAllFr>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwiseAllFr>>() {
 			};
