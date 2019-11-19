@@ -197,19 +197,23 @@ table {
 								<div class="form-group">
  
 
+<label class="col-sm-3 col-lg-2 control-label">Select
+						</label>
+					<div class="col-sm-6 col-lg-4">
 
-									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">Select</label>
-									<div class="col-sm-9 col-lg-3 controls">
- 										<select class="form-control chosen" tabindex="6"
-											name="type_id" id="type_id">
+						<select data-placeholder="Choose "
+							class="form-control chosen" multiple="multiple" tabindex="6"
+							id="type_id" name="type_id">
+							<option value="-1"><c:out value="All" /></option>
+							<option value="1">Franchise Bill</option>
+							<option value="2">Delivery Chalan</option>
+							<option value="3">Company Outlet Bill</option>
+						</select>
 
- 											<option value="1">Franchise Bill</option>
-											<option value="2">Delivery Chalan</option>
-											<option value="3">Company Outlet Bill</option>
- 
+					</div>
 
-										</select>
-									</div>
+
+
 
 
 
@@ -662,7 +666,7 @@ table {
 			var toDate = document.getElementById("dp2").value;
 
 			var routeId = document.getElementById("route_id").value;
-			var typeId = document.getElementById("type_id").value;
+			var typeId =  $("#type_id").val(); 
 
 			$('#loader').show();
 
@@ -674,7 +678,7 @@ table {
 								from_date : fromDate,
 								to_date : toDate,
 								route_id : routeId,
-								typeId : typeId,
+								typeId : JSON.stringify(typeId),
 								
 								ajax : 'true'
 							},

@@ -2087,7 +2087,7 @@ public class BillController {
 				
 
 				// to get bill list
-				map.add("typeId", 0);
+				map.add("typeIdList", -1);
 				map.add("fromDate", todaysDate);
 				map.add("toDate", todaysDate);
 				
@@ -2132,9 +2132,13 @@ public class BillController {
 			String fromDate = request.getParameter("from_date");
 			String toDate = request.getParameter("to_date");
 			routeId = request.getParameter("route_id");
-			typeId = request.getParameter("typeId");
+			String selectedType = request.getParameter("typeId");
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
 
-			System.out.println("routeId= " + routeId);
+
+
+			System.err.println("selectedType" + selectedType.toString());
 
 			boolean isAllFrSelected = false;
 
@@ -2177,7 +2181,7 @@ public class BillController {
 
 			if (isAllFrSelected) {
 
-				map.add("typeId", typeId);
+				map.add("typeIdList", selectedType);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				System.out.println("Inside is All fr Selected " + isAllFrSelected);
@@ -2191,7 +2195,7 @@ public class BillController {
 
 			} else { // few franchisee selected
 
-				map.add("typeId", typeId);
+				map.add("typeIdList", selectedType);
 				map.add("frId", frIdString);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
