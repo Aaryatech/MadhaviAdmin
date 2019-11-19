@@ -141,7 +141,7 @@
 										<th width="50">SELECT</th>
 										<th width="50">Invoice</th>
 										<th width="40">Item Name</th>
-										<th width="40">Type</th>
+										<th width="40">GRN %</th>
 										<th width="50">Pur Quantity</th>
 										<th width="10">Rate</th>
 										<th width="40">Grn Qty</th>
@@ -264,7 +264,7 @@
 
 						  /* 	tr.append($('<td></td>').html(key+1)); */
 														
-						tr.append($('<td></td>').html("<input type=checkbox  id=check"+bill.billDetailNo+" name="+bill.billDetailNo+" value="+bill.billDetailNo+">"));
+							tr.append($('<td></td>').html("<input type=checkbox  id=check"+bill.billDetailNo+" name="+bill.billDetailNo+" value="+bill.billDetailNo+">"));
 						  
 						  						  	//tr.append($('<td></td>').html(bill.invoiceNo));
 
@@ -272,24 +272,15 @@
 						  	tr.append($('<td></td>').html(bill.invoiceNo));
 
 						  	tr.append($('<td></td>').html(bill.itemName));
-						  	var grnType;
-						  //	alert("GRN TYPE " +bill.grnType);
+						  
 						  	
-						  	if(bill.grnType==0){
-						  		 grnType="Grn 1";
-						  	}
-						  	else 	if(bill.grnType==1){
-						  		 grnType="Grn 2";}
-						  	else 	if(bill.grnType==2 || bill.grnType==4){
-						  		 grnType="Grn 3";}
-						  	
-						  	tr.append($('<td></td>').html(grnType));
+						  	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center; width:60px;' class='form-control' min=0 max=100 id=grnPer"+bill.billDetailNo+" name=grnPer"+bill.billDetailNo+" value="+bill.grnType+">"));
 						  	tr.append($('<td></td>').html(bill.billQty));
 						  	tr.append($('<td></td>').html(bill.rate));
 						  	
 						  //	tr.append($('<td></td>').html(bill.rate));
 
-						 	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.grnType+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center;' class='form-control' min=0 id=qty"+bill.billDetailNo+" name=qty"+bill.billDetailNo+" Value="+0+" >"));
+						 	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center;' class='form-control' min=0 id=qty"+bill.billDetailNo+" name=qty"+bill.billDetailNo+" Value="+0+" >"));
 						  	tr.append($('<td></td>').html(bill.igstPer));
 						  	tr.append($('<td id=taxable_amt'+bill.billDetailNo+'></td>').html(""));
 						  	tr.append($('<td id=tax_amt'+bill.billDetailNo+'></td>').html(""));
@@ -313,7 +304,7 @@
 
 
 
-	<script type="text/javascript">
+	<script type="text/javascript">	
 	
 				function validate() {
 				
@@ -336,10 +327,15 @@
 
 				}
 				
-				function calcGrn(billQty,grnType,rate,itemId,cgstPer,sgstPer,dNo,discPer) {
-				
+				function calcGrn(billQty,rate,itemId,cgstPer,sgstPer,dNo,discPer) {
+									
 					document.getElementById("check"+dNo).checked = false;
-				    var grnQty =document.getElementById("qty"+dNo).value;
+					
+					var grnType=document.getElementById("grnPer"+dNo).value;
+					//alert("GRN type="+grnType);
+					
+				    var grnQty =document.getElementById("qty"+dNo).value;	
+				    
 				    
 				    if(parseInt(grnQty)>billQty){
 						alert("Grn Quantity can not be greater than Purchase Quantity");
@@ -363,33 +359,14 @@
 					var grnBaseRate;
 					var grnRate;
 					
-				    if(grnType==0){
-						var grnRate=rate;
-						grnBaseRate = baseRate * 85 / 100;
-						 grnRate=(rate * 85) / 100;
-					}
-				 if(grnType==1){
-
-						var grnRate=rate;
-						grnBaseRate = baseRate * 75 / 100;
-						grnRate=(rate * 75) / 100;
+					var grnRate=rate;
+					grnBaseRate = baseRate * grnType / 100;
+					//alert("grnBaseRate "+grnBaseRate);
 					
-						}
-				 
-						if(grnType==2){
-						var grnRate=rate;
-						grnBaseRate=baseRate;
-						grnRate=rate;
-						
-						}
-						
-						if(grnType==4){
-							
-							var grnRate=rate;
-							grnBaseRate=baseRate;
-							grnRate=rate;
-							
-							}
+					grnRate=(rate * grnType) / 100;
+					//alert("grnRate "+grnRate);
+					
+				  
 						var totTaxPer=parseFloat(sgstPer)+parseFloat(cgstPer);
 						var taxableAmt=grnBaseRate*grnQty;
 						//alert("prev taxableAmt " +taxableAmt)
@@ -410,7 +387,8 @@
 					$("#taxable_amt"+dNo).html(taxableAmt.toFixed(2));
 					$("#tax_amt"+dNo).html(totalTax.toFixed(2));
 					}
-				}
+				
+			}
 					
 			</script>
 	<!--basic scripts-->

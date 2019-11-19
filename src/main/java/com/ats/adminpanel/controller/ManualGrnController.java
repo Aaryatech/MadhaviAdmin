@@ -1,10 +1,12 @@
 package com.ats.adminpanel.controller;
 
 import java.math.BigDecimal;
+import java.sql.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -207,11 +209,13 @@ public class ManualGrnController {
 			map.add("frId", frId);
 			map.add("billNo", billNo);
 
-			grnGvnConfResponse = restTemplate.postForObject(Constants.url + "getItemsForManGrn", map,
-					GetGrnConfResponse.class);
-			grnConfList = new ArrayList<>();
+			//grnGvnConfResponse = restTemplate.postForObject(Constants.url + "getItemsForManGrnByFrAndBill", map,
+		//			GetGrnConfResponse.class);// 	getItemsForManGrn
+			//grnConfList = new ArrayList<>();
 
-			grnConfList = grnGvnConfResponse.getGetGrnItemConfigs();
+			GetGrnItemConfig[] grnArr=restTemplate.postForObject(Constants.url + "getItemsForManGrnByFrAndBill", map,
+					GetGrnItemConfig[].class);
+			grnConfList = new ArrayList<GetGrnItemConfig>(Arrays.asList(grnArr));
 
 			System.out.println("bill table data " + grnConfList.toString());
 
@@ -308,24 +312,25 @@ public class ManualGrnController {
 					GrnGvn postGrnGvn = new GrnGvn();
 
 					float baseRate = selectedGrn.get(i).getRate();
+					float grnType = selectedGrn.get(i).getGrnType();
 					float grnBaseRate = 0.0f;
 
 					float grnRate = 0.0f;
 
-					if (selectedGrn.get(i).getGrnType() == 0) {
-						grnBaseRate = baseRate * 85 / 100;
+					if (selectedGrn.get(i).getGrnType() == 75) {
+						grnBaseRate = baseRate * grnType / 100;
 
-						grnRate = (selectedGrn.get(i).getRate() * 85) / 100;
+						grnRate = (selectedGrn.get(i).getRate() * grnType) / 100;
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
 					}
 
-					if (selectedGrn.get(i).getGrnType() == 1) {
-						grnBaseRate = baseRate * 75 / 100;
-						grnRate = (selectedGrn.get(i).getRate() * 75) / 100;
+					if (selectedGrn.get(i).getGrnType() == 85) {
+						grnBaseRate = baseRate * grnType / 100;
+						grnRate = (selectedGrn.get(i).getRate() * grnType) / 100;
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
 					}
 
-					if (selectedGrn.get(i).getGrnType() == 2 || selectedGrn.get(i).getGrnType() == 4) {
+					if (selectedGrn.get(i).getGrnType() == 100) {
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
 
 						grnBaseRate = baseRate;
