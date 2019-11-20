@@ -252,7 +252,7 @@ public class SalesReportController {
 		HttpSession session = request.getSession();
 		String fromDate = "";
 		String toDate = "";
- 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		Info view = AccessControll.checkAccess("showTaxReport", "showTaxReport", "1", "0", "0", "0", newModuleList);
 
 		if (view.getError() == true) {
@@ -265,28 +265,35 @@ public class SalesReportController {
 			// Constants.subAct =20;
 			List<Tax1Report> taxReportList = null;
 			System.err.println("hii");
+			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+			lhm.put(-1, "All");
+			lhm.put(1, "Franchise Bill");
+			lhm.put(2, "Delivery Chalan");
+			lhm.put(3, "Company Outlet Bill");
+			
+			System.err.println("hii ttt"+lhm.get(1));
+			List<Integer> idList=new ArrayList<>();
+			model.addObject("lhm",lhm);
 			try {
 
 				RestTemplate restTemplate = new RestTemplate();
 
 				fromDate = request.getParameter("fromDate");
 				toDate = request.getParameter("toDate");
-				String[]  typeIds= request.getParameterValues("type_id");
-				 
-			 
-				System.out.println("mId" + typeIds);
+				String[] typeIds = request.getParameterValues("type_id");
+				String typeIdsTemp = request.getParameter("type_id");
 
 				StringBuilder sb = new StringBuilder();
 
 				for (int i = 0; i < typeIds.length; i++) {
 					sb = sb.append(typeIds[i] + ",");
-
+					idList.add(Integer.parseInt(typeIds[i]));
 				}
 				String instruments = sb.toString();
 				instruments = instruments.substring(0, instruments.length() - 1);
+				model.addObject("idList",idList);
+			
 
-				 
-				
 				if (fromDate == null && toDate == null) {
 					Date date = new Date();
 					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -419,7 +426,7 @@ public class SalesReportController {
 				session.setAttribute("mergeUpto2", "$A$2:$N$2");
 
 				DecimalFormat df = new DecimalFormat("#.00");
-				
+
 				List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel1 = new ExportToExcel();
@@ -454,8 +461,8 @@ public class SalesReportController {
 					expoExcel1.setRowData(rowData1);
 					exportToExcelList1.add(expoExcel1);
 
-					double finalAmt =0;
-					
+					double finalAmt = 0;
+
 					for (int i = 0; i < taxReportList.size(); i++) {
 
 						if (headerList.get(j).getBillNo() == taxReportList.get(i).getBillNo()) {
@@ -465,23 +472,23 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("Sales Gst " + taxReportList.get(i).getTaxPer()+ "%");
+							rowData1.add("Sales Gst " + taxReportList.get(i).getTaxPer() + "%");
 							rowData1.add(" " + df.format(taxReportList.get(i).getTaxableAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
 							exportToExcelList1.add(expoExcel1);
-							
-							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2, RoundingMode.HALF_UP);
-					        double taxable = bd.doubleValue();
-					        bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
-					        double cgstAmt = bd.doubleValue();
-					        bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
-					        double sgstAmt = bd.doubleValue();
-					        
-							finalAmt = finalAmt+taxable+cgstAmt+sgstAmt;
-							
-							
+
+							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2,
+									RoundingMode.HALF_UP);
+							double taxable = bd.doubleValue();
+							bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
+							double cgstAmt = bd.doubleValue();
+							bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
+							double sgstAmt = bd.doubleValue();
+
+							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt;
+
 							expoExcel1 = new ExportToExcel();
 							rowData1 = new ArrayList<String>();
 							rowData1.add(headerList.get(j).getInvoiceNo());
@@ -518,8 +525,7 @@ public class SalesReportController {
 					rowData1.add("");
 					rowData1.add("");
 					rowData1.add("kasar / vatav ");
-					rowData1.add(
-							" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - finalAmt));
+					rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - finalAmt));
 					rowData1.add("Cr");
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
@@ -566,12 +572,34 @@ public class SalesReportController {
 			List<Tax2Report> taxReportList = null;
 			fromDate = "";
 			toDate = "";
+			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+			lhm.put(-1, "All");
+			lhm.put(1, "Franchise Bill");
+			lhm.put(2, "Delivery Chalan");
+			lhm.put(3, "Company Outlet Bill");
+			
+			System.err.println("hii ttt"+lhm.get(1));
+			List<Integer> idList=new ArrayList<>();
+			model.addObject("lhm",lhm);
 			try {
 
 				RestTemplate restTemplate = new RestTemplate();
 
 				fromDate = request.getParameter("fromDate");
 				toDate = request.getParameter("toDate");
+
+				String[] typeIds = request.getParameterValues("type_id");
+
+				System.out.println("mId" + typeIds);
+
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < typeIds.length; i++) {
+					sb = sb.append(typeIds[i] + ",");
+					idList.add(Integer.parseInt(typeIds[i]));
+				}
+				String instruments = sb.toString();
+				instruments = instruments.substring(0, instruments.length() - 1);
 
 				if (fromDate == null && toDate == null) {
 					Date date = new Date();
@@ -582,6 +610,7 @@ public class SalesReportController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
+				map.add("typeIdList", instruments);
 
 				ParameterizedTypeReference<List<Tax2Report>> typeRef = new ParameterizedTypeReference<List<Tax2Report>>() {
 				};
@@ -592,6 +621,7 @@ public class SalesReportController {
 				model.addObject("taxReportList", taxReportList);
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
+				model.addObject("idList", idList);
 
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -752,7 +782,6 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
-		
 
 			String selectedCat = request.getParameter("cat_id_list");
 			List<String> catIdList = new ArrayList<>();
@@ -767,8 +796,7 @@ public class SalesReportController {
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
-			
-			
+
 			String selectedType = request.getParameter("typeId");
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
@@ -967,8 +995,8 @@ public class SalesReportController {
 
 	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByDatePdf(@PathVariable String fDate, @PathVariable String tDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,@PathVariable String typeIdList,
-			HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
+			@PathVariable String typeIdList, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesbydatePdf");
 
@@ -1002,9 +1030,6 @@ public class SalesReportController {
 				String strFrIdRouteWise = sbForRouteFrId.toString();
 				selectedFr = strFrIdRouteWise.substring(0, strFrIdRouteWise.length() - 1);
 				System.out.println("fr Id Route WISE = " + selectedFr);
-			 
-			 
-
 
 			} // end of if
 
@@ -1582,13 +1607,12 @@ public class SalesReportController {
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
-			
-			
+
 			String selectedType = request.getParameter("typeId");
 
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
-			System.err.println("selectedType**"+selectedType.toString());
+			System.err.println("selectedType**" + selectedType.toString());
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -1953,9 +1977,9 @@ public class SalesReportController {
 	 */
 
 	@RequestMapping(value = "pdf/showSaleBillwiseGrpByDatePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
-	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate, @PathVariable String typeIdList,
-			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate,
+			@PathVariable String typeIdList, @PathVariable String selectedFr, @PathVariable String routeId,
+			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesgrpbydatePdf");
 
@@ -2223,12 +2247,10 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
- 			String selectedType = request.getParameter("typeId");
+			String selectedType = request.getParameter("typeId");
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
 
-			
- 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
 
@@ -2432,12 +2454,10 @@ public class SalesReportController {
 		return saleList;
 	}
 
-	
-
 	@RequestMapping(value = "pdf/showSaleBillwiseGrpByMonthPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{typeId}", method = RequestMethod.GET)
 	public ModelAndView showSaleBillwiseGrpByMonthPdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String typeId,HttpServletRequest request,
-			HttpServletResponse response) {
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String typeId,
+			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesgrpbymonthPdf");
 
@@ -2485,7 +2505,6 @@ public class SalesReportController {
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("typeId", typeId);
-
 
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};
@@ -3471,18 +3490,17 @@ public class SalesReportController {
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
 			int catId = Integer.parseInt(request.getParameter("catId"));
- 
+
 			boolean isAllFrSelected = false;
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
-			
+
 			String selectedType = request.getParameter("typeId");
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
-
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -3659,8 +3677,8 @@ public class SalesReportController {
 	// pdf for r8
 	@RequestMapping(value = "pdf/showSaleReportItemwisePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{catId}/{typeIdList}", method = RequestMethod.GET)
 	public ModelAndView showSaleReportItemwisePdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable int catId,@PathVariable String typeIdList,
-			HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable int catId,
+			@PathVariable String typeIdList, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesreportitemwisePdf");
 
@@ -3836,14 +3854,12 @@ public class SalesReportController {
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
 			String selectedType = request.getParameter("typeId");
-			
-			String selectedFr;
- 			selectedType = selectedType.substring(1, selectedType.length() - 1);
- 			selectedType = selectedType.replaceAll("\"", "");
- 			
-			// selectedFr = selectedFr.replaceAll("\"", "");
 
-			
+			String selectedFr;
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
+
+			// selectedFr = selectedFr.replaceAll("\"", "");
 
 			// boolean isAllFrSelected = false;
 			// selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
@@ -3895,7 +3911,6 @@ public class SalesReportController {
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("typeIdList", selectedType);
-			
 
 			ParameterizedTypeReference<List<SalesReportBillwiseAllFr>> typeRef = new ParameterizedTypeReference<List<SalesReportBillwiseAllFr>>() {
 			};
@@ -4022,8 +4037,8 @@ public class SalesReportController {
 
 	// pdf report 7
 	@RequestMapping(value = "pdf/showSaleReportBillwiseAllFrPdf/{fromDate}/{toDate}/{typeId}", method = RequestMethod.GET)
-	public ModelAndView showSaleReportBillwiseAllFrPdf(@PathVariable String fromDate, @PathVariable String toDate,@PathVariable String typeId,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView showSaleReportBillwiseAllFrPdf(@PathVariable String fromDate, @PathVariable String toDate,
+			@PathVariable String typeId, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salereportbillallfrPdf");
 

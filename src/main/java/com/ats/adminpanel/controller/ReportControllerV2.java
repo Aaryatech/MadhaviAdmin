@@ -774,8 +774,8 @@ public class ReportControllerV2 {
 	}
 
 	// getGSt Reg Pdf
-	@RequestMapping(value = "/getGstRegisterPdf/{fromdate}/{todate}", method = RequestMethod.GET)
-	public void getGstRegisterPdf(@PathVariable String fromdate, @PathVariable String todate,
+	@RequestMapping(value = "/getGstRegisterPdf/{fromdate}/{todate}/{text}", method = RequestMethod.GET)
+	public void getGstRegisterPdf(@PathVariable String fromdate, @PathVariable String todate,@PathVariable String text,
 			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
 
 		Document document = new Document(PageSize.A4);
@@ -964,7 +964,7 @@ public class ReportControllerV2 {
 			}
 			document.open();
 
-			Paragraph heading = new Paragraph("GST Register Report  \n From Date:" + fromdate + "   To Date:" + todate);
+			Paragraph heading = new Paragraph("GST Register Report  \n From Date:" + fromdate + "   To Date:" + todate+ "  Type:" + text);
 			heading.setAlignment(Element.ALIGN_CENTER);
 			document.add(heading);
 

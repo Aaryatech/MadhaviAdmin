@@ -765,12 +765,18 @@ public class ReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			int type = Integer.parseInt(request.getParameter("type"));
+			String selectedType = request.getParameter("typeNew");
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
 
+ 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
 
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("typeIdList", selectedType);
+			
 
 			if (type == 1 || type == 3) {
 				ParameterizedTypeReference<List<HSNWiseReport>> typeRef = new ParameterizedTypeReference<List<HSNWiseReport>>() {
