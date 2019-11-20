@@ -83,9 +83,11 @@
 
 				</div>
 				<br>
+				 
+				
+				
 				<div class="row">
-					<div class="form-group">
-						<label class="col-sm-3 col-lg-2	 control-label">Select
+					<label class="col-sm-3 col-lg-2	 control-label">Select
 							Type</label>
 						<div class="col-sm-10 col-lg-4  controls">
 
@@ -97,23 +99,39 @@
 								<option value="3">Consolidated</option>
 							</select>
 						</div>
+						
+					<label class="col-sm-3 col-lg-2 control-label">Select
+						</label>
+					<div class="col-sm-6 col-lg-4">
 
+						<select data-placeholder="Choose "
+							class="form-control chosen" multiple="multiple" tabindex="6"
+							id="typeNew" name="typeNew">
+							<option value="-1"><c:out value="All" /></option>
+							<option value="1">Franchise Bill</option>
+							<option value="2">Delivery Chalan</option>
+							<option value="3">Company Outlet Bill</option>
+						</select>
 
+					</div>
 
-						<div class="col-md-4">
+				</div>
+<br>
+				<br>
+
+	<br>
+	
+ 
+				<div class="row">
+				 
+						<div class="col-md-8" style="text-align: center;">
 							<button class="btn btn-info" onclick="searchReport()">Search
 								Report</button>
 							<button class="btn btn-primary" value="PDF" id="PDFButton"
 								onclick="genPdf()">PDF</button>
 						</div>
-
-						<!-- <div class="col-sm-9 col-lg-5 controls">
- -->
-					</div>
+						 
 				</div>
-				<br>
-
-
 
 				<div align="center" id="loader" style="display: none">
 
@@ -203,6 +221,7 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 			var type = $("#type").val();
+			var typeNew = $("#typeNew").val();
 
 			$('#loader').show();
 
@@ -213,6 +232,7 @@
 				fromDate : from_date,
 				toDate : to_date,
 				type : type,
+				typeNew :JSON.stringify(typeNew),
 				ajax : 'true'
 
 			}, function(data) {
@@ -365,6 +385,7 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 
+			
 			/* 	window
 						.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'
 								+ from_date + '/' + to_date);

@@ -71,40 +71,54 @@
 
 				<div class="row">
 					<div class="col-md-12" style="text-align: center;"> -->
-						
+
 						</div>
 					</div>
-					
-					
-					
-					
-					
+
+
 					<br>
-				<div class="row">
-				
-				<label class="col-sm-3 col-lg-2 control-label">Select
-						</label>
-					<div style="width: 20%;">
+					<div class="row">
 
-						<select data-placeholder="Choose "
-							class="form-control chosen" multiple="multiple" tabindex="6"
-							id="type_id" name="type_id">
-							<option value="-1"><c:out value="All" /></option>
-							<option value="1">Franchise Bill</option>
-							<option value="2">Delivery Chalan</option>
-							<option value="3">Company Outlet Bill</option>
-						</select>
+						<label class="col-sm-3 col-lg-2 control-label">Select </label>
+						<div style="width: 20%;">
 
-					</div>
+							<select data-placeholder="Choose " class="form-control chosen"
+								multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
+								<c:forEach items="${lhm}" var="lhm">
+									<c:set var="flag" value="0"></c:set>
+									<c:forEach items="${idList}" var="idList">
+										<c:choose>
+											<c:when test="${lhm.key==idList}">
+												<c:set var="flag" value="1"></c:set>
+											</c:when>
+
+										</c:choose>
+									</c:forEach>
+									<c:if test="${flag==1}">
+										<option selected value="${lhm.key}">${lhm.value}</option>
+
+									</c:if>
+										<c:if test="${flag==0}">
+										<option  value="${lhm.key}">${lhm.value}</option>
+
+									</c:if>
+ 
+								</c:forEach>
 
 
-				
-					<div class="col-md-12" style="text-align: center;">
+							</select>
+
+						</div>
+
+
+
+						<div class="col-md-12" style="text-align: center;">
 							<input type="submit" class="btn btn-info" value="Search" />
+						</div>
 					</div>
-				</div>
-					
-					
+
+
 				</form>
 
 
@@ -462,7 +476,8 @@
 		}
 		function exportToExcelTally() {
 
-			window.open("${pageContext.request.contextPath}/exportToExcelTally");
+			window
+					.open("${pageContext.request.contextPath}/exportToExcelTally");
 			document.getElementById("expExcelTally").disabled = true;
 		}
 	</script>

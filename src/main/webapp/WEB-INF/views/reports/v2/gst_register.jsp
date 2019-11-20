@@ -608,10 +608,15 @@
 		function genPdf() {
 			var fromdate = $("#fromDate").val();
 			var todate = $("#toDate").val();
-			
+
+
+			var el = document.getElementById('type_id');
+			var text = el.options[el.selectedIndex].innerHTML;
+
+
 			
 			window.open('${pageContext.request.contextPath}/getGstRegisterPdf/'
-					+ fromdate + '/' + todate + '/');
+					+ fromdate + '/' + todate + '/'+ text + '/');
 
 		}
 		function exportToExcel() {
