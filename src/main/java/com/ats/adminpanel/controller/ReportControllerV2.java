@@ -588,10 +588,17 @@ public class ReportControllerV2 {
 		frIdString = request.getParameter("fr_id_list");
 		fromDate = request.getParameter("fromDate");
 		toDate = request.getParameter("toDate");
+		String typeIdString = request.getParameter("typeId");
+
+		typeIdString = typeIdString.substring(1, typeIdString.length() - 1);
+		typeIdString = typeIdString.replaceAll("\"", "");
+
 		try {
 
 			frIdString = frIdString.substring(1, frIdString.length() - 1);
 			frIdString = frIdString.replaceAll("\"", "");
+			
+			System.err.println("fr list"+frIdString.toString());
 
 			List<String> franchIds = new ArrayList();
 
@@ -607,7 +614,8 @@ public class ReportControllerV2 {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
-
+			map.add("typeIdList", typeIdString);
+ 			
 			GstRegisterList gstArray = restTemplate.postForObject(Constants.url + "getGstRegister", map,
 					GstRegisterList.class);
 

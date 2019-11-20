@@ -71,9 +71,40 @@
 
 				<div class="row">
 					<div class="col-md-12" style="text-align: center;"> -->
-							<input type="submit" class="btn btn-info" value="Search" />
+						
 						</div>
 					</div>
+					
+					
+					
+					
+					
+					<br>
+				<div class="row">
+				
+				<label class="col-sm-3 col-lg-2 control-label">Select
+						</label>
+					<div style="width: 20%;">
+
+						<select data-placeholder="Choose "
+							class="form-control chosen" multiple="multiple" tabindex="6"
+							id="type_id" name="type_id">
+							<option value="-1"><c:out value="All" /></option>
+							<option value="1">Franchise Bill</option>
+							<option value="2">Delivery Chalan</option>
+							<option value="3">Company Outlet Bill</option>
+						</select>
+
+					</div>
+
+
+				
+					<div class="col-md-12" style="text-align: center;">
+							<input type="submit" class="btn btn-info" value="Search" />
+					</div>
+				</div>
+					
+					
 				</form>
 
 

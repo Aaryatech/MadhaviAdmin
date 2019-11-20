@@ -252,7 +252,7 @@ public class SalesReportController {
 		HttpSession session = request.getSession();
 		String fromDate = "";
 		String toDate = "";
-		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+ 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		Info view = AccessControll.checkAccess("showTaxReport", "showTaxReport", "1", "0", "0", "0", newModuleList);
 
 		if (view.getError() == true) {
@@ -264,14 +264,29 @@ public class SalesReportController {
 			// Constants.mainAct =2;
 			// Constants.subAct =20;
 			List<Tax1Report> taxReportList = null;
-
+			System.err.println("hii");
 			try {
 
 				RestTemplate restTemplate = new RestTemplate();
 
 				fromDate = request.getParameter("fromDate");
 				toDate = request.getParameter("toDate");
+				String[]  typeIds= request.getParameterValues("type_id");
+				 
+			 
+				System.out.println("mId" + typeIds);
 
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < typeIds.length; i++) {
+					sb = sb.append(typeIds[i] + ",");
+
+				}
+				String instruments = sb.toString();
+				instruments = instruments.substring(0, instruments.length() - 1);
+
+				 
+				
 				if (fromDate == null && toDate == null) {
 					Date date = new Date();
 					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -281,6 +296,7 @@ public class SalesReportController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
+				map.add("typeIdList", instruments);
 
 				ParameterizedTypeReference<List<Tax1Report>> typeRef = new ParameterizedTypeReference<List<Tax1Report>>() {
 				};
@@ -3823,6 +3839,8 @@ public class SalesReportController {
 			
 			String selectedFr;
  			selectedType = selectedType.substring(1, selectedType.length() - 1);
+ 			selectedType = selectedType.replaceAll("\"", "");
+ 			
 			// selectedFr = selectedFr.replaceAll("\"", "");
 
 			

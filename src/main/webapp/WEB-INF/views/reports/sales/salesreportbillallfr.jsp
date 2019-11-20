@@ -132,7 +132,7 @@
 				
 				<label class="col-sm-3 col-lg-2 control-label">Select
 						</label>
-					<div class="col-sm-6 col-lg-4">
+					<div style="width: 20%;">
 
 						<select data-placeholder="Choose "
 							class="form-control chosen" multiple="multiple" tabindex="6"

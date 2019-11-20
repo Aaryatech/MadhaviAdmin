@@ -105,6 +105,28 @@
 
 						</div>
 
+						<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
+						</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<select data-placeholder="Choose " class="form-control chosen"
+								multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
+								<option value="-1"><c:out value="All" /></option>
+								<option value="1">Franchise Bill</option>
+								<option value="2">Delivery Chalan</option>
+								<option value="3">Company Outlet Bill</option>
+							</select>
+
+						</div>
+
+
+					</div>
+
+				</div>
+				<br>
+				<div class="row">
+					<div class="form-group">
 						<div class="col-sm-6 col-lg-4">
 							<button class="btn btn-info" onclick="searchReport()">Search
 								Report</button>
@@ -120,9 +142,7 @@
 								target="_blank">PDF</a> --%>
 						</div>
 					</div>
-
 				</div>
-
 				<div class="row">
 					<div class="col-md-12" style="text-align: center;"></div>
 
@@ -223,7 +243,7 @@
 				var selectedFr = $("#selectFr").val();
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
-
+				var typeId = $("#type_id").val();
 				$('#loader').show();
 
 				$
@@ -234,6 +254,7 @@
 									fr_id_list : JSON.stringify(selectedFr),
 									fromDate : from_date,
 									toDate : to_date,
+									typeId : JSON.stringify(typeId),
 									ajax : 'true'
 
 								},
@@ -587,6 +608,8 @@
 		function genPdf() {
 			var fromdate = $("#fromDate").val();
 			var todate = $("#toDate").val();
+			
+			
 			window.open('${pageContext.request.contextPath}/getGstRegisterPdf/'
 					+ fromdate + '/' + todate + '/');
 
