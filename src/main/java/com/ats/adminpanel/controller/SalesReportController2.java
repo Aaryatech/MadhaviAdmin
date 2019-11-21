@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -783,21 +784,16 @@ public class SalesReportController2 {
 
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
-
-		/*
-		 * List<ModuleJson> newModuleList = (List<ModuleJson>)
-		 * session.getAttribute("newModuleList"); Info view =
-		 * AccessControll.checkAccess("showSaleReportBySubCategory",
-		 * "showSaleReportBySubCategory", "1", "0", "0", "0", newModuleList);
-		 * 
-		 * if (view.getError() == true) {
-		 * 
-		 * model = new ModelAndView("accessDenied");
-		 * 
-		 * } else {
-		 */
+ 
 		model = new ModelAndView("reports/sales/saleRepBySubCatOnly");
-
+		LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+		lhm.put(-1, "All");
+		lhm.put(1, "Franchise Bill");
+		lhm.put(2, "Delivery Chalan");
+		lhm.put(3, "Company Outlet Bill");
+		
+		System.err.println("hii ttt"+lhm.get(1));
+ 		model.addObject("lhm",lhm);
 		try {
 			ZoneId z = ZoneId.of("Asia/Calcutta");
 
@@ -827,12 +823,16 @@ public class SalesReportController2 {
 
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
+			String selectedType = request.getParameter("typeId");
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			RestTemplate restTemplate = new RestTemplate();
 
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeIdList", selectedType);
 
 			ParameterizedTypeReference<List<SubCatReport>> typeRef = new ParameterizedTypeReference<List<SubCatReport>>() {
 			};

@@ -67,17 +67,52 @@
 
 
 					<div class="form-group">
-						<label class="col-sm-3 col-lg-2	 control-label">From Date</label>
-						<div class="col-sm-6 col-lg-4 controls date_select">
+						<label class="col-sm-3 col-lg-1	 control-label">From Date</label>
+						<div class="col-sm-6 col-lg-3 controls date_select">
 							<input class="form-control date-picker" id="fromDate"
 								name="fromDate" size="30" type="text" value="${todaysDate}" />
 						</div>
 
-						<label class="col-sm-3 col-lg-2	 control-label">To Date</label>
-						<div class="col-sm-6 col-lg-4 controls date_select">
+						<label class="col-sm-3 col-lg-1	 control-label">To Date</label>
+						<div class="col-sm-6 col-lg-3 controls date_select">
 							<input class="form-control date-picker" id="toDate" name="toDate"
 								size="30" type="text" value="${todaysDate}" />
 						</div>
+						
+						
+							<label class="col-sm-3 col-lg-1 control-label">Select
+						</label>
+					<div class="col-sm-6 col-lg-3">
+
+						<select data-placeholder="Choose " class="form-control chosen"
+								multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
+								<c:forEach items="${lhm}" var="lhm">
+									<c:set var="flag" value="0"></c:set>
+									<c:forEach items="${idList}" var="idList">
+										<c:choose>
+											<c:when test="${lhm.key==idList}">
+												<c:set var="flag" value="1"></c:set>
+											</c:when>
+
+										</c:choose>
+									</c:forEach>
+									<c:if test="${flag==1}">
+										<option selected value="${lhm.key}">${lhm.value}</option>
+
+									</c:if>
+									<c:if test="${flag==0}">
+										<option value="${lhm.key}">${lhm.value}</option>
+
+									</c:if>
+
+								</c:forEach>
+
+
+							</select>
+
+					</div>
+					 
 					</div>
 				</div>
 				<br> <br>
@@ -168,6 +203,9 @@
 			//	var isValid = validate();
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
+			
+			var typeId =$("#type_id").val(); 
+
 			$('#loader').show();
 
 			$.getJSON('${getBillList}',
@@ -176,6 +214,7 @@
 
 				fromDate : from_date,
 				toDate : to_date,
+				typeId : JSON.stringify(typeId),
 
 				ajax : 'true'
 
