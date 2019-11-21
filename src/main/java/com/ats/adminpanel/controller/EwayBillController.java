@@ -160,7 +160,7 @@ public class EwayBillController {
 					  
 					 // EwayBillSuccess success=mapperObj.readValue(answer, EwayBillSuccess.class);
 					  String 
-							   answer = restTemplate.postForObject(EwayConstants.genEwayGenUrl, entity, String.class);
+					 		   answer = restTemplate.postForObject(EwayConstants.genEwayGenUrl, entity, String.class);
 
 
 					  boolean isFound = answer.indexOf("status_cd") !=-1? true: false; //true
