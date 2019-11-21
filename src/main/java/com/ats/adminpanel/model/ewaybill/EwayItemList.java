@@ -5,14 +5,14 @@ public class EwayItemList {
 	private String productName;
 	private String productDesc;
 	private int hsnCode;
-	private float quantity;
+	private double quantity;
 	private String qtyUnit; // maxLen 3 char
-	private float cgstRate;
-	private float sgstRate;
-	private float igstRate;
-	private float cessRate;
-	private float cessNonAdvol;
-	private float taxableAmount;
+	private double cgstRate;
+	private double sgstRate;
+	private double igstRate;
+	private double cessRate;
+	private double cessNonAdvol;
+	private double taxableAmount;
 
 	public String getProductName() {
 		return productName;
@@ -38,11 +38,11 @@ public class EwayItemList {
 		this.hsnCode = hsnCode;
 	}
 
-	public float getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(float quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 
@@ -54,51 +54,51 @@ public class EwayItemList {
 		this.qtyUnit = qtyUnit;
 	}
 
-	public float getCgstRate() {
+	public double getCgstRate() {
 		return cgstRate;
 	}
 
-	public void setCgstRate(float cgstRate) {
+	public void setCgstRate(double cgstRate) {
 		this.cgstRate = cgstRate;
 	}
 
-	public float getSgstRate() {
+	public double getSgstRate() {
 		return sgstRate;
 	}
 
-	public void setSgstRate(float sgstRate) {
+	public void setSgstRate(double sgstRate) {
 		this.sgstRate = sgstRate;
 	}
 
-	public float getIgstRate() {
+	public double getIgstRate() {
 		return igstRate;
 	}
 
-	public void setIgstRate(float igstRate) {
+	public void setIgstRate(double igstRate) {
 		this.igstRate = igstRate;
 	}
 
-	public float getCessRate() {
+	public double getCessRate() {
 		return cessRate;
 	}
 
-	public void setCessRate(float cessRate) {
+	public void setCessRate(double cessRate) {
 		this.cessRate = cessRate;
 	}
 
-	public float getCessNonAdvol() {
+	public double getCessNonAdvol() {
 		return cessNonAdvol;
 	}
 
-	public void setCessNonAdvol(float cessNonAdvol) {
+	public void setCessNonAdvol(double cessNonAdvol) {
 		this.cessNonAdvol = cessNonAdvol;
 	}
 
-	public float getTaxableAmount() {
+	public double getTaxableAmount() {
 		return taxableAmount;
 	}
 
-	public void setTaxableAmount(float taxableAmount) {
+	public void setTaxableAmount(double taxableAmount) {
 		this.taxableAmount = taxableAmount;
 	}
 

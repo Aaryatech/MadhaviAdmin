@@ -1,5 +1,6 @@
 package com.ats.adminpanel.model.ewaybill;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReqEwayBill {
@@ -33,14 +34,14 @@ public class ReqEwayBill {
 	private String shipToGSTIN;
 	private String shipToTradeName;
 
-	private float otherValue;
-	private float totalValue;
-	private float cgstValue;
-	private float sgstValue;
-	private float igstValue;
-	private float cessValue;
-	private float cessNonAdvolValue;
-	private float totInvValue;
+	private double otherValue;
+	private double totalValue;
+	private double cgstValue;
+	private double sgstValue;
+	private double igstValue;
+	private double cessValue;
+	private double cessNonAdvolValue;
+	private double totInvValue;
 
 	private String transporterId;
 	private String transporterName;
@@ -53,15 +54,16 @@ public class ReqEwayBill {
 	private String vehicleType;
 	
 	
-	List<EwayItemList> itemList;
+	ArrayList<EwayItemList> itemList;
 	
 	
 
-	public List<EwayItemList> getItemList() {
+
+	public ArrayList<EwayItemList> getItemList() {
 		return itemList;
 	}
 
-	public void setItemList(List<EwayItemList> itemList) {
+	public void setItemList(ArrayList<EwayItemList> itemList) {
 		this.itemList = itemList;
 	}
 
@@ -281,67 +283,67 @@ public class ReqEwayBill {
 		this.shipToTradeName = shipToTradeName;
 	}
 
-	public float getOtherValue() {
+	public double getOtherValue() {
 		return otherValue;
 	}
 
-	public void setOtherValue(float otherValue) {
+	public void setOtherValue(double otherValue) {
 		this.otherValue = otherValue;
 	}
 
-	public float getTotalValue() {
+	public double getTotalValue() {
 		return totalValue;
 	}
 
-	public void setTotalValue(float totalValue) {
+	public void setTotalValue(double totalValue) {
 		this.totalValue = totalValue;
 	}
 
-	public float getCgstValue() {
+	public double getCgstValue() {
 		return cgstValue;
 	}
 
-	public void setCgstValue(float cgstValue) {
+	public void setCgstValue(double cgstValue) {
 		this.cgstValue = cgstValue;
 	}
 
-	public float getSgstValue() {
+	public double getSgstValue() {
 		return sgstValue;
 	}
 
-	public void setSgstValue(float sgstValue) {
+	public void setSgstValue(double sgstValue) {
 		this.sgstValue = sgstValue;
 	}
 
-	public float getIgstValue() {
+	public double getIgstValue() {
 		return igstValue;
 	}
 
-	public void setIgstValue(float igstValue) {
+	public void setIgstValue(double igstValue) {
 		this.igstValue = igstValue;
 	}
 
-	public float getCessValue() {
+	public double getCessValue() {
 		return cessValue;
 	}
 
-	public void setCessValue(float cessValue) {
+	public void setCessValue(double cessValue) {
 		this.cessValue = cessValue;
 	}
 
-	public float getCessNonAdvolValue() {
+	public double getCessNonAdvolValue() {
 		return cessNonAdvolValue;
 	}
 
-	public void setCessNonAdvolValue(float cessNonAdvolValue) {
+	public void setCessNonAdvolValue(double cessNonAdvolValue) {
 		this.cessNonAdvolValue = cessNonAdvolValue;
 	}
 
-	public float getTotInvValue() {
+	public double getTotInvValue() {
 		return totInvValue;
 	}
 
-	public void setTotInvValue(float totInvValue) {
+	public void setTotInvValue(double totInvValue) {
 		this.totInvValue = totInvValue;
 	}
 
