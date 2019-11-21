@@ -170,18 +170,46 @@
 								<option value="2">CRN</option>
 							</select>
 						</div>
-						<button class="btn btn-info" onclick="searchReport()">Search
+						
+						<%-- <a
+							href="${pageContext.request.contextPath}/pdfForReport?url=showSaleRoyaltyByCatPdf"
+							target="_blank">PDF</a>
+ --%>
+					</div>
+					
+						</div>
+					
+					<br>
+				<div class="row">
+				 
+				<div class="form-group">
+				<label class="col-sm-3 col-lg-2 control-label">Select
+						</label>
+					<div class="col-sm-6 col-lg-4">
+
+						<select data-placeholder="Choose "
+							class="form-control chosen" multiple="multiple" tabindex="6"
+							id="type_id" name="type_id">
+							<option value="-1"><c:out value="All" /></option>
+							<option value="1">Franchise Bill</option>
+							<option value="2">Delivery Chalan</option>
+							<option value="3">Company Outlet Bill</option>
+						</select>
+
+					</div>
+					
+					<div class="col-md-6" style="text-align: center;">
+					<button class="btn btn-info" onclick="searchReport()">Search
 							Report</button>
 						<!-- <button class="btn search_btn"  onclick="showChart()">Graph</button> -->
 
 
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
 							onclick="genPdf()">PDF</button>
-						<%-- <a
-							href="${pageContext.request.contextPath}/pdfForReport?url=showSaleRoyaltyByCatPdf"
-							target="_blank">PDF</a>
- --%>
-					</div>
+				</div>
+				
+				</div>
+				</div>
 
 
 					<div align="center" id="loader" style="display: none">
@@ -195,7 +223,7 @@
 						<span class="l-6"></span>
 					</div>
 
-				</div>
+			
 			</div>
 
 
@@ -302,6 +330,7 @@
 				document.getElementById("chart_div").style = "display:none";
                 if(isValid==true){
 				var selectedFr = $("#selectFr").val();
+				var type_id = $("#type_id").val();
 				var routeId = $("#selectRoute").val();
 				var isGraph = 0;
 
@@ -326,6 +355,7 @@
 									is_graph : isGraph,
 									getBy:getBy,
 									type:type,
+									type_id : JSON.stringify(type_id),
 									ajax : 'true'
 
 								},

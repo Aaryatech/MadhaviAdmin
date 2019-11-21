@@ -61,7 +61,29 @@ public class SaleItemReportController {
 			String year = request.getParameter("year");
 			String catId = request.getParameter("selectCat");
 			String subCatId = request.getParameter("item_grp2");
+			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+			lhm.put(-1, "All");
+			lhm.put(1, "Franchise Bill");
+			lhm.put(2, "Delivery Chalan");
+			lhm.put(3, "Company Outlet Bill");
+			
+			System.err.println("hii ttt"+lhm.get(1));
+			List<Integer> idList=new ArrayList<>();
+			model.addObject("lhm",lhm);
+			String[] typeIds = request.getParameterValues("type_id");
 
+			System.out.println("mId" + typeIds);
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < typeIds.length; i++) {
+				sb = sb.append(typeIds[i] + ",");
+				idList.add(Integer.parseInt(typeIds[i]));
+			}
+			String instruments = sb.toString();
+			instruments = instruments.substring(0, instruments.length() - 1);
+
+			model.addObject("idList", idList);
 			System.out.println("catIdcatId" + catId);
 
 			if (year != "") {
@@ -79,6 +101,7 @@ public class SaleItemReportController {
 				map.add("toYear", yrs[1]);
 
 				map.add("subCatId", subCatId);
+				map.add("typeIdList", instruments);
 
 				SalesReturnItemDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getSalesReturnValueItemReport", map, SalesReturnItemDaoList[].class);

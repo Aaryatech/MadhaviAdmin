@@ -5708,6 +5708,12 @@ public class SalesReportController {
 			catList = Arrays.asList(selectedCat);
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
+			
+			
+			String selectedType = request.getParameter("type_id");
+			
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -5763,6 +5769,9 @@ public class SalesReportController {
 				map.add("toDate", toDate);
 				map.add("getBy", getBy);
 				map.add("type", type);
+				map.add("typeIdList", selectedType);
+				
+				
 				if (isGraph == 0) {
 					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
 					};
@@ -5808,6 +5817,7 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("getBy", getBy);
 				map.add("type", type);
+				map.add("typeIdList", selectedType);
 				if (isGraph == 0) {
 					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
 					};
@@ -6262,7 +6272,39 @@ public class SalesReportController {
 		 */
 		model = new ModelAndView("reports/sales/monthlysalesqtyreport");
 		RestTemplate restTemplate = new RestTemplate();
+		LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+		lhm.put(-1, "All");
+		lhm.put(1, "Franchise Bill");
+		lhm.put(2, "Delivery Chalan");
+		lhm.put(3, "Company Outlet Bill");
+		
+		System.err.println("hii ttt"+lhm.get(1));
+		List<Integer> idList=new ArrayList<>();
+		model.addObject("lhm",lhm);
+		String[] typeIds = request.getParameterValues("type_id");
 
+		System.out.println("mId" + typeIds);
+		String instruments=null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			
+		
+		for (int i = 0; i < typeIds.length; i++) {
+			sb = sb.append(typeIds[i] + ",");
+			idList.add(Integer.parseInt(typeIds[i]));
+		}
+		 instruments = sb.toString();
+		instruments = instruments.substring(0, instruments.length() - 1);
+
+		
+		} catch (Exception e) {
+			idList.add(0);
+		}
+		
+		
+		
+		model.addObject("idList", idList);
 		try {
 			String year = request.getParameter("year");
 
@@ -6273,6 +6315,7 @@ public class SalesReportController {
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
+				map.add("typeIdList", instruments);
 
 				SalesReturnQtyReportList[] salesReturnQtyReportListRes = restTemplate.postForObject(
 						Constants.url + "getSalesReturnQtyReport", map, SalesReturnQtyReportList[].class);
@@ -6410,6 +6453,8 @@ public class SalesReportController {
 	}
 	// monthwisesalespercentage
 
+	
+	//need to check  mapping 
 	@RequestMapping(value = "/showMonthlySalesPercentageReport", method = RequestMethod.GET)
 	public ModelAndView showMonthlySalesPercentageReport(HttpServletRequest request, HttpServletResponse response) {
 
@@ -6420,7 +6465,34 @@ public class SalesReportController {
 
 		try {
 			String year = request.getParameter("year");
+			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+			lhm.put(-1, "All");
+			lhm.put(1, "Franchise Bill");
+			lhm.put(2, "Delivery Chalan");
+			lhm.put(3, "Company Outlet Bill");
+			
+			System.err.println("hii ttt"+lhm.get(1));
+			List<Integer> idList=new ArrayList<>();
+			model.addObject("lhm",lhm);
+			
+			String[] typeIds = request.getParameterValues("type_id");
 
+			System.out.println("mId" + typeIds);
+
+			StringBuilder sb = new StringBuilder();
+			String instruments=null;
+			
+			try {
+				for (int i = 0; i < typeIds.length; i++) {
+					sb = sb.append(typeIds[i] + ",");
+					idList.add(Integer.parseInt(typeIds[i]));
+				}
+				 instruments = sb.toString();
+				instruments = instruments.substring(0, instruments.length() - 1);
+			}catch(Exception e) {
+				
+			}
+			model.addObject("idList",idList);
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
@@ -6428,6 +6500,7 @@ public class SalesReportController {
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
+				map.add("typeIdList",instruments);
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -6559,6 +6632,36 @@ public class SalesReportController {
 
 		try {
 			String year = request.getParameter("year");
+			
+			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+			lhm.put(-1, "All");
+			lhm.put(1, "Franchise Bill");
+			lhm.put(2, "Delivery Chalan");
+			lhm.put(3, "Company Outlet Bill");
+			
+			System.err.println("hii ttt"+lhm.get(1));
+			List<Integer> idList=new ArrayList<>();
+			model.addObject("lhm",lhm);
+			
+			String[] typeIds = request.getParameterValues("type_id");
+
+			System.out.println("mId" + typeIds);
+
+			StringBuilder sb = new StringBuilder();
+			String instruments=null;
+			
+			try {
+				for (int i = 0; i < typeIds.length; i++) {
+					sb = sb.append(typeIds[i] + ",");
+					idList.add(Integer.parseInt(typeIds[i]));
+				}
+				 instruments = sb.toString();
+				instruments = instruments.substring(0, instruments.length() - 1);
+			}catch(Exception e) {
+				
+			}
+			model.addObject("idList",idList);
+			
 
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
@@ -6567,6 +6670,7 @@ public class SalesReportController {
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
+				map.add("typeIdList",instruments );
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
