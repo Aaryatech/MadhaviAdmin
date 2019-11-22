@@ -129,38 +129,39 @@
 
 				<br>
 				<div class="row">
-				
-				<label class="col-sm-3 col-lg-2 control-label">Select
-						</label>
-					<div style="width: 20%;">
-
-						<select data-placeholder="Choose "
-							class="form-control chosen" multiple="multiple" tabindex="6"
-							id="type_id" name="type_id">
-							<option value="-1"><c:out value="All" /></option>
-							<option value="1">Franchise Bill</option>
-							<option value="2">Delivery Chalan</option>
-							<option value="3">Company Outlet Bill</option>
-						</select>
-
+					<div class="form-group">
+						<label class="col-sm-3 col-lg-2	 control-label">Select</label>
+						<div class="col-sm-6 col-lg-4">
+							<select data-placeholder="Choose " class="form-control chosen"
+								multiple="multiple" tabindex="6" id="type_id" name="type_id">
+								<option value="-1"><c:out value="All" /></option>
+								<option value="1">Franchise Bill</option>
+								<option value="2">Delivery Chalan</option>
+								<option value="3">Company Outlet Bill</option>
+							</select>
+						</div>
 					</div>
+					<div class="form-group">
+						<label class="col-sm-3 col-lg-2	 control-label"> </label>
+						<div class="col-sm-6 col-lg-4">
+							<button class="btn btn-info" onclick="searchReport()">Search
+								Billwise Report</button>
 
 
-				
-					<div class="col-md-12" style="text-align: center;">
-						<button class="btn btn-info" onclick="searchReport()">Search
-							Billwise Report</button>
+							<button class="btn btn-primary" value="PDF" id="PDFButton"
+								onclick="genPdf()">PDF</button>
 
 
-						<button class="btn btn-primary" value="PDF" id="PDFButton"
-							onclick="genPdf()">PDF</button>
-
-
-						<%-- <a
+							<%-- <a
 							href='${pageContext.request.contextPath}/pdfForReport?url=showSaleReportBillwiseAllFrPdf'
 							target="_blank">PDF</a>
  --%>
+						</div>
 					</div>
+
+
+				
+					 
 				</div>
 
 
@@ -192,7 +193,7 @@
 				<h3>
 					<i class="fa fa-list-alt"></i>Bill Report
 				</h3>
-
+			
 			</div>
 
 			<form id="submitBillForm"
@@ -467,53 +468,53 @@
 				|| document
 						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
 	</script>
-<script
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 
-		<!--page specific plugin scripts-->
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
 
-		<!--flaty scripts-->
-		<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
 	<script>
 		function myFunction() {
 			var input, filter, table, tr, td, td1, i;

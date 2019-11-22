@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,6 +86,15 @@ public class ReportControllerV2 {
 			String todaysDate = date.format(formatters);
 
 			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+			
+			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
+			lhm.put(-1, "All");
+			lhm.put(1, "Franchise Bill");
+			lhm.put(2, "Delivery Chalan");
+			lhm.put(3, "Company Outlet Bill");
+			
+			System.err.println("hii ttt"+lhm.get(1));
+	 		model.addObject("lhm",lhm);
 
 			/*
 			 * AllRoutesListResponse allRouteListResponse =
@@ -117,6 +127,7 @@ public class ReportControllerV2 {
 
 		String frIdString = "";
 		String fromDate = "";
+		String typeIdString = "";
 		String toDate = "";
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -128,6 +139,9 @@ public class ReportControllerV2 {
 		frIdString = request.getParameter("fr_id_list");
 		fromDate = request.getParameter("fromDate");
 		toDate = request.getParameter("toDate");
+		typeIdString = request.getParameter("typeId");
+		typeIdString = typeIdString.substring(1, typeIdString.length() - 1);
+		typeIdString = typeIdString.replaceAll("\"", "");
 		try {
 
 			frIdString = frIdString.substring(1, frIdString.length() - 1);
@@ -147,6 +161,8 @@ public class ReportControllerV2 {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			
+			map.add("typeIdList", typeIdString);
 
 			SalesReport[] saleRepArray = restTemplate.postForObject(Constants.url + "getSalesReportV2", map,
 					SalesReport[].class);
