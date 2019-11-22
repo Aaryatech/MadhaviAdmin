@@ -2,6 +2,8 @@ package com.ats.adminpanel.model.ewaybill;
 
 public class EwayItemList {
 
+	private int billDetailId;
+	
 	private String productName;
 	private String productDesc;
 	private int hsnCode;
@@ -13,6 +15,17 @@ public class EwayItemList {
 	private double cessRate;
 	private double cessNonAdvol;
 	private double taxableAmount;
+
+	
+	
+	
+	public int getBillDetailId() {
+		return billDetailId;
+	}
+
+	public void setBillDetailId(int billDetailId) {
+		this.billDetailId = billDetailId;
+	}
 
 	public String getProductName() {
 		return productName;

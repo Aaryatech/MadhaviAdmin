@@ -2,13 +2,15 @@ package com.ats.adminpanel.model.ewaybill;
 
 public class Error {
 
-	private String errorCd;
+	private String error_cd;
 	private String message;
-	public String getErrorCd() {
-		return errorCd;
+	
+	
+	public String getError_cd() {
+		return error_cd;
 	}
-	public void setErrorCd(String errorCd) {
-		this.errorCd = errorCd;
+	public void setError_cd(String error_cd) {
+		this.error_cd = error_cd;
 	}
 	public String getMessage() {
 		return message;
@@ -16,10 +18,11 @@ public class Error {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
 	@Override
 	public String toString() {
-		return "Error [errorCd=" + errorCd + ", message=" + message + "]";
+		return "Error [error_cd=" + error_cd + ", message=" + message + "]";
 	}
+	
+	
 	
 }

@@ -2,13 +2,14 @@ package com.ats.adminpanel.model.ewaybill;
 
 public class ResponseCode {
 
-	private String statusCd;
+	private String status_cd;
 	private Error error;
-	public String getStatusCd() {
-		return statusCd;
+	
+	public String getStatus_cd() {
+		return status_cd;
 	}
-	public void setStatusCd(String statusCd) {
-		this.statusCd = statusCd;
+	public void setStatus_cd(String status_cd) {
+		this.status_cd = status_cd;
 	}
 	public Error getError() {
 		return error;
@@ -18,7 +19,7 @@ public class ResponseCode {
 	}
 	@Override
 	public String toString() {
-		return "ResponseCode [statusCd=" + statusCd + ", error=" + error + "]";
+		return "ResponseCode [status_cd=" + status_cd + ", error=" + error + "]";
 	}
 	
 }

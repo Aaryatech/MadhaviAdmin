@@ -2,14 +2,14 @@ package com.ats.adminpanel.model.ewaybill;
 
 public class EwayBillSuccess {
 
-	private int ewayBillNo;
+	private String ewayBillNo;
 	private String ewayBillDate;
 	private String validUpto;
 	private String alert;
-	public int getEwayBillNo() {
+	public String getEwayBillNo() {
 		return ewayBillNo;
 	}
-	public void setEwayBillNo(int ewayBillNo) {
+	public void setEwayBillNo(String ewayBillNo) {
 		this.ewayBillNo = ewayBillNo;
 	}
 	public String getEwayBillDate() {
