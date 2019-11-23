@@ -127,7 +127,7 @@ System.err.println("company " +company.toString());
 
 				billReq.setIgstValue(bill.getIgstSum());
 				billReq.setOtherValue(0);
-				billReq.setSgstValue(bill.getSgstSum());
+	 			billReq.setSgstValue(bill.getSgstSum());
 				
 				//billReq.setShipToGSTIN("29ALSPR1722R1Z3");
 				//billReq.setShipToTradeName("XYZ Traders");
