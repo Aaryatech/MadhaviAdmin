@@ -741,6 +741,7 @@
 				var to_date = $("#toDate").val();
 				var getBy= $("#getBy").val();
 				var isGraph = 1;
+				
 				$('#loader').show();
 
 				$
@@ -1009,9 +1010,10 @@
 				var selectedCat = $("#selectCat").val();
 				var getBy= $("#getBy").val();
 				var type= $("#type").val();
+				var typeId = $("#type_id").val();
 
 				window.open('pdfForReport?url=pdf/getSaleReportRoyConsoByCatPdf/'
-						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type);
+						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type+'/'+typeId);
 
 			}
 			function exportToExcel()
