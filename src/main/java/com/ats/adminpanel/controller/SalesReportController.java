@@ -6060,10 +6060,10 @@ public class SalesReportController {
 
 	}
 
-	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}/{isGraph}/{getBy}/{type}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}/{isGraph}/{getBy}/{type}/{typeId}", method = RequestMethod.GET)
 	public ModelAndView getSaleReportRoyConsoByCat(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
-			@PathVariable int isGraph, @PathVariable int getBy, @PathVariable int type, HttpServletRequest request,
+			@PathVariable int isGraph, @PathVariable int getBy, @PathVariable int type,  @PathVariable String  typeId,HttpServletRequest request,
 			HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesconsbycatPdf");
 
@@ -6139,6 +6139,7 @@ public class SalesReportController {
 				map.add("toDate", toDate);
 				map.add("getBy", getBy);
 				map.add("type", type);
+				map.add("typeIdList", typeId);
 				if (isGraph == 0) {
 					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
 					};
@@ -6184,6 +6185,7 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("getBy", getBy);
 				map.add("type", type);
+				map.add("typeIdList", typeId);
 				if (isGraph == 0) {
 					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
 					};
