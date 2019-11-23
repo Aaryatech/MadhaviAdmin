@@ -456,8 +456,20 @@ table {
 
 										<input type="button" id="btn_submit" class="btn btn-primary"
 											onclick="submitBill()" value="BillDetail" />
-
+												<input type="button" id="btn_submit" class="btn btn-primary"
+											onclick="showVehNo()" value="E-way Bill" />
+											<div class="form-group"></div>
+											
+											<div id="eway_submit" style="display: none">
+											
+											<input type="text" name="vehNo" id="vehNo" style="width:10%;" >
+											<input type="button" id="genEwayBill_button" class="btn btn-primary"
+											onclick="genEwayBill()" value="Gen E-way Bill" style="width: 10%;"/>
+											
+											</div>
+											
 									</div>
+																				
 							</form>
 						</div>
 					</div>
@@ -567,6 +579,20 @@ table {
 			});
 
 		});
+		function showVehNo(){
+			document.getElementById("eway_submit").style.display="block";
+			//document.getElementById("vehNo").style.display="block";
+		}
+		
+		$('#genEwayBill_button')
+		.click(
+				function() {
+					var vehNo=document.getElementById("vehNo").value;
+					alert("vehNo"+vehNo);
+					var form = document.getElementById("validation-form")
+					form.action = "${pageContext.request.contextPath}/checkToken";
+					form.submit();
+				});	
 	</script>
 	<script type="text/javascript">
 	function validate() {

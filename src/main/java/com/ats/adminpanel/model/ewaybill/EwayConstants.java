@@ -8,6 +8,7 @@ public class EwayConstants {
 	
 	public static String getToken="http://testapi.taxprogsp.co.in/ewaybillapi/dec/v1.03/authenticate?action=ACCESSTOKEN&aspid=1629701119&password=pdMulani@123&gstin=05AAACG1625Q1ZK&username=05AAACG1625Q1ZK&ewbpwd=abc123@@";
 	
+	public static int GUJ_STATE_CODE=24;//05AAACG1625Q1ZK
 	/*
 	 SELECT t_bill_header.bill_no,t_bill_header.invoice_no,t_bill_header.bill_date,
 t_bill_header.fr_id,t_bill_header.fr_code,t_bill_header.taxable_amt,t_bill_header.grand_total,
