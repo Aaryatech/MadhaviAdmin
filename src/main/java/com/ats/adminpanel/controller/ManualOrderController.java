@@ -37,6 +37,7 @@ import com.ats.adminpanel.model.ItemForMOrder;
 import com.ats.adminpanel.model.Orders;
 import com.ats.adminpanel.model.SectionMaster;
 import com.ats.adminpanel.model.accessright.ModuleJson;
+import com.ats.adminpanel.model.billing.BillTransaction;
 import com.ats.adminpanel.model.billing.PostBillDataCommon;
 import com.ats.adminpanel.model.billing.PostBillDetail;
 import com.ats.adminpanel.model.billing.PostBillHeader;
@@ -906,6 +907,31 @@ public class ManualOrderController {
 							postBillDataCommon, PostBillHeader[].class);
 
 					List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(respList));
+					
+					
+					if(billRespList!=null) {
+		 				BillTransaction bt =new BillTransaction();
+						bt.setBillAmt(String.valueOf(billRespList.get(0).getGrandTotal()));
+						bt.setBillHeadId(0);
+						bt.setBillNo(String.valueOf(billRespList.get(0).getBillNo()));
+						bt.setExInt1(0);
+						bt.setExInt2(0);
+						bt.setExInt3(0);
+						bt.setExInt4(0);
+						bt.setExVar1("NA");
+						bt.setExVar2("NA");
+						bt.setExVar3("NA");
+						bt.setExVar4("NA");
+						bt.setFrId(billRespList.get(0).getFrId());
+						bt.setIsClosed(0);
+						bt.setPaidAmt("0");
+						bt.setPendingAmt(String.valueOf(billRespList.get(0).getGrandTotal()));
+		 			  
+						BillTransaction info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", bt,
+								BillTransaction.class);
+					}
+			
+			 
 
 					billNo =billNo+","+ billRespList.get(0).getBillNo();
 					System.out.println("Save Res Data " + respList.toString());

@@ -79,6 +79,7 @@ import com.ats.adminpanel.model.SalesVoucherList;
 import com.ats.adminpanel.model.SectionMaster;
 import com.ats.adminpanel.model.RawMaterial.GetItemSfHeader;
 import com.ats.adminpanel.model.accessright.ModuleJson;
+import com.ats.adminpanel.model.billing.BillTransaction;
 import com.ats.adminpanel.model.billing.FrBillHeaderForPrint;
 import com.ats.adminpanel.model.billing.FrBillPrint;
 import com.ats.adminpanel.model.billing.FrBillTax;
@@ -102,6 +103,7 @@ import com.ats.adminpanel.model.item.FrItemStockConfigure;
 import com.ats.adminpanel.model.item.FrItemStockConfigureList;
 import com.ats.adminpanel.model.item.MCategoryList;
 import com.ats.adminpanel.model.modules.ErrorMessage;
+import com.ats.adminpanel.model.tray.TrayMgtDetail;
 import com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE;
 
 @Controller
@@ -505,29 +507,37 @@ public class BillController {
 
 			System.out.println("Test data : " + postBillDataCommon.toString());
 
-			List<PostBillHeader> info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
-					List.class);
+			PostBillHeader[] info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
+					PostBillHeader[].class);
 
-			System.out.println("Info Data " + info.toString());
+ 			ArrayList<PostBillHeader> trayMgtDetailsList = new ArrayList<PostBillHeader>(Arrays.asList(info));
 
-			// model.addObject("postBillDataCommon","");
-
-			// if (info.getError() == false) {
-
-			/*
-			 * map = new LinkedMultiValueMap<String, Object>();
-			 * 
-			 * settingValue = settingValue + 1;
-			 * 
-			 * map.add("settingValue", settingValue);
-			 * 
-			 * map.add("settingKey", Constants.SETTING_KEY);
-			 * 
-			 * Info updateSetting = restTemplate.postForObject(Constants.url +
-			 * "updateSeetingForPB", map, Info.class);
-			 */
-
-			// }.
+			System.out.println("trayMgtDetailsList" + trayMgtDetailsList.toString());
+			
+			
+			if(info!=null) {
+ 				BillTransaction bt =new BillTransaction();
+				bt.setBillAmt(String.valueOf(trayMgtDetailsList.get(0).getGrandTotal()));
+				bt.setBillHeadId(0);
+				bt.setBillNo(String.valueOf(trayMgtDetailsList.get(0).getBillNo()));
+				bt.setExInt1(0);
+				bt.setExInt2(0);
+				bt.setExInt3(0);
+				bt.setExInt4(0);
+				bt.setExVar1("NA");
+				bt.setExVar2("NA");
+				bt.setExVar3("NA");
+				bt.setExVar4("NA");
+				bt.setFrId(trayMgtDetailsList.get(0).getFrId());
+				bt.setIsClosed(0);
+				bt.setPaidAmt("0");
+				bt.setPendingAmt(String.valueOf(trayMgtDetailsList.get(0).getGrandTotal()));
+ 			  
+				BillTransaction info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", bt,
+						BillTransaction.class);
+			}
+	
+	 
 
 		} catch (Exception e) {
 			System.out.println("Exc in Inserting bill " + e.getMessage());
