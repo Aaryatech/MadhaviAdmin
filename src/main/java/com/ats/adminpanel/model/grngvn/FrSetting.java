@@ -14,6 +14,8 @@ public class FrSetting {
 
 	private int spNo;
 	
+	private int count;
+
 	
 	public int getSpNo() {
 		return spNo;
@@ -63,10 +65,21 @@ public class FrSetting {
 		this.grnGvnNo = grnGvnNo;
 	}
 
+	
+	 
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	@Override
 	public String toString() {
 		return "FrSetting [frSettingId=" + frSettingId + ", frId=" + frId + ", frCode=" + frCode + ", sellBillNo="
-				+ sellBillNo + ", grnGvnNo=" + grnGvnNo + ", spNo=" + spNo + "]";
+				+ sellBillNo + ", grnGvnNo=" + grnGvnNo + ", spNo=" + spNo + ", count=" + count + "]";
 	}
 
 	

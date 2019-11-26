@@ -20,7 +20,7 @@ public class Expense {
 
 	private int status;
 
-	private Date expDate;
+	private String expDate;
 
 	private int exInt1;
 
@@ -105,11 +105,11 @@ public class Expense {
 		this.status = status;
 	}
 
-	public Date getExpDate() {
+	public String getExpDate() {
 		return expDate;
 	}
 
-	public void setExpDate(Date expDate) {
+	public void setExpDate(String expDate) {
 		this.expDate = expDate;
 	}
 
