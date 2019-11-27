@@ -1,6 +1,7 @@
 package com.ats.adminpanel.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +29,11 @@ import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.billing.BillTransaction;
 import com.ats.adminpanel.model.billing.Expense;
+import com.ats.adminpanel.model.billing.ExpenseTransaction;
+import com.ats.adminpanel.model.billing.FrBillHeaderForPrint;
+import com.ats.adminpanel.model.billing.GetBillListByFrIdToSettle;
+ import com.steadystate.css.ParseException;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
   
 @Controller
 @Scope("session")
@@ -103,6 +109,108 @@ public class ExpenseAdminController {
 		return model;
 	}
 
+	@RequestMapping(value = "/getBillListForSettle", method = RequestMethod.GET)
+	public @ResponseBody List<GetBillListByFrIdToSettle> getBillListForSettle(HttpServletRequest request,
+			HttpServletResponse response) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		List<GetBillListByFrIdToSettle> billList=new ArrayList<GetBillListByFrIdToSettle>();
+		
+		try {
+			System.err.println("hii");
+			int frId = Integer.parseInt(request.getParameter("frId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("frId", frId);
+			 
+
+			GetBillListByFrIdToSettle[] frSetting = restTemplate.postForObject(Constants.url + "getBillByFrToSettle", map, GetBillListByFrIdToSettle[].class);
+
+			billList= new ArrayList<GetBillListByFrIdToSettle>(Arrays.asList(frSetting));
+			
+			System.err.println("bill are"+billList.toString());
+	 
+		}catch (Exception e) {
+			 
+		}
+		
+		return billList;
+		
+	}
+	
+	@RequestMapping(value = "/submitRespose", method = RequestMethod.POST)
+	public @ResponseBody int postCreamPrepData(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		 int flag=0;
+		try {
+			  List<ExpenseTransaction> expTransList = new ArrayList<ExpenseTransaction>();
+				
+			 RestTemplate restTemplate = new RestTemplate();
+		 
+
+			 String[] checkedList=request.getParameterValues("chkItem");
+			 
+			 String frId= (request.getParameter("frId"));
+			 String delDate= (request.getParameter("delDate"));
+			 String expId= (request.getParameter("expenseId"));
+			 System.err.println("head id list "+checkedList.toString());
+			 for(int i=0;i<checkedList.length;i++)
+			 {
+				 
+				 System.err.println("head id "+checkedList[i]);
+				 int headId=Integer.parseInt(checkedList[i]);
+				 String billNo= (request.getParameter("billNo"+headId));
+				 float billAmt=Float.parseFloat(request.getParameter("billAmt"+headId));
+				 float paidAmt=Float.parseFloat(request.getParameter("paidAmt"+headId));
+				 float pendingAmt=Float.parseFloat(request.getParameter("pendingAmt"+headId));
+				 String billDate=request.getParameter("billDate"+headId);
+				 float settleAmt=Float.parseFloat(request.getParameter("settleAmt"+headId));
+				 ExpenseTransaction expTrans = new ExpenseTransaction();
+				  
+				 if(pendingAmt-settleAmt<=0) {
+					 
+					 expTrans.setBillClose(1);
+				 }else {
+					 expTrans.setBillClose(0); 
+				 }
+				   
+					expTrans.setBillAmt(String.valueOf(billAmt));
+					expTrans.setBillHeadId(headId);
+					expTrans.setBillNo(billNo);
+					expTrans.setPaidAmt(String.valueOf(settleAmt));
+
+					expTrans.setDelivarableDate(delDate);
+					expTrans.setExpId(Integer.parseInt(expId));
+					
+					expTrans.setFrId(Integer.parseInt(frId));//req qty set to Production
+					expTrans.setExInt4(0);
+					expTrans.setExInt2(0);
+					expTrans.setExInt1(0);
+					expTrans.setExInt3(0);
+					expTrans.setExVar1(String.valueOf(pendingAmt-settleAmt));//+prodMixingReqP1.get(i).getMulFactor()
+					expTrans.setExVar2("");
+					expTrans.setExVar3("");
+					expTrans.setExVar4("");
+				 
+																															// field
+					expTransList.add(expTrans);
+					
+					 
+			 }
+			 
+			 Info errorMessage = restTemplate.postForObject(Constants.url + "/saveExpTransList", expTransList, Info.class);
+			if(errorMessage.getError()==false) {
+				flag=2;
+			}else {
+				flag=0;
+			}
+				
+		 }catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+		
+	}
+	//****************Pending Bill*************************
 	@RequestMapping(value = "/showPendingBillList", method = RequestMethod.GET)
 	public ModelAndView showPendingBillList(HttpServletRequest request, HttpServletResponse response) {
 		RestTemplate restTemplate = new RestTemplate();
@@ -171,8 +279,7 @@ public class ExpenseAdminController {
 			e.printStackTrace();
 		}
  	 
-		return "redirect:/showExpenseList"; 
+		return "redirect:/showPendingBillList"; 
 	}
-
 	
 }

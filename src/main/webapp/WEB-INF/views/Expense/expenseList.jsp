@@ -5,9 +5,17 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<style type="text/css">
+a[disabled="disabled"] {
+	pointer-events: none;
+}
 
+.switch-toggle {
+	width: 14em;
+}
+</style>
 <body>
-
+	<c:url var="showPendingForFr" value="/getBillListForSettle" />
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 	<link rel="stylesheet"
 		href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
@@ -87,22 +95,23 @@
 
 									<div class="form-group">
 
-									 <label for="textfield2" class="col-xs-3 col-lg-2 control-label">Select
-										Franchise </label>
-									<div class="col-sm-9 col-lg-4 controls">
+										<label for="textfield2"
+											class="col-xs-3 col-lg-2 control-label">Select
+											Franchise </label>
+										<div class="col-sm-9 col-lg-4 controls">
 
-										<select class="form-control chosen" multiple="multiple"
-											tabindex="6" name="fr_id" id="fr_id">
+											<select class="form-control chosen" multiple="multiple"
+												tabindex="6" name="fr_id" id="fr_id">
 
-											<option value="-1">All</option>
-											<c:forEach items="${allFrIdNameList}" var="allFrIdNameList"
-												varStatus="count">
-												<option value="${allFrIdNameList.frId}">${allFrIdNameList.frName}</option>
+												<option value="-1">All</option>
+												<c:forEach items="${allFrIdNameList}" var="allFrIdNameList"
+													varStatus="count">
+													<option value="${allFrIdNameList.frId}">${allFrIdNameList.frName}</option>
 
-											</c:forEach>
+												</c:forEach>
 
-										</select>
-									</div>
+											</select>
+										</div>
 
 										<label class="col-sm-3 col-lg-1	 control-label">Select</label>
 										<div class="col-sm-2 col-lg-2">
@@ -117,7 +126,7 @@
 
 
 										</div>
-</div>
+									</div>
 								</div>
 
 
@@ -192,8 +201,8 @@
 												         Payment Chalan
 												    </c:otherwise>
 														</c:choose></td>
-														
-														<td class="col-md-2"><c:choose>
+
+													<td class="col-md-2"><c:choose>
 															<c:when test="${expList.status==1}">
  														Approved						
  												    </c:when>
@@ -202,34 +211,20 @@
 												    </c:otherwise>
 														</c:choose></td>
 													<td class="col-md-2"><div>
-
-															<c:if test="${expList.status==2}">
-
-																<a
-																	href="${pageContext.request.contextPath}/showEditExpense/${expList.expId}">
-																	<abbr title='Edit'><i class='fa fa-edit'></i></abbr>
-																</a> &nbsp;&nbsp; <a
-																	href="${pageContext.request.contextPath}/deleteExpense/${expList.expId}"
-																	onClick="return confirm('Are you sure want to delete this record');">
-																	<abbr title='Delete'><i class='fa fa-trash'></i></abbr>
-																</a>
-															</c:if>
-
+													
+													<%-- <c:if test="${expList.expType==2}">
+													<c:if test="${expList.status==1}"> --%>
+															<a href=""
+																onclick="showDetailsForCp('${expList.expId}','${expList.chAmt}','${expList.expDate}','${expList.chalanNo}','${expList.frId}')"
+																class="btn btn-default btn-rounded" data-toggle="modal"
+																data-target="#elegantModalForm"><abbr title='Edit'><i
+																	class='fa fa-edit'></i></abbr></a>
+																<%-- 	</c:if></c:if> --%>
 
 														</div></td>
 												</tr>
 											</c:forEach>
 										</tbody>
-
-
-
-
-
-
-
-
-
-
 
 
 									</table>
@@ -240,13 +235,9 @@
 
 						</div>
 
-
-
 					</div>
 				</div>
 			</div>
-
-
 
 			<!-- END Main Content -->
 			<footer>
@@ -258,6 +249,278 @@
 		</div>
 		<!-- END Content -->
 	</div>
+
+	<!------------------------------------------ MODEL 1-------------------------------------------------->
+	<div class="modal fade" id="elegantModalForm" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+		<!--SAVE LOADER-->
+		<div id="overlay">
+			<div class="clock"></div>
+		</div>
+
+		<div class="modal-dialog" role="document"
+			style="width: 80%; height: 50%;">
+			<!--Content-->
+			<div class="modal-content form-elegant">
+				<!--Header-->
+				<div class="modal-header text-center">
+					<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
+						id="myModalLabel" style="color: #ea4973;">
+						<strong>Close Bill Against Chalan</strong>
+					</h3>
+					<a href="#" class="close" data-dismiss="modal" aria-label="Close"
+						id="closeHrefModel"> <img
+						src="${pageContext.request.contextPath}/resources/img/close.png"
+						alt="X" class="imageclass" />
+					</a>
+					<div></div>
+					<div class="modal-body mx-6">
+						<form name="modalfrm" id="modalfrm" method="post">
+							<label class="col-sm-3 col-lg-3 control-label"
+								style="color: #e20b31;">Amount :<span id="chAmt"></span></label>
+
+							<label class="col-sm-3 col-lg-4 control-label"
+								style="color: #e20b31;">Chalan No :<span id="chNo"></span>
+							</label> <label class="col-sm-3 col-lg-4 control-label"
+								style="color: #e20b31;">Chalan Date :<span id="chDate"></span>
+							</label> <label class="col-sm-3 col-lg-4 control-label"
+								style="color: blue;">Franchise Name :<span id="frName"></span></label>
+
+							<input type="hidden" name="expId" id="expId" />
+							<div class="component">
+
+								<table width="80%" id="modeltable"
+									style="font-size: 13px; font-weight: bold; border: 1px solid; border-color: #91d6b8;">
+									<!-- class="table table-advance" -->
+									<thead>
+										<tr>
+											<th width="17" style="width: 18px"><input
+												type="checkbox" /></th>
+											<th width="17" style="width: 18px">Sr No</th>
+											<th width="120" align="left">Bill No</th>
+											<th width="100" align="left">Bill Date</th>
+											<th width="100" align="left">Bill Amount</th>
+											<th width="120" align="left">Paid Amt</th>
+											<th width="120" align="left">Pending Amt</th>
+											<th width="120" align="left">Settle Amt</th>
+
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+
+							</div>
+							<div class="component">
+								<label class="col-sm-3 col-lg-1 control-label">Total </label>
+								<div class="col-sm-9 col-lg-1 controls">
+									<input type="text" name="total" id="total" value="0" style="width: 90px;"
+										class="form-control" /> <input type="hidden" name="frId"
+										id="frId" value="0" class="form-control" /> <input
+										type="hidden" name="delDate" id="delDate" value="0"
+										class="form-control" /> <input type="hidden" name="expenseId"
+										id="expenseId" value="0" class="form-control" />
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--Body-->
+					<div class="modal-body mx-4">
+						<!--Body-->
+						<div class="text-center mb-1">
+							<button type="button" class="btn btn-primary" id="sbtbtn"
+								disabled="disabled">Submit</button>
+						</div>
+					</div>
+					<!--Footer-->
+				</div>
+				<!--/.Content-->
+			</div>
+		</div>
+	</div>
+
+	<!----------------------------------------------End MODEL 1------------------------------------------------>
+	<script type="text/javascript">
+		function showDetailsForCp(expId, expAmt, expDate, chalanNo, frId) {
+			//alert("hii" + frId + expAmt + expDate + chalanNo);
+			$("#chNo").css("color", "red");
+			$("#chAmt").css("color", "red");
+			$("#frName").css("color", "red");
+			$("#chDate").css("color", "red");
+
+			document.getElementById("chNo").innerHTML = chalanNo;
+			document.getElementById("chAmt").innerHTML = expAmt;
+			document.getElementById("chDate").innerHTML = expDate;
+			document.getElementById("frId").value = frId;
+			document.getElementById("delDate").value = expDate;
+			document.getElementById("expenseId").value = expId;
+
+			$
+					.getJSON(
+							'${showPendingForFr}',
+							{
+
+								frId : frId,
+								ajax : 'true',
+							},
+							function(data) {
+								var len = data.length;
+
+								$('#modeltable td').remove();
+								//alert(JSON.stringify(data));
+								//alert("hii"+len)
+								document.getElementById("frName").innerHTML = data[0].frName;
+								var totalcalc=0;
+								$
+										.each(
+												data,
+												function(key, data) {
+
+													var tr = $('<tr></tr>');
+													
+													if(parseFloat(data.pendingAmt) <= parseFloat(expAmt)){
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		"<input type=checkbox name='chkItem'  checked value="+data.billHeadId+"   id="+ data.billHeadId+"  onclick='showTotalQty()'>  <label for="+ data.billHeadId+" ></label>"));
+												
+												
+													}else{
+														
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		"<input type=checkbox name='chkItem'   value="+data.billHeadId+"   id="+ data.billHeadId+"   onclick='showTotalQty()' >  <label for="+ data.billHeadId+" ></label>"));
+												
+												
+													}
+													
+													
+												
+													
+													tr.append($('<td></td>')
+															.html(key + 1));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data.billNo
+																					+ ""
+																					+ "<input type=hidden value='"+data.billNo+"'  id=billNo"+data.billHeadId+"  name=billNo"+data.billHeadId+"  >"));
+
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data.billDate
+																					+ ""
+																					+ "<input type=hidden value='"+data.billDate+"'  id=billDate"+data.billHeadId+"  name=billDate"+data.billHeadId+"  >"));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data.billAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data.billAmt+"'  id=billAmt"+data.billHeadId+"  name=billAmt"+data.billHeadId+"  >"));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data.paidAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data.paidAmt+"'  id=paidAmt"+data.billHeadId+"  name=paidAmt"+data.billHeadId+"  >"));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data.pendingAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data.pendingAmt+"'  id=pendingAmt"+data.billHeadId+"  name=pendingAmt"+data.billHeadId+"  >"));
+
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
+																					+ data.billHeadId
+																					+ "'  id=settleAmt"
+																					+ data.billHeadId
+																					+ " value="
+																					+ data.pendingAmt
+																					+ "  /> &nbsp;  "));
+
+													$('#modeltable tbody')
+															.append(tr);
+													
+													if(parseFloat(data.pendingAmt) <= parseFloat(expAmt)){
+														totalcalc =parseFloat(totalcalc)+ parseInt(data.pendingAmt);
+													}
+
+												});
+
+								document.getElementById("total").value = totalcalc;
+								
+								if(parseFloat(totalcalc) ==parseFloat(expAmt)){
+						 			$("#sbtbtn").prop("disabled", false);
+						 			
+						 		 }
+
+							});
+		}
+	</script>
+	<script type="text/javascript">
+    function showTotalQty()
+    {
+    	
+    	alert("hii");
+    	 var arr=[]; 
+ 		$('input[name="chkItem"]:checked').each(function() {
+ 			 arr.push(this.value);
+ 		});
+ 		var totalQty=0;
+ 		arr.forEach(function(v) {
+ 				 var itemQty=parseFloat($('#pendingAmt'+v).val());
+ 				 totalQty=totalQty+itemQty; 				 			
+ 		});
+ 		 document.getElementById("total").value=totalQty.toFixed(3);
+ 		var chAmt= 	document.getElementById("chAmt").innerHTML;
+ 		 
+ 		 if(parseFloat(total) ==parseFloat(chAmt)){
+ 			$("#sbtbtn").prop("disabled", false);
+ 			
+ 		 }
+    }  
+    
+    </script>
+
+	<script type="text/javascript">
+		$('#sbtbtn').click(function() {
+			$("#overlay").fadeIn(300);
+
+			$.ajax({
+				type : "POST",
+				url : "${pageContext.request.contextPath}/submitRespose",
+				data : $("#modalfrm").serialize(),
+				dataType : 'json',
+				success : function(data) {
+					if (data == 2) {
+						$('#modeltable td').remove();
+						alert("Updated Successfully")
+						$("#overlay").fadeOut(300);
+						$("#closeHrefModel")[0].click()
+					}
+				}
+			}).done(function() {
+				setTimeout(function() {
+					$("#overlay").fadeOut(300);
+				}, 500);
+			});
+		});
+	</script>
+ 
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -319,78 +582,23 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+	<!-- js & css  for modal  -->
+
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.ba-throttle-debounce.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.stickyheader.js"></script>
+	<link rel="stylesheet" type="text/css"
+		href="${pageContext.request.contextPath}/resources/css/component.css" />
+
+
+	<!--  -->
 </body>
 
-
-<script>
-	function myFunction() {
-		var input, filter, table, tr, td, td1, i;
-		input = document.getElementById("myInput");
-		filter = input.value.toUpperCase();
-		table = document.getElementById("table1");
-		tr = table.getElementsByTagName("tr");
-		for (i = 0; i < tr.length; i++) {
-			td = tr[i].getElementsByTagName("td")[3];
-			td1 = tr[i].getElementsByTagName("td")[2];
-			if (td || td1) {
-				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-					tr[i].style.display = "";
-				} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-					tr[i].style.display = "";
-				} else {
-					tr[i].style.display = "none";
-				}
-			}
-		}//end of for
-
-	}
-</script>
-
-<script type="text/javascript">
-	function exportToExcel() {
-		window.open("${pageContext.request.contextPath}/exportToExcel");
-		document.getElementById("expExcel").disabled = true;
-	}
-	function exportToExcel1() {
-		window.open("${pageContext.request.contextPath}/exportToExcelDummy");
-		document.getElementById("expExcel1").disabled = true;
-	}
-</script>
-<script type="text/javascript">
-	function deleteById() {
-
-		var checkedVals = $('.chk:checkbox:checked').map(function() {
-			return this.value;
-		}).get();
-		checkedVals = checkedVals.join(",");
-
-		if (checkedVals == "") {
-			alert("Please Select Item")
-		} else {
-			window.location.href = '${pageContext.request.contextPath}/deleteItem/'
-					+ checkedVals;
-
-		}
-
-	}
-</script>
-<script type="text/javascript">
-	function inactiveById() {
-
-		var checkedVals = $('.chk:checkbox:checked').map(function() {
-			return this.value;
-		}).get();
-		checkedVals = checkedVals.join(",");
-
-		if (checkedVals == "") {
-			alert("Please Select Item")
-		} else {
-			window.location.href = '${pageContext.request.contextPath}/inactiveItem/'
-					+ checkedVals;
-
-		}
-
-	}
-</script>
+ 
 
 </html>

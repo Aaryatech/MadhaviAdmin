@@ -1,7 +1,6 @@
 package com.ats.adminpanel.model.billing;
 
-import java.util.Date;
- 
+  
 public class ExpenseTransaction {
   
 	private int expTransId;
@@ -14,11 +13,14 @@ public class ExpenseTransaction {
  	
 	private String billAmt; 
 	
+	
+	private String paidAmt; 
+	
 	private String  billNo; 
 	
 	private int  billClose ;
   	
-	private Date delivarableDate ;  	
+	private String delivarableDate ;  	
  	
 	private int exInt1 ;
  	
@@ -92,11 +94,11 @@ public class ExpenseTransaction {
 		this.billClose = billClose;
 	}
 
-	public Date getDelivarableDate() {
+	public String getDelivarableDate() {
 		return delivarableDate;
 	}
 
-	public void setDelivarableDate(Date delivarableDate) {
+	public void setDelivarableDate(String delivarableDate) {
 		this.delivarableDate = delivarableDate;
 	}
 
@@ -163,14 +165,26 @@ public class ExpenseTransaction {
 	public void setExVar4(String exVar4) {
 		this.exVar4 = exVar4;
 	}
+	
+	
+
+	public String getPaidAmt() {
+		return paidAmt;
+	}
+
+	public void setPaidAmt(String paidAmt) {
+		this.paidAmt = paidAmt;
+	}
 
 	@Override
 	public String toString() {
 		return "ExpenseTransaction [expTransId=" + expTransId + ", billHeadId=" + billHeadId + ", frId=" + frId
-				+ ", expId=" + expId + ", billAmt=" + billAmt + ", billNo=" + billNo + ", billClose=" + billClose
-				+ ", delivarableDate=" + delivarableDate + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3="
-				+ exInt3 + ", exInt4=" + exInt4 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exVar4=" + exVar4 + "]";
+				+ ", expId=" + expId + ", billAmt=" + billAmt + ", paidAmt=" + paidAmt + ", billNo=" + billNo
+				+ ", billClose=" + billClose + ", delivarableDate=" + delivarableDate + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exInt4=" + exInt4 + ", exVar1=" + exVar1
+				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + "]";
 	}
+
+	 
 	
 }
