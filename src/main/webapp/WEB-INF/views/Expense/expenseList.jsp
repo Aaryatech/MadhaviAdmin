@@ -5,6 +5,8 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/component.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <style type="text/css">
 a[disabled="disabled"] {
 	pointer-events: none;
@@ -17,8 +19,7 @@ a[disabled="disabled"] {
 <body>
 	<c:url var="showPendingForFr" value="/getBillListForSettle" />
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-	<link rel="stylesheet"
-		href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
+	
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -340,6 +341,12 @@ a[disabled="disabled"] {
 		</div>
 	</div>
 
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.ba-throttle-debounce.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jquery.stickyheader.js"></script>
 	<!----------------------------------------------End MODEL 1------------------------------------------------>
 	<script type="text/javascript">
 		function showDetailsForCp(expId, expAmt, expDate, chalanNo, frId) {
@@ -523,14 +530,14 @@ a[disabled="disabled"] {
  
 	<!-- END Container -->
 
-	<!--basic scripts-->
+	<!-- <!--basic scripts-->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script>
+<!-- 	<script>
 		window.jQuery
 				|| document
 						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
-	</script>
+	</script> -->
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script
@@ -586,14 +593,7 @@ a[disabled="disabled"] {
 
 	<!-- js & css  for modal  -->
 
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.ba-throttle-debounce.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.stickyheader.js"></script>
-	<link rel="stylesheet" type="text/css"
-		href="${pageContext.request.contextPath}/resources/css/component.css" />
+
 
 
 	<!--  -->
