@@ -215,14 +215,14 @@ a[disabled="disabled"] {
 														</c:choose></td>
 													<td class="col-md-2"><div>
 
-															<%-- <c:if test="${expList.expType==2}">
-													<c:if test="${expList.status==1}"> --%>
+															<c:if test="${expList.expType==2}">
+													<c:if test="${expList.status==2}">
 															<a href=""
 																onclick="showDetailsForCp('${expList.expId}','${expList.chAmt}','${expList.expDate}','${expList.chalanNo}','${expList.frId}')"
 																class="btn btn-default btn-rounded" data-toggle="modal"
 																data-target="#elegantModalForm"><abbr title='Edit'><i
 																	class='fa fa-edit'></i></abbr></a>
-															<%-- 	</c:if></c:if> --%>
+																</c:if></c:if>
 
 														</div></td>
 												</tr>
@@ -280,13 +280,14 @@ a[disabled="disabled"] {
 					<div></div>
 					<div class="modal-body mx-6">
 						<form name="modalfrm" id="modalfrm" method="post">
-							<label class="col-sm-2 col-lg-2 control-label"
-								style="color: blue;">Amount :<span id="chAmt"></span></label> <label
-								class="col-sm-2 col-lg-3 control-label" style="color: blue;">Chalan
-								No :<span id="chNo"></span>
-							</label> <label class="col-sm-2 col-lg-2 control-label"
-								style="color: blue;">Chalan Date :<span id="chDate"></span>
-							</label> <label class="col-sm-2 col-lg-3 control-label"
+							<label class="col-sm-3 col-lg-3 control-label"
+								style="color: #e20b31;">Amount :<span id="chAmt"></span></label>
+
+							<label class="col-sm-3 col-lg-4 control-label"
+								style="color: #e20b31;">Chalan No :<span id="chNo"></span>
+							</label> <label class="col-sm-3 col-lg-4 control-label"
+								style="color: #e20b31;">Chalan Date :<span id="chDate"></span>
+							</label> <label class="col-sm-3 col-lg-4 control-label"
 								style="color: blue;">Franchise Name :<span id="frName"></span></label>
 
 							<input type="hidden" name="expId" id="expId" />
@@ -306,7 +307,7 @@ a[disabled="disabled"] {
 											<th width="120" align="left">Paid Amt</th>
 											<th width="120" align="left">Pending Amt</th>
 											<th width="120" align="left">Settle Amt</th>
-											<th width="140" align="left">New Pending Amt</th>
+
 										</tr>
 									</thead>
 									<tbody>
@@ -325,13 +326,6 @@ a[disabled="disabled"] {
 										type="hidden" name="expenseId" id="expenseId" value="0"
 										class="form-control" />
 								</div>
-							</div>
-
-							<div class="component">
-								<label class="col-sm-3 col-lg-6 control-label" id="error_amt"
-									style="display: none; color: red;">Total is Exceeding
-									the Chalan Amount,Please Select Bills Properly </label>
-
 							</div>
 						</form>
 					</div>
@@ -359,6 +353,9 @@ a[disabled="disabled"] {
 	<!----------------------------------------------End MODEL 1------------------------------------------------>
 	<script type="text/javascript">
 		function showDetailsForCp(expId, expAmt, expDate, chalanNo, frId) {
+			var finTot = 0;
+			 document
+				.getElementById("total").value;
 			//alert("hii" + frId + expAmt + expDate + chalanNo);
 			$("#chNo").css("color", "red");
 			$("#chAmt").css("color", "red");
@@ -388,10 +385,29 @@ a[disabled="disabled"] {
 								//alert("hii"+len)
 								document.getElementById("frName").innerHTML = data[0].frName;
 								var totalcalc = 0;
+								
 								$
 										.each(
 												data,
 												function(key, data) {
+
+													var flag = 0;
+													var y = 0;
+													var tot = document
+															.getElementById("total").value;
+													//alert("tot" + tot);
+													//alert("expAmt"+expAmt);
+													if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
+														if ((parseFloat(tot) + parseFloat(data.pendingAmt)) > parseFloat(expAmt)) {
+															//alert("ist gret");
+
+															y = (parseFloat(tot) + parseFloat(data.pendingAmt))
+																	- parseFloat(expAmt);
+															//alert("ist gret"
+															//		+ y);
+															flag = 1;
+														}
+													}
 
 													var tr = $('<tr></tr>');
 
@@ -400,15 +416,7 @@ a[disabled="disabled"] {
 																.append($(
 																		'<td></td>')
 																		.html(
-																				"<input type=checkbox name='chkItem'  checked value="
-																						+ data.billHeadId
-																						+ "   id="
-																						+ data.billHeadId
-																						+ "  onclick='showTotalQty("
-																						+ data.pendingAmt
-																						+ ","
-																						+ data.billHeadId
-																						+ ")'>  <label for="+ data.billHeadId+" ></label>"));
+																				"<input type=checkbox class=abc name='chkItem'  checked value="+data.billHeadId+"   id="+ data.billHeadId+"  >  <label for="+ data.billHeadId+" ></label>"));
 
 													} else {
 
@@ -416,15 +424,7 @@ a[disabled="disabled"] {
 																.append($(
 																		'<td></td>')
 																		.html(
-																				"<input type=checkbox name='chkItem'   value="
-																						+ data.billHeadId
-																						+ "   id="
-																						+ data.billHeadId
-																						+ "   onclick='showTotalQty("
-																						+ data.pendingAmt
-																						+ ","
-																						+ data.billHeadId
-																						+ ")' >  <label for="+ data.billHeadId+" ></label>"));
+																				"<input type=checkbox  class=abc name='chkItem'   value="+data.billHeadId+"   id="+ data.billHeadId+" >  <label for="+ data.billHeadId+" ></label>"));
 
 													}
 
@@ -467,101 +467,105 @@ a[disabled="disabled"] {
 																					+ ""
 																					+ "<input type=hidden value='"+data.pendingAmt+"'  id=pendingAmt"+data.billHeadId+"  name=pendingAmt"+data.billHeadId+"  >"));
 
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
-																					+ data.billHeadId
-																					+ "'  id=settleAmt"
-																					+ data.billHeadId
-																					+ " value="
-																					+ data.pendingAmt
-																					+ "  /> &nbsp;  "));
+													if (flag == 0) {
+														
+														//alert("in if");
 
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='newPenAmt"
-																					+ data.billHeadId
-																					+ "'  id=newPenAmt"
-																					+ data.billHeadId
-																					+ " value="
-																					+ data.pendingAmt
-																					+ "  /> &nbsp;  "));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
+																						+ data.billHeadId
+																						+ "'  id=settleAmt"
+																						+ data.billHeadId
+																						+ " value="
+																						+ data.pendingAmt
+																						+ "  /> &nbsp;  "));
+
+														if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
+															finTot = parseFloat(data.pendingAmt)
+																	+ (parseFloat(finTot));
+															document
+																	.getElementById("total").value = finTot
+																	.toFixed(3);
+														}
+													}
+
+													else {
+														
+														//alert("in else");
+														var fin = parseFloat(data.pendingAmt)
+														- (parseFloat(y));
+														
+														//alert("fin"+fin);
+											
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
+																						+ data.billHeadId
+																						+ "'  id=settleAmt"
+																						+ data.billHeadId
+																						+ " value="
+																						+ fin
+																						+ "  /> &nbsp;  "));
+
+													
+														if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
+															finTot = fin
+																	+ (parseFloat(finTot));
+															//alert("finTot"+finTot);
+															document.getElementById("total").value = finTot
+																	.toFixed(3);
+															
+														
+														}
+														$("#chkItem").prop(
+																"disabled",
+																true);
+														
+														//document.getElementById("chkItem").disabled=checkStat == 1 ? true : false;
+														 
+													}
 
 													$('#modeltable tbody')
 															.append(tr);
 
-													if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
-														totalcalc = parseFloat(totalcalc)
-																+ parseInt(data.pendingAmt);
-													}
+													document.getElementById(data.billHeadId).disabled = true; 
 
 												});
+								finTot = 0;
 
-								document.getElementById("total").value = totalcalc;
+							 
 
-								if (parseFloat(totalcalc) <= parseFloat(expAmt)) {
+								if (parseFloat(	document.getElementById("total").value) <= parseFloat(expAmt)) {
 									$("#sbtbtn").prop("disabled", false);
-									$("#error_amt").hide()
-								} else {
 
-									$("#error_amt").show()
-
-								}
+								} 
 
 							});
 		}
 	</script>
 	<script type="text/javascript">
-		function showTotalQty(temp, hid) {
-var prev=document.getElementById("total").value;
-			//	alert("hii");
+		function showTotalQty() {
+
+			//alert("hii");
 			var arr = [];
 			$('input[name="chkItem"]:checked').each(function() {
 				arr.push(this.value);
 			});
 			var totalQty = 0;
 			arr.forEach(function(v) {
-				var itemQty = parseFloat($('#newPenAmt' + v).val());
+				var itemQty = parseFloat($('#settleAmt' + v).val());
 				totalQty = totalQty + itemQty;
 			});
-
-			var chAmt = document.getElementById("chAmt").innerHTML;
 			document.getElementById("total").value = totalQty.toFixed(3);
+			var chAmt = document.getElementById("chAmt").innerHTML;
+
 			if (parseFloat(total) <= parseFloat(chAmt)) {
-				//alert("if");
 				$("#sbtbtn").prop("disabled", false);
-
-				$("#error_amt").hide()
-			} else {
-				//alert("else" + hid);
-				var a = document.getElementById(hid);
-
-				//alert(a.checked);
-				$("#error_amt").show()
-
-				if (a.checked == true) {
-					alert("totalQty"+prev);
-					alert("chAmt"+chAmt);
-					
-					if(parseFloat(prev) > parseFloat(chAmt)){
-						var x = parseFloat(totalQty) - parseFloat(chAmt);
-						//alert("parseFloat(totalQty)-parseFloat(chAmt)" + x);
-
-						var y = parseFloat(temp) - parseFloat(x);
-
-						document.getElementById("newPenAmt" + hid).value = y
-								.toFixed(3);
-					}else{
-						
-						document.getElementById("newPenAmt" + hid).value = parseFloat(temp);
-					}
-					
-
-				}
 
 			}
 
