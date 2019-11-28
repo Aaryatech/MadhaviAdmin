@@ -5,8 +5,10 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/component.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/component.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <style type="text/css">
 a[disabled="disabled"] {
 	pointer-events: none;
@@ -19,7 +21,7 @@ a[disabled="disabled"] {
 <body>
 	<c:url var="showPendingForFr" value="/getBillListForSettle" />
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-	
+
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -212,15 +214,15 @@ a[disabled="disabled"] {
 												    </c:otherwise>
 														</c:choose></td>
 													<td class="col-md-2"><div>
-													
-													<%-- <c:if test="${expList.expType==2}">
+
+															<%-- <c:if test="${expList.expType==2}">
 													<c:if test="${expList.status==1}"> --%>
 															<a href=""
 																onclick="showDetailsForCp('${expList.expId}','${expList.chAmt}','${expList.expDate}','${expList.chalanNo}','${expList.frId}')"
 																class="btn btn-default btn-rounded" data-toggle="modal"
 																data-target="#elegantModalForm"><abbr title='Edit'><i
 																	class='fa fa-edit'></i></abbr></a>
-																<%-- 	</c:if></c:if> --%>
+															<%-- 	</c:if></c:if> --%>
 
 														</div></td>
 												</tr>
@@ -278,14 +280,13 @@ a[disabled="disabled"] {
 					<div></div>
 					<div class="modal-body mx-6">
 						<form name="modalfrm" id="modalfrm" method="post">
-							<label class="col-sm-3 col-lg-3 control-label"
-								style="color: #e20b31;">Amount :<span id="chAmt"></span></label>
-
-							<label class="col-sm-3 col-lg-4 control-label"
-								style="color: #e20b31;">Chalan No :<span id="chNo"></span>
-							</label> <label class="col-sm-3 col-lg-4 control-label"
-								style="color: #e20b31;">Chalan Date :<span id="chDate"></span>
-							</label> <label class="col-sm-3 col-lg-4 control-label"
+							<label class="col-sm-2 col-lg-2 control-label"
+								style="color: blue;">Amount :<span id="chAmt"></span></label> <label
+								class="col-sm-2 col-lg-3 control-label" style="color: blue;">Chalan
+								No :<span id="chNo"></span>
+							</label> <label class="col-sm-2 col-lg-2 control-label"
+								style="color: blue;">Chalan Date :<span id="chDate"></span>
+							</label> <label class="col-sm-2 col-lg-3 control-label"
 								style="color: blue;">Franchise Name :<span id="frName"></span></label>
 
 							<input type="hidden" name="expId" id="expId" />
@@ -305,7 +306,7 @@ a[disabled="disabled"] {
 											<th width="120" align="left">Paid Amt</th>
 											<th width="120" align="left">Pending Amt</th>
 											<th width="120" align="left">Settle Amt</th>
-
+											<th width="140" align="left">New Pending Amt</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -316,13 +317,21 @@ a[disabled="disabled"] {
 							<div class="component">
 								<label class="col-sm-3 col-lg-1 control-label">Total </label>
 								<div class="col-sm-9 col-lg-1 controls">
-									<input type="text" name="total" id="total" value="0" style="width: 90px;"
-										class="form-control" /> <input type="hidden" name="frId"
-										id="frId" value="0" class="form-control" /> <input
-										type="hidden" name="delDate" id="delDate" value="0"
-										class="form-control" /> <input type="hidden" name="expenseId"
-										id="expenseId" value="0" class="form-control" />
+									<input type="text" name="total" id="total" value="0"
+										style="width: 90px;" class="form-control" /> <input
+										type="hidden" name="frId" id="frId" value="0"
+										class="form-control" /> <input type="hidden" name="delDate"
+										id="delDate" value="0" class="form-control" /> <input
+										type="hidden" name="expenseId" id="expenseId" value="0"
+										class="form-control" />
 								</div>
+							</div>
+
+							<div class="component">
+								<label class="col-sm-3 col-lg-6 control-label" id="error_amt"
+									style="display: none; color: red;">Total is Exceeding
+									the Chalan Amount,Please Select Bills Properly </label>
+
 							</div>
 						</form>
 					</div>
@@ -378,36 +387,47 @@ a[disabled="disabled"] {
 								//alert(JSON.stringify(data));
 								//alert("hii"+len)
 								document.getElementById("frName").innerHTML = data[0].frName;
-								var totalcalc=0;
+								var totalcalc = 0;
 								$
 										.each(
 												data,
 												function(key, data) {
 
 													var tr = $('<tr></tr>');
-													
-													if(parseFloat(data.pendingAmt) <= parseFloat(expAmt)){
+
+													if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
 														tr
-														.append($(
-																'<td></td>')
-																.html(
-																		"<input type=checkbox name='chkItem'  checked value="+data.billHeadId+"   id="+ data.billHeadId+"  onclick='showTotalQty()'>  <label for="+ data.billHeadId+" ></label>"));
-												
-												
-													}else{
-														
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=checkbox name='chkItem'  checked value="
+																						+ data.billHeadId
+																						+ "   id="
+																						+ data.billHeadId
+																						+ "  onclick='showTotalQty("
+																						+ data.pendingAmt
+																						+ ","
+																						+ data.billHeadId
+																						+ ")'>  <label for="+ data.billHeadId+" ></label>"));
+
+													} else {
+
 														tr
-														.append($(
-																'<td></td>')
-																.html(
-																		"<input type=checkbox name='chkItem'   value="+data.billHeadId+"   id="+ data.billHeadId+"   onclick='showTotalQty()' >  <label for="+ data.billHeadId+" ></label>"));
-												
-												
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=checkbox name='chkItem'   value="
+																						+ data.billHeadId
+																						+ "   id="
+																						+ data.billHeadId
+																						+ "   onclick='showTotalQty("
+																						+ data.pendingAmt
+																						+ ","
+																						+ data.billHeadId
+																						+ ")' >  <label for="+ data.billHeadId+" ></label>"));
+
 													}
-													
-													
-												
-													
+
 													tr.append($('<td></td>')
 															.html(key + 1));
 													tr
@@ -459,49 +479,94 @@ a[disabled="disabled"] {
 																					+ data.pendingAmt
 																					+ "  /> &nbsp;  "));
 
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='newPenAmt"
+																					+ data.billHeadId
+																					+ "'  id=newPenAmt"
+																					+ data.billHeadId
+																					+ " value="
+																					+ data.pendingAmt
+																					+ "  /> &nbsp;  "));
+
 													$('#modeltable tbody')
 															.append(tr);
-													
-													if(parseFloat(data.pendingAmt) <= parseFloat(expAmt)){
-														totalcalc =parseFloat(totalcalc)+ parseInt(data.pendingAmt);
+
+													if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
+														totalcalc = parseFloat(totalcalc)
+																+ parseInt(data.pendingAmt);
 													}
 
 												});
 
 								document.getElementById("total").value = totalcalc;
-								
-								if(parseFloat(totalcalc) ==parseFloat(expAmt)){
-						 			$("#sbtbtn").prop("disabled", false);
-						 			
-						 		 }
+
+								if (parseFloat(totalcalc) <= parseFloat(expAmt)) {
+									$("#sbtbtn").prop("disabled", false);
+									$("#error_amt").hide()
+								} else {
+
+									$("#error_amt").show()
+
+								}
 
 							});
 		}
 	</script>
 	<script type="text/javascript">
-    function showTotalQty()
-    {
-    	
-    	alert("hii");
-    	 var arr=[]; 
- 		$('input[name="chkItem"]:checked').each(function() {
- 			 arr.push(this.value);
- 		});
- 		var totalQty=0;
- 		arr.forEach(function(v) {
- 				 var itemQty=parseFloat($('#pendingAmt'+v).val());
- 				 totalQty=totalQty+itemQty; 				 			
- 		});
- 		 document.getElementById("total").value=totalQty.toFixed(3);
- 		var chAmt= 	document.getElementById("chAmt").innerHTML;
- 		 
- 		 if(parseFloat(total) ==parseFloat(chAmt)){
- 			$("#sbtbtn").prop("disabled", false);
- 			
- 		 }
-    }  
-    
-    </script>
+		function showTotalQty(temp, hid) {
+var prev=document.getElementById("total").value;
+			//	alert("hii");
+			var arr = [];
+			$('input[name="chkItem"]:checked').each(function() {
+				arr.push(this.value);
+			});
+			var totalQty = 0;
+			arr.forEach(function(v) {
+				var itemQty = parseFloat($('#newPenAmt' + v).val());
+				totalQty = totalQty + itemQty;
+			});
+
+			var chAmt = document.getElementById("chAmt").innerHTML;
+			document.getElementById("total").value = totalQty.toFixed(3);
+			if (parseFloat(total) <= parseFloat(chAmt)) {
+				//alert("if");
+				$("#sbtbtn").prop("disabled", false);
+
+				$("#error_amt").hide()
+			} else {
+				//alert("else" + hid);
+				var a = document.getElementById(hid);
+
+				//alert(a.checked);
+				$("#error_amt").show()
+
+				if (a.checked == true) {
+					alert("totalQty"+prev);
+					alert("chAmt"+chAmt);
+					
+					if(parseFloat(prev) > parseFloat(chAmt)){
+						var x = parseFloat(totalQty) - parseFloat(chAmt);
+						//alert("parseFloat(totalQty)-parseFloat(chAmt)" + x);
+
+						var y = parseFloat(temp) - parseFloat(x);
+
+						document.getElementById("newPenAmt" + hid).value = y
+								.toFixed(3);
+					}else{
+						
+						document.getElementById("newPenAmt" + hid).value = parseFloat(temp);
+					}
+					
+
+				}
+
+			}
+
+		}
+	</script>
 
 	<script type="text/javascript">
 		$('#sbtbtn').click(function() {
@@ -527,13 +592,13 @@ a[disabled="disabled"] {
 			});
 		});
 	</script>
- 
+
 	<!-- END Container -->
 
 	<!-- <!--basic scripts-->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<!-- 	<script>
+	<!-- 	<script>
 		window.jQuery
 				|| document
 						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
@@ -599,6 +664,6 @@ a[disabled="disabled"] {
 	<!--  -->
 </body>
 
- 
+
 
 </html>

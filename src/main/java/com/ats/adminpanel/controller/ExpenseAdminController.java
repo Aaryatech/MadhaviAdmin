@@ -165,8 +165,8 @@ public class ExpenseAdminController {
 				 String billDate=request.getParameter("billDate"+headId);
 				 float settleAmt=Float.parseFloat(request.getParameter("settleAmt"+headId));
 				 ExpenseTransaction expTrans = new ExpenseTransaction();
-				  
-				 if(pendingAmt-settleAmt<=0) {
+				 float newPenAmt=Float.parseFloat(request.getParameter("newPenAmt"+headId));
+				 if(newPenAmt<=0) {
 					 
 					 expTrans.setBillClose(1);
 				 }else {
@@ -186,7 +186,7 @@ public class ExpenseAdminController {
 					expTrans.setExInt2(0);
 					expTrans.setExInt1(0);
 					expTrans.setExInt3(0);
-					expTrans.setExVar1(String.valueOf(pendingAmt-settleAmt));//+prodMixingReqP1.get(i).getMulFactor()
+					expTrans.setExVar1(String.valueOf(newPenAmt));//+prodMixingReqP1.get(i).getMulFactor()
 					expTrans.setExVar2("");
 					expTrans.setExVar3("");
 					expTrans.setExVar4("");
