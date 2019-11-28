@@ -160,7 +160,7 @@
 													<td class="col-md-2"><div>
 															<a
 																href="${pageContext.request.contextPath}/closeBill/${billList.billTransId}">
-																<abbr title='Edit'><i class='fa fa-edit'></i></abbr>
+																<abbr title='Close Bill'><i class='fa fa-edit'></i></abbr>
 															</a>
 
 														</div></td>
