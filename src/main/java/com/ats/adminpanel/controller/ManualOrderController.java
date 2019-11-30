@@ -617,6 +617,10 @@ public class ManualOrderController {
 		List<BillTransaction> tranList = new ArrayList();
 		int ordertype= Integer.parseInt(request.getParameter("ordertype"));
 		
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String currentDate = df.format(date);
+		
 		List<String> frIdList=new ArrayList<>();
 		if(ordertype==0 || ordertype==1) 
 		{
@@ -905,7 +909,7 @@ public class ManualOrderController {
 					BillTransaction bt =new BillTransaction();
 					bt.setBillAmt(String.valueOf(header.getGrandTotal()));
 					bt.setBillHeadId(0);
-					bt.setBillNo(String.valueOf(header.getBillNo()));
+					bt.setBillNo(String.valueOf(header.getInvoiceNo()));
 					bt.setExInt1(0);
 					bt.setExInt2(0);
 					bt.setExInt3(0);
@@ -918,7 +922,7 @@ public class ManualOrderController {
 					bt.setIsClosed(0);
 					bt.setPaidAmt("0");
 					bt.setPendingAmt(String.valueOf(header.getGrandTotal()));
-					bt.setBillDate(String.valueOf(header.getBillDate()));
+					bt.setBillDate(currentDate);
 					
 					tranList.add(bt);
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);

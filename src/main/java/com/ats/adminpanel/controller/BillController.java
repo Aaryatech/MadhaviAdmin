@@ -218,9 +218,10 @@ public class BillController {
 
 		// settingValue
 		try {
-
 			PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
-
+			Date date = new Date(Calendar.getInstance().getTime().getTime());
+ 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String currentDate = df.format(date);
 			GenerateBillList generateBillListNew = generateBillList;
 			List<GenerateBill> tempGenerateBillList = generateBillListNew.getGenerateBills();
 			List<PostBillHeader> postBillHeaderList = new ArrayList<PostBillHeader>();
@@ -511,7 +512,7 @@ public class BillController {
 				BillTransaction bt =new BillTransaction();
 				bt.setBillAmt(String.valueOf(header.getGrandTotal()));
 				bt.setBillHeadId(0);
-				bt.setBillNo(String.valueOf(header.getBillNo()));
+				bt.setBillNo(String.valueOf(header.getInvoiceNo()));
 				bt.setExInt1(0);
 				bt.setExInt2(0);
 				bt.setExInt3(0);
@@ -524,7 +525,9 @@ public class BillController {
 				bt.setIsClosed(0);
 				bt.setPaidAmt("0");
 				bt.setPendingAmt(String.valueOf(header.getGrandTotal()));
-				bt.setBillDate(String.valueOf(header.getBillDate()));
+				bt.setBillDate(currentDate);
+				
+				System.out.println("Test data : " + header.getBillDate());
 				
 				tranList.add(bt);
 			}
@@ -543,7 +546,7 @@ public class BillController {
 			
 			if(info!=null) {
  				
- 			  System.err.println();
+ 			  System.err.println("saveBillTransaction");
 				Info info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", tranList,
 						Info.class);
 			}
