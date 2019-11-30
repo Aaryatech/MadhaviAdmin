@@ -234,6 +234,11 @@ public class BillController {
 
 			List<Integer> frIdList = new ArrayList(set);
 			List<PostBillDetail> postBillDetailsList = new ArrayList();
+			
+			List<BillTransaction> tranList = new ArrayList();
+			
+			
+			
 
 			for (int i = 0; i < frIdList.size(); i++) {
 
@@ -500,7 +505,28 @@ public class BillController {
 				// System.out.println("time ==" + strtime);
 				header.setTime(strtime);
 				postBillHeaderList.add(header);
-
+				
+				//transaction
+				
+				BillTransaction bt =new BillTransaction();
+				bt.setBillAmt(String.valueOf(header.getGrandTotal()));
+				bt.setBillHeadId(0);
+				bt.setBillNo(String.valueOf(header.getBillNo()));
+				bt.setExInt1(0);
+				bt.setExInt2(0);
+				bt.setExInt3(0);
+				bt.setExInt4(0);
+				bt.setExVar1("NA");
+				bt.setExVar2("NA");
+				bt.setExVar3("NA");
+				bt.setExVar4("NA");
+				bt.setFrId(header.getFrId());
+				bt.setIsClosed(0);
+				bt.setPaidAmt("0");
+				bt.setPendingAmt(String.valueOf(header.getGrandTotal()));
+				bt.setBillDate(String.valueOf(header.getBillDate()));
+				
+				tranList.add(bt);
 			}
 
 			postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
@@ -516,25 +542,10 @@ public class BillController {
 			
 			
 			if(info!=null) {
- 				BillTransaction bt =new BillTransaction();
-				bt.setBillAmt(String.valueOf(trayMgtDetailsList.get(0).getGrandTotal()));
-				bt.setBillHeadId(0);
-				bt.setBillNo(String.valueOf(trayMgtDetailsList.get(0).getBillNo()));
-				bt.setExInt1(0);
-				bt.setExInt2(0);
-				bt.setExInt3(0);
-				bt.setExInt4(0);
-				bt.setExVar1("NA");
-				bt.setExVar2("NA");
-				bt.setExVar3("NA");
-				bt.setExVar4("NA");
-				bt.setFrId(trayMgtDetailsList.get(0).getFrId());
-				bt.setIsClosed(0);
-				bt.setPaidAmt("0");
-				bt.setPendingAmt(String.valueOf(trayMgtDetailsList.get(0).getGrandTotal()));
- 			  
-				BillTransaction info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", bt,
-						BillTransaction.class);
+ 				
+ 			  System.err.println();
+				Info info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", tranList,
+						Info.class);
 			}
 	
 	 

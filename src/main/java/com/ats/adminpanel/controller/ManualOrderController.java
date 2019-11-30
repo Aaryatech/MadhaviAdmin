@@ -614,7 +614,7 @@ public class ManualOrderController {
 		String partyAddress ="";
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
-		
+		List<BillTransaction> tranList = new ArrayList();
 		int ordertype= Integer.parseInt(request.getParameter("ordertype"));
 		
 		List<String> frIdList=new ArrayList<>();
@@ -899,6 +899,28 @@ public class ManualOrderController {
 					header.setExVarchar1(sectionId);
 					header.setExVarchar2("-");
 					postBillHeaderList.add(header);
+					
+					
+
+					BillTransaction bt =new BillTransaction();
+					bt.setBillAmt(String.valueOf(header.getGrandTotal()));
+					bt.setBillHeadId(0);
+					bt.setBillNo(String.valueOf(header.getBillNo()));
+					bt.setExInt1(0);
+					bt.setExInt2(0);
+					bt.setExInt3(0);
+					bt.setExInt4(0);
+					bt.setExVar1("NA");
+					bt.setExVar2("NA");
+					bt.setExVar3("NA");
+					bt.setExVar4("NA");
+					bt.setFrId(header.getFrId());
+					bt.setIsClosed(0);
+					bt.setPaidAmt("0");
+					bt.setPendingAmt(String.valueOf(header.getGrandTotal()));
+					bt.setBillDate(String.valueOf(header.getBillDate()));
+					
+					tranList.add(bt);
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
 
 					System.out.println("Test data : " + postBillDataCommon.toString());
@@ -910,25 +932,10 @@ public class ManualOrderController {
 					
 					
 					if(billRespList!=null) {
-		 				BillTransaction bt =new BillTransaction();
-						bt.setBillAmt(String.valueOf(billRespList.get(0).getGrandTotal()));
-						bt.setBillHeadId(0);
-						bt.setBillNo(String.valueOf(billRespList.get(0).getBillNo()));
-						bt.setExInt1(0);
-						bt.setExInt2(0);
-						bt.setExInt3(0);
-						bt.setExInt4(0);
-						bt.setExVar1("NA");
-						bt.setExVar2("NA");
-						bt.setExVar3("NA");
-						bt.setExVar4("NA");
-						bt.setFrId(billRespList.get(0).getFrId());
-						bt.setIsClosed(0);
-						bt.setPaidAmt("0");
-						bt.setPendingAmt(String.valueOf(billRespList.get(0).getGrandTotal()));
-		 			  
-						BillTransaction info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", bt,
-								BillTransaction.class);
+
+						Info info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", tranList,
+								Info.class);
+		 				 
 					}
 			
 			 
