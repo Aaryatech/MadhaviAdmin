@@ -283,7 +283,7 @@
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Pin Code
-												Cake</label>
+												</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="kg_2" id="kg_2" placeholder="Pin Code"
 													value="${franchiseeList.frKg2}" class="form-control"
@@ -294,7 +294,7 @@
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Distance(Km.)
-												Cake</label>
+												</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="kg_3" id="kg_3" placeholder="Distance(Km.)"
 													value="${franchiseeList.frKg3}" class="form-control"
