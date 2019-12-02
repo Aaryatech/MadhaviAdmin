@@ -244,42 +244,7 @@
 										</div>
 
 
-										<%-- <div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Pastries</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_1" id="kg_1" placeholder="Qty"
-													value="${franchiseeList.frKg1}" class="form-control"
-													data-rule-required="true" data-rule-number="true"
-													onKeyPress="return isNumberCommaDot(event)" />
-											</div>
-										</div>
-
-
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">1/2 Kg
-												Cake</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_2" id="kg_2" placeholder="Qty"
-													value="${franchiseeList.frKg2}" class="form-control"
-													data-rule-required="true" data-rule-number="true"
-													onKeyPress="return isNumberCommaDot(event)" />
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">1 Kg
-												Cake</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_3" id="kg_3" placeholder="Qty"
-													value="${franchiseeList.frKg3}" class="form-control"
-													data-rule-required="true" data-rule-number="true"
-													onKeyPress="return isNumberCommaDot(event)" />
-											</div>
-										</div>
- --%>
- <input type="hidden"  name="kg_4" id="kg_4" value="0" />
-  <input type="hidden"  name="kg_2" id="kg_2" value="0" />
-   <input type="hidden"  name="kg_3" id="kg_3" value="0" />
+                                           <input type="hidden"  name="kg_4" id="kg_4" value="0" />
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Is Own Store?</label>
 											<div class="col-sm-9 col-lg-10 controls">
@@ -316,6 +281,27 @@
 										</div>
 
 
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Pin Code
+												Cake</label>
+											<div class="col-sm-9 col-lg-10 controls">
+												<input type="text" name="kg_2" id="kg_2" placeholder="Pin Code"
+													value="${franchiseeList.frKg2}" class="form-control"
+													data-rule-required="true" data-rule-number="true"
+													onKeyPress="return isNumberCommaDot(event)" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Distance(Km.)
+												Cake</label>
+											<div class="col-sm-9 col-lg-10 controls">
+												<input type="text" name="kg_3" id="kg_3" placeholder="Distance(Km.)"
+													value="${franchiseeList.frKg3}" class="form-control"
+													data-rule-required="true" data-rule-number="true"
+													onKeyPress="return isNumberCommaDot(event)" />
+											</div>
+										</div>
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label"
 												for="fr_password">Password</label>

@@ -273,40 +273,10 @@
 											</div>
 										</div>
 
- <input type="hidden"  name="kg_4" id="kg_4" value="0" />
-  <input type="hidden"  name="kg_2" id="kg_2" value="0" />
-   <input type="hidden"  name="kg_3" id="kg_3" value="0" />
-									<!-- 	<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Pastries</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_1" id="kg_1" placeholder="Qty"
-													class="form-control" data-rule-required="true"
-													data-rule-number="true" value="0"
-													onKeyPress="return isNumberCommaDot(event)" />
-											</div>
-										</div>
+                                       <input type="hidden"  name="kg_4" id="kg_4" value="0" />
+									<!-- 	
 
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">1/2 Kg
-												Cake</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_2" id="kg_2" value="0" placeholder="Qty"
-													value="" class="form-control" data-rule-required="true"
-													data-rule-number="true"
-													onKeyPress="return isNumberCommaDot(event)" />
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">1 Kg
-												Cake</label>
-											<div class="col-sm-9 col-lg-10 controls">
-												<input type="text" name="kg_3" id="kg_3" value="0" placeholder="Qty"
-													class="form-control" data-rule-required="true"
-													data-rule-number="true" 
-													onKeyPress="return isNumberCommaDot(event)" />
-											</div>
-										</div> <input type="text" name="kg_4" id="kg_4" placeholder="Qty"
+									<input type="text" name="kg_4" id="kg_4" placeholder="Qty"
 													class="form-control" data-rule-required="true"
 													data-rule-number="true" value="0"
 													onKeyPress="return isNumberCommaDot(event)" />-->
@@ -324,7 +294,27 @@
 												</label>
 											</div>
 										</div>
+	                                   <div class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Pin Code
+												Cake</label>
+											<div class="col-sm-9 col-lg-10 controls">
+												<input type="text" name="kg_2" id="kg_2" value="" placeholder="Pin Code"
+													class="form-control" data-rule-required="true"
+													data-rule-number="true"
+													onKeyPress="return isNumberCommaDot(event)" />
+											</div>
+										</div>
 
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Distance(Km.)
+												Cake</label>
+											<div class="col-sm-9 col-lg-10 controls">
+												<input type="text" name="kg_3" id="kg_3" value="0" placeholder="Distance(Km.)"
+													class="form-control" data-rule-required="true"
+													data-rule-number="true" 
+													onKeyPress="return isNumberCommaDot(event)" />
+											</div>
+										</div> 
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label"
