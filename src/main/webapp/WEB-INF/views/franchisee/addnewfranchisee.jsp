@@ -273,7 +273,7 @@
 											</div>
 										</div>
 
- <input type="hidden"  name="kg_1" id="kg_1" value="0" />
+ <input type="hidden"  name="kg_4" id="kg_4" value="0" />
   <input type="hidden"  name="kg_2" id="kg_2" value="0" />
    <input type="hidden"  name="kg_3" id="kg_3" value="0" />
 									<!-- 	<div class="form-group">
@@ -316,10 +316,10 @@
 											<div class="col-sm-9 col-lg-10 controls">
 												
 													<label class="radio-inline"> <input type="radio"
-													name="kg_4" id="optionsR1" value="0" checked>
+													name="kg_1" id="optionsR1" value="0" checked>
 													No
 												</label> <label class="radio-inline"> <input type="radio"
-													name="kg_4" id="optionsR1" value="1" />
+													name="kg_1" id="optionsR1" value="1" />
 													Yes
 												</label>
 											</div>

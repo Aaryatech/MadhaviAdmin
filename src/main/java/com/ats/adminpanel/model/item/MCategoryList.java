@@ -9,9 +9,21 @@ public class MCategoryList {
     private String catName;
     private Integer isSameDay;
     private Integer delStatus;
+	private String itemImage;
+
     private List<SubCategory> subCategoryList = null;
 
-    public Integer getCatId() {
+    
+    
+    public String getItemImage() {
+		return itemImage;
+	}
+
+	public void setItemImage(String itemImage) {
+		this.itemImage = itemImage;
+	}
+
+	public Integer getCatId() {
         return catId;
     }
 
@@ -54,7 +66,7 @@ public class MCategoryList {
 	@Override
 	public String toString() {
 		return "MCategoryList [catId=" + catId + ", catName=" + catName + ", isSameDay=" + isSameDay + ", delStatus="
-				+ delStatus + ", subCategoryList=" + subCategoryList + "]";
+				+ delStatus + ", itemImage=" + itemImage + ", subCategoryList=" + subCategoryList + "]";
 	}
 
   
