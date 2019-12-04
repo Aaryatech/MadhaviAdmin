@@ -102,6 +102,7 @@ import com.ats.adminpanel.model.item.FrItemStockConfiResponse;
 import com.ats.adminpanel.model.item.FrItemStockConfigure;
 import com.ats.adminpanel.model.item.FrItemStockConfigureList;
 import com.ats.adminpanel.model.item.MCategoryList;
+import com.ats.adminpanel.model.logistics.VehicalMaster;
 import com.ats.adminpanel.model.modules.ErrorMessage;
 import com.ats.adminpanel.model.tray.TrayMgtDetail;
 import com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE;
@@ -2121,6 +2122,10 @@ public class BillController {
 				billHeadersList = billHeaderResponse.getGetBillHeaders();
 
 				model.addObject("billHeadersList", billHeadersList);
+				
+				List<VehicalMaster> vehicleList = restTemplate.getForObject(Constants.url + "getAllVehicalList",
+						List.class);
+				model.addObject("vehicleList", vehicleList);
 
 			} catch (Exception e) {
 				System.out.println("Exce in view Bills " + e.getMessage());

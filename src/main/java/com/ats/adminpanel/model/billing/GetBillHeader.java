@@ -25,9 +25,21 @@ public class GetBillHeader {
 	private String billTime;//ex on 2july
 	private String exVarchar1;//ex on 2july
 	private String exVarchar2;//ex on 2july
+	private String ewayBillNo; //getting from isTallySync
 	
 	
-    public String getVehNo() {
+	
+	
+	
+    public String getEwayBillNo() {
+		return ewayBillNo;
+	}
+
+	public void setEwayBillNo(String ewayBillNo) {
+		this.ewayBillNo = ewayBillNo;
+	}
+
+	public String getVehNo() {
 		return vehNo;
 	}
 
@@ -205,7 +217,10 @@ public class GetBillHeader {
 				+ frCode + ", grandTotal=" + grandTotal + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax
 				+ ", status=" + status + ", remark=" + remark + ", delStatus=" + delStatus + ", partyName=" + partyName
 				+ ", partyAddress=" + partyAddress + ", partyGstin=" + partyGstin + ", vehNo=" + vehNo + ", billTime="
-				+ billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2 + "]";
+				+ billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2 + ", ewayBillNo=" + ewayBillNo
+				+ "]";
 	}
+
+	
     
 }

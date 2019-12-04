@@ -462,11 +462,39 @@ table {
 											
 											<div id="eway_submit" style="display: none">
 											
-											<input type="text" name="vehNo" id="vehNo" style="width:10%;" >
+											<input type="text" name="vehNo" id="vehNo" style="width:10%;" list="vehlist">
+											
+											<datalist id="vehlist">
+											<c:forEach var="veh" items="${vehicleList}" varStatus="count">
+											<option value="${veh.vehNo}">
+											</c:forEach>
+											
+											</datalist>
+											
+											
 											<input type="button" id="genEwayBill_button" class="btn btn-primary"
 											onclick="genEwayBill()" value="Gen E-way Bill" style="width: 10%;"/>
 											
 											</div>
+											
+											
+											<div class="table-wrap">
+
+												<table id="table2" class="table table-advance" border="1" style="display: none">
+													<thead>
+														<tr style="background-color: red;">
+															<th class="col-sm-1" align="left">Sr No</th>
+															<th class="col-md-2" align="left">Invoice No</th>
+															<th class="col-md-2" align="left">Error Code</th>
+															<th class="col-md-4" align="left">Error Desc</th>
+														</tr>
+													</thead>
+													<tbody>
+													
+													
+													</tbody>
+													</table>
+													</div>
 											
 									</div>
 																				
@@ -588,10 +616,74 @@ table {
 		.click(
 				function() {
 					var vehNo=document.getElementById("vehNo").value;
-					alert("vehNo"+vehNo);
+					//alert("vehNo"+vehNo);
 					var form = document.getElementById("validation-form")
-					form.action = "${pageContext.request.contextPath}/checkToken";
-					form.submit();
+					
+					$.ajax({
+       type: "POST",
+            url: "${pageContext.request.contextPath}/genOutwardEwayBill",
+            data: $("#validation-form").serialize(),
+            dataType: 'json',
+    success: function(data){
+    	//alert(JSON.stringify(data));
+    if(data.length>0)
+    {			document.getElementById("table2").style.display="block";
+
+		$('#table2 td').remove();
+		if (data == "") {
+			alert("No Bill Found");
+		}
+
+		$
+				.each(
+						data,
+						function(key, bill) {
+							
+
+							var tr = $('<tr></tr>');
+							
+							tr
+									.append($(
+											'<td class="col-sm-1"></td>')
+											.html(
+													key + 1));
+
+							tr
+									.append($(
+											'<td class="col-md-1"></td>')
+											.html(
+													bill.invoiceNo));
+							tr
+							.append($(
+									'<td class="col-md-1"></td>')
+									.html(
+											bill.errorCode));
+							tr
+							.append($(
+									'<td class="col-md-1"></td>')
+									.html(
+											bill.message));
+							
+							
+							$('#table2 tbody').append(
+									tr);
+							
+						});
+		
+    }
+    
+    callSearch();
+    }
+    })
+    /* .done(function() {
+    setTimeout(function(){
+ 
+    },500);
+    }); */
+					
+					
+					//form.action = "${pageContext.request.contextPath}/checkToken";
+					//form.submit();
 				});	
 	</script>
 	<script type="text/javascript">
@@ -668,7 +760,8 @@ table {
 	</script>
 	<script type="text/javascript">
 		function callSearch() {
-			
+			//$('#table2 td').remove();
+
 			var isDelete=document.getElementById("isDelete").value;
 			var isEdit=document.getElementById("isEdit").value;
 			var isValid=validate();
@@ -739,7 +832,7 @@ table {
 															.append($(
 																	'<td class="col-md-1"></td>')
 																	.html(
-																			bill.invoiceNo));
+																			bill.invoiceNo+" - "+bill.ewayBillNo));
 
 													tr
 															.append($(

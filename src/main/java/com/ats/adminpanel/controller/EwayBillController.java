@@ -21,6 +21,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +30,7 @@ import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.model.billing.Company;
 import com.ats.adminpanel.model.billing.GetBillDetailPrint;
 import com.ats.adminpanel.model.ewaybill.BillHeadEwayBill;
+import com.ats.adminpanel.model.ewaybill.CustomErrEwayBill;
 import com.ats.adminpanel.model.ewaybill.EwayBillSuccess;
 import com.ats.adminpanel.model.ewaybill.EwayConstants;
 import com.ats.adminpanel.model.ewaybill.EwayItemList;
@@ -36,20 +38,21 @@ import com.ats.adminpanel.model.ewaybill.GetAuthToken;
 import com.ats.adminpanel.model.ewaybill.ReqEwayBill;
 import com.ats.adminpanel.model.ewaybill.ResponseCode;
 import com.ats.adminpanel.model.franchisee.FranchiseeList;
+import com.ats.adminpanel.model.item.ErrorMessage;
 
 @Controller
 public class EwayBillController {
 
-	@RequestMapping(value = "/checkToken", method = RequestMethod.GET)
-	public ModelAndView checkIt(HttpServletRequest request, HttpServletResponse response) {
-
+	@RequestMapping(value = "/genOutwardEwayBill", method = RequestMethod.POST)
+	public @ResponseBody List<CustomErrEwayBill> checkIt(HttpServletRequest request, HttpServletResponse response) {
+		List<CustomErrEwayBill> errorBillList = new ArrayList<CustomErrEwayBill>();
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			ObjectMapper mapperObj = new ObjectMapper();
 			String billList = new String();
 			ResponseEntity<List<BillHeadEwayBill>> bRes = null;
 			String[] selectedBills = request.getParameterValues("select_to_print");
-String vehNo=request.getParameter("vehNo");
+			String vehNo = request.getParameter("vehNo");
 			for (int i = 0; i < selectedBills.length; i++) {
 				billList = selectedBills[i] + "," + billList;
 			}
@@ -68,53 +71,52 @@ String vehNo=request.getParameter("vehNo");
 			}
 			List<BillHeadEwayBill> billHeaderList = bRes.getBody();
 
-			//System.err.println("billHeaderList " + billHeaderList.toString());
-			
-			GetAuthToken tokenRes=null; //= restTemplate.getForObject(EwayConstants.getToken, GetAuthToken.class);
+			// System.err.println("billHeaderList " + billHeaderList.toString());
+
+			GetAuthToken tokenRes = null; // = restTemplate.getForObject(EwayConstants.getToken, GetAuthToken.class);
 			ResponseEntity<String> tokRes = null;
 
 			ParameterizedTypeReference<String> typeRef2 = new ParameterizedTypeReference<String>() {
 			};
 			try {
-				tokRes = restTemplate.exchange(EwayConstants.getToken, HttpMethod.GET,
-						new HttpEntity<>(map), typeRef2);
+				tokRes = restTemplate.exchange(EwayConstants.getToken, HttpMethod.GET, new HttpEntity<>(map), typeRef2);
 				try {
-					tokenRes=mapperObj.readValue(tokRes.getBody(), GetAuthToken.class);
-							//System.err.println("Token Res " +tokenRes.toString());
-				}catch (Exception e) {
-					System.err.println("Inner try for getToken"+e.getMessage());
+					tokenRes = mapperObj.readValue(tokRes.getBody(), GetAuthToken.class);
+					// System.err.println("Token Res " +tokenRes.toString());
+				} catch (Exception e) {
+					System.err.println("Inner try for getToken" + e.getMessage());
 				}
 			} catch (HttpClientErrorException e) {
 				System.err.println("/getToken Http Excep \n " + e.getResponseBodyAsString());
 			}
-			
-			//System.err.println("tokenRes " + tokenRes.toString());
-			
-			
-			Company company= restTemplate.getForObject(Constants.url+"/getCompany",Company.class);
-System.err.println("company " +company.toString());
 
-			for(int i=0;i<billHeaderList.size();i++) {
-				
-				BillHeadEwayBill bill=billHeaderList.get(i);
-				
+			// System.err.println("tokenRes " + tokenRes.toString());
+
+			Company company = restTemplate.getForObject(Constants.url + "/getCompany", Company.class);
+			System.err.println("company " + company.toString());
+
+			for (int i = 0; i < billHeaderList.size(); i++) {
+
+				BillHeadEwayBill bill = billHeaderList.get(i);
+
 				FranchiseeList franchise = restTemplate.getForObject(Constants.url + "getFranchisee?frId={frId}",
 						FranchiseeList.class, bill.getFrId());
-				
+
 				ReqEwayBill billReq = new ReqEwayBill();
-				
+
 				billReq.setActFromStateCode(company.getStateCode());
 				billReq.setActToStateCode(company.getStateCode());
 
 				billReq.setCessNonAdvolValue(00);
 				billReq.setCessValue(0);
-				
+
 				billReq.setCgstValue(bill.getCgstSum());
 
 				billReq.setDispatchFromGSTIN(company.getGstin());
 				billReq.setDispatchFromTradeName(company.getCompName());
 
-				billReq.setDocDate(bill.getBillDate());
+				String billDate=bill.getBillDate().replace('-', '/');
+				billReq.setDocDate(billDate);
 				billReq.setDocNo(bill.getInvoiceNo());
 
 				billReq.setFromAddr1(company.getFactAddress());
@@ -125,24 +127,24 @@ System.err.println("company " +company.toString());
 				billReq.setFromStateCode(company.getStateCode());
 				billReq.setFromTrdName(company.getCompName());
 
-				billReq.setIgstValue(bill.getIgstSum());
+				billReq.setIgstValue(0);
 				billReq.setOtherValue(0);
-	 			billReq.setSgstValue(bill.getSgstSum());
-				
-				//billReq.setShipToGSTIN("29ALSPR1722R1Z3");
-				//billReq.setShipToTradeName("XYZ Traders");
-				//billReq.setSubSupplyDesc("ppoo");
-				
-				billReq.setSupplyType("I"); //While Selling it is O-Outward
-				
-				if(franchise.getFrKg4()==1) {
-					billReq.setSubSupplyType("1");//while selling to Other Fr -Supply(1)
+				billReq.setSgstValue(bill.getSgstSum());
+
+				// billReq.setShipToGSTIN("29ALSPR1722R1Z3");
+				// billReq.setShipToTradeName("XYZ Traders");
+				// billReq.setSubSupplyDesc("ppoo");
+
+				billReq.setSupplyType("O"); // While Selling it is O-Outward
+
+				if (franchise.getFrKg1() == 0) {
+					billReq.setSubSupplyType("1");// while selling to Other Fr -Supply(1)
 					billReq.setDocType("INV");
-				}else {
-					billReq.setSubSupplyType("8");//while selling to Own Fr -Others(8)
+				} else {
+					billReq.setSubSupplyType("8");// while selling to Own Fr -Others(8)
 					billReq.setDocType("CHL");
 				}
-			
+
 				billReq.setTransactionType(1);
 
 				billReq.setToAddr1(franchise.getFrAddress());
@@ -151,21 +153,20 @@ System.err.println("company " +company.toString());
 				billReq.setToPincode(franchise.getFrKg2());
 				billReq.setToPlace(" ");
 				billReq.setToStateCode(company.getStateCode());
-				
+
 				billReq.setTotalValue(bill.getTaxableAmt());
 				billReq.setTotInvValue(bill.getGrandTotal());
-				
-				billReq.setToTrdName(franchise.getFrName());
-				
-				
-				billReq.setTransMode("1");//Road/Rail/Air/Ship
 
-				billReq.setTransDistance(""+franchise.getFrKg3());
+				billReq.setToTrdName(franchise.getFrName());
+
+				billReq.setTransMode("1");// Road/Rail/Air/Ship
+
+				billReq.setTransDistance("" + franchise.getFrKg3());
 				billReq.setTransDocDate("");
 				billReq.setTransDocNo("");
 				billReq.setTransporterId("");
 				billReq.setTransporterName("");
-				
+
 				billReq.setVehicleNo(vehNo);
 				billReq.setVehicleType("R");
 
@@ -174,15 +175,15 @@ System.err.println("company " +company.toString());
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
 
-				String jsonStr  = mapperObj.writeValueAsString(billReq);
-				System.err.println("billReq " +billReq.toString());
-				
+				String jsonStr = mapperObj.writeValueAsString(billReq);
+				System.err.println("billReq " + billReq.toString());
+
 				EwayBillSuccess ewaySuccRes = null;
 				ResponseCode ewayErrRes = null;
 				ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
 				};
 				ResponseEntity<String> responseEntity = null;
-							
+
 				try {
 					responseEntity = restTemplate.exchange(EwayConstants.genEwayGenUrl + "" + tokenRes.getAuthtoken(),
 							HttpMethod.POST, new HttpEntity<>(billReq), typeRef);
@@ -190,6 +191,12 @@ System.err.println("company " +company.toString());
 					try {
 						ewaySuccRes = mapperObj.readValue(responseEntity.getBody(), EwayBillSuccess.class);
 						System.err.println("ewaySuccRes " + ewaySuccRes.toString());
+
+						map = new LinkedMultiValueMap<String, Object>();
+						map.add("ewayBillNo", ewaySuccRes.getEwayBillNo());
+						map.add("billNo", bill.getBillNo());
+						
+						ErrorMessage updateEwayBillNo=restTemplate.postForObject(Constants.url+"/tally/updateEwayBillNo",map, ErrorMessage.class);
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.err.println("Inner Try");
@@ -199,12 +206,19 @@ System.err.println("company " +company.toString());
 
 					ewayErrRes = mapperObj.readValue(e.getResponseBodyAsString(), ResponseCode.class);
 					System.err.println("ewayErrRes   " + ewayErrRes.toString());
+					CustomErrEwayBill errRes=new CustomErrEwayBill();
+					
+					errRes.setBillNo(bill.getBillNo());
+					errRes.setInvoiceNo(bill.getInvoiceNo());
+					errRes.setTimeStamp("--");
+					errRes.setErrorCode(ewayErrRes.getError().getError_cd());
+					errRes.setMessage(ewayErrRes.getError().getMessage());
+					
+					errorBillList.add(errRes);
 				}
 
-			}//End of Bill Header For Loop
-			
-			
-			
+			} // End of Bill Header For Loop
+
 			/*
 			 * ArrayList<EwayItemList> itemList = new ArrayList<EwayItemList>();
 			 * 
@@ -231,7 +245,6 @@ System.err.println("company " +company.toString());
 			 * "actFromStateCode" ]
 			 */
 
-			
 			// System.err.println("jsonStr " +jsonStr.toString());
 
 			/*
@@ -271,7 +284,7 @@ System.err.println("company " +company.toString());
 			e.printStackTrace();
 		}
 
-		return null;
+		return errorBillList;
 
 	}
 
