@@ -1518,7 +1518,7 @@ public class FranchiseeController {
 		List<Item> filterItemsList = new ArrayList<Item>();
 
 		List<CommonConf> commonConfList = new ArrayList<CommonConf>();
-
+		if(Integer.parseInt(frMenu.getIsSameDayApplicable())!=3) {
 		if (selectedCatId == 5) {
 			SpCakeResponse spCakeResponse = restTemplate.getForObject(Constants.url + "showSpecialCakeList",
 					SpCakeResponse.class);
@@ -1551,6 +1551,22 @@ public class FranchiseeController {
 				logger.info("itemCommonConf" + commonConf.toString());
 			}
 			logger.info("------------------------");
+		}
+		}else
+		{
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemGrp1", selectedCatId);
+
+			AllItemsListResponse	allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems", AllItemsListResponse.class);
+			for (Item items :  allItemsListResponse.getItems()) {
+				if(items.getIsStockable()==1) {
+				CommonConf commonConf = new CommonConf();
+				commonConf.setId(items.getId());
+				commonConf.setName(items.getItemName());
+				commonConfList.add(commonConf);
+				logger.info("itemCommonConf" + commonConf.toString());
+				}
+			}
 		}
 
 		return commonConfList;

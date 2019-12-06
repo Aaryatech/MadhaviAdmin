@@ -522,6 +522,8 @@
 										</div>
 										<c:set var="flag11" value=""></c:set><c:set var="flag12" value=""></c:set>
 										<c:set var="flag21" value=""></c:set>	<c:set var="flag22" value=""></c:set>
+										<c:set var="flag31" value=""></c:set>	<c:set var="flag32" value=""></c:set>
+										<c:set var="flag41" value=""></c:set>	<c:set var="flag42" value=""></c:set>
 										<c:set var="flag3" value=""></c:set>
 										<c:set var="flag4" value=""></c:set>
 										<c:set var="flag5" value=""></c:set>
@@ -552,6 +554,22 @@
 													<c:set var="flag5" value="checked"></c:set>
 													</c:when>
 											</c:choose>
+											<c:choose>
+													<c:when test="${item.extInt1==0}">
+													<c:set var="flag31" value="checked"></c:set>
+													</c:when>
+														<c:when test="${item.extInt1==1}">
+													<c:set var="flag32" value="checked"></c:set>
+													</c:when>
+													</c:choose>
+											<c:choose>
+													<c:when test="${item.extInt2==0}">
+													<c:set var="flag41" value="checked"></c:set>
+													</c:when>
+														<c:when test="${item.extInt2==1}">
+													<c:set var="flag42" value="checked"></c:set>
+													</c:when>
+													</c:choose>
 										<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Is Saleable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -592,6 +610,30 @@
 										</label> 
 									</div>
 								</div>	
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Billable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isBillable" id="radio2" value="0" ${flag31} />
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isBillable" id="radio2" value="1"
+											data-rule-required="false" ${flag32}  />Yes
+										</label> 
+									</div>
+								</div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio2" value="0" ${flag41} />
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio2" value="1"
+											data-rule-required="false" ${flag42}  />Yes
+										</label> 
+									</div>
+								</div>
 										 <div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item Shelf Life</label>
 									<div class="col-sm-9 col-lg-10 controls">

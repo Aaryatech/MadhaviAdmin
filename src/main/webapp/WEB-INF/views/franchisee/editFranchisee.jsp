@@ -249,7 +249,7 @@
 											<label class="col-sm-3 col-lg-2 control-label">Is Own Store?</label>
 											<div class="col-sm-9 col-lg-10 controls">
 											 <c:choose>
-													<c:when test="${franchiseeList.frKg4==0}">
+													<c:when test="${franchiseeList.frKg1==0}">
 														<label class="radio-inline"> <input type="radio"
 													name="kg_1" id="optionsR1" value="0" checked>
 													No
@@ -258,7 +258,7 @@
 													Yes
 												</label>
 													</c:when>
-													<c:when test="${franchiseeList.frKg4==1}">
+													<c:when test="${franchiseeList.frKg1==1}">
 														<label class="radio-inline"> <input type="radio"
 													name="kg_1" id="optionsR1" value="0" >
 													No

@@ -694,6 +694,7 @@ public class ItemController {
 		int isFactOrFr = Integer.parseInt(request.getParameter("isFactOrFr"));
 		
 		int isBillable = Integer.parseInt(request.getParameter("isBillable"));
+		int isDecimal = Integer.parseInt(request.getParameter("isDecimal"));
 		
 		String[] subCat = request.getParameterValues("billable_item");  
 		
@@ -776,6 +777,7 @@ public class ItemController {
 		map.add("isStockable", isStockable);
 		map.add("isFactOrFr", isFactOrFr);
 		map.add("isBillable", isBillable);
+		map.add("isDecimal", isDecimal);
 		map.add("billIitems", billIitems);
 		
 		try {
@@ -1324,8 +1326,10 @@ public class ItemController {
         int isSaleable = Integer.parseInt(request.getParameter("isSaleable"));
 		
 		int isStockable = Integer.parseInt(request.getParameter("isStockable"));
+		int isBillable = Integer.parseInt(request.getParameter("isBillable"));
 		
 		int isFactOrFr = Integer.parseInt(request.getParameter("isFactOrFr"));
+		int isDecimal = Integer.parseInt(request.getParameter("isDecimal"));
 
 		logger.info("Add new item request mapping.");
 		RestTemplate rest = new RestTemplate();
@@ -1400,6 +1404,8 @@ public class ItemController {
 		map.add("itemShelfLife", shelfLife);
 		map.add("isSaleable", isSaleable);
 		map.add("isStockable", isStockable);
+		map.add("isBillable", isBillable);
+		map.add("isDecimal", isDecimal);
 		map.add("isFactOrFr", isFactOrFr);
 		
 		ErrorMessage errorResponse = rest.postForObject("" + Constants.url + "updateItem", map, ErrorMessage.class);

@@ -450,7 +450,18 @@
 										</label> 
 									</div>
 								</div>
-								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio6" value="0">
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio7" value="1" 
+											data-rule-required="false" checked/>Yes
+										</label> 
+									</div>
+								</div>
 								<div class="form-group" id="divhide" style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Items</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -666,6 +677,27 @@ function checkIsBillable(res) {
 			document.getElementById("total_gst_appli").setAttribute('value',
 					totGst);
 		}
+		/* function calTotalGst(flag) {
+			var igst = parseFloat($("#item_tax3").val());
+			
+			
+           if(flag==3){
+			var per=igst/2;
+			document.getElementById("item_tax1").setAttribute('value', per.toFixed(2));
+			document.getElementById("item_tax2").setAttribute('value', per.toFixed(2));
+           }else  if(flag==2){
+   			var cgst = parseFloat($("#item_tax2").val());
+
+        	   var sgst = parseFloat(igst - cgst);
+   			document.getElementById("item_tax1").setAttribute('value', sgst.toFixed(2));
+           } if(flag==1){
+        	   var sgst = parseFloat($("#item_tax1").val());
+        	   var cgst = parseFloat(igst - sgst);
+      			document.getElementById("item_tax2").setAttribute('value', cgst.toFixed(2));
+              }
+ 			document.getElementById("total_gst_appli").setAttribute('value',igst.toFixed(2));
+
+		} */
 	</script>
 <script type="text/javascript">
 function calMrp()
