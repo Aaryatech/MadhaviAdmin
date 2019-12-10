@@ -10,6 +10,9 @@ public class MCategory {
 	    private String catName;
 	    private Integer isSameDay;
 	    private Integer delStatus;
+	    private String itemImage;
+		private int seqNo;
+
 	    private List<SubCategory> subCategory;
 		
 	    public int getCatId() {
@@ -41,6 +44,19 @@ public class MCategory {
 		}
 		public void setSubCategory(List<SubCategory> subCategory) {
 			this.subCategory = subCategory;
+		}
+		
+		public String getItemImage() {
+			return itemImage;
+		}
+		public void setItemImage(String itemImage) {
+			this.itemImage = itemImage;
+		}
+		public int getSeqNo() {
+			return seqNo;
+		}
+		public void setSeqNo(int seqNo) {
+			this.seqNo = seqNo;
 		}
 		@Override
 		public String toString() {

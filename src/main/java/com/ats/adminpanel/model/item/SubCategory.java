@@ -8,6 +8,14 @@ public class SubCategory {
     private String subCatName;
     private int delStatus;
     private int catId;
+	private int seqNo;
+
+	public int getSeqNo() {
+		return seqNo;
+	}
+	public void setSeqNo(int seqNo) {
+		this.seqNo = seqNo;
+	}
 	public int getSubCatId() {
 		return subCatId;
 	}
@@ -35,9 +43,7 @@ public class SubCategory {
 	@Override
 	public String toString() {
 		return "SubCategory [subCatId=" + subCatId + ", subCatName=" + subCatName + ", delStatus=" + delStatus
-				+ ", catId=" + catId + "]";
+				+ ", catId=" + catId + ", seqNo=" + seqNo + "]";
 	}
-    
-    
-
+	 
 }

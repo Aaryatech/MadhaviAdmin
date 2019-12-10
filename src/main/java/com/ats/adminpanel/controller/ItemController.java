@@ -696,24 +696,24 @@ public class ItemController {
 		int isBillable = Integer.parseInt(request.getParameter("isBillable"));
 		int isDecimal = Integer.parseInt(request.getParameter("isDecimal"));
 		
-		String[] subCat = request.getParameterValues("billable_item");  
+		String[] billableItem = request.getParameterValues("billable_item");  
 		
-		String billIitems = null;
-		if(subCat!=null) {
-		logger.info(" array is" + subCat[0]);
+		String billItems = null;
+		if(billableItem!=null) {
+		logger.info(" array is" + billableItem[0]);
 
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < subCat.length; i++) {
-			sb = sb.append(subCat[i] + ",");
+		for (int i = 0; i < billableItem.length; i++) {
+			sb = sb.append(billableItem[i] + ",");
 
 		}
-		 billIitems = sb.toString();
-		billIitems = billIitems.substring(0, billIitems.length() - 1);
+		billItems = sb.toString();
+		billItems = billItems.substring(0, billItems.length() - 1);
 
-		logger.info("Billable Iitems---------" + billIitems);
+		logger.info("Billable Iitems---------" + billItems);
 		}else {
-			 billIitems = "0";
+			billItems = "";
 		}
 
 		VpsImageUpload upload = new VpsImageUpload();
@@ -778,7 +778,7 @@ public class ItemController {
 		map.add("isFactOrFr", isFactOrFr);
 		map.add("isBillable", isBillable);
 		map.add("isDecimal", isDecimal);
-		map.add("billIitems", billIitems);
+		map.add("billItems", billItems);
 		
 		try {
 			Item itemRes = rest.postForObject("" + Constants.url + "insertItem", map, Item.class);
@@ -1210,8 +1210,13 @@ public class ItemController {
 		categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory", CategoryListResponse.class);
 		mCategoryList = new ArrayList<MCategoryList>();
 		mCategoryList = categoryListResponse.getmCategoryList();
-		System.out.println("Main Cat is  " + categoryListResponse.toString());
 
+		Item[] itemListResp = restTemplate.getForObject(Constants.url + "/getItems", Item[].class); //getItemsByCatId
+		ArrayList<Item> itemListRespList = new ArrayList<Item>(Arrays.asList(itemListResp));
+		logger.info("itemList Found" + itemListRespList.toString());
+		mav.addObject("itemList", itemListRespList);
+		
+		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("id", id);
 
@@ -1330,7 +1335,24 @@ public class ItemController {
 		
 		int isFactOrFr = Integer.parseInt(request.getParameter("isFactOrFr"));
 		int isDecimal = Integer.parseInt(request.getParameter("isDecimal"));
+		
+        String[] billableItem = request.getParameterValues("billable_item");  
+		
+		String billItems = null;
+		if(billableItem!=null) {
 
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < billableItem.length; i++) {
+			sb = sb.append(billableItem[i] + ",");
+		}
+		billItems = sb.toString();
+		billItems = billItems.substring(0, billItems.length() - 1);
+		logger.info("Billable Iitems---------" + billItems);
+		
+		}else {
+			billItems = "";
+		}
+		
 		logger.info("Add new item request mapping.");
 		RestTemplate rest = new RestTemplate();
 		String itemImage = request.getParameter("prevImage");
@@ -1407,7 +1429,7 @@ public class ItemController {
 		map.add("isBillable", isBillable);
 		map.add("isDecimal", isDecimal);
 		map.add("isFactOrFr", isFactOrFr);
-		
+		map.add("billItems", billItems);
 		ErrorMessage errorResponse = rest.postForObject("" + Constants.url + "updateItem", map, ErrorMessage.class);
 
 		return "redirect:/itemList";

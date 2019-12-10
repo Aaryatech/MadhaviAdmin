@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body onload="calTotalGstOnLoad()">
+<body onload="calTotalGstOnLoad(${item.extInt1})">
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 	
 	
@@ -614,14 +614,41 @@
 									<label class="col-sm-3 col-lg-2 control-label">Is Billable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isBillable" id="radio2" value="0" ${flag31} />
+											name="isBillable" id="radio2" value="0" ${flag31}  onclick="checkIsBillable(this.value)"  />
 											No
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isBillable" id="radio2" value="1"
-											data-rule-required="false" ${flag32}  />Yes
+											data-rule-required="false" ${flag32}  onclick="checkIsBillable(this.value)" />Yes
 										</label> 
 									</div>
 								</div>
+								<div class="form-group" id="divhide" style="display: none;">
+									<label class="col-sm-3 col-lg-2 control-label">Items</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<select data-placeholder="Select Items" name="billable_item"
+												class="form-control chosen" tabindex="-1" id="billable_item" 
+													multiple="multiple">
+                                           <c:forEach items="${itemList}" var="items">
+                                           <c:set var="flag" value="0"></c:set>
+                                           <c:if test="${!item.extVar1.equals('0.0')}">
+                                          <c:forTokens var="token" items="${item.extVar1}"  delims=",">
+                                          <c:if test="${token==items.id}">
+                                           <c:set var="flag" value="1"></c:set>
+                                           </c:if>
+											</c:forTokens> 
+											</c:if>
+											<c:if test="${flag==1}">
+												<option value="${items.id}" selected>${items.itemName}</option>
+											</c:if>
+												<c:if test="${flag==0}">
+												<option value="${items.id}" >${items.itemName}</option>
+											</c:if>
+											</c:forEach>
+										
+										</select>
+												
+										</div>
+									</div>
 									<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -758,6 +785,16 @@ $(document).ready(function() {
 				});
 			});
 });
+
+function checkIsBillable(res) {
+	if (res == 0) {		
+		document.getElementById("divhide").style = "visible"
+		
+	} else if (res == 1) {
+		document.getElementById("divhide").style = "display:none"
+		
+	}
+} 
 </script>
 
 <script>
@@ -776,7 +813,7 @@ function calTotalGst() {
 </script>
 
 <script>
-function calTotalGstOnLoad() {
+function calTotalGstOnLoad(isBillable) {
    
 	  var sgst=parseFloat($("#item_tax1").val());
 	  var cgst=parseFloat($("#item_tax2").val());
@@ -784,6 +821,7 @@ function calTotalGstOnLoad() {
 	
 	  document.getElementById("total_gst_appli")
 		.setAttribute('value', totalGst);
+	  checkIsBillable(isBillable);
 }
 </script>
 <script type="text/javascript">

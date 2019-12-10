@@ -450,18 +450,7 @@
 										</label> 
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
-									<div class="col-sm-9 col-lg-10 controls">
-										<label class="radio-inline"> <input type="radio"
-											name="isDecimal" id="radio6" value="0">
-											No
-										</label> <label class="radio-inline"> <input type="radio"
-											name="isDecimal" id="radio7" value="1" 
-											data-rule-required="false" checked/>Yes
-										</label> 
-									</div>
-								</div>
+								
 								<div class="form-group" id="divhide" style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Items</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -477,7 +466,18 @@
 												
 										</div>
 									</div>
-								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio6" value="0">
+											No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio7" value="1" 
+											data-rule-required="false" checked/>Yes
+										</label> 
+									</div>
+								</div>
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item
 										Shelf Life</label>
