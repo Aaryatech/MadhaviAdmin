@@ -59,7 +59,7 @@
 
 						<div class="box-content">
 							<form action="" class="form-horizontal" method="get"
-								id="validation-form">
+								id="validation-form1">
 
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">From
@@ -126,6 +126,10 @@
 										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
 										<input type="button" value="Submit" onclick="getHeader()"
 											class="btn btn-primary">
+											
+											
+											
+											
 
 									</div>
 
@@ -249,6 +253,45 @@
 										</div> -->
 
 										<!-- </form> -->
+										
+										<input type="button" style="display: none" id="btn_submit" class="btn btn-primary"
+											onclick="showVehNo()" value="E-way Bill" />
+											<div class="form-group"></div>
+											
+											<div id="eway_submit" style="display: none">
+											
+											<input type="text" name="vehNo" id="vehNo" style="width:10%;" list="vehlist">
+											
+											<datalist id="vehlist">
+											<c:forEach var="veh" items="${vehicleList}" varStatus="count">
+											<option value="${veh.vehNo}">
+											</c:forEach>
+											
+											</datalist>
+											
+											
+											<input type="button" id="genEwayBill_button" class="btn btn-primary"
+											onclick="genEwayBill()" value="Gen E-way Bill" style="width: 10%;"/>
+											
+											</div>
+											
+											<div class="table-wrap">
+
+												<table id="table2" class="table table-advance" border="1" style="display: none">
+													<thead>
+														<tr style="background-color: red;">
+															<th class="col-sm-1" align="left">Sr No</th>
+															<th class="col-md-2" align="left">Invoice No</th>
+															<th class="col-md-2" align="left">Error Code</th>
+															<th class="col-md-4" align="left">Error Desc</th>
+														</tr>
+													</thead>
+													<tbody>
+													
+													
+													</tbody>
+													</table>
+													</div>
 									</div>
 								</div>
 							</form>
@@ -350,7 +393,9 @@
 								var len = data.length;
 
 								$('#table1 td').remove();
-
+								
+								if(len>0)
+								document.getElementById("btn_submit").style.display="block";
 								$
 										.each(
 												data,
@@ -413,6 +458,87 @@
 							});
 
 		}
+	
+		
+		
+		function showVehNo(){
+			document.getElementById("eway_submit").style.display="block";
+			//document.getElementById("vehNo").style.display="block";
+		}
+		
+		$('#genEwayBill_button')
+		.click(
+				function() {
+					var vehNo=document.getElementById("vehNo").value;
+					//alert("vehNo"+vehNo);
+					var form = document.getElementById("validation-form")
+					
+					$.ajax({
+       type: "POST",
+            url: "${pageContext.request.contextPath}/genInwardEwayBill",
+            data: $("#validation-form").serialize(),
+            dataType: 'json',
+    success: function(data){
+    	//alert(JSON.stringify(data));
+    if(data.length>0)
+    {			document.getElementById("table2").style.display="block";
+
+		$('#table2 td').remove();
+		if (data == "") {
+			alert("No Bill Found");
+		}
+
+		$
+				.each(
+						data,
+						function(key, bill) {
+							
+
+							var tr = $('<tr></tr>');
+							
+							tr
+									.append($(
+											'<td class="col-sm-1"></td>')
+											.html(
+													key + 1));
+
+							tr
+									.append($(
+											'<td class="col-md-1"></td>')
+											.html(
+													bill.invoiceNo));
+							tr
+							.append($(
+									'<td class="col-md-1"></td>')
+									.html(
+											bill.errorCode));
+							tr
+							.append($(
+									'<td class="col-md-1"></td>')
+									.html(
+											bill.message));
+							
+							
+							$('#table2 tbody').append(
+									tr);
+							
+						});
+		
+    }
+    
+    callSearch();
+    }
+    })
+    /* .done(function() {
+    setTimeout(function(){
+ 
+    },500);
+    }); */
+					
+					
+					//form.action = "${pageContext.request.contextPath}/checkToken";
+					//form.submit();
+				});	
 	</script>
 
 	<script type="text/javascript">
