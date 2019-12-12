@@ -88,7 +88,7 @@ page-break-inside: auto !important
 					</p>  --%>
 					<p
 						style="color: #000; font-size: 13px;font-weight:bold; text-align: left; margin: 0px;">
-						Invoice No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${frDetails.invoiceNo}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						Invoice No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${frDetails.invoiceNo}</b> Eway Bill No: ${frDetails.ewayBillNo} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<!-- </p>
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;"> -->
@@ -372,7 +372,7 @@ page-break-inside: auto !important
 					</p>  --%>
 					<p
 						style="color: #000; font-size: 13px;font-weight:bold; text-align: left; margin: 0px;">
-						Invoice No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${frDetails.invoiceNo}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						Invoice No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${frDetails.invoiceNo}</b>Eway Bill No: ${frDetails.ewayBillNo} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<!-- </p>
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;"> -->

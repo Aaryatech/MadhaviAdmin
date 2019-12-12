@@ -1852,11 +1852,11 @@ public class BillController {
 
 				slabwiseBillList.addAll(responseEntity1.getBody());
 			}
-			System.out.println("slabwiseBillList" + slabwiseBillList.toString());
-			System.out.println("bill No in Header " + billHeadersListForPrint.toString());
+			//System.out.println("slabwiseBillList" + slabwiseBillList.toString());
+			//System.out.println("bill No in Header " + billHeadersListForPrint.toString());
 
-			System.out.println("selected bills for Printing " + billList);
-			System.out.println("Size Here Now  " + billHeadersListForPrint.size());
+			//System.out.println("selected bills for Printing " + billList);
+			//System.out.println("Size Here Now  " + billHeadersListForPrint.size());
 			billHeadersListForPrint = new ArrayList<>();
 
 			// billHeadersListForPrint=getBillListProcessForPrint(request, response);
@@ -1996,6 +1996,8 @@ public class BillController {
 						billPrint.setExVarchar2(billHeadersListForPrint.get(i).getExVarchar2());// new on 2july
 
 						billPrint.setCompany(billHeadersListForPrint.get(i).getCompany());
+						
+						billPrint.setEwayBillNo(billHeadersListForPrint.get(i).getEwayBillNo());
 						billDetails.add(billDetailsListForPrint.get(j));
 
 						for (int a = 0; a < subCatAList.size(); a++) {

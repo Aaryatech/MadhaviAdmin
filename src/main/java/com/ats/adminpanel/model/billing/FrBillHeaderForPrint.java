@@ -27,6 +27,18 @@ public class FrBillHeaderForPrint {
 	private String exVarchar1;//new -02 july 19
 	private String exVarchar2;//new -02 july 19
 	
+	
+private String ewayBillNo;//Sachin 12-Dec-2019
+	
+	
+	public String getEwayBillNo() {
+		return ewayBillNo;
+	}
+
+	public void setEwayBillNo(String ewayBillNo) {
+		this.ewayBillNo = ewayBillNo;
+	}
+	
 	Company company;
 	
 	

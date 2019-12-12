@@ -34,6 +34,17 @@ public class FrBillPrint {
 	
 	Company company;
 	
+private String ewayBillNo;
+	
+	
+	public String getEwayBillNo() {
+		return ewayBillNo;
+	}
+
+	public void setEwayBillNo(String ewayBillNo) {
+		this.ewayBillNo = ewayBillNo;
+	}
+	
 	
 	public String getVehNo() {
 		return vehNo;
