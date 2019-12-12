@@ -1596,6 +1596,7 @@ public class CreditNoteController {
 
 				cNoteHeaderPrint.setFrGstNo(creditHeaderList.get(i).getFrGstNo());
 				cNoteHeaderPrint.setIsGrn(creditHeaderList.get(i).getIsGrn());
+				cNoteHeaderPrint.setExVarchar2(creditHeaderList.get(i).getExVarchar2());
 
 				List<GetCrnDetails> crnPrintDetailList = new ArrayList<>();
 

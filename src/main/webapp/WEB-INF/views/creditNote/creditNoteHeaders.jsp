@@ -419,7 +419,7 @@
 															.append($(
 																	'<td></td>')
 																	.html(
-																			headers.crnNo));
+																			headers.crnNo+' Eway-'+headers.exVarchar2));
 
 													tr
 															.append($(

@@ -45,7 +45,7 @@
 					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">&nbsp;GSTIN
 					Number&nbsp;&nbsp;&nbsp;: ${Constants.FACTORYGSTIN}</td>
 				<td width="70%" colspan="6" align="left"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;"></td>
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">Eway Bill No: ${headerH.creditHeader.exVarchar2}</td>
 
 			</tr>
 			<tr>
