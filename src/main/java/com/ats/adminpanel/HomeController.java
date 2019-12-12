@@ -124,6 +124,8 @@ public class HomeController {
 		orderCounts=orderCountList.getOrderCount();
 		mav.addObject("orderCounts",orderCounts);
 		mav.addObject("cDate",dateFormat.format(new Date()));
+		
+		System.err.println("menu list"+orderCounts.toString());
 		}
 		catch(Exception e)
 		{

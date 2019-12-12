@@ -169,7 +169,7 @@ select {
 			<!-- END Main Content -->
 
 			<footer>
-				<p>2019 © MONGINIS.</p>
+				<p>2019 © MADHAVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

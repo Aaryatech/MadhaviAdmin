@@ -95,6 +95,68 @@ public class OrderController {
 				model.addObject("franchiseeList", franchiseeList);
 				model.addObject("allOtherFrList", tempFrList);
 				model.addObject("selectedFrList", selectedFrList);
+				model.addObject("menuId", 0);
+				model.addObject("date", new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+				RestTemplate restTemplate1 = new RestTemplate();
+
+				AllMenuResponse allMenuResponse = restTemplate1.getForObject(Constants.url + "getAllMenu",
+						AllMenuResponse.class);
+
+				menuList = new ArrayList<Menu>();
+				menuList = allMenuResponse.getMenuConfigurationPage();
+
+				System.out.println("MENU LIST= " + menuList.toString());
+				model.addObject("menuList", menuList);
+				System.out.println("menu list is" + menuList.toString());
+
+				AllRoutesListResponse allRouteListResponse = restTemplate.getForObject(Constants.url + "showRouteList",
+						AllRoutesListResponse.class);
+
+				List<Route> routeList = new ArrayList<Route>();
+
+				routeList = allRouteListResponse.getRoute();
+				model.addObject("routeList", routeList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return model;
+
+	}
+	
+	
+	@RequestMapping(value = "/showOrders/{menuId}")
+	public ModelAndView searchOrder(HttpServletRequest request, HttpServletResponse response,@PathVariable int menuId) {
+
+		// ModelAndView model=new ModelAndView("orders/orders");
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("showOrders", "showOrders", "1", "0", "0", "0", newModuleList);
+
+		if (view.getError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+			model = new ModelAndView("orders/orders");
+			Constants.mainAct = 4;
+			Constants.subAct = 27;
+
+			try {
+				RestTemplate restTemplate = new RestTemplate();
+				AllFranchiseeList allFranchiseeList = restTemplate.getForObject(Constants.url + "getAllFranchisee",
+						AllFranchiseeList.class);
+
+				// franchiseeList= new ArrayList<FranchiseeList>();
+				franchiseeList = allFranchiseeList.getFranchiseeList();
+
+				model.addObject("franchiseeList", franchiseeList);
+				model.addObject("allOtherFrList", tempFrList);
+				model.addObject("selectedFrList", selectedFrList);
+				model.addObject("menuId", menuId);
 				model.addObject("date", new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 				RestTemplate restTemplate1 = new RestTemplate();
 

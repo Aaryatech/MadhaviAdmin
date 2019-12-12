@@ -78,6 +78,16 @@
 									<div class="content">
 										<p class="big" ><c:out value="${orderCounts.total}"></c:out></p>
 										<p class="title"><c:out value="${orderCounts.menuTitle}"></c:out></p>
+										 <c:if test="${orderCounts.menuId==1}">
+										 <a href="showOrders/${orderCounts.menuId}"><span
+														class="glyphicon glyphicon-list" style="color:black;"></span></a>
+														 <a href="showproduction/${orderCounts.menuId}"><span
+														class="glyphicon glyphicon-list" style="color:black;"></span></a>
+														
+													 
+										 
+										 </c:if>
+										 
 									</div>
 								</div>
 
@@ -168,7 +178,7 @@
 
 
 			<footer>
-			<p>2018 © MONGINIS.</p>
+			<p>2019 © MADHAVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

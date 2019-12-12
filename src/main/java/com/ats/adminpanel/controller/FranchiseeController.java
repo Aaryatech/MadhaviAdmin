@@ -2076,6 +2076,8 @@ public class FranchiseeController {
 
 		try {
 			String menuId = request.getParameter("menuId");
+			
+			System.out.println("menuId"+menuId);
 			StringBuilder sb = new StringBuilder();
 
 			menuId = menuId.substring(1, menuId.length() - 1);

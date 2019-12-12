@@ -178,6 +178,57 @@ public class ProductionController {
 			model.addObject("todayDate", new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 			model.addObject("unSelectedCatList", categoryList);
 			model.addObject("productionTimeSlot", timeSlot);
+			model.addObject("catId", 0);
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/showproduction/{catId}", method = RequestMethod.GET)
+	public ModelAndView showProdForcasting(HttpServletRequest request, HttpServletResponse response,@PathVariable int catId) {
+
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("showproduction", "showproduction", "1", "0", "0", "0", newModuleList);
+
+		if (view.getError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+			model = new ModelAndView("production/production");
+			Constants.mainAct = 4;
+			Constants.subAct = 32;
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
+					CategoryListResponse.class);
+
+			categoryList = categoryListResponse.getmCategoryList();
+			// allFrIdNameList = new AllFrIdNameList();
+			System.out.println("Category list  " + categoryList);
+			System.out.println("catId  " + catId);
+			int productionTimeSlot = 0;
+			try {
+
+				productionTimeSlot = restTemplate.getForObject(Constants.url + "getProductionTimeSlot", Integer.class);
+				System.out.println("time slot  " + productionTimeSlot);
+			} catch (Exception e) {
+				// System.out.println(e.getMessage());
+				// e.printStackTrace();
+
+			}
+
+			timeSlot = new int[productionTimeSlot];
+			for (int i = 0; i < productionTimeSlot; i++)
+				timeSlot[i] = i + 1;
+			model.addObject("todayDate", new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+			model.addObject("unSelectedCatList", categoryList);
+			model.addObject("productionTimeSlot", timeSlot);
+			model.addObject("catId", catId);
 		}
 		return model;
 	}
