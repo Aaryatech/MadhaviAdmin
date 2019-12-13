@@ -614,11 +614,11 @@ public class ManualOrderController {
 		String partyAddress ="";
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
-		List<BillTransaction> tranList = new ArrayList();
+		 
 		int ordertype= Integer.parseInt(request.getParameter("ordertype"));
 		
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String currentDate = df.format(date);
 		
 		List<String> frIdList=new ArrayList<>();
@@ -905,26 +905,9 @@ public class ManualOrderController {
 					postBillHeaderList.add(header);
 					
 					
-
-					BillTransaction bt =new BillTransaction();
-					bt.setBillAmt(String.valueOf(header.getGrandTotal()));
-					bt.setBillHeadId(0);
-					bt.setBillNo(String.valueOf(header.getInvoiceNo()));
-					bt.setExInt1(0);
-					bt.setExInt2(0);
-					bt.setExInt3(0);
-					bt.setExInt4(0);
-					bt.setExVar1("NA");
-					bt.setExVar2("NA");
-					bt.setExVar3("NA");
-					bt.setExVar4("NA");
-					bt.setFrId(header.getFrId());
-					bt.setIsClosed(0);
-					bt.setPaidAmt("0");
-					bt.setPendingAmt(String.valueOf(header.getGrandTotal()));
-					bt.setBillDate(currentDate);
+ 
 					
-					tranList.add(bt);
+				 
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
 
 					System.out.println("Test data : " + postBillDataCommon.toString());
@@ -934,14 +917,7 @@ public class ManualOrderController {
 
 					List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(respList));
 					
-					
-					if(billRespList!=null) {
-
-						Info info1 = restTemplate.postForObject(Constants.url + "saveBillTransaction", tranList,
-								Info.class);
-		 				 
-					}
-			
+			 
 			 
 
 					billNo =billNo+","+ billRespList.get(0).getBillNo();

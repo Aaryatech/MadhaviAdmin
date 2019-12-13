@@ -38,6 +38,7 @@ import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.accessright.ModuleJson;
+import com.ats.adminpanel.model.franchisee.FranchiseeList;
 import com.ats.adminpanel.model.franchisee.Menu;
 import com.ats.adminpanel.model.grngvn.GetGrnGvnDetails;
 import com.ats.adminpanel.model.grngvn.GetGrnGvnDetailsList;
@@ -867,7 +868,13 @@ public class GrnGvnController {
 				}
 				model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
 
+				accGrnHeaderFromDate = request.getParameter("from_date");
+				accGrnHeaderToDate = request.getParameter("to_date");
+		
+				System.err.println("inside findGrnGvnHeaderOnLoad"+accGrnHeaderFromDate);
+				System.err.println("inside findGrnGvnHeaderOnLoad"+accGrnHeaderToDate);
 				if (accGrnHeaderFromDate == "" || accGrnHeaderFromDate == null) {
+					System.err.println("inside findGrnGvnHeaderOnLoad");
 					
 					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Calendar cal = Calendar.getInstance();
@@ -966,9 +973,27 @@ public class GrnGvnController {
 
 				} // End of else
 
+				/*
+				 * for(int i=0;i<grnAccHeaderList.size();i++ ){
+				 * 
+				 * map = new LinkedMultiValueMap<String, Object>(); map.add("frId",
+				 * grnAccHeaderList.get(i).getFrId());
+				 * 
+				 * 
+				 * FranchiseeList franchiseeList = restTemplate.getForObject(Constants.url +
+				 * "getFranchisee?frId={frId}", FranchiseeList.class,
+				 * grnAccHeaderList.get(i).getFrId());
+				 * 
+				 * System.out.println("  FR " + franchiseeList.toString());
+				 * grnAccHeaderList.get(i).setApprovedDatetime(franchiseeList.getFrName());
+				 * 
+				 * }
+				 */
 				model.addObject("fromDate", accGrnHeaderFromDate);
 				model.addObject("toDate", accGrnHeaderToDate);
 				model.addObject("grnList", grnAccHeaderList);
+				
+				
 				model.addObject("selectedFr", frList);
 
 				accGrnHeaderFromDate = null;
@@ -1145,8 +1170,12 @@ public class GrnGvnController {
 			grandTotal = aprTaxableAmt + aprTotalTax;
 			detail.setGrnGvnAmt(roundUp(grandTotal));
 		} // end of for loop
-
-		String grnDate = grnAccDetailList.get(0).getGrnGvnDate();
+		String grnDate="";
+		
+		if(grnAccDetailList.size() >0) {
+			  grnDate = grnAccDetailList.get(0).getGrnGvnDate();
+		} 
+		
 
 		modelAndView.addObject("grnList", grnAccDetailList);
 		modelAndView.addObject("grnDate", grnDate);

@@ -711,7 +711,7 @@ td, th {
 																		.append($(
 																				'<td></td>')
 																				.html(
-																						"<input type='number' onkeypress='return IsNumeric(event);' ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 24px;' class='form-control' min='0' id=qty"
+																						"<input type='number' onkeypress='return IsNumeric(event);' ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=qty"
 																								+ orders.orderId
 																								+ " value="
 																								+ orders.orderQty
@@ -722,7 +722,7 @@ td, th {
 																		.append($(
 																				'<td></td>')
 																				.html(
-																						"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 24px;' class='form-control' min='0' id=qty"
+																						"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=qty"
 																								+ orders.orderId
 																								+ " value="
 																								+ orders.orderQty

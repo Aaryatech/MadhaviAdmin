@@ -6,54 +6,51 @@
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <style>
-	table{
-  width:100%;
-  border:1px solid #ddd;
-      border-collapse: collapse;
-  
+table {
+	width: 100%;
+	border: 1px solid #ddd;
+	border-collapse: collapse;
 }
+
 th {
-    border: 1px #DDD solid;
+	border: 1px #DDD solid;
 }
+
 td {
-    border: 1px #DDD solid;
-    padding: 3px 6px;
- 
+	border: 1px #DDD solid;
+	padding: 3px 6px;
 }
-.selected{
-    background:#ffffff;
+
+.selected {
+	background: #ffffff;
 }
-root
-    {
-        display: block;
-    }
 
-    th.sortable
-    {
-        color: #666;
-        cursor: pointer;
-        text-decoration: underline;
-    }
+root {
+	display: block;
+}
 
-        th.sortable:hover
-        {
-            color: black;
-        }
+th.sortable {
+	color: #666;
+	cursor: pointer;
+	text-decoration: underline;
+}
 
-    th.sorted-asc, th.sorted-desc
-    {
-        color: black;
-        background-color: cadetblue;
-    }
+th.sortable:hover {
+	color: black;
+}
 
+th.sorted-asc, th.sorted-desc {
+	color: black;
+	background-color: cadetblue;
+}
 </style>
 <body>
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
-<c:url var="excelForFrBill" value="/excelForFrBill" />
+	<c:url var="excelForFrBill" value="/excelForFrBill" />
 	<c:url var="callGetBillListProcess" value="/getBillListProcessForPrint" />
-<c:url var="excelForFrBillExcel" value="/excelForFrBillExcel" />
+	<c:url var="excelForFrBillExcel" value="/excelForFrBillExcel" />
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -105,9 +102,11 @@ root
 
 						<div class="box-content">
 							<form class="form-horizontal" method="get" id="validation-form">
-	                        <input type="hidden" class="form-control" name="billnumber" id="billnumber"	value="0"  />
-							<input type="hidden" class="form-control" name="issinglepdf" id="issinglepdf" 	value="0" />
-						
+								<input type="hidden" class="form-control" name="billnumber"
+									id="billnumber" value="0" /> <input type="hidden"
+									class="form-control" name="issinglepdf" id="issinglepdf"
+									value="0" />
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">From
 										Date</label>
@@ -144,12 +143,13 @@ root
 										</select>
 									</div>
 
-                          
-							
 
 
-									<label for="textfield2" class="col-xs-3 col-lg-2 control-label"> <b>OR</b>  &nbsp; Select
-										Route </label>
+
+
+									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
+										<b>OR</b> &nbsp; Select Route
+									</label>
 									<div class="col-sm-9 col-lg-3 controls">
 
 
@@ -158,34 +158,34 @@ root
 
 											<option value="0">Select Route</option>
 											<c:forEach items="${routeList}" var="route" varStatus="count">
-												<option value="${route.routeId}"> ${route.routeName}</option>
+												<option value="${route.routeId}">
+													${route.routeName}</option>
 
 											</c:forEach>
 
 										</select>
 									</div>
-							</div>
+								</div>
 
 
-								<div align="center" class="form-group"> 
-							<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
+								<div align="center" class="form-group">
+									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
 										Section </label>
 									<div class="col-sm-9 col-lg-3 controls">
-														
-							<select id="section"  class='form-control'>
-							<option value="-">All</option>
-								<c:forEach items="${sectionList}" var="sectionList">
-																<option value="${sectionList.sectionId}"><c:out
-																		value="${sectionList.sectionName}" /></option>
-															</c:forEach>
-							
-							</select>
-							</div>
-								
-									<div
-										class="col-sm-1">
-										<input class="btn btn-primary" type="button" value="Search" id="callSubmit"
-											onclick="callSearch()">
+
+										<select id="section" class='form-control'>
+											<option value="-">All</option>
+											<c:forEach items="${sectionList}" var="sectionList">
+												<option value="${sectionList.sectionId}"><c:out
+														value="${sectionList.sectionName}" /></option>
+											</c:forEach>
+
+										</select>
+									</div>
+
+									<div class="col-sm-1">
+										<input class="btn btn-primary" type="button" value="Search"
+											id="callSubmit" onclick="callSearch()">
 
 
 									</div>
@@ -214,7 +214,7 @@ root
 								<!-- <tion="getBillListProcess" class="form-horizontal"
 								method="post" id="validation-form"> -->
 								<div class="box1">
-								<!-- 	<div class="box-title">
+									<!-- 	<div class="box-title">
 										<h3>
 											<i class="fa fa-table"></i> Bill List
 										</h3>
@@ -226,136 +226,144 @@ root
 									</div> -->
 
 									<div class="box-content">
-										<div align="center" class="form-group" style="color:white; height:65px; background: #0288d1;
-    background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
-    background: linear-gradient(45deg, #e693c6 0%,  #5cc8d6 100%);box-shadow: 0 6px 20px 0 rgba(38, 198, 218, 0.5);  ">
-										<br>	<label class="col-sm-3 col-lg-2 control-label">Transport
+										<div align="center" class="form-group"
+											style="color: white; height: 65px; background: #0288d1; background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%); background: linear-gradient(45deg, #e693c6 0%, #5cc8d6 100%); box-shadow: 0 6px 20px 0 rgba(38, 198, 218, 0.5);">
+											<br> <label class="col-sm-3 col-lg-2 control-label">Transport
 												Mode </label>
 											<div class="col-sm-5 col-lg-3 controls">
 												<input type="text" class="form-control"
 													name="transport_mode" value="By Road"
 													data-rule-required="true" />
 											</div>
-											<label class="col-sm-3 col-lg-2 control-label">Vehicle No
-												</label>
+											<label class="col-sm-3 col-lg-2 control-label">Vehicle
+												No </label>
 											<div class="col-sm-5 col-lg-3 controls">
 												<input type="text" class="form-control" name="vehicle_no"
 													value="0" data-rule-required="true" />
 											</div>
-														</div>
-<div class="box-content">
-		<div class="col-md-9" ></div> 
-					<label for="search" class="col-md-3" id="search">
-    
-									<input type="text"  id="myInput" onkeyup="myFunction()" autocomplete="off" style="border-radius: 60px;" placeholder="Search Shop Name & Invoice Number" title="Type in a name" width=80%>
-										</label>   <br>
+										</div>
+										<div class="box-content">
+											<div class="col-md-9"></div>
+											<label for="search" class="col-md-3" id="search"> <input
+												type="text" id="myInput" onkeyup="myFunction()"
+												autocomplete="off" style="border-radius: 60px;"
+												placeholder="Search Shop Name & Invoice Number"
+												title="Type in a name" width=80%>
+											</label> <br>
 
-										<!-- <div class="clearfix"></div> -->
-										<div class="table-responsive" style="border: 0">
-											<table width="100%" class="table table-bordered table-striped" id="table1"  border="1">
-												<thead style="background-color: #f3b5db; ">
-													<tr>
-													<th class="col-sm-1"><input type="checkbox" 
-													onClick="selectBillNo(this)" /> All<br /></th>
-														<th class="col-sm-1">Sr</th>
-														<th class="sortable">Inv No</th>
-														<th class="col-md-1">Date</th>
-														<th class="sortable">Franchise</th>
-														<th class="col-md-2">Taxable Amt</th>
-														<th class="col-sm-1">Tax Amt</th>
-														<th class="col-md-1">Total</th>
-														<th class="col-md-1">Status</th>
-														<th class="col-md-1" align="left">Action</th>
-														
-
-														<!-- 	<th width="300" align="center">Action</th> -->
-
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items="${billHeadersList}" var="billHeadersList"
-														varStatus="count">
-
+											<!-- <div class="clearfix"></div> -->
+											<div class="table-responsive" style="border: 0">
+												<table width="100%"
+													class="table table-bordered table-striped" id="table1"
+													border="1">
+													<thead style="background-color: #f3b5db;">
 														<tr>
-														
-															<td class="col-sm-1"><input type="checkbox" name="select_to_print"
-																id="${billHeadersList.billNo}"
-																value="${billHeadersList.billNo}"/></td>
-                                                          
-															<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-                                                           
-															<td class="col-md-1"><c:out
-																	value="${billHeadersList.invoiceNo}" /></td>
+															<th class="col-sm-1"><input type="checkbox"
+																onClick="selectBillNo(this)" /> All<br /></th>
+															<th class="col-sm-1">Sr</th>
+															<th class="sortable">Inv No</th>
+															<th class="col-md-1">Date</th>
+															<th class="sortable">Franchise</th>
+															<th class="col-md-2">Taxable Amt</th>
+															<th class="col-sm-1">Tax Amt</th>
+															<th class="col-md-1">Total</th>
+															<th class="col-md-1">Status</th>
+															<th class="col-md-1" align="left">Action</th>
 
-															<td class="col-md-1"><c:out
-																	value="${billHeadersList.billDate}" /></td>
 
-															<td class="col-md-2"><c:out
-																	value="${billHeadersList.frName}" /></td>
-															<td class="col-md-2" style="text-align:right;"><c:out
-																	value="${billHeadersList.taxableAmt}" /></td>
-															<td class="col-sm-1" style="text-align:right;"><c:out
-																	value="${billHeadersList.totalTax}" /></td>
-															
-															<td class="col-md-1" style="text-align:right;">
-															
-															<fmt:formatNumber type="number" maxFractionDigits="2" value="${billHeadersList.taxableAmt + billHeadersList.totalTax}" /></td>
-															
-															<c:if test="${billHeadersList.status==1}">
-																
-																	<td align="left"><c:out
-																			value="Pending" /></td>
+															<!-- 	<th width="300" align="center">Action</th> -->
+
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach items="${billHeadersList}"
+															var="billHeadersList" varStatus="count">
+
+															<tr>
+
+																<td class="col-sm-1"><input type="checkbox"
+																	name="select_to_print" id="${billHeadersList.billNo}"
+																	value="${billHeadersList.billNo}" /></td>
+
+																<td class="col-sm-1"><c:out
+																		value="${count.index+1}" /></td>
+
+																<td class="col-md-1"><c:out
+																		value="${billHeadersList.invoiceNo}" /></td>
+
+																<td class="col-md-1"><c:out
+																		value="${billHeadersList.billDate}" /></td>
+
+																<td class="col-md-2"><c:out
+																		value="${billHeadersList.frName}" /></td>
+																<td class="col-md-2" style="text-align: right;"><c:out
+																		value="${billHeadersList.taxableAmt}" /></td>
+																<td class="col-sm-1" style="text-align: right;"><c:out
+																		value="${billHeadersList.totalTax}" /></td>
+
+																<td class="col-md-1" style="text-align: right;"><fmt:formatNumber
+																		type="number" maxFractionDigits="2"
+																		value="${billHeadersList.taxableAmt + billHeadersList.totalTax}" /></td>
+
+																<c:if test="${billHeadersList.status==1}">
+
+																	<td align="left"><c:out value="Pending" /></td>
 																</c:if>
 																<c:if test="${billHeadersList.status==2}">
-																
-																	<td align="left"><c:out
-																			value="Received" /></td>
+
+																	<td align="left"><c:out value="Received" /></td>
 																</c:if>
-																
-															<td class="col-md-2" align="center">
-															<div class="form-group">
-															
-															<a href="#" onclick="submitBill()" title="Bill Detail"><i
-																class='fa fa-info  fa-lg'></i></a> 
-																
-															 <!-- <input type="button"  id="btn_submit"
+
+																<td class="col-md-2" align="center">
+																	<div class="form-group">
+
+																		<a href="#"
+																			onclick="submitBill(${billHeadersList.billNo})"
+																			title="Bill Detail"><i class='fa fa-info  fa-lg'></i></a>
+
+																		<!-- <input type="button"  id="btn_submit"
 															class="btn btn-primary" onclick="submitBill()"
-															value="BillDetail" /> -->&nbsp;&nbsp;
-															
-															
-															<input type="button"  id="btn_submit_pdf"
-															class="btn btn-primary"
-															value="PDF" onclick="submitBillPdf()" style="padding: 0px 4px;font-size: 14px;">&nbsp;
-															
-															<c:if test="${billHeadersList.status==1}">
-															<a href="${pageContext.request.contextPath}/updateBillStatusAdmin?billNo=${billHeadersList.billNo}&stat=2" title="Received"><i
-																class='fa fa-check'></i></a> 
-															</c:if>
-															</div></td>
-														</tr>
-													</c:forEach>
+															value="BillDetail" /> -->
+																		&nbsp;&nbsp; <input type="button" id="btn_submit_pdf"
+																			class="btn btn-primary" value="PDF"
+																			onclick="submitBillPdf(${billHeadersList.billNo})"
+																			style="padding: 0px 4px; font-size: 14px;">&nbsp;
 
-												</tbody>
-											</table>
-										</div>
+																		<c:if test="${billHeadersList.status==1}">
+																			<a
+																				href="${pageContext.request.contextPath}/updateBillStatusAdmin?billNo=${billHeadersList.billNo}&stat=2"
+																				title="Received"><i class='fa fa-check'></i></a>
+																		</c:if>
+																	</div>
+																</td>
+															</tr>
+														</c:forEach>
 
+													</tbody>
+												</table>
+											</div>
 
+											<input type="hidden" id="billId" name="billId">
 
-										<!-- <button class="btn btn-info pull-right"
+											<!-- <button class="btn btn-info pull-right"
 								style="margin-right: 5px;" onclick="submitBill()">Get
 								PDF</button> -->
 
-										<input type="button" margin-right: 5px;" id="btn_submit"
-											class="btn btn-primary" onclick="submitBill()"
-											value="BillDetail" style="display: none;"/>
-											<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="createExel();" >
-											
-									&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" id="expExcel" class="btn btn-primary" value="Excel Hsnwise Summary Tally" onclick="createExelHsnwise();" >
-									&nbsp;&nbsp;&nbsp;&nbsp;
-																		<input type="button" disabled id="expExcel2" class="btn btn-primary" value="Hsnwise Summary" onclick="exportToExcel();" >
-									
+											<input type="button" margin-right: 5px;" id="btn_submit"
+												class="btn btn-primary" onclick="submitBill()"
+												value="BillDetail" style="display: none;" /> <input
+												type="button" id="expExcel" class="btn btn-primary"
+												value="EXPORT TO Excel" onclick="createExel();">
+
+											&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" id="expExcel"
+												class="btn btn-primary" value="Excel Hsnwise Summary Tally"
+												onclick="createExelHsnwise();">
+											&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" disabled
+												id="expExcel2" class="btn btn-primary"
+												value="Hsnwise Summary" onclick="exportToExcel();">
+
+										</div>
 									</div>
-								</div>
 							</form>
 						</div>
 					</div>
@@ -421,39 +429,41 @@ root
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 
 	<script type="text/javascript">
-		function submitBill() {
-			//submitBillForm.submit();
-			// window.open("${pageContext.request.contextPath}/pdf?url=showBillPdf");
-
-			// window.open("${pageContext.request.contextPath}/showBillListForPrint");
-var form = document.getElementById("validation-form")
-form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
-form.submit();
+		function submitBill(val) {
+			 
+			 document.getElementById("billId").value=val;
+				var form = document.getElementById("validation-form")
+				form.action = "${pageContext.request.contextPath}/getBillDetailForPrint1";
+				form.submit();
+			 
 		}
-		$('#btn_submit')
-				.click(
-						function() {
-							var form = document.getElementById("validation-form")
-							form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
-							form.submit();
-						});	
-		
+		/* 	$('#btn_submit')
+					.click(
+							function() {
+								var form = document.getElementById("validation-form")
+								form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
+								form.submit();
+							});	 */
 	</script>
 
 
 	<script type="text/javascript">
-		
-		$('#btn_submit_pdf')
+		/* $('#btn_submit_pdf')
 				.click(
 						function() {
 							document.getElementById("validation-form").target = "_blank";
 
-							var form = document.getElementById("validation-form");
+							var form = document
+									.getElementById("validation-form");
 
 							form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf";
 							form.submit();
-						});
-		function submitBillPdf() {
+						}); */
+		function submitBillPdf(val) {
+							
+							 document.getElementById("billId").value=val;
+							 
+							
 			document.getElementById("validation-form").target = "_blank";
 
 			var form = document.getElementById("validation-form");
@@ -461,26 +471,26 @@ form.submit();
 			form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf";
 			form.submit();
 		}
-		
+					 
 	</script>
-<script type="text/javascript">
-	function validate() {
+	<script type="text/javascript">
+		function validate() {
 
-		var selectedFr = $("#fr_id").val();
-		var selectedRoute = $("#route_id").val();
+			var selectedFr = $("#fr_id").val();
+			var selectedRoute = $("#route_id").val();
 
+			var isValid = true;
 
-		var isValid = true;
-	
-		if ((selectedFr == "" || selectedFr == null ) && (selectedRoute==0)) { 
+			if ((selectedFr == "" || selectedFr == null)
+					&& (selectedRoute == 0)) {
 
 				alert("Please Select Route  Or Franchisee");
 				isValid = false;
-		
-		}
-		return isValid;
 
-	}
+			}
+			return isValid;
+
+		}
 	</script>
 	<!--flaty scripts-->
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
@@ -532,287 +542,438 @@ form.submit();
 			var frIds = $("#fr_id").val();
 			var fromDate = document.getElementById("dp1").value;
 			var toDate = document.getElementById("dp2").value;
-			var section= document.getElementById("section").value;
+			var section = document.getElementById("section").value;
 			var routeId = document.getElementById("route_id").value;
-			var isValid=validate();
-			if(isValid==true){
-			$('#loader').show();
+			var isValid = validate();
+			if (isValid == true) {
+				$('#loader').show();
 
-			$
-					.getJSON(
-							'${callGetBillListProcess}',
-							{
-								fr_id_list : JSON.stringify(frIds),
-								from_date : fromDate,
-								to_date : toDate,
-								route_id : routeId,
-								ajax : 'true'
-							},
-							function(data) {
-								$('#table1 td').remove();
-								$('#loader').hide();
-								if (data == "") {
-									alert("No Bill Found");
-								}
-								$.each(data,function(key, bill) {
-												
-													if(section!="-" &&  section==bill.exVarchar1){
-													var tr = $('<tr></tr>');
-													tr.append($('<td class="col-sm-1"></td>').html("<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
-                                                    tr.append($('<td class="col-sm-1"></td>').html(key + 1));
-                                                    tr.append($('<td class="col-md-1"></td>').html(bill.invoiceNo));
-                                                    tr.append($('<td class="col-md-1"></td>').html(bill.billDate));
-													tr.append($('<td class="col-md-2"></td>').html(bill.frName));
-													tr.append($('<td class="col-md-2" style="text-align:right;"></td>').html(bill.taxableAmt.toFixed(2)));
-													tr.append($('<td class="col-sm-1" style="text-align:right;"></td>').html(bill.totalTax.toFixed(2)));
-													tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html(bill.grandTotal.toFixed(2)));
-													if (bill.status == 1) {
-														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Pending"));
+				$
+						.getJSON(
+								'${callGetBillListProcess}',
+								{
+									fr_id_list : JSON.stringify(frIds),
+									from_date : fromDate,
+									to_date : toDate,
+									route_id : routeId,
+									ajax : 'true'
+								},
+								function(data) {
+									$('#table1 td').remove();
+									$('#loader').hide();
+									if (data == "") {
+										alert("No Bill Found");
+									}
+									$
+											.each(
+													data,
+													function(key, bill) {
 
-													} else if (bill.status == 2) {
-														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Received"));
-													}
-													tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
-													$('#table1 tbody').append(tr);
-												}
-													
-													document.getElementById("expExcel2").disabled=false;
+														if (section != "-"
+																&& section == bill.exVarchar1) {
+															var tr = $('<tr></tr>');
+															tr
+																	.append($(
+																			'<td class="col-sm-1"></td>')
+																			.html(
+																					"<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
+															tr
+																	.append($(
+																			'<td class="col-sm-1"></td>')
+																			.html(
+																					key + 1));
+															tr
+																	.append($(
+																			'<td class="col-md-1"></td>')
+																			.html(
+																					bill.invoiceNo));
+															tr
+																	.append($(
+																			'<td class="col-md-1"></td>')
+																			.html(
+																					bill.billDate));
+															tr
+																	.append($(
+																			'<td class="col-md-2"></td>')
+																			.html(
+																					bill.frName));
+															tr
+																	.append($(
+																			'<td class="col-md-2" style="text-align:right;"></td>')
+																			.html(
+																					bill.taxableAmt
+																							.toFixed(2)));
+															tr
+																	.append($(
+																			'<td class="col-sm-1" style="text-align:right;"></td>')
+																			.html(
+																					bill.totalTax
+																							.toFixed(2)));
+															tr
+																	.append($(
+																			'<td class="col-md-1" style="text-align:right;"></td>')
+																			.html(
+																					bill.grandTotal
+																							.toFixed(2)));
+															if (bill.status == 1) {
+																tr
+																		.append($(
+																				'<td class="col-md-1" style="text-align:right;"></td>')
+																				.html(
+																						"Pending"));
 
-									})
-										if(section=="-")
-										{
-									$.each(data,function(key, bill) {
-											
-														var tr = $('<tr></tr>');
-														tr.append($('<td class="col-sm-1"></td>').html("<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
-	                                                    tr.append($('<td class="col-sm-1"></td>').html(key + 1));
-	                                                    tr.append($('<td class="col-md-1"></td>').html(bill.invoiceNo));
-	                                                    tr.append($('<td class="col-md-1"></td>').html(bill.billDate));
-														tr.append($('<td class="col-md-2"></td>').html(bill.frName));
-														tr.append($('<td class="col-md-2" style="text-align:right;"></td>').html(bill.taxableAmt.toFixed(2)));
-														tr.append($('<td class="col-sm-1" style="text-align:right;"></td>').html(bill.totalTax.toFixed(2)));
-														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html(bill.grandTotal.toFixed(2)));
-														if (bill.status == 1) {
-															tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Pending"));
-
-														} else if (bill.status == 2) {
-															tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html("Received"));
+															} else if (bill.status == 2) {
+																tr
+																		.append($(
+																				'<td class="col-md-1" style="text-align:right;"></td>')
+																				.html(
+																						"Received"));
+															}
+															tr
+																	.append($(
+																			'<td class="col-md-2"></td>')
+																			.html(
+																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+															$('#table1 tbody')
+																	.append(tr);
 														}
-														tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
-														$('#table1 tbody').append(tr);
-													
-											document.getElementById("expExcel2").disabled=false;
 
-										})
-								}
+														document
+																.getElementById("expExcel2").disabled = false;
 
-							});
+													})
+									if (section == "-") {
+										$
+												.each(
+														data,
+														function(key, bill) {
+
+															var tr = $('<tr></tr>');
+															tr
+																	.append($(
+																			'<td class="col-sm-1"></td>')
+																			.html(
+																					"<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
+															tr
+																	.append($(
+																			'<td class="col-sm-1"></td>')
+																			.html(
+																					key + 1));
+															tr
+																	.append($(
+																			'<td class="col-md-1"></td>')
+																			.html(
+																					bill.invoiceNo));
+															tr
+																	.append($(
+																			'<td class="col-md-1"></td>')
+																			.html(
+																					bill.billDate));
+															tr
+																	.append($(
+																			'<td class="col-md-2"></td>')
+																			.html(
+																					bill.frName));
+															tr
+																	.append($(
+																			'<td class="col-md-2" style="text-align:right;"></td>')
+																			.html(
+																					bill.taxableAmt
+																							.toFixed(2)));
+															tr
+																	.append($(
+																			'<td class="col-sm-1" style="text-align:right;"></td>')
+																			.html(
+																					bill.totalTax
+																							.toFixed(2)));
+															tr
+																	.append($(
+																			'<td class="col-md-1" style="text-align:right;"></td>')
+																			.html(
+																					bill.grandTotal
+																							.toFixed(2)));
+															if (bill.status == 1) {
+																tr
+																		.append($(
+																				'<td class="col-md-1" style="text-align:right;"></td>')
+																				.html(
+																						"Pending"));
+
+															} else if (bill.status == 2) {
+																tr
+																		.append($(
+																				'<td class="col-md-1" style="text-align:right;"></td>')
+																				.html(
+																						"Received"));
+															}
+															tr
+																	.append($(
+																			'<td class="col-md-2"></td>')
+																			.html(
+																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+															$('#table1 tbody')
+																	.append(tr);
+
+															document
+																	.getElementById("expExcel2").disabled = false;
+
+														})
+									}
+
+								});
 			}
 
 		}
 	</script>
-	
+
 	<script type="text/javascript">
-	 
 		function createExel() {
- 
+
 			var fromDate = document.getElementById("dp1").value;
 			var toDate = document.getElementById("dp2").value;
-			  var select_to_print = document.forms[0];
-			 // alert(JSON.stringify(select_to_print));
-    	var txt = "";
-    	var i;
-    	var flag=0;
-    	var all=0;
-    	 for (i = 0; i < select_to_print.length; i++) {
-        if (select_to_print[i].checked  && select_to_print[i].value!="on") {
-            txt = txt + select_to_print[i].value + ",";
-            flag=1;
-        }
-    } 
-		
-			 if(flag==1)
-				 {
-			$
-					.getJSON(
-							'${excelForFrBill}',
-							{
-								checkboxes : txt,
-								all : all,
-								fromDate : fromDate,
-								toDate : toDate,
-								ajax : 'true'
-							},
-							function(data) {
-								
-							 alert("Excel Ready");
-								 exportToExcel();
-							 
-							});
-				 }
-			 else
-				 {
-				 alert("Select Minimum 1 Bill ");
-				 }
+			var select_to_print = document.forms[0];
+			// alert(JSON.stringify(select_to_print));
+			var txt = "";
+			var i;
+			var flag = 0;
+			var all = 0;
+			for (i = 0; i < select_to_print.length; i++) {
+				if (select_to_print[i].checked
+						&& select_to_print[i].value != "on") {
+					txt = txt + select_to_print[i].value + ",";
+					flag = 1;
+				}
+			}
+
+			if (flag == 1) {
+				$.getJSON('${excelForFrBill}', {
+					checkboxes : txt,
+					all : all,
+					fromDate : fromDate,
+					toDate : toDate,
+					ajax : 'true'
+				}, function(data) {
+
+					//alert("Excel Ready");
+					exportToExcel();
+
+				});
+			} else {
+				alert("Select Minimum 1 Bill ");
+			}
 
 		}
-		
-		function exportToExcel()
-		{
+
+		function exportToExcel() {
 			//alert("Export Excel");
-			window.open("${pageContext.request.contextPath}/exportToExcel"); 
-			document.getElementById("expExcel2").disabled=true;
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel2").disabled = true;
 
 		}
 		function createExelHsnwise() {
-			 //alert("Hi");
-			  try {
-			var fromDate = document.getElementById("dp1").value;
-			var toDate = document.getElementById("dp2").value;
-			  var select_to_print = document.forms[0];
-			  //alert(JSON.stringify(select_to_print));
-    	var txt = "";
-    	var i;
-    	var flag=0;
-    	var all=0;
-    	//alert("before for")
-    	 for (i = 0; i < select_to_print.length; i++) {
-        if (select_to_print[i].checked  && select_to_print[i].value!="on") {
-            txt = txt + select_to_print[i].value + ",";
-            flag=1;
-        }
-    } 
-    	 alert("in flag  after for Length " +txt.length)
-			 if(flag==1)
-				 {
-				// alert("in flag  ==1")
-				
-				 
-			$
-					.getJSON(
-							'${excelForFrBillExcel}',
-							{
-								checkboxes : txt,
-								all : all,
-								fromDate : fromDate,
-								toDate : toDate,
-								ajax : 'true'
-							},
-							function(data) {
-								
-							// alert("Excel Ready");
-								 exportToExcel();
-							 
-							});
-				 }
-			 else
-				 {
-				 alert("Select Minimum 1 Bill ");
-				 }
-			  }catch(err) {
+			//alert("Hi");
+			try {
+				var fromDate = document.getElementById("dp1").value;
+				var toDate = document.getElementById("dp2").value;
+				var select_to_print = document.forms[0];
+				//alert(JSON.stringify(select_to_print));
+				var txt = "";
+				var i;
+				var flag = 0;
+				var all = 0;
+				//alert("before for")
+				for (i = 0; i < select_to_print.length; i++) {
+					if (select_to_print[i].checked
+							&& select_to_print[i].value != "on") {
+						txt = txt + select_to_print[i].value + ",";
+						flag = 1;
+					}
+				}
+				//alert("in flag  after for Length " + txt.length)
+				if (flag == 1) {
+					// alert("in flag  ==1")
+
+					$.getJSON('${excelForFrBillExcel}', {
+						checkboxes : txt,
+						all : all,
+						fromDate : fromDate,
+						toDate : toDate,
+						ajax : 'true'
+					}, function(data) {
+
+						// alert("Excel Ready");
+						exportToExcel();
+
+					});
+				} else {
+					alert("Select Minimum 1 Bill ");
+				}
+			} catch (err) {
 				//  alert("in catch")
-				  //alert(err);
-			  }
+				//alert(err);
+			}
 		}
 	</script>
 
 
 	<script>
-	
 		function selectBillNo(source) {
 			checkboxes = document.getElementsByName('select_to_print');
-			
+
 			for (var i = 0, n = checkboxes.length; i < n; i++) {
 				checkboxes[i].checked = source.checked;
 			}
-			
+
 		}
-		
-		
-		
-		
+
 		function myFunction() {
-			  var input, filter, table, tr, td,td1, i;
-			  input = document.getElementById("myInput");
-			  filter = input.value.toUpperCase();
-			  table = document.getElementById("table1");
-			  tr = table.getElementsByTagName("tr");
-			  for (i = 0; i < tr.length; i++) {
-			    td = tr[i].getElementsByTagName("td")[2];
-			    td1 = tr[i].getElementsByTagName("td")[4];
-			    if (td || td1) {
-			      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			        tr[i].style.display = "";
-			      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			        tr[i].style.display = "";
-			      }  else {
-			        tr[i].style.display = "none";
-			      }
-			    }       
-			  }//end of for
-			  
-			 
-			  
-			}
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[2];
+				td1 = tr[i].getElementsByTagName("td")[4];
+				if (td || td1) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}//end of for
+
+		}
 	</script>
-	
-<script type="text/javascript">
-	$(document).ready(function () {
 
-        //grab all header rows
-        $('th').each(function (column) {
-            $(this).addClass('sortable').click(function () {
-                    var findSortKey = function ($cell) {
-                        return $cell.find('.sort-key').text().toUpperCase()+ ' ' + $cell.text().toUpperCase();
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
 
-                    };
-                    var sortDirection = $(this).is('.sorted-asc') ? -1 : 1;
-                    var $rows = $(this).parent().parent().parent().find('tbody tr').get();
-                    var bob = 0;
-                    //loop through all the rows and find
-                    $.each($rows, function (index, row) {
-                        row.sortKey = findSortKey($(row).children('td').eq(column));
-                    });
+							//grab all header rows
+							$('th')
+									.each(
+											function(column) {
+												$(this)
+														.addClass('sortable')
+														.click(
+																function() {
+																	var findSortKey = function(
+																			$cell) {
+																		return $cell
+																				.find(
+																						'.sort-key')
+																				.text()
+																				.toUpperCase()
+																				+ ' '
+																				+ $cell
+																						.text()
+																						.toUpperCase();
 
-                    //compare and sort the rows alphabetically or numerically
-                    $rows.sort(function (a, b) {                       
-                        if (a.sortKey.indexOf('-') == -1 && (!isNaN(a.sortKey) && !isNaN(a.sortKey))) {
-                             //Rough Numeracy check                          
-                                
-                                if (parseInt(a.sortKey) < parseInt(b.sortKey)) {
-                                    return -sortDirection;
-                                }
-                                if (parseInt(a.sortKey) > parseInt(b.sortKey)) {                                
-                                    return sortDirection;
-                                }
+																	};
+																	var sortDirection = $(
+																			this)
+																			.is(
+																					'.sorted-asc') ? -1
+																			: 1;
+																	var $rows = $(
+																			this)
+																			.parent()
+																			.parent()
+																			.parent()
+																			.find(
+																					'tbody tr')
+																			.get();
+																	var bob = 0;
+																	//loop through all the rows and find
+																	$
+																			.each(
+																					$rows,
+																					function(
+																							index,
+																							row) {
+																						row.sortKey = findSortKey($(
+																								row)
+																								.children(
+																										'td')
+																								.eq(
+																										column));
+																					});
 
-                        } else {
-                            if (a.sortKey < b.sortKey) {
-                                return -sortDirection;
-                            }
-                            if (a.sortKey > b.sortKey) {
-                                return sortDirection;
-                            }
-                        }
-                        return 0;
-                    });
+																	//compare and sort the rows alphabetically or numerically
+																	$rows
+																			.sort(function(
+																					a,
+																					b) {
+																				if (a.sortKey
+																						.indexOf('-') == -1
+																						&& (!isNaN(a.sortKey) && !isNaN(a.sortKey))) {
+																					//Rough Numeracy check                          
 
-                    //add the rows in the correct order to the bottom of the table
-                    $.each($rows, function (index, row) {
-                        $('tbody').append(row);
-                        row.sortKey = null;
-                    });
+																					if (parseInt(a.sortKey) < parseInt(b.sortKey)) {
+																						return -sortDirection;
+																					}
+																					if (parseInt(a.sortKey) > parseInt(b.sortKey)) {
+																						return sortDirection;
+																					}
 
-                    //identify the collumn sort order
-                    $('th').removeClass('sorted-asc sorted-desc');
-                    var $sortHead = $('th').filter(':nth-child(' + (column + 1) + ')');
-                    sortDirection == 1 ? $sortHead.addClass('sorted-asc') : $sortHead.addClass('sorted-desc');
+																				} else {
+																					if (a.sortKey < b.sortKey) {
+																						return -sortDirection;
+																					}
+																					if (a.sortKey > b.sortKey) {
+																						return sortDirection;
+																					}
+																				}
+																				return 0;
+																			});
 
-                    //identify the collum to be sorted by
-                    $('td').removeClass('sorted').filter(':nth-child(' + (column + 1) + ')').addClass('sorted');
-                });
-            });
-        });
+																	//add the rows in the correct order to the bottom of the table
+																	$
+																			.each(
+																					$rows,
+																					function(
+																							index,
+																							row) {
+																						$(
+																								'tbody')
+																								.append(
+																										row);
+																						row.sortKey = null;
+																					});
+
+																	//identify the collumn sort order
+																	$('th')
+																			.removeClass(
+																					'sorted-asc sorted-desc');
+																	var $sortHead = $(
+																			'th')
+																			.filter(
+																					':nth-child('
+																							+ (column + 1)
+																							+ ')');
+																	sortDirection == 1 ? $sortHead
+																			.addClass('sorted-asc')
+																			: $sortHead
+																					.addClass('sorted-desc');
+
+																	//identify the collum to be sorted by
+																	$('td')
+																			.removeClass(
+																					'sorted')
+																			.filter(
+																					':nth-child('
+																							+ (column + 1)
+																							+ ')')
+																			.addClass(
+																					'sorted');
+																});
+											});
+						});
 	</script>
 	<!-- <script type="text/javascript">
 	$(document).ready(function () {

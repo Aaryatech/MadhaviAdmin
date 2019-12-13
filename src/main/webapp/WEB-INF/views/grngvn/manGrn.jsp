@@ -259,6 +259,8 @@
 							$.each(data,function(key, bill) { */
 					
 								$.each(data,function(key, bill) {
+									
+								 if(parseInt(bill.billQty)>0){
 
 							var tr = $('<tr></tr>');
 
@@ -291,6 +293,8 @@
 						 	//tr.append($('<td></td>').html(' <a>   <span class="glyphicon glyphicon-edit" id="edit'+bill.billNo+'" onClick=editQty('+bill.billNo+');> </span> </a><a><span class="glyphicon glyphicon-remove" id="delete'+bill.billDetailNo+'" onClick=deleteOrder('+bill.billDetailNo+');> </span></a>'));
 						 
 							$('#table_grid tbody').append(tr);
+							
+								}
 
 						})
 					

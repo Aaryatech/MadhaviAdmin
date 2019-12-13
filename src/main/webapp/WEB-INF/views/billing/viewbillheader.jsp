@@ -707,10 +707,18 @@ table {
 	</script>
 	<script type="text/javascript">
 		function submitBill() {
-			var form = document.getElementById("validation-form").target="_blank";
-			var form = document.getElementById("validation-form");
-			form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
-			form.submit();
+			
+			var checked = $("#validation-form input:checked").length > 0;
+			if (!checked) {
+			alert("Please Select Bill");
+			} else {
+				var form = document.getElementById("validation-form").target="_blank";
+				var form = document.getElementById("validation-form");
+				form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
+				form.submit();
+			}
+			
+			
 		}
 		function submitBill1(selectedBills){
 			var vehicleNo = document.getElementById("vehicle_no").value;
@@ -718,13 +726,25 @@ table {
 			
 			window.open("${pageContext.request.contextPath}/getBillDetailForPrint1/"+vehicleNo+'/'+transportMode+'/'+selectedBills);
 		}
-		$('#btn_submit')
-				.click(
-						function() {
-							var form = document.getElementById("validation-form")
-							form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
-							form.submit();
-						});	
+		
+	
+		
+		/* $('#btn_submit')
+		.click(
+				function() {
+					
+					
+					var checked = $("#validation-form input:checked").length > 0;
+					if (!checked) {
+					alert("plz chk");
+					} else {
+					var form = document.getElementById("validation-form")
+						form.action = "${pageContext.request.contextPath}/getBillDetailForPrint";
+						form.submit(); 
+					}
+					
+				});	 */
+		
 		 
 	</script>
 	<script type="text/javascript">

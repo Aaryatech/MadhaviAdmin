@@ -163,7 +163,7 @@ select {
 							<div class="box">
 								<div class="box-title">
 									<h3>
-										<i class="fa fa-bars"></i> Configure Franchisee
+										<i class="fa fa-bars"></i> Menu Franchisee
 									</h3>
 									<div class="box-tool">
 										<a href="${pageContext.request.contextPath}/configureFranchiseesList">Back to
@@ -386,7 +386,13 @@ select {
 												class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
 												<input type="submit" class="btn btn-primary"
 													value="Configure">
-												<button type="button" class="btn">Cancel</button>
+												<a href="${pageContext.request.contextPath}/configureFranchiseesList">	<button type="button" class="btn">Cancel</button>
+</a>
+												<%-- 	<a href="${pageContext.request.contextPath}/serviceList"><button
+													type="button" class="btn btn-primary" id="cancelbtn">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Cancel
+												</button></a> --%>
 											</div>
 										</div>
 									</form>

@@ -75,7 +75,7 @@
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label" for="item_name">Bill
-										date Name</label>
+										Date </label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="bill_date" id="bill_date"
 											placeholder="Bill Date" class="form-control"
@@ -105,7 +105,7 @@
 									<div class="clearfix"></div>
 									<div class="table-responsive" style="border: 0">
 										<table width="100%" class="table table-advance" id="table1">
-											<thead>
+											<thead style="background-color:#f95d64; ">
 												<tr>
 													<th class="col-sm-1">Sr No</th>
 													<th class="col-md-1">Group</th>
