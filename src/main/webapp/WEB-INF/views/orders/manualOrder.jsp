@@ -700,14 +700,17 @@ $(function() {
 			var discPer = $('#discper'+id+''+frId).val();
 			var minqty = $('#minqty'+id+''+frId).val();
 			
-			if(qty % minqty==0){
+			alert("qty"+qty);
+			alert("discPer"+discPer);
+			
+			if(qty % minqty==0 && parseInt(qty) > 0 &&  !(parseInt(discPer) < 0 )){
 			    var total = (rate * qty)-(discPer*((rate * qty)/100));
 			        total = total.toFixed(2)
 			   $('#total'+id+''+frId).html(total);
 			}else
 			{
 				 var total =0;
-				alert("Please Enter Qty Multiple of Minimum Qty");
+				alert("Please Enter Qty Multiple of Minimum Qty or Discount Properly");
 				$('#qty'+id+''+frId).val(0);
 				$('#total'+id+''+frId).html(total);
 				$('#qty'+id+''+frId).focus();
@@ -722,8 +725,9 @@ $(function() {
 			var discper = $('#discper'+id+''+frId).val();
 			
 			var minqty = $('#minqty'+id+''+frId).val();
-			
-			if(qty % minqty==0){
+			alert("qty"+qty);
+			alert("discper"+discper);
+			if(qty % minqty==0 && parseInt(qty) > 0 &&  !(parseInt(discper) < 0 )){
 			    var total = rate * qty;
 			    var disc=(total*discper)/100; 
 			    total=total-disc;
@@ -732,7 +736,7 @@ $(function() {
 			{
 				 var total =0;
 				 
-				alert("Please Enter Qty Multiple of Minimum Qty");
+				alert("Please Enter Qty Multiple of Minimum Qty or Discount Properly");
 				$('#qty'+id+''+frId).val(0);
 				
 				$('#total'+id+''+frId).html(total);

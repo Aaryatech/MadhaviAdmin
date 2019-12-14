@@ -148,7 +148,7 @@
 										<div class="clearfix"></div>
 										<div class="table-responsive" style="border: 0">
 											<table width="100%" class="table table-advance" id="table1">
-												<thead>
+												<thead style="background-color:#f95d64;" >
 													<tr>
 														<th width="45" style="width: 18px">#</th>
 														<th width="939" align="left">Name</th>
@@ -158,9 +158,9 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach items="${routeList}" var="routeList">
+													<c:forEach items="${routeList}" var="routeList" varStatus="count">
 														<tr>
-															<td>1</td>
+															<td><c:out value="${count.index+1}"/></td>
 															<td align="left"><c:out
 																	value="${routeList.routeName}"></c:out></td>
 															<td align="right"><c:out
