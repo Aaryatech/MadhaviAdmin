@@ -448,17 +448,7 @@ th.sorted-asc, th.sorted-desc {
 
 
 	<script type="text/javascript">
-		/* $('#btn_submit_pdf')
-				.click(
-						function() {
-							document.getElementById("validation-form").target = "_blank";
-
-							var form = document
-									.getElementById("validation-form");
-
-							form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf";
-							form.submit();
-						}); */
+		 
 		function submitBillPdf(val) {
 							
 							 document.getElementById("billId").value=val;
@@ -468,7 +458,7 @@ th.sorted-asc, th.sorted-desc {
 
 			var form = document.getElementById("validation-form");
 
-			form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf";
+			form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf1";
 			form.submit();
 		}
 					 

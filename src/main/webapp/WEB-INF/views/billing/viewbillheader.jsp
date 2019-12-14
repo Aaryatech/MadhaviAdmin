@@ -748,16 +748,7 @@ table {
 		 
 	</script>
 	<script type="text/javascript">
-	/* 	$('#btn_submit_pdf')
-				.click(
-						function() {
-							document.getElementById("validation-form").target = "_blank";
-
-							var form = document.getElementById("validation-form");
-
-							form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf";
-							form.submit();
-						}); */
+	 
 		function submitBillPdf() {
 			document.getElementById("validation-form").target = "_blank";
 
