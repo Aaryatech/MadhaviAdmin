@@ -700,8 +700,8 @@ $(function() {
 			var discPer = $('#discper'+id+''+frId).val();
 			var minqty = $('#minqty'+id+''+frId).val();
 			
-			alert("qty"+qty);
-			alert("discPer"+discPer);
+			//alert("qty"+qty);
+			//alert("discPer"+discPer);
 			
 			if(qty % minqty==0 && parseInt(qty) > 0 &&  !(parseInt(discPer) < 0 )){
 			    var total = (rate * qty)-(discPer*((rate * qty)/100));
@@ -725,8 +725,8 @@ $(function() {
 			var discper = $('#discper'+id+''+frId).val();
 			
 			var minqty = $('#minqty'+id+''+frId).val();
-			alert("qty"+qty);
-			alert("discper"+discper);
+			//alert("qty"+qty);
+			//alert("discper"+discper);
 			if(qty % minqty==0 && parseInt(qty) > 0 &&  !(parseInt(discper) < 0 )){
 			    var total = rate * qty;
 			    var disc=(total*discper)/100; 
