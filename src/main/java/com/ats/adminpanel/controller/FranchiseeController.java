@@ -1133,7 +1133,18 @@ public class FranchiseeController {
 					model.addObject("remItems", tempAllSpCkList);
 					model.addObject("catId", menuList.get(i).getMainCatId());
 				} else {
-					List<Item> getItemByMenuId = itemById(menuList.get(i).getMainCatId());
+                           List<Item> getItemByMenuId=new ArrayList<>();
+											if(Integer.parseInt(menuList.get(i).getIsSameDayApplicable())!=3) {
+										    getItemByMenuId = itemById(menuList.get(i).getMainCatId());
+											}else
+											{
+												AllItemsListResponse	allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems", AllItemsListResponse.class);
+												for (Item items :  allItemsListResponse.getItems()) {
+													if(items.getIsStockable()==1) {
+														getItemByMenuId.add(items);
+													}
+												}
+											}
 					List<Item> tempAllItemsList = getItemByMenuId;
 					List<Item> selectedItems = new ArrayList<Item>();
 					String frPrevItems = franchiseeList.getItemShow();
@@ -1554,9 +1565,6 @@ public class FranchiseeController {
 		}
 		}else
 		{
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("itemGrp1", selectedCatId);
-
 			AllItemsListResponse	allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems", AllItemsListResponse.class);
 			for (Item items :  allItemsListResponse.getItems()) {
 				if(items.getIsStockable()==1) {
