@@ -2076,19 +2076,13 @@ public class BillController {
 	@RequestMapping(value = "pdf/showBillPdf/{transportMode}/{vehicleNo}/{selectedBills}", method = RequestMethod.GET)
 	public ModelAndView showBillPdf(@PathVariable String transportMode, @PathVariable String vehicleNo,
 			@PathVariable String[] selectedBills, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("IN Show bill PDF Method :/showBillPdf");
+		 
 		ModelAndView model = new ModelAndView("billing/pdf/frBillPdf");
 
 		billPrintList = new ArrayList<>();
-
+		System.err.println("Inside new form action "+2077);
 		try {
-
-			// vehicleNo=request.getParameter("vehicle_no");
-			// transportMode=request.getParameter("transport_mode");
-
-			System.out.println("Vehicle No " + vehicleNo + "Transport Mode = " + transportMode);
-
-			System.out.println("Inside new form action ");
+ 
 
 			RestTemplate restTemplate = new RestTemplate();
 
@@ -2101,7 +2095,7 @@ public class BillController {
 
 			billList = billList.substring(0, billList.length() - 1);
 
-			System.out.println("selected bills for Printing " + billList);
+			//System.out.println("selected bills for Printing " + billList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -2129,55 +2123,10 @@ public class BillController {
 
 				slabwiseBillList.addAll(responseEntity1.getBody());
 			}
-			//System.out.println("slabwiseBillList" + slabwiseBillList.toString());
-			//System.out.println("bill No in Header " + billHeadersListForPrint.toString());
-
-			//System.out.println("selected bills for Printing " + billList);
-			//System.out.println("Size Here Now  " + billHeadersListForPrint.size());
+		 
 			billHeadersListForPrint = new ArrayList<>();
 
-			// billHeadersListForPrint=getBillListProcessForPrint(request, response);
-			// List<FrBillHeaderForPrint> getBillListProcessForPrint
-
-			/*
-			 * List<String> billing=Arrays.asList(billList);
-			 * 
-			 * for(int a=0;a<billing.size();a++) {
-			 * 
-			 * if(billHeadersListForPrint.get(a).getBillNo()!=Integer.parseInt(billing.get(a
-			 * )) ){
-			 * 
-			 * System.out.println("billHeader print removing bill"+billHeadersListForPrint.
-			 * get(a));
-			 * 
-			 * billHeadersListForPrint.remove(a);
-			 * 
-			 * }
-			 * 
-			 * }
-			 */
-
-			/*
-			 * List<GetBillDetail> billDetailsResponse =
-			 * restTemplate.postForObject(Constants.url + "getBillDetailsForPrint", map,
-			 * List.class);
-			 * 
-			 * 
-			 */
-			/*
-			 * List<FrBillHeaderForPrint> tempList=new ArrayList<>();
-			 * tempList=billHeadersListForPrint;
-			 * System.out.println("temp List Before"+tempList); for(int
-			 * p=0;p<selectedBills.length;p++) { System.out.println("selected Bill List "+p
-			 * +""+selectedBills[p]);
-			 * if(Integer.parseInt(selectedBills[p])==billHeadersListForPrint.get(p).
-			 * getBillNo()) {
-			 * 
-			 * tempList.remove(p); }
-			 * 
-			 * } System.out.println("temp List After"+tempList); billHeadersListForPrint=new
-			 * ArrayList<>(); billHeadersListForPrint=tempList;
-			 */
+		 
 
 			map = new LinkedMultiValueMap<String, Object>();
 
@@ -2192,55 +2141,29 @@ public class BillController {
 			// List<GetBillDetail> billDetailsResponse = responseEntity.getBody();
 			billHeadersListForPrint = responseEntity2.getBody();
 
-			System.out.println("in new BHLFP" + billHeadersListForPrint.toString());
-			/*
-			 * List<FrBillHeaderForPrint> temHeaderList=billHeadersListForPrint;
-			 * 
-			 * System.out.println("length of bil String "+selectedBills.length); for(int
-			 * k=0;k<selectedBills.length;k++) { System.out.println("Inside for Loop 1 ");
-			 * 
-			 * for(int y=0;y<temHeaderList.size();y++) {
-			 * System.out.println("Inside for Loop 2 ");
-			 * 
-			 * 
-			 * int bNo=Integer.valueOf(selectedBills[k]);
-			 * 
-			 * System.out.println("bill No "+bNo);
-			 * if(temHeaderList.get(y).getBillNo()==bNo){
-			 * 
-			 * System.out.println("Inside If Loop ");
-			 * 
-			 * System.out.println("billHeader print removing bill"+temHeaderList.get(k));
-			 * billHeadersListForPrint.remove(y);
-			 * 
-			 * } } }
-			 */
-
+			//System.out.println("in new BHLFP" + billHeadersListForPrint.toString());
+			 
 			CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
 					CategoryListResponse.class);
 			List<MCategoryList> categoryList;
 			categoryList = categoryListResponse.getmCategoryList();
+			System.err.println("categoryList:" + categoryList.toString());
 
 			SubCategory[] subCatList = restTemplate.getForObject(Constants.url + "getAllSubCatList",
 					SubCategory[].class);
 
 			ArrayList<SubCategory> subCatAList = new ArrayList<SubCategory>(Arrays.asList(subCatList));
-			SubCategory subCat = new SubCategory();
-			subCat.setCatId(5);
-			subCat.setSubCatName("Special Cake");
-			subCat.setSubCatId(0);
-			subCat.setDelStatus(0);
-			subCatAList.add(subCat);
+			 
 
-			System.out.println("subCatAList:" + subCatAList.toString());
+			System.err.println("subCatAList:" + subCatAList.toString());
 
 			// List<MCategoryList> filteredCatList=new ArrayList<MCategoryList>();
 
 			billDetailsListForPrint = new ArrayList<GetBillDetailPrint>();
 			billDetailsListForPrint = billDetailsResponse;
-			System.out.println(" *** get Bill detail for Print response :: " + billDetailsListForPrint.toString());
+			//System.out.println(" *** get Bill detail for Print response :: " + billDetailsListForPrint.toString());
 
-			System.out.println("Size Here Now  " + billHeadersListForPrint.size());
+			//System.out.println("Size Here Now  " + billHeadersListForPrint.size());
 
 			FrBillPrint billPrint = null;
 			for (int i = 0; i < billHeadersListForPrint.size(); i++) {
@@ -2294,20 +2217,19 @@ public class BillController {
 
 						}
 
-						// FrBillTax billTax=new FrBillTax(); not used
-
+						 
 					} // end of if
 
 				}
 				billPrint.setBillDetailsList(billDetails);
-				// billPrintList=new ArrayList<>();
+			 
 				billPrint.setSubCatList(filteredSubCat);
 				if (billPrint != null)
 					billPrintList.add(billPrint);
 
 			}
-			System.err.println("sub Cat List  " + billPrint.getSubCatList().toString());
-			System.out.println(" after adding detail List : bill Print List " + billPrintList.toString());
+			//System.out.println("sub Cat List  " + billPrint.getSubCatList().toString());
+		//	System.out.println(" after adding detail List : bill Print List " + billPrintList.toString());
 
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Calendar cal = Calendar.getInstance();
@@ -2319,12 +2241,8 @@ public class BillController {
 			model.addObject("transportMode", transportMode);
 			model.addObject("dateTime", dateFormat.format(cal.getTime()));
 
-			// allFrIdNameList = new AllFrIdNameList();
-
-			// model.addObject("catList",filteredCatList);
-
-			System.out.println("after Data ");
-
+		 
+		 
 		} catch (Exception e) {
 
 			System.out.println("Ex in getting bill Data for PDF " + e.getMessage());

@@ -289,7 +289,7 @@ public class OrderController {
 
 			menuId = menuId.substring(1, menuId.length() - 1);
 			menuId = menuId.replaceAll("\"", "");
-			System.out.println("menu Ids New =" + menuId);
+			System.out.println("menu or item Ids New =" + menuId);
 
 			frIdString = frIdString.substring(1, frIdString.length() - 1);
 			frIdString = frIdString.replaceAll("\"", "");

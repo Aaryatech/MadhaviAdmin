@@ -279,6 +279,8 @@ input:checked + .slider:before {
 
 												</select>
 											</div>
+											
+											<div style="display: none;">
 											<label class="col-sm-3 col-lg-2	 control-label">Select
 							Section</label>
 						<div class="col-sm-6 col-lg-3 controls date_select">
@@ -295,6 +297,7 @@ input:checked + .slider:before {
 
 
 							</select>
+						</div>
 						</div>
 										</div>
 										<div class="form-group">

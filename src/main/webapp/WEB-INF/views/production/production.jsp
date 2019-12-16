@@ -196,8 +196,9 @@ table {
 									</div>
 									 -->
 
-				<form action="submitProduction" method="post">
-
+			 
+<form action="${pageContext.request.contextPath}/submitProduction"
+							 method="post"	 >
 
 					<div class="box-content">
 						<div id="table-scroll" class="table-scroll">
