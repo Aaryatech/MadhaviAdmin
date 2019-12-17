@@ -434,6 +434,9 @@ public class FranchiseeController {
 		ArrayList<Integer> configuredMenuList = new ArrayList<Integer>(Arrays.asList(configuredMenuId));
 
 		menuList = franchiseeAndMenuList.getAllMenu();
+		
+		System.err.println("configuredMenuList***"+configuredMenuList.toString());
+		System.err.println("menuList***"+menuList.toString());
 
 		for (Menu menu : menuList) {
 			int con = 0;

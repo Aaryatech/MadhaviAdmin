@@ -21,7 +21,7 @@ public class ItemForMOrder{
 	
 	private double itemMrp1;
 	
-	private double itemMrp2;
+	private double itemMrp2;//daily MArt Limit
 	
 	private double itemMrp3;
 	
