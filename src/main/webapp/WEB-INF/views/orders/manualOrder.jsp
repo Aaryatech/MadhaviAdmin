@@ -607,7 +607,10 @@ $(function() {
              		  	tr.append($('<td></td>').html(key+1));
 
              		  	tr.append($('<td></td>').html(item.itemName));
-             		  	tr.append($('<td></td>').html(item.orderStatus+'<input type="hidden" value='+item.orderStatus+'	id=limqty'+item.itemId+""+item.frId+'  />'));
+             		  	if(isDairyMart==1){
+                 		  	tr.append($('<td></td>').html(item.orderStatus+'<input type="hidden" value='+item.orderStatus+'	id=limqty'+item.itemId+""+item.frId+'  />'));
+
+             		  	}
               		  	tr.append($('<td></td>').html(item.minQty+'<input type="hidden" value='+item.minQty+'	id=minqty'+item.itemId+""+item.frId+'  />'));
 
              		  	if(isDairyMart==0){
@@ -703,10 +706,12 @@ $(function() {
              		  	tr.append($('<td></td>').html(key+1));
 
              		  	tr.append($('<td></td>').html(item.itemName));
-             		  	tr.append($('<td></td>').html(item.orderStatus+'<input type="hidden" value='+item.orderStatus+'	id=limqty'+item.itemId+""+item.frId+'  />'));
-
+             		  	if(isDairyMart==1){
+                 		  	tr.append($('<td></td>').html(item.orderStatus+'<input type="hidden" value='+item.orderStatus+'	id=limqty'+item.itemId+""+item.frId+'  />'));
+                 			}
+             		
              		  	tr.append($('<td></td>').html(item.minQty+'<input type="hidden" value='+item.minQty+'	id=minqty'+item.itemId+""+item.frId+'  />'));
-
+             			
              		  	
              		  	if(isDairyMart==0){ 
              		  		//Without DM
@@ -904,6 +909,11 @@ $(document).ready(function() {
 
 <script type="text/javascript">
 $(document).ready(function() { 
+	
+	  $('#limQtyCol').hide();
+	
+	
+ 
 	$('#fr_id').change(
 		
 			function() {	
@@ -1331,13 +1341,24 @@ function onCatIdChangeForManOrder(menuId) {
 		 
 			document.getElementById("dailyMartDiv").style = "visible"
 				document.getElementById("dt").style = "visible"
+				 
+			document.getElementById("delDate").required = true;
+			 document.getElementById("delType").value=3 ;
+			   $("#delType").trigger("chosen:updated");
+			   document.getElementById("delType").disabled=true;
+
+			// $("#delType").val('3'); 
 			
-				
-			 
+/* 			$("#delType option[value=2]").attr('selected', 'selected'); 
+ */		 
 	} else {
 			document.getElementById("dailyMartDiv").style = "display:none"
 				document.getElementById("dt").style = "display:none"
-			 
+					document.getElementById("delDate").required = false;
+			   document.getElementById("delType").disabled=false;
+
+
+			
 		}
 		
 		
@@ -1382,6 +1403,25 @@ function onCatIdChangeForManOrder(menuId) {
 <script type="text/javascript">
 function onDairyMartCheck()
 {
+	
+	  
+     var isDairyMart=0;
+	 var isChecked = $('#isDairyMart').is(':checked');
+     if(isChecked==true)
+     	{
+     	isDairyMart=1;
+     
+     	document.getElementById("dailyFlagMart1").value = isDairyMart;
+     	 $('#limQtyCol').show();
+
+     	}else{
+     		  $('#limQtyCol').hide();
+     	}
+	
+	
+	
+	
+ 
 	   var ordertype = $('.order:checked').val();
        if(ordertype==2)
     	  onSearchMulFr();

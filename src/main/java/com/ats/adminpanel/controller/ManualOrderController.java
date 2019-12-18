@@ -260,7 +260,8 @@ public class ManualOrderController {
 				order.setOrderDatetime("" + sqlCurrDate);
 				order.setUserId(0);
 				order.setOrderQty(item.getOrderQty());
-				order.setOrderStatus(0);
+				int value = (int) item.getItemMrp2();
+				order.setOrderStatus(value);
 				order.setOrderType(item.getItemGrp1());
 				order.setOrderSubType(item.getItemGrp2());
 
@@ -454,7 +455,8 @@ public class ManualOrderController {
 				order.setOrderDatetime("" + sqlCurrDate);
 				order.setUserId(0);
 				order.setOrderQty(qty);
-				order.setOrderStatus(0);
+				int value = (int) item.getItemMrp2();
+				order.setOrderStatus(value);
 				order.setOrderType(item.getItemGrp1());
 				order.setOrderSubType(item.getItemGrp2());
 				order.setProductionDate(sqlCurrDate);
@@ -619,8 +621,7 @@ public class ManualOrderController {
 
 		System.err.println("dm:" + dm);
 		System.err.println("button:" + submitorder + submitbill);
-		System.err.println("menu:" + menuId);
-
+		
 		dm = Integer.parseInt(request.getParameter("dailyFlagMart"));
 
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
@@ -682,7 +683,7 @@ public class ManualOrderController {
 							int qty = Integer
 									.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
 							// if (submitorder == null) {
-							// System.err.println("submitorder");
+						 System.err.println("qty"+qty);
 							float discPer = Float.parseFloat(
 									request.getParameter("discper" + orderList.get(i).getItemId() + "" + frId1));// new
 																													// on
@@ -937,25 +938,31 @@ public class ManualOrderController {
 			} // fr for
 			orderList = new ArrayList<Orders>();
 		} else {
+			
 
 			System.err.println("  adv order");
 
 			List<AdvanceOrderDetail> advDetailList = new ArrayList<AdvanceOrderDetail>();
 
-			String devDate = request.getParameter("devDate");
+			String devDate = request.getParameter("delDate");
+			System.err.println("fr_id:" + Integer.parseInt(request.getParameter("fr_id")));
+
 
 			// without Adv Order ends
 
 			// to get fr
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("frId", frId);
 			RestTemplate restTemplate = new RestTemplate();
 
-			FranchiseeList franchiseeList = restTemplate.getForObject(Constants.url + "getFranchisee?frId={frId}",
-					FranchiseeList.class, frId);
-
- 			DateFormat dfReg1 = new SimpleDateFormat("dd-MM-yyyy");
+			map.add("frId", Integer.parseInt(request.getParameter("fr_id")));
+ 			FranchiseeList franchiseeList = restTemplate.postForObject(Constants.url + "/getFranchiseeNew", map,
+					FranchiseeList.class);
+			 
+ 			String frString=franchiseeList.getFrName()+"##"+franchiseeList.getFrAddress()+"##"+franchiseeList.getFrGstNo();
+	 
+		 
+			DateFormat dfReg1 = new SimpleDateFormat("dd-MM-yyyy");
 			String todaysDate = dfReg1.format(date);
 			System.err.println("fr details" + franchiseeList.toString());
 //to get cust 
@@ -974,7 +981,7 @@ public class ManualOrderController {
 			advHeader.setExInt1(1);
 			advHeader.setExInt2(1);
 			advHeader.setExVar1("NA");
-			advHeader.setExVar2("NA");
+			advHeader.setExVar2(frString);
 			advHeader.setIsDailyMart(dm);
 
 			advHeader.setFrId(franchiseeList.getFrId());
@@ -1004,18 +1011,23 @@ public class ManualOrderController {
 			advHeader.setIsSellBillGenerated(0);
 			float discAmt = 0.0f;
 			float totGrand = 0;
+			System.out.println("Save Res frId " + frId);
+			
 			for (int i = 0; i < orderList.size(); i++) {
-
+				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId() );
 				int qty = 0;
 				String strQty = null;
 
 				try {
 
-					strQty = request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId);
+					strQty = request.getParameter("qty" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id")));
 					System.err.println("inside det" + qty);
+					 
 					qty = Integer.parseInt(strQty);
 
 				} catch (Exception e) {
+					
+					e.printStackTrace();
 					strQty = null;
 					qty = 0;
 
@@ -1047,7 +1059,7 @@ public class ManualOrderController {
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))) * qty;
 
 						int discPer1 = Integer
-								.parseInt(request.getParameter("discper" + orderList.get(i).getItemId() + "" + frId));
+								.parseInt(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
 						float discountAmount = (calTotal * discPer1) / 100;
 						float subTotal = calTotal - discountAmount;
 						discAmt = discAmt + discountAmount;
@@ -1101,11 +1113,11 @@ public class ManualOrderController {
 
 			// to save bill
 			if (tempGenerateBillList != null) {
-				System.err.println("saving bill with Advance");
+				System.err.println("saving bill with Advance"+tempGenerateBillList.toString());
 
 				if (submitbill != null) {
 
-					// System.out.println("Place Order Response" + orderListResponse.toString());
+				System.out.println("submitbill" + submitbill);
 
 					PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
 					List<PostBillHeader> postBillHeaderList = new ArrayList<PostBillHeader>();
@@ -1251,6 +1263,7 @@ public class ManualOrderController {
 						header.setSgstSum(header.getSgstSum() + billDetail.getSgstRs());
 						header.setCgstSum(header.getCgstSum() + billDetail.getCgstRs());
 						header.setIgstSum(header.getIgstSum() + billDetail.getIgstRs());
+						header.setFrId(Integer.parseInt(request.getParameter("fr_id")));
 
 						int itemShelfLife = gBill.getItemShelfLife();
 
@@ -1281,8 +1294,60 @@ public class ManualOrderController {
 
 						header.setRemark("");
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
+						
+						
+						
 
-					}
+					}//for end
+					
+					header.setBillDate(new Date());// hardcoded curr Date
+					header.setTaxableAmt(roundUp(sumTaxableAmt));
+					header.setGrandTotal(roundUp(sumGrandTotal));
+					header.setDiscAmt(roundUp(sumDiscAmt));// new
+					header.setFrId(Integer.parseInt(request.getParameter("fr_id")));
+					System.err.println("sumof grand total beofre " + sumGrandTotal);
+
+					System.err.println("Math round up Sum " + header.getGrandTotal());
+					header.setTotalTax(sumTotalTax);
+
+					header.setStatus(1);
+					header.setPostBillDetailsList(postBillDetailsList);
+
+					ZoneId zoneId = ZoneId.of("Asia/Calcutta");
+					ZonedDateTime zdt = ZonedDateTime.now(zoneId);
+
+					SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss ");
+					TimeZone istTimeZone = TimeZone.getTimeZone("Asia/Kolkata");
+					Date d = new Date();
+					sdf.setTimeZone(istTimeZone);
+					String strtime = sdf.format(d);
+
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+
+					header.setRemark(dateFormat.format(cal.getTime()));
+					header.setTime(strtime);
+					header.setPartyName(partyName);
+					header.setPartyGstin(partyGstin);
+					header.setPartyAddress(partyAddress);
+
+					header.setBillTime(sdf1.format(calender.getTime()));
+					header.setVehNo("-");
+					header.setExVarchar1("1");
+					header.setExVarchar2("-");
+					postBillHeaderList.add(header);
+
+					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
+
+					System.out.println("Test data : " + postBillDataCommon.toString());
+
+					PostBillHeader[] respList = restTemplate.postForObject(Constants.url + "insertBillData",
+							postBillDataCommon, PostBillHeader[].class);
+
+					List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(respList));
+
+					billNo = billNo + "," + billRespList.get(0).getBillNo();
+					System.out.println("Save Res Data " + respList.toString());
 
 				}
 
