@@ -1346,19 +1346,13 @@ function onCatIdChangeForManOrder(menuId) {
 			 document.getElementById("delType").value=3 ;
 			   $("#delType").trigger("chosen:updated");
 			   document.getElementById("delType").disabled=true;
-
-			// $("#delType").val('3'); 
-			
-/* 			$("#delType option[value=2]").attr('selected', 'selected'); 
- */		 
+ 
 	} else {
 			document.getElementById("dailyMartDiv").style = "display:none"
 				document.getElementById("dt").style = "display:none"
 					document.getElementById("delDate").required = false;
 			   document.getElementById("delType").disabled=false;
-
-
-			
+ 
 		}
 		
 		
