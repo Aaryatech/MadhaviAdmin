@@ -381,12 +381,12 @@
 										</div>
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">FDA
-												License Date</label>
+												License No</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker"
 													id="fba_license_date" size="16" type="text"
 													name="fba_license_date" required autocomplete="off"
-													placeholder="FDA License Date" />
+													placeholder="FDA License No" />
 											</div>
 										</div>
 										<div class="form-group">

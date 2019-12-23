@@ -364,7 +364,7 @@
 											</div>
 										</div>
                                           <div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">FDA License Date</label>
+											<label class="col-sm-3 col-lg-2 control-label">FDA License No</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker" id="fr_license_date" size="16"
 													type="text" name="fr_license_date"value="${franchiseeList.fbaLicenseDate}"
