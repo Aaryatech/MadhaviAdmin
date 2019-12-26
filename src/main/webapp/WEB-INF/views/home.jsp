@@ -82,10 +82,10 @@
 										<i class="fa fa-shopping-cart fa-5x"></i>
 									</div>
 									<div class="content">
-										<p class="big">
+										<p class="medium" style="font-size: 20px;">
 											<c:out value="${orderCounts.total}"></c:out>
 										</p>
-										<p class="title">
+										<p class="title" >
 											<c:out value="${orderCounts.menuTitle}"></c:out>
 										</p>
 										<%--  
@@ -97,10 +97,10 @@
 
 										<a
 											href="${pageContext.request.contextPath}/showOrders/${orderCounts.menuId}">
-											<button type="button" class="btn">Order List</button>
+											<button type="button" style="margin-bottom: 35px;" class="btn">Order List</button>
 										</a> <a
 											href="${pageContext.request.contextPath}/showproduction/${orderCounts.menuId}">
-											<button type="button" class="btn">Add Order to Prod</button>
+											<button type="button" style="margin-bottom: 35px;" class="btn">Add Order to Prod</button>
 										</a>
 
 									</div>
@@ -162,7 +162,7 @@
 
 												<td class="col-md-2"><div>
   														<a href=""
-															onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}')"
+															onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}')"
 															class="btn btn-default btn-rounded" data-toggle="modal"
 															data-target="#elegantModalForm"><abbr title='Edit'><i
 																class='fa fa-edit'></i></abbr></a>
@@ -173,6 +173,7 @@
 
 
 								</table>
+
 
 							</div>
 
@@ -208,12 +209,18 @@
 			<div class="clock"></div>
 		</div>
 
+<form method="post" id="modal-dialog_form">
+
+<input type="hidden" id="ordHeaderId" name="ordHeaderId" value="0">
+<input type="hidden" id="isMart" name="isMart" value="0">
+
+
 		<div class="modal-dialog" role="document"
 			style="width: 80%; height: 50%;">
 			<!--Content-->
 			<div class="modal-content form-elegant">
 				<!--Header-->
-				<div class="modal-header text-center">
+				<div  class="modal-header text-center">
 					<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
 						id="myModalLabel" style="color: #ea4973;">
 						<strong>Advance Order Detail List</strong>
@@ -246,23 +253,37 @@
 									style="font-size: 13px; font-weight: bold; border: 1px solid; border-color: #91d6b8;">
 									<!-- class="table table-advance" -->
 									<thead>
-										<tr>
+										<tr class="bgpink">
 										 
-											<th width="17" style="width: 18px">Sr No</th>
-											<th width="120" align="left">Item Name</th>
-											<th width="100" align="left">Qty</th>
-											<th width="100" align="left">Mrp</th>
-											<th width="120" align="left">Rate</th>
-											<th width="120" align="left">Subtotal</th>
+											<th class="col-sm-1">Sr No</th>
+											<th  class="col-md-2" align="center">Item Name</th>
+											<th  class="col-md-1" align="center">Qty</th>
+											<th   class="col-md-1" align="center">Disc %</th>
+											<th   class="col-md-1" align="center">Rate</th>
+											<th  class="col-md-1" align="center">Subtotal</th>
 
 										</tr>
 									</thead>
 									<tbody>
 									</tbody>
 								</table>
-
-							</div>
+<input type="button" class="button btn-success" onclick="saveEditAdvOrder()" value="Save/Edit">
+						
+							<label class="col-sm-2 col-lg-2 control-label"
+								style="color: blue;">Advance Amt:
+						 <input type="text" id="advanceAmt" name="advanceAmt" value="0"></label>
 						 
+						 <label class="col-sm-2 col-lg-2 control-label"
+								style="color: blue;">Delivery Time:
+						 <input type="time" id=delTime name="delTime" value="0"></label>
+						
+						 <label class="col-sm-2 col-lg-1	 control-label">Delivery
+							Date</label>
+						<div class="col-sm-3 col-lg-2 controls date_select">
+							<input class="form-control" id="deliveryDate"
+								name="deliveryDate" size="25" type="date" />
+						</div>
+						 	</div>
 						 
 					</div>
 					<!--Body-->
@@ -272,6 +293,7 @@
 				<!--/.Content-->
 			</div>
 		</div>
+		</form>
 	</div>
 
 	<script
@@ -284,7 +306,7 @@
 	
 	
 	<script type="text/javascript">
-		function showDetailsForCp(headId, frName, custName, amount, isMart,devDate) {
+		function showDetailsForCp(headId, frName, custName, amount, isMart,devDate,advanceAmt) {
 			 
 		 
 			$("#billAmt").css("color", "red");
@@ -299,7 +321,10 @@
 				x="DM Order";
 			}
 			
-
+			document.getElementById("ordHeaderId").value=headId;
+			document.getElementById("isMart").value=isMart;
+			document.getElementById("advanceAmt").value=advanceAmt;
+			
 			document.getElementById("billAmt").innerHTML = amount;
 			document.getElementById("devDate").innerHTML = devDate;
 			document.getElementById("isMart").innerHTML = x;
@@ -324,16 +349,20 @@
 					}else{
 						tot=parseInt(data.orderQty)*parseFloat(data.orderMrp);
 					}
+					tot=tot-(parseFloat(tot)* parseFloat(data.isPositive)/100);
 					
 
 					var tr = $('<tr></tr>');
+					var tb_qty='<input type="number" min="0" max="99999"  style="width: 70% color:red" id="tb_qty'+data.orderId+'" name="tb_qty'+data.orderId+'" value="'+data.orderQty+'">';
+					var disc_per='<input type="number" min="0" max="99999" style="width: 70%" id="tb_mrp'+data.orderId+'" name="tb_mrp'+data.orderId+'" value="'+data.isPositive+'">';
+					var tb_rate='<input type="number" min="0" max="99999"  style="width: 70%" id="disc_per'+data.orderId+'" name="disc_per'+data.orderId+'" value="'+data.orderRate+'">';
 
-					tr.append($('<td ></td>').html(key + 1));
-					tr.append($('<td ></td>').html(data.itemName));
-					tr.append($('<td ></td>').html(data.orderQty));
-					tr.append($('<td ></td>').html(data.orderMrp));
-					tr.append($('<td ></td>').html(data.orderRate));
-					tr.append($('<td ></td>').html(tot));
+					tr.append($('<td class="col-sm-1" align="left" ></td>').html(key + 1));
+					tr.append($('<td class="col-md-2" align="left"  ></td>').html(data.itemName));
+					tr.append($('<td class="col-md-1" align="left"></td>').html(tb_qty));
+					tr.append($('<td class="col-md-1" align="left" ></td>').html(disc_per));
+					tr.append($('<td class="col-md-1" align="left" ></td>').html(tb_rate));
+					tr.append($('<td class="col-md-1" align="left" ></td>').html(tot));
 					 
 					$('#modeltable tbody').append(tr);
 				}); 
@@ -341,9 +370,21 @@
 			});
 
 		 
-	 
-
 		}
+		
+		function saveEditAdvOrder(){
+			
+			$.ajax({
+			       type: "POST",
+			            url: "${pageContext.request.contextPath}/editAdvanceOrderSubmit",
+			            data: $("#modal-dialog_form").serialize(),
+			            dataType: 'json',
+			    success: function(data){
+			    
+			    }
+			    })
+		}
+		
 	</script>
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -380,5 +421,11 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
 
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 </body>
 </html>

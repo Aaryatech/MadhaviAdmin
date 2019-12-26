@@ -315,6 +315,23 @@ public class HomeController {
 					System.out.println("menu list ==" + orderCounts.toString());
 					System.out.println("order count tile -" + orderCounts.get(0).getMenuTitle());
 					System.out.println("order  count -" + orderCounts.get(0).getTotal());
+					
+					
+					map = new LinkedMultiValueMap<>();
+
+					map.add("prodDate",dateFormat.format(new Date()));
+					GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map,
+							GetAdvanceOrderList[].class);
+
+					List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
+					
+					for(int i=0;i<advList.size();i++) {
+						advList.get(i).setDeliveryDate(DateConvertor.convertToDMY(advList.get(i).getDeliveryDate()));
+						advList.get(i).setOrderDate(DateConvertor.convertToDMY(advList.get(i).getOrderDate()));
+						advList.get(i).setProdDate(DateConvertor.convertToDMY(advList.get(i).getProdDate()));
+
+					}
+					mav.addObject("advList", advList);
 
 				} else {
 

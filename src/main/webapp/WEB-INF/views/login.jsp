@@ -21,7 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <style type="text/css">
 .bg-overlay {
-    background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url("${pageContext.request.contextPath}/resources/img/cake.jpeg");
+    /*background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url("${pageContext.request.contextPath}/resources/img/cake1.jpeg");*/
    background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -40,7 +40,7 @@
 				<form class="login100-form validate-form" id="form-login" action="loginProcess" method="post">
 				
 					<span class="login100-form-title p-b-33">
-					<b>Account Login</b>	
+				<img src="/adminpanel/resources/img/Madhvi_Logo(4).jpg"></img>
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid username is required" style="border-radius:25px;">
