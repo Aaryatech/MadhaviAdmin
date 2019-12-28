@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.dashboard.ItemOrderList;
 import com.ats.adminpanel.model.franchisee.AdvanceOrderDetail;
 import com.ats.adminpanel.model.franchisee.AdvanceOrderHeader;
@@ -49,14 +50,13 @@ public class AdvOrdController {
 			AdvanceOrderHeader advHeader = restTemplate
 					.postForObject(Constants.url + "/advanceOrderHistoryHedaerByHeadId", map, AdvanceOrderHeader.class);
 
+			System.err.println("Header Received " + advHeader.toString());
 			int frId = advHeader.getFrId();
 
 			HttpSession session = request.getSession();
 
 			FranchiseeList frDetails = restTemplate.getForObject(Constants.url + "getFranchisee?frId={frId}",
 					FranchiseeList.class, frId);
-
-			List<AdvanceOrderDetail> advDetailList = new ArrayList<AdvanceOrderDetail>();
 
 			Date date = new Date(Calendar.getInstance().getTime().getTime());
 			DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
@@ -66,7 +66,13 @@ public class AdvOrdController {
 			String todaysDate = dfReg1.format(date);
 
 			String devDate = request.getParameter("deliveryDate");
-			String deliveryTime = request.getParameter("delTime");
+			String deliveryTime =new String();
+			try {
+			deliveryTime=request.getParameter("delTime");
+			}
+			catch (Exception e) {
+				deliveryTime=advHeader.getExVar2();
+			}
 			System.err.println("devDate" + devDate);
 			Date date1 = dfReg1.parse(devDate);
 			Date date2 = dfReg1.parse(todaysDate);
@@ -92,13 +98,18 @@ public class AdvOrdController {
 			// String remainAmt = request.getParameter("remainAmt");
 
 			advHeader.setAdvanceAmt(Float.parseFloat(advanceAmt));
+			String strDelTime=null;
+try {
+			 strDelTime = LocalTime.parse(deliveryTime).format(DateTimeFormatter.ofPattern("h:mm a"));
+}catch (Exception e) {
+	strDelTime=advHeader.getExVar2();
 
-			String strDelTime = LocalTime.parse(deliveryTime).format(DateTimeFormatter.ofPattern("h:mm a"));
+}
+advHeader.setExVar2(strDelTime);
 
 			advHeader.setDeliveryDate(devDate);
 			advHeader.setProdDate(DateConvertor.convertToDMY(x1));
-
-			advHeader.setExVar2(strDelTime);// Delivery Time
+			advHeader.setOrderDate(DateConvertor.convertToDMY(advHeader.getOrderDate()));
 
 			float discAmt = 0.0f;
 
@@ -134,7 +145,9 @@ public class AdvOrdController {
 					strQty = request.getParameter("tb_qty" + String.valueOf(det.getAdvDetailId()));
 					strRate = request.getParameter("tb_rate" + String.valueOf(det.getAdvDetailId()));
 					strDiscPer = request.getParameter("disc_per" + String.valueOf(det.getAdvDetailId()));
-					System.err.println("inside det" + qty);
+					System.err.println("inside strQty" + strQty);
+					System.err.println("inside strRate" + strRate);
+					System.err.println("inside strDiscPer" + strDiscPer);
 					qty = Integer.parseInt(strQty);
 					rate = Float.parseFloat(strRate);
 					try {
@@ -144,10 +157,10 @@ public class AdvOrdController {
 					}
 				} catch (Exception e) {
 					strQty = null;
-					qty = 0;
 
 				}
 				if (qty > 0) {
+					System.err.println("In qty >0");
 					det.setDiscPer(discPer);
 					// AdvanceOrderDetail det = new AdvanceOrderDetail();
 					det.setDeliveryDate(devDate);
@@ -188,17 +201,29 @@ public class AdvOrdController {
 						}
 					}
 					det.setProdDate(DateConvertor.convertToDMY(x1));
+					det.setOrderDate(advHeader.getOrderDate());
 					det.setQty(qty);
+					System.err.println(" det.getSubTotal() " + det.getSubTotal());
+					det.setDeliveryDate(advHeader.getDeliveryDate());
+
 					grandTotal = det.getSubTotal() + grandTotal;
+					System.err.println("grandTotal " + grandTotal);
+					itmList.set(i, det);
+				} else {
+					System.err.println("qty<0 means Delete");
+					det.setDelStatus(1);
+					det.setQty(0);
+					det.setProdDate(DateConvertor.convertToDMY(x1));
+					det.setOrderDate(advHeader.getOrderDate());
 					itmList.set(i, det);
 				}
 			}
 			if (itmList.size() > 0) {
 				advHeader.setDiscAmt(discAmt);
 				// float remAmt=
-
+				System.err.println("grandTotal " + grandTotal);
+				advHeader.setTotal(grandTotal);
 				advHeader.setRemainingAmt((advHeader.getTotal() - advHeader.getAdvanceAmt()));
-				advHeader.setTotal(grandTotal - discAmt);
 
 				advHeader.setDetailList(itmList);
 				System.err.println("HIII");
@@ -238,5 +263,28 @@ public class AdvOrdController {
 
 	public static float roundUp(float d) {
 		return BigDecimal.valueOf(d).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+	}
+	
+	
+	
+	@RequestMapping(value = "/deleteAdvOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteAdvOrder(HttpServletRequest request, HttpServletResponse response) {
+		RestTemplate restTemplate = new RestTemplate();
+		Info info =new Info();
+		try {
+			int ordHeaderId = Integer.parseInt(request.getParameter("ordHeaderIdForDel"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("ordHeaderId", ordHeaderId);
+			 info = restTemplate
+					.postForObject(Constants.url + "/deleteAdvOrder", map, Info.class);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return info;
 	}
 }
