@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.Login;
 import com.ats.adminpanel.model.OrderCount;
 import com.ats.adminpanel.model.OrderCountsResponse;
@@ -44,7 +45,7 @@ import com.ats.adminpanel.model.dashboard.GetAdvanceOrderList;
 import com.ats.adminpanel.model.dashboard.ItemOrderHis;
 import com.ats.adminpanel.model.dashboard.ItemOrderList;
 import com.ats.adminpanel.model.login.UserResponse;
- 
+
 /**
  * Handles requests for the application home page.
  */
@@ -129,12 +130,13 @@ public class HomeController {
 			map = new LinkedMultiValueMap<>();
 
 			map.add("cDate", dateFormat.format(new Date()));
-			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map,
-					GetAdvanceOrderList[].class);
+			map.add("isBilled", -1);
+			GetAdvanceOrderList[] holListArray = restTemplate
+					.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map, GetAdvanceOrderList[].class);
 
 			List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
-			
-			for(int i=0;i<advList.size();i++) {
+
+			for (int i = 0; i < advList.size(); i++) {
 				advList.get(i).setDeliveryDate(DateConvertor.convertToDMY(advList.get(i).getDeliveryDate()));
 				advList.get(i).setOrderDate(DateConvertor.convertToDMY(advList.get(i).getOrderDate()));
 				advList.get(i).setProdDate(DateConvertor.convertToDMY(advList.get(i).getProdDate()));
@@ -149,8 +151,6 @@ public class HomeController {
 		return mav;
 	}
 
-	
-
 	@RequestMapping(value = "/searchOrdersCount", method = RequestMethod.POST)
 	public ModelAndView searchOrdersCount(HttpServletRequest request, HttpServletResponse response) {
 
@@ -158,6 +158,9 @@ public class HomeController {
 
 		try {
 			String date = request.getParameter("from_datepicker");
+			String submit1 = request.getParameter("submit1");
+
+			String submit2 = request.getParameter("submit2");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -168,54 +171,73 @@ public class HomeController {
 			orderCounts = orderCountList.getOrderCount();
 			mav.addObject("orderCounts", orderCounts);
 			mav.addObject("cDate", date);
-			
-			map = new LinkedMultiValueMap<>();
 
-			map.add("prodDate",date);
-			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map,
+			map = new LinkedMultiValueMap<>();
+			String mappingName = "advanceOrderHistoryHeaderAdmin";
+			if (submit1 != null) {
+
+				System.err.println("sub 2 null");
+				map.add("isBilled", 0);
+				map.add("prodDate", date);
+			} else if (submit2 != null) {
+				System.err.println("else fd td fr");
+				map.add("fromDate", request.getParameter("from_date"));
+				map.add("toDate", request.getParameter("to_date"));
+				map.add("frId", request.getParameter("selectFr"));
+				mappingName= new String();
+				mappingName = "advOrderHistoryHeaderAdminFdTdFrId";
+			} else {
+				System.err.println("sub 1 null");
+				map.add("prodDate", date);
+				map.add("isBilled", -1);
+			}
+			System.err.println("MAP  " + map + " mappingName" +mappingName);
+			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url+"/"+mappingName,map,
 					GetAdvanceOrderList[].class);
 
 			List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
-			
-			for(int i=0;i<advList.size();i++) {
+
+			for (int i = 0; i < advList.size(); i++) {
 				advList.get(i).setDeliveryDate(DateConvertor.convertToDMY(advList.get(i).getDeliveryDate()));
 				advList.get(i).setOrderDate(DateConvertor.convertToDMY(advList.get(i).getOrderDate()));
 				advList.get(i).setProdDate(DateConvertor.convertToDMY(advList.get(i).getProdDate()));
 
 			}
 			mav.addObject("advList", advList);
-
+			mav.addObject("fromDate", request.getParameter("from_date"));
+			mav.addObject("toDate", request.getParameter("to_date"));
+			mav.addObject("frId", request.getParameter("selectFr"));
+			mav.addObject("frList", allFrIdNameList.getFrIdNamesList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
-	
-	@RequestMapping(value = "/getAdvaceOrderDetail", method = RequestMethod.POST)
-	public @ResponseBody List<ItemOrderHis>  getAdvDetail(HttpServletRequest request, HttpServletResponse response) {
 
-		ItemOrderList itm=new ItemOrderList();
-		
-		 List<ItemOrderHis> itmList=new ArrayList<ItemOrderHis>();
-		
-		
+	@RequestMapping(value = "/getAdvaceOrderDetail", method = RequestMethod.POST)
+	public @ResponseBody List<ItemOrderHis> getAdvDetail(HttpServletRequest request, HttpServletResponse response) {
+
+		ItemOrderList itm = new ItemOrderList();
+
+		List<ItemOrderHis> itmList = new ArrayList<ItemOrderHis>();
+
 		try {
 			String date = request.getParameter("headId");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
-			map.add("headId",date);
+			map.add("headId", date);
 			itm = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin", map,
 					ItemOrderList.class);
 
-			itmList=itm.getItemOrderList();
+			itmList = itm.getItemOrderList();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return itmList;
 	}
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		System.out.println("User Logout");
@@ -231,6 +253,8 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("franchisee/addnewfranchisee");
 		return mav;
 	}
+
+	public AllFrIdNameList allFrIdNameList = new AllFrIdNameList();
 
 	@RequestMapping("/loginProcess")
 	public ModelAndView helloWorld(HttpServletRequest request, HttpServletResponse res) throws IOException {
@@ -298,6 +322,7 @@ public class HomeController {
 
 						// System.out.println("Role Json "+Commons.newModuleList.toString());
 					} catch (Exception e) {
+						e.printStackTrace();
 						System.out.println(e.getMessage());
 					}
 
@@ -312,26 +337,40 @@ public class HomeController {
 					orderCounts = orderCountList.getOrderCount();
 					mav.addObject("orderCounts", orderCounts);
 					mav.addObject("cDate", dateFormat.format(new Date()));
-					System.out.println("menu list ==" + orderCounts.toString());
-					System.out.println("order count tile -" + orderCounts.get(0).getMenuTitle());
-					System.out.println("order  count -" + orderCounts.get(0).getTotal());
-					
-					
+					// System.out.println("menu list ==" + orderCounts.toString());
+					// System.out.println("order count tile -" + orderCounts.get(0).getMenuTitle());
+					// System.out.println("order count -" + orderCounts.get(0).getTotal());
+
 					map = new LinkedMultiValueMap<>();
 
-					map.add("prodDate",dateFormat.format(new Date()));
-					GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map,
-							GetAdvanceOrderList[].class);
+					map.add("prodDate", dateFormat.format(new Date()));
+					map.add("isBilled", -1);
+					GetAdvanceOrderList[] holListArray = restTemplate.postForObject(
+							Constants.url + "/advanceOrderHistoryHeaderAdmin", map, GetAdvanceOrderList[].class);
 
 					List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
-					
-					for(int i=0;i<advList.size();i++) {
+
+					for (int i = 0; i < advList.size(); i++) {
 						advList.get(i).setDeliveryDate(DateConvertor.convertToDMY(advList.get(i).getDeliveryDate()));
 						advList.get(i).setOrderDate(DateConvertor.convertToDMY(advList.get(i).getOrderDate()));
 						advList.get(i).setProdDate(DateConvertor.convertToDMY(advList.get(i).getProdDate()));
 
 					}
 					mav.addObject("advList", advList);
+
+					allFrIdNameList = new AllFrIdNameList();
+					try {
+
+						allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
+								AllFrIdNameList.class);
+
+					} catch (Exception e) {
+						System.out.println("Exception in getAllFrIdName" + e.getMessage());
+						e.printStackTrace();
+
+					}
+					mav.addObject("frList", allFrIdNameList.getFrIdNamesList());
+					System.err.println("frList " + allFrIdNameList.getFrIdNamesList().toString());
 
 				} else {
 
@@ -346,13 +385,13 @@ public class HomeController {
 
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("HomeController Login API Excep:  " + e.getMessage());
 		}
 
 		return mav;
 
 	}
-
 
 	@ExceptionHandler(LoginFailException.class)
 	public String redirectToLogin() {

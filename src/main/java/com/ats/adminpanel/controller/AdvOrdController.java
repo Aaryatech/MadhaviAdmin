@@ -66,12 +66,14 @@ public class AdvOrdController {
 			String todaysDate = dfReg1.format(date);
 
 			String devDate = request.getParameter("deliveryDate");
-			String deliveryTime =new String();
+			String prodDate = request.getParameter("prod_date");
+
+			String deliveryTime = new String();
 			try {
-			deliveryTime=request.getParameter("delTime");
-			}
-			catch (Exception e) {
-				deliveryTime=advHeader.getExVar2();
+				deliveryTime = request.getParameter("delTime");
+				System.err.println("deliveryTime Sac " +deliveryTime);
+			} catch (Exception e) {
+				deliveryTime = advHeader.getExVar2();
 			}
 			System.err.println("devDate" + devDate);
 			Date date1 = dfReg1.parse(devDate);
@@ -98,17 +100,19 @@ public class AdvOrdController {
 			// String remainAmt = request.getParameter("remainAmt");
 
 			advHeader.setAdvanceAmt(Float.parseFloat(advanceAmt));
-			String strDelTime=null;
-try {
-			 strDelTime = LocalTime.parse(deliveryTime).format(DateTimeFormatter.ofPattern("h:mm a"));
-}catch (Exception e) {
-	strDelTime=advHeader.getExVar2();
+			String strDelTime = null;
+			try {
+				strDelTime =deliveryTime;// LocalTime.parse(deliveryTime).format(DateTimeFormatter.ofPattern("h:mm a"));
+			} catch (Exception e) {
+				strDelTime = advHeader.getExVar2();
 
-}
-advHeader.setExVar2(strDelTime);
+			}
+			advHeader.setExVar2(strDelTime);
 
 			advHeader.setDeliveryDate(devDate);
-			advHeader.setProdDate(DateConvertor.convertToDMY(x1));
+			//advHeader.setProdDate(DateConvertor.convertToDMY(x1));
+			advHeader.setProdDate(prodDate);//Sac
+			
 			advHeader.setOrderDate(DateConvertor.convertToDMY(advHeader.getOrderDate()));
 
 			float discAmt = 0.0f;
@@ -164,6 +168,7 @@ advHeader.setExVar2(strDelTime);
 					det.setDiscPer(discPer);
 					// AdvanceOrderDetail det = new AdvanceOrderDetail();
 					det.setDeliveryDate(devDate);
+					det.setProdDate(advHeader.getProdDate());
 					det.setDelStatus(0);
 					if (dm == 2) {
 						det.setDiscPer(det.getDiscPer());
@@ -200,7 +205,8 @@ advHeader.setExVar2(strDelTime);
 							det.setSubTotal(roundUp(subTotal));
 						}
 					}
-					det.setProdDate(DateConvertor.convertToDMY(x1));
+					//det.setProdDate(DateConvertor.convertToDMY(x1));
+					det.setProdDate(advHeader.getProdDate());
 					det.setOrderDate(advHeader.getOrderDate());
 					det.setQty(qty);
 					System.err.println(" det.getSubTotal() " + det.getSubTotal());
@@ -213,7 +219,8 @@ advHeader.setExVar2(strDelTime);
 					System.err.println("qty<0 means Delete");
 					det.setDelStatus(1);
 					det.setQty(0);
-					det.setProdDate(DateConvertor.convertToDMY(x1));
+					//det.setProdDate(DateConvertor.convertToDMY(x1));
+					det.setProdDate(advHeader.getProdDate());
 					det.setOrderDate(advHeader.getOrderDate());
 					itmList.set(i, det);
 				}
@@ -227,6 +234,7 @@ advHeader.setExVar2(strDelTime);
 
 				advHeader.setDetailList(itmList);
 				System.err.println("HIII");
+				if(advHeader.getIsBillGenerated()==0)
 				info = restTemplate.postForObject(Constants.url + "/saveAdvanceOrderHeadAndDetail", advHeader,
 						AdvanceOrderHeader.class);
 			} else {
@@ -264,26 +272,23 @@ advHeader.setExVar2(strDelTime);
 	public static float roundUp(float d) {
 		return BigDecimal.valueOf(d).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/deleteAdvOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Object deleteAdvOrder(HttpServletRequest request, HttpServletResponse response) {
 		RestTemplate restTemplate = new RestTemplate();
-		Info info =new Info();
+		Info info = new Info();
 		try {
 			int ordHeaderId = Integer.parseInt(request.getParameter("ordHeaderIdForDel"));
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("ordHeaderId", ordHeaderId);
-			 info = restTemplate
-					.postForObject(Constants.url + "/deleteAdvOrder", map, Info.class);
+			info = restTemplate.postForObject(Constants.url + "/deleteAdvOrder", map, Info.class);
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
 		return info;
 	}
