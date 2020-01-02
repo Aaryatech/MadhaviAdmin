@@ -70,10 +70,41 @@ public class PostBillHeader {
 	
 	private String exVarchar2;//new on 2 july
 	
+	private String exVarchar3;//new on 2 july
+	
+	private String exVarchar4;//new on 2 july
+	
+	private String exVarchar5;//new on 2 july
+	
+	
 	
 	List<PostBillDetail> postBillDetailsList;
 		
 	
+
+	public String getExVarchar3() {
+		return exVarchar3;
+	}
+
+	public void setExVarchar3(String exVarchar3) {
+		this.exVarchar3 = exVarchar3;
+	}
+
+	public String getExVarchar4() {
+		return exVarchar4;
+	}
+
+	public void setExVarchar4(String exVarchar4) {
+		this.exVarchar4 = exVarchar4;
+	}
+
+	public String getExVarchar5() {
+		return exVarchar5;
+	}
+
+	public void setExVarchar5(String exVarchar5) {
+		this.exVarchar5 = exVarchar5;
+	}
 
 	public String getPartyName() {
 		return partyName;
@@ -297,7 +328,9 @@ public class PostBillHeader {
 				+ ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", billDateTime=" + billDateTime + ", partyName="
 				+ partyName + ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress + ", vehNo=" + vehNo
 				+ ", billTime=" + billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2
+				+ ", exVarchar3=" + exVarchar3 + ", exVarchar4=" + exVarchar4 + ", exVarchar5=" + exVarchar5
 				+ ", postBillDetailsList=" + postBillDetailsList + "]";
 	}
-    
+
+	
 }

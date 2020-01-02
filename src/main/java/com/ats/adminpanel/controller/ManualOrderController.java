@@ -32,13 +32,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.adminpanel.commons.AccessControll;
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.AddCustemerResponse;
+import com.ats.adminpanel.model.Customer;
 import com.ats.adminpanel.model.GenerateBill;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.ItemForMOrder;
 import com.ats.adminpanel.model.Orders;
 import com.ats.adminpanel.model.SectionMaster;
 import com.ats.adminpanel.model.accessright.ModuleJson;
-import com.ats.adminpanel.model.billing.BillTransaction;
 import com.ats.adminpanel.model.billing.PostBillDataCommon;
 import com.ats.adminpanel.model.billing.PostBillDetail;
 import com.ats.adminpanel.model.billing.PostBillHeader;
@@ -48,7 +49,6 @@ import com.ats.adminpanel.model.franchisee.FranchiseeAndMenuList;
 import com.ats.adminpanel.model.franchisee.FranchiseeList;
 import com.ats.adminpanel.model.franchisee.Menu;
 import com.ats.adminpanel.model.franchisee.NewSetting;
-import com.ats.adminpanel.model.item.AllItemsListResponse;
 import com.ats.adminpanel.model.item.Item;
 
 @Controller
@@ -88,7 +88,27 @@ public class ManualOrderController {
 						SectionMaster[].class);
 				List<SectionMaster> sectionList = new ArrayList<SectionMaster>(Arrays.asList(sectionMasterArray));
 				model.addObject("sectionList", sectionList);
-
+				
+				Customer[] customer = restTemplate.getForObject(Constants.url + "/getAllCustomers", Customer[].class);
+				List<Customer> customerList = new ArrayList<>(Arrays.asList(customer));
+				model.addObject("customerList", customerList);
+				
+				MultiValueMap<String, Object> mvm= new LinkedMultiValueMap<String, Object>();
+				mvm.add("settingKey", "DEFLTCUST");
+				NewSetting settingValue = restTemplate.postForObject(Constants.url + "/findNewSettingByKey", mvm,
+						NewSetting.class);
+	           System.err.println(settingValue.toString());
+				model.addObject("defaultCustomer", settingValue.getSettingValue1());
+				Customer defCust=new Customer();
+				for(int i=0;i<customerList.size();i++)
+				{
+					if(customerList.get(i).getCustId()==Integer.parseInt(settingValue.getSettingValue1()))
+					{
+						defCust=customerList.get(i);
+						break;
+					}
+				}
+                model.addObject("defCust", defCust);
 			} catch (Exception e) {
 				System.out.println("Franchisee Controller Exception " + e.getMessage());
 			}
@@ -616,13 +636,11 @@ public class ManualOrderController {
 
 		int ordertype = Integer.parseInt(request.getParameter("ordertype"));
 		int menuId = Integer.parseInt(request.getParameter("menu"));
-
-		int dm = 0;
+		int delType= Integer.parseInt(request.getParameter("delType"));
+		int dm= Integer.parseInt(request.getParameter("dailyFlagMart"));
 
 		System.err.println("dm:" + dm);
 		System.err.println("button:" + submitorder + submitbill);
-		
-		dm = Integer.parseInt(request.getParameter("dailyFlagMart"));
 
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
 		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -631,7 +649,7 @@ public class ManualOrderController {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
 
 		// without Adv Order start
-		if (menuId != 42) {
+		if (delType != 3) {
 
 			System.err.println("not adv order");
 
@@ -680,8 +698,7 @@ public class ManualOrderController {
 
 						for (int i = 0; i < orderList.size(); i++) {
 
-							int qty = Integer
-									.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
+							int qty = Integer.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
 							// if (submitorder == null) {
 						 System.err.println("qty"+qty);
 							float discPer = Float.parseFloat(
@@ -915,6 +932,9 @@ public class ManualOrderController {
 							header.setVehNo("-");
 							header.setExVarchar1(sectionId);
 							header.setExVarchar2("-");
+							header.setExVarchar3(partyName);
+							header.setExVarchar4(partyGstin);
+							header.setExVarchar5(partyAddress);
 							postBillHeaderList.add(header);
 
 							postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
@@ -938,55 +958,53 @@ public class ManualOrderController {
 			} // fr for
 			orderList = new ArrayList<Orders>();
 		} else {
-			
-
-			System.err.println("  adv order");
-
-			List<AdvanceOrderDetail> advDetailList = new ArrayList<AdvanceOrderDetail>();
-
-			String devDate = request.getParameter("delDate");
-			System.err.println("fr_id:" + Integer.parseInt(request.getParameter("fr_id")));
-
-
-			// without Adv Order ends
-
-			// to get fr
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
 			RestTemplate restTemplate = new RestTemplate();
 
+			partyName = request.getParameter("frName");
+			partyGstin = request.getParameter("gstin");
+			partyAddress = request.getParameter("address");
+		    String	billToName = request.getParameter("billToName");
+		    String  billToGstin = request.getParameter("billToGstin");
+		    String  billToAddress = request.getParameter("billToAddress");
+			int custId= Integer.parseInt(request.getParameter("cust"));
+			System.err.println("  adv order");
+		    float advanceAmt=Float.parseFloat(request.getParameter("advanceAmt"));
+			String devDate = request.getParameter("delDate");
+			String delTime = request.getParameter("delTime");
+			System.err.println("fr_id:" + Integer.parseInt(request.getParameter("fr_id")));
+			// without Adv Order ends
+			// to get fr
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("frId", Integer.parseInt(request.getParameter("fr_id")));
  			FranchiseeList franchiseeList = restTemplate.postForObject(Constants.url + "/getFranchiseeNew", map,
 					FranchiseeList.class);
 			 
  			String frString=franchiseeList.getFrName()+"##"+franchiseeList.getFrAddress()+"##"+franchiseeList.getFrGstNo();
-	 
+ 			DateFormat dateFormat1 = new SimpleDateFormat("hh:mm:ss a");
 		 
 			DateFormat dfReg1 = new SimpleDateFormat("dd-MM-yyyy");
 			String todaysDate = dfReg1.format(date);
 			System.err.println("fr details" + franchiseeList.toString());
-//to get cust 
-			MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
-			mvm.add("settingKey", "DEFLTCUST");
-			NewSetting settingValue = restTemplate.postForObject(Constants.url + "/findNewSettingByKey", mvm,
-					NewSetting.class);
+
+			List<AdvanceOrderDetail> advDetailList = new ArrayList<AdvanceOrderDetail>();
 
 			// with Adv order starts
 			AdvanceOrderHeader advHeader = new AdvanceOrderHeader();
-			advHeader.setAdvanceAmt(0);
-			advHeader.setCustId(Integer.parseInt(settingValue.getSettingValue1()));
+			advHeader.setAdvanceAmt(advanceAmt);
+			advHeader.setCustId(custId);
 			advHeader.setDelStatus(0);
 			advHeader.setExFloat1(0);
 			advHeader.setExFloat2(0);
 			advHeader.setExInt1(1);
 			advHeader.setExInt2(1);
-			advHeader.setExVar1("NA");
-			advHeader.setExVar2(frString);
+			advHeader.setExVar1(dateFormat1.format(date));
+			advHeader.setExVar2(delTime);
 			advHeader.setIsDailyMart(dm);
 
 			advHeader.setFrId(franchiseeList.getFrId());
 			advHeader.setOrderDate(todaysDate);
 			advHeader.setDeliveryDate(devDate);
+			System.err.println("devDate"+devDate);
 			Date date1 = new Date();
 			Date date2 = new Date();
 			try {
@@ -998,21 +1016,19 @@ public class ManualOrderController {
 
 			String x1 = "";
 			if (date1.compareTo(date2) == 0) {
-				x1 = incrementDate(DateConvertor.convertToYMD(devDate), 0);
+				x1 = incrementDate(devDate, 0);
 
 			} else {
-				x1 = incrementDate(DateConvertor.convertToYMD(devDate), -1);
+				x1 = incrementDate(devDate, -1);
 
 			}
-
-			advHeader.setProdDate(DateConvertor.convertToDMY(x1));
+			System.err.println("x1"+x1);
+			advHeader.setProdDate(x1);
 
 			advHeader.setIsBillGenerated(0);
 			advHeader.setIsSellBillGenerated(0);
 			float discAmt = 0.0f;
 			float totGrand = 0;
-			System.out.println("Save Res frId " + frId);
-			
 			for (int i = 0; i < orderList.size(); i++) {
 				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId() );
 				int qty = 0;
@@ -1041,7 +1057,6 @@ public class ManualOrderController {
 						System.err.println("  adv order with DM");
 
 						det.setDiscPer(orderList.get(i).getIsPositive());
-
 						det.setMrp(Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp())));
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))) * qty;
@@ -1100,7 +1115,7 @@ public class ManualOrderController {
 				}
 			}
 
-			advHeader.setRemainingAmt(totGrand);
+			advHeader.setRemainingAmt(totGrand-advanceAmt);
 			advHeader.setTotal(totGrand);
 
 			advHeader.setDetailList(advDetailList);
@@ -1335,6 +1350,9 @@ public class ManualOrderController {
 					header.setVehNo("-");
 					header.setExVarchar1("1");
 					header.setExVarchar2("-");
+					header.setExVarchar3(billToName);
+					header.setExVarchar4(billToGstin);
+					header.setExVarchar5(billToAddress);
 					postBillHeaderList.add(header);
 
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
@@ -1593,6 +1611,167 @@ public class ManualOrderController {
 		date = sdf.format(c.getTime());
 
 		return date;
+
+	}
+	
+	@RequestMapping(value = "/saveCustomerFromBill", method = RequestMethod.POST)
+	@ResponseBody
+	public AddCustemerResponse saveCustomerFromBill(HttpServletRequest request, HttpServletResponse responsel) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		AddCustemerResponse info = new AddCustemerResponse();
+
+		try {
+
+			String customerName = request.getParameter("customerName");
+			String mobileNo = request.getParameter("mobileNo");
+			String dateOfBirth = request.getParameter("dateOfBirth");
+			String buisness = request.getParameter("buisness");
+			String companyName = request.getParameter("companyName");
+			String gstNo = request.getParameter("gstNo");
+			String custAdd = request.getParameter("custAdd");
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			int custType = Integer.parseInt(request.getParameter("custType"));
+			String ageRange = request.getParameter("ageRange");
+			int gender = Integer.parseInt(request.getParameter("gender"));
+
+			Customer save = new Customer();
+			save.setCustName(customerName);
+			save.setPhoneNumber(mobileNo);
+			save.setIsBuissHead(Integer.parseInt(buisness));
+			save.setCustDob(dateOfBirth);
+			save.setCompanyName(companyName);
+			save.setAddress(custAdd);
+			save.setGstNo(gstNo);
+			save.setDelStatus(0);
+			save.setCustId(custId);
+			
+			save.setAgeGroup(ageRange);save.setExInt1(custType);save.setGender(gender);
+			Customer res = restTemplate.postForObject(Constants.url + "/saveCustomer", save, Customer.class);
+
+			Customer[] customer = restTemplate.getForObject(Constants.url + "/getAllCustomers", Customer[].class);
+			List<Customer> customerList = new ArrayList<>(Arrays.asList(customer));
+
+			if (res == null) {
+
+				info.setError(true);
+			} else {
+				info.setCustomerList(customerList);
+				info.setAddCustomerId(res.getCustId());
+				info.setError(false);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			info.setError(true);
+		}
+		return info;
+	}
+	Customer edit = new Customer();
+
+	@RequestMapping(value = "/editCustomerFromBill", method = RequestMethod.POST)
+	@ResponseBody
+	public Customer editCustomerFromBill(HttpServletRequest request, HttpServletResponse responsel) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		edit = new Customer();
+
+		try {
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("custId", custId);
+			edit = restTemplate.postForObject(Constants.url + "/getCustomerByCustId", map, Customer.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return edit;
+	}
+
+	@RequestMapping(value = "/submitEditCustomer", method = RequestMethod.POST)
+	@ResponseBody
+	public AddCustemerResponse submitEditCustomer(HttpServletRequest request, HttpServletResponse responsel) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		AddCustemerResponse info = new AddCustemerResponse();
+
+		try {
+
+			String customerName = request.getParameter("customerName");
+			String mobileNo = request.getParameter("mobileNo");
+			String dateOfBirth = request.getParameter("dateOfBirth");
+			int buisness = Integer.parseInt(request.getParameter("buisness"));
+			String companyName = request.getParameter("companyName");
+			String gstNo = request.getParameter("gstNo");
+			String custAdd = request.getParameter("custAdd");
+
+			edit.setCustName(customerName);
+			edit.setPhoneNumber(mobileNo);
+			edit.setIsBuissHead(buisness);
+			edit.setCustDob(dateOfBirth);
+			if (buisness == 0) {
+				edit.setCompanyName("");
+				edit.setAddress("");
+				edit.setGstNo("");
+			} else {
+				edit.setCompanyName(companyName);
+				edit.setAddress(custAdd);
+				edit.setGstNo(gstNo);
+			}
+
+			Customer res = restTemplate.postForObject(Constants.url + "/saveCustomer", edit, Customer.class);
+
+			Customer[] customer = restTemplate.getForObject(Constants.url + "/getAllCustomers", Customer[].class);
+			List<Customer> customerList = new ArrayList<>(Arrays.asList(customer));
+
+			if (res == null) {
+
+				info.setError(true);
+			} else {
+				info.setCustomerList(customerList);
+				info.setAddCustomerId(res.getCustId());
+				info.setError(false);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			info.setError(true);
+		}
+		return info;
+	}
+	@RequestMapping(value = "/checkEmailText", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
+
+		Info info = new Info();
+		int res = 0;
+
+		try {
+
+			String phoneNo = request.getParameter("phoneNo");
+			System.out.println("Info" + phoneNo);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("phoneNo", phoneNo);
+			RestTemplate restTemplate = new RestTemplate();
+			info = restTemplate.postForObject(Constants.url + "/checkCustPhone", map, Info.class);
+			System.out.println("Info" + info+"info.isError()"+info.getError());
+			if (info.getError() == false) {
+				res = 0;// exists
+				System.out.println("0s" + res);
+			} else {
+				res = 1;
+				System.out.println("1888" + res);
+			}
+
+		} catch (Exception e) {
+			System.err.println("Exception in checkEmailText : " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return res;
 
 	}
 }

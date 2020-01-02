@@ -82,8 +82,8 @@
 	<script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript"
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+ --><script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	
 	<script type="text/javascript"
