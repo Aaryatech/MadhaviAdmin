@@ -20,6 +20,10 @@
 
 
 	<c:url var="getAdvOrderHeadList" value="/getAdvOrderHeadList"></c:url>
+		<c:url var="findFranchiseeData" value="/findFranchiseeData" />
+		<c:url var="editCustomerFromBill" value="/editCustomerFromBill" /><!-- no edit on this page only to get cust data  -->
+		
+	
 
 
 	<!-- BEGIN Sidebar -->
@@ -1072,29 +1076,22 @@ function setAllFrSelected(frId)
 
 </script>
 	<script type="text/javascript">
-$("selectFr1").select(function(){
-	  alert("Text marked!");
-	});
 
 function getAdvOrderHeaders(){
 	var selectedFr = $("#selectFr1").val();
 	  var deliveryDate = $("#deliveryDate").val();
 	//  alert("JSON.stringify(selectedFr)" +JSON.stringify(selectedFr))
 	 //  alert("JSON.stringify(deliveryDate)" +deliveryDate)
+	  var frId=0;
 		$.getJSON('${getAdvOrderHeadList}',
 				{
 					fr_id_list : JSON.stringify(selectedFr),
 					deliveryDate : deliveryDate,
 					ajax : 'true'
-
 				},
 				function(data) {
-					//alert("KK"+JSON.stringify(data));
 					document.getElementById("advOrdHeaderDiv").style.display="block";
-				//	advOrdHeaderId
-										
 					var len = data.length;
-											
 					$('#advOrdHeaderId')
 				    .find('option')
 				    .remove()
@@ -1105,10 +1102,46 @@ function getAdvOrderHeaders(){
 			            $("#advOrdHeaderId").append($("<option></option>").attr("value", data[i].advHeaderId).text(custData));
 					}
 					   $("#advOrdHeaderId").trigger("chosen:updated");
-						   
 						document.getElementById("billTo").style.display="block";
 					    document.getElementById("shipTo").style.display="block";
+					    findShipFranchiseeData(data[0].frId);
+					    getCustData(data[0].custId);
 				});
+		}
+
+function findShipFranchiseeData(frId)
+{
+	$.getJSON(
+					'${findFranchiseeData}',
+					{
+						fr_id:frId,
+						ajax : 'true'
+					},
+					function(data) {
+						if(data.length!=0)
+							{
+							 document.getElementById("shipToName").value=data.frName;
+						     document.getElementById("shipToGstin").value=data.frGstNo;
+							 document.getElementById("shipToAddress").value=data.frAddress;
+							}
+					});
+}
+
+function getCustData(custId) {
+	if (custId != 0) {
+		$
+				.post(
+						'${editCustomerFromBill}',
+						{
+							custId : custId,
+							ajax : 'true'
+						},
+						function(data) {
+							    document.getElementById("billToName").value = data.custName;
+								document.getElementById("billToGstin").value = data.gstNo;
+								document.getElementById("billToAddress").value = data.address;
+						});
+}
 }
 </script>
 
