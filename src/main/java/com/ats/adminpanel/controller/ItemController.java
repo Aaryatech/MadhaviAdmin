@@ -173,7 +173,31 @@ public class ItemController {
 		}
 		return "redirect:/itemList";
 	}
+	@RequestMapping(value = "/updateItemRateAndMrp", method = RequestMethod.GET)
+	public @ResponseBody Info updateItemRateAndMrp(HttpServletRequest request, HttpServletResponse response) {
+		Info info=null;
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			
+			int id = Integer.parseInt(request.getParameter("id"));
 
+			float itemRate1 = Float.parseFloat(request.getParameter("inputRate"));
+
+			float itemMrp1 = Float.parseFloat(request.getParameter("inputMrp"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("id", id);
+			map.add("rate", itemRate1);
+			map.add("mrp", itemMrp1);
+
+			 info = restTemplate.postForObject(Constants.url + "updateItemRateAndMrp", map, Info.class);
+			System.err.println(info.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 	@RequestMapping(value = "/addItem", method = RequestMethod.GET)
 	public ModelAndView addItem(HttpServletRequest request, HttpServletResponse response) {
 

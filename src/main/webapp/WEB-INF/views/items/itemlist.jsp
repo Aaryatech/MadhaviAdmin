@@ -5,9 +5,25 @@
 	 
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.buttonload {
+    background-color: transparent; /* Green background */
+    border: none;  /*Remove borders */
+    color: #ec268f; /* White text */
+  /*   padding: 12px 20px; /* Some padding */ */
+    font-size: 15px; /* Set a font-size */
+    display: none;
+}
 
+/* Add a right margin to each icon */
+.fa {
+    margin-left: 12px;
+    margin-right: 8px;
+}
+</style>
 	<body>
-	
+		<c:url var="updateItemRateAndMrp" value="/updateItemRateAndMrp" />
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 	<div class="container" id="main-container">
@@ -209,7 +225,7 @@
 							
 								<div id="table-scroll" class="table-scroll">
 							 
-									<div id="faux-table" class="faux-table" aria="hidden">
+									<!-- <div id="faux-table" class="faux-table" aria="hidden">
 									<table id="table2" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
@@ -217,9 +233,10 @@
                                             <th class="col-md-1">Sr No</th>
 											<th class="col-md-2">Item Id</th>
 											<th class="col-md-3">Item Name</th>
-<!-- 										<th class="col-md-2">Image</th>
- -->										<th class="col-md-1">Rate</th>
-											<th class="col-md-1">MRP</th>
+										<th class="col-md-2">Image</th>
+									     <th class="col-md-1">MRP</th>
+                                             <th class="col-md-1">Margin %</th>
+											<th class="col-md-1">Rate</th>
 											<th class="col-md-1">Status</th>
 											<th class="col-md-1">Station No</th>
 											<th class="col-md-1">Action</th>
@@ -227,35 +244,39 @@
 												</thead>
 												</table>
 									
-									</div>
+									</div> -->
 									<div class="table-wrap">
 									
-										<table id="table1" class="table table-advance" style="">
+										<table id="tab1" class="table table-advance" style="">
 											<thead>
-											
-											
 												<tr class="bgpink">
 												<th class="col-md-1">SELECT</th>
-													<th class="col-md-1">Sr No</th>
-											<th class="col-md-2">Item Id</th>
-											<th class="col-md-3">Item Name</th>
+												<th class="col-md-1">Sr No</th>
+											    <th class="col-md-2">Item Id</th>
+											    <th class="col-md-2">Item Name</th>
 <!-- 											<th class="col-md-2">Image</th>
- -->											<th class="col-md-1">Rate</th>
-											<th class="col-md-1">MRP</th>
-												<th class="col-md-1">Status</th>
-													<th class="col-md-1">Station No</th>
-											<th class="col-md-1">Action</th>
+ -->											<th class="col-md-1">MRP</th>
+                                                <th class="col-md-1">Margin %</th>
+                                                <th class="col-md-1">Rate</th>
+											    <th class="col-md-1">Status</th>
+												<th class="col-md-1">Station No</th>
+											    <th class="col-md-1">Action</th>
 												</tr>
 												</thead>
 												<tbody>
 											
-	<c:forEach items="${itemsList}" var="itemsList" varStatus="count">
+	                                          <c:forEach items="${itemsList}" var="itemsList" varStatus="count">
+	                                          <fmt:formatNumber var="marginPer"
+  value="${(itemsList.itemMrp1-itemsList.itemRate1)/(itemsList.itemMrp1/100)}"
+  maxFractionDigits="0" />
 											<tr>
-										<td><input type="checkbox" class="chk" name="select_to_print" id="${itemsList.id}"	value="${itemsList.id}"/></td>
+										       <td><input type="checkbox" class="chk" name="select_to_print" id="${itemsList.id}"	value="${itemsList.id}"/></td>
 
 												<td><c:out value="${count.index+1}" /></td>
 												<td align="left"><c:out value="${itemsList.itemId}" /></td>
-												<td align="left"><c:out value="${itemsList.itemName}"/></td>
+												<td align="left"><c:out value="${itemsList.itemName}"/><button class="buttonload" id="loader">
+                                   <i class="fa fa-spinner fa-spin"></i>
+                                   </button></td>
 												
 											<%-- 	<td align="left">
 												<img
@@ -263,9 +284,9 @@
 													onerror="this.src='${pageContext.request.contextPath}/resources/img/No_Image_Available.jpg';"/>
 													
 												</td> --%>
-												<td align="left"><c:out value="${itemsList.itemRate1}" /></td>
-												<td align="left"><c:out value="${itemsList.itemMrp1}" /></td>
-												
+												<td align="left" id="itemMrp${itemsList.id}" onchange="onMrpRateChange(${itemsList.id},1)"><c:out value="${itemsList.itemMrp1}" /></td>
+												<td align="left" id="marginPer${itemsList.id}"onchange="onMrpRateChange(${itemsList.id},3)"><c:out value="${marginPer}" /></td>
+												<td align="left" id="itemRate${itemsList.id}" onchange="onMrpRateChange(${itemsList.id},2)"><c:out value="${itemsList.itemRate1}" /></td>
 												<td align="left">
 												<c:choose>
 												<c:when test="${itemsList.itemIsUsed==1}">
@@ -457,7 +478,7 @@ function myFunction() {
   var input, filter, table, tr, td,td1, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
+  table = document.getElementById("tab1");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[3];
@@ -530,7 +551,152 @@ else
 
 	}
 
-}
-</script>
+}</script>
+<script type="text/javascript">
 
+function getStyle(el, cssprop) {
+	if (el.currentStyle)
+		return el.currentStyle[cssprop];	 // IE
+	else if (document.defaultView && document.defaultView.getComputedStyle)
+		return document.defaultView.getComputedStyle(el, "")[cssprop];	// Firefox
+	else
+		return el.style[cssprop]; //try and get inline style
+}
+
+function applyEdit(tabID, editables) {
+	var tab = document.getElementById(tabID);
+	if (tab) {
+		var rows = tab.getElementsByTagName("tr");
+		for(var r = 0; r < rows.length; r++) {
+			var tds = rows[r].getElementsByTagName("td");
+			for (var c = 0; c < tds.length; c++) {
+				if (editables.indexOf(c) > -1)
+					tds[c].onclick = function () { beginEdit(this); };
+			}
+		}
+	}
+}
+var oldColor, oldText, padTop, padBottom = "";
+function beginEdit(td) {
+
+	if (td.firstChild && td.firstChild.tagName == "INPUT")
+		return;
+
+	oldText = td.innerHTML.trim();
+	oldColor = getStyle(td, "backgroundColor");
+	padTop = getStyle(td, "paddingTop");
+	padBottom = getStyle(td, "paddingBottom");
+
+	var input = document.createElement("input");
+	input.value = oldText;
+
+	//// ------- input style -------
+	var left = getStyle(td, "paddingLeft").replace("px", "");
+	var right = getStyle(td, "paddingRight").replace("px", "");
+	input.style.width = td.offsetWidth - left - right - (td.clientLeft * 2) - 2 + "px";
+	input.style.height = td.offsetHeight - (td.clientTop * 2) - 2 + "px";
+	input.style.border = "0px";
+	input.style.fontFamily = "inherit";
+	input.style.fontSize = "inherit";
+	input.style.textAlign = "inherit";
+	input.style.backgroundColor = "LightGoldenRodYellow";
+
+	input.onblur = function () { endEdit(this); };
+
+	td.innerHTML = "";
+	td.style.paddingTop = "0px";
+	td.style.paddingBottom = "0px";
+	td.style.backgroundColor = "LightGoldenRodYellow";
+	td.insertBefore(input, td.firstChild);
+	input.select();
+}
+function endEdit(input) {
+	var td = input.parentNode;
+	td.removeChild(td.firstChild);	//remove input
+	td.innerHTML = input.value;
+	if (oldText != input.value.trim() )
+		td.style.color = "red";
+
+	td.style.paddingTop = padTop;
+	td.style.paddingBottom = padBottom;
+	td.style.backgroundColor = oldColor;
+}
+applyEdit("tab1", [4,5,6]);
+</script>
+<script type="text/javascript">
+function onMrpRateChange(id,flag) {
+   $('#loader').show();
+
+	if(flag==1){
+	    var inputMrp = $('#itemMrp'+id).find('input').val();
+	    var inputRate = parseFloat($('#itemRate'+id).text());
+       $.getJSON(
+				'${updateItemRateAndMrp}',
+				{
+					id:id,
+					inputMrp:inputMrp,
+					inputRate:inputRate,
+					ajax : 'true'
+				},
+				function(data) {
+				if(data.error==false)
+					{
+					$('#loader').hide();
+					}else
+						{
+						$('#loader').hide();
+						alert("Failed To Update")
+						}
+				});
+	}else if(flag==2){
+		  var inputMrp = parseFloat($('#itemMrp'+id).text());
+		  var inputRate = $('#itemRate'+id).find('input').val();
+		  $.getJSON(
+					'${updateItemRateAndMrp}',
+					{
+						id:id,
+						inputMrp:inputMrp,
+						inputRate:inputRate,
+						ajax : 'true'
+					},
+					function(data) {
+					if(data.error==false)
+						{
+						$('#loader').hide();
+						}else
+							{
+							$('#loader').hide();
+							alert("Failed To Update")
+							}
+					});
+		}else
+			{
+			  var margin= parseFloat($('#marginPer'+id).find('input').val());
+			  var inputMrp = parseFloat($('#itemMrp'+id).text());
+			  var inputRate = parseFloat($('#itemRate'+id).text());
+				var calRate=inputMrp-((inputMrp*margin)/100);      
+			    document.getElementById('itemRate'+id).innerHTML = calRate.toFixed(2);
+
+		        $.getJSON(
+						'${updateItemRateAndMrp}',
+						{
+							id:id,
+							inputMrp:inputMrp,
+							inputRate:inputRate,
+							ajax : 'true'
+						},
+						function(data) {
+						if(data.error==false)
+							{
+							$('#loader').hide();
+							}else
+								{
+								$('#loader').hide();
+								alert("Failed To Update")
+								}
+						});
+			}
+}
+
+</script>
 </html>
