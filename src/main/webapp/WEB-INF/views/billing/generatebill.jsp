@@ -5,7 +5,7 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="getMenuListBySectionId()">
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
@@ -17,6 +17,10 @@
 
 	<c:url var="getFrListofAllFr" value="/getFrListofAllFr"></c:url>
 	<c:url var="getBillList" value="/generateNewBill"></c:url>
+
+
+	<c:url var="getAdvOrderHeadList" value="/getAdvOrderHeadList"></c:url>
+
 
 	<!-- BEGIN Sidebar -->
 	<div id="sidebar" class="navbar-collapse collapse">
@@ -116,8 +120,6 @@
 								class="form-control chosen" id="sectionId" name="sectionId"
 								onchange="getMenuListBySectionId()">
 
-								<option value="">Select Section</option>
-
 								<c:forEach items="${sectionList}" var="sectionList">
 									<option value="${sectionList.sectionId}"><c:out
 											value="${sectionList.sectionName}" /></option>
@@ -174,29 +176,27 @@
 								onchange="onRouteChange(this.value)">
 							
 								<option value="0">Select Route</option> --%>
-								<%-- <c:forEach items="${routeList}" var="route" varStatus="count">
+				<%-- <c:forEach items="${routeList}" var="route" varStatus="count">
 									<option value="${route.routeId}"><c:out value="${route.routeName}"/> </option>
 
 								</c:forEach> --%>
-						<!-- 	</select>
+				<!-- 	</select>
 
 						</div>
 
 
 					</div> 
 				</div>-->
-				<br>
-				<br>
+				<br> <br>
 				<div class="row">
 					<div class="form-group">
 						<label class="col-sm-3 col-lg-2 control-label">Franchisee
 						</label>
-						<div class="col-sm-6 col-lg-8">
+						<div class="col-sm-6 col-lg-8" id="multiFr" style="display: none">
 
 							<select data-placeholder="Choose Franchisee"
-								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectFr" name="selectFr"
-								onchange="setAllFrSelected(this.value)">
+								class="form-control chosen" multiple tabindex="6" id="selectFr"
+								name="selectFr" onchange="setAllFrSelected(this.value)">
 
 								<option value="-2"><c:out value="All" /></option>
 
@@ -207,11 +207,64 @@
 							</select>
 
 						</div>
-						<!--	</div>
+
+						<div class="col-sm-6 col-lg-8" id="singleFr" style="display: none">
+
+							<select data-placeholder="Choose Franchisee"
+								class="form-control chosen" tabindex="6" id="selectFr1"
+								name="selectFr1" onchange="getAdvOrderHeaders()">
+
+								<option selected disabled value="-2"><c:out
+										value="Select Franchise" /></option>
+
+								<c:forEach items="${unSelectedFrList}" var="fr"
+									varStatus="count">
+									<option value="${fr.frId}"><c:out value="${fr.frName}" /></option>
+								</c:forEach>
+							</select>
+
+						</div>
+
+
+						<div class="col-md-1">
+							<button class="btn btn-info" onclick="generateNewBill()">Search</button>
+
+
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+
+					<div class="form-group" id="advOrdHeaderDiv" style="display: none">
+						<label class="col-sm-3 col-lg-2 control-label">Select
+							Order </label>
+
+						<div class="col-sm-3 col-lg-8">
+
+							<select data-placeholder="Choose Order"
+								class="form-control chosen" tabindex="6" id="advOrdHeaderId"
+								name="advOrdHeaderId">
+
+							</select>
+
+						</div>
+
+						<!-- 
+						<div class="col-md-1">
+							<button class="btn btn-info" onclick="generateAdvOrderBill()">Search
+								By Order</button>
+
+						</div> -->
+					</div>
+
+
+				</div>
+				<!--	</div>
 				 </div> -->
 
 
-						<%-- <div class="form-group col-md-9">
+				<%-- <div class="form-group col-md-9">
 					<label class=" col-md-2">Select
 						Franchise </label>
 					<div class=" col-md-7">
@@ -229,112 +282,152 @@
 
 				</div> --%>
 
-						<!-- 
+				<!-- 
 				<br>
 				<div class="row"> -->
-						<div class="col-md-1">
-							<button class="btn btn-info" onclick="generateNewBill()">Search</button>
 
 
-						</div>
-					</div>
 
+				<div align="center" id="loader" style="display: none">
 
-					<div align="center" id="loader" style="display: none">
-
-						<span>
-							<h4>
-								<font color="#343690">Loading</font>
-							</h4>
-						</span> <span class="l-1"></span> <span class="l-2"></span> <span
-							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-						<span class="l-6"></span>
-					</div>
-
+					<span>
+						<h4>
+							<font color="#343690">Loading</font>
+						</h4>
+					</span> <span class="l-1"></span> <span class="l-2"></span> <span
+						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+					<span class="l-6"></span>
 				</div>
+
 			</div>
+		</div>
 
 
-			<div class="box">
-				<!-- <div class="box-title">
+		<div class="box">
+			<!-- <div class="box-title">
 				<h3>
 					<i class="fa fa-list-alt"></i>Bill
 				</h3>
 
 			</div>
  -->
-				<form id="submitBillForm"
-					action="${pageContext.request.contextPath}/submitNewBill"
-					method="post"
-					onsubmit="submitBill.disabled = true; return confirm('Do you want to Generate Bill ?');">
-					
-					<input type="hidden" name="sectionId" id="postSectionId"/>
-					<div class=" box-content">
-						<div class="row">
-							<div class="col-md-12 table-responsive">
-								<table class="table table-bordered table-striped fill-head "
-									border="1" style="width: 100%" id="table_grid">
-									<thead style="background-color: #f3b5db;">
-										<tr>
-											<th>Sr</th>
-											<th>Franchise</th>
-											<th>Menu</th>
-											<th>Item</th>
-											<th>Order Qty</th>
-											<th>Bill Qty</th>
-											<th>Base Rate</th>
-											<th>Disc %</th>
-											<th>Disc</th>
-											<th>Taxable</th>
-											<th>Tax %</th>
-											<th>SGST Rs</th>
-											<th>CGST Rs</th>
-											<!-- <th>IGST Rs</th> -->
-											<th>Total</th>
-										</tr>
-									</thead>
-									<tbody>
+			<form id="submitBillForm"
+				action="${pageContext.request.contextPath}/submitNewBill"
+				method="post"
+				onsubmit="submitBill.disabled = true; return confirm('Do you want to Generate Bill ?');">
 
-									</tbody>
-								</table>
-							</div>
+				<input type="hidden" name="sectionId" id="postSectionId" />
+				<div class=" box-content">
+					<div class="row">
+						<div class="col-md-12 table-responsive">
+							<table class="table table-bordered table-striped fill-head "
+								border="1" style="width: 100%" id="table_grid">
+								<thead style="background-color: #f3b5db;">
+									<tr>
+										<th>Sr</th>
+										<th>Franchise</th>
+										<th>Menu</th>
+										<th>Item</th>
+										<th>Order Qty</th>
+										<th>Bill Qty</th>
+										<th>Base Rate</th>
+										<th>Disc %</th>
+										<th>Disc</th>
+										<th>Taxable</th>
+										<th>Tax %</th>
+										<th>SGST Rs</th>
+										<th>CGST Rs</th>
+										<!-- <th>IGST Rs</th> -->
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
 						</div>
+					</div>
+					<div class="row">
+						<div id="billTo" style="display: none">
 
+							<label class="col-sm-3 col-lg-2 control-label">Cust Name</label>
+							<div class="col-sm-9 col-lg-2 controls">
+								<input type="text" name="billToName" value="CASH"
+									id="billToName" class="form-control" />
 
-
-						<div class="row">
-							<label class="col-sm-3 col-lg-1 control-label">Veh-No: </label>
-							<div class="col-sm-6 col-lg-2 controls">
-								<input type="text" name="vehNo" class="form-control" id="vehNo" value="-"/>
 							</div>
-							<label class="col-sm-3 col-lg-1 control-label">Time </label>
-							<div class="col-sm-6 col-lg-2 controls">
-								<input type="text" name="time" id="time" class="form-control" value="${time}"/>
+							<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
+							<div class="col-sm-9 col-lg-2 controls">
+								<input type="text" name="billToGstin" value="" id="billToGstin"
+									class="form-control" />
 							</div>
-							<div class="col-md-offset-3 col-md-1">
-								<!-- 							<button class="btn btn-info pull-right">Submit & PDF</button>
- -->
-								<%-- <a href="${pageContext.request.contextPath}/pdf?url=showBillPdf"
-								target="_blank">PDF</a> --%>
-								<button class="btn btn-info pull-right"
-									style="margin-right: 5px;" id="submitBill" name="submitBill"
-									disabled="disabled">Submit Bill</button>
+							<label class="col-sm-3 col-lg-1 control-label">Address</label>
+							<div class="col-sm-9 col-lg-3 controls">
+								<input type="text" name="billToAddress" value=""
+									id="billToAddress" class="form-control" />
 							</div>
 						</div>
 					</div>
-				</form>
-			</div>
+					<div class="form-group"></div>
+					<div class="row">
+						<div id="shipTo" style="display: none">
+
+							<label class="col-sm-3 col-lg-2 control-label">Party Name</label>
+							<div class="col-sm-9 col-lg-2 controls">
+								<input type="text" name="shipToName" value="" id="shipToName"
+									class="form-control" />
+
+							</div>
+							<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
+							<div class="col-sm-9 col-lg-2 controls">
+								<input type="text" name="shipToGstin" value="" id="shipToGstin"
+									class="form-control" />
+							</div>
+							<label class="col-sm-3 col-lg-1 control-label">Address</label>
+							<div class="col-sm-9 col-lg-3 controls">
+								<input type="text" name="shipToAddress" value=""
+									id="shipToAddress" class="form-control" />
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group"></div>
+
+					<div class="row">
+						<label class="col-sm-3 col-lg-1 control-label">Veh-No: </label>
+						<div class="col-sm-6 col-lg-2 controls">
+							<input type="text" name="vehNo" class="form-control" id="vehNo"
+								value="-" />
+						</div>
+						<label class="col-sm-3 col-lg-1 control-label">Time </label>
+						<div class="col-sm-6 col-lg-2 controls">
+							<input type="text" name="time" id="time" class="form-control"
+								value="${time}" />
+						</div>
+						<div class="col-md-offset-3 col-md-1">
+							<!-- 							<button class="btn btn-info pull-right">Submit & PDF</button>
+ -->
+							<%-- <a href="${pageContext.request.contextPath}/pdf?url=showBillPdf"
+								target="_blank">PDF</a> --%>
+							<button class="btn btn-info pull-right"
+								style="margin-right: 5px;" id="submitBill" name="submitBill"
+								disabled="disabled">Submit Bill</button>
+						</div>
+					</div>
+				</div>
+			</form>
 		</div>
-		<!-- END Main Content -->
+	</div>
+	<!-- END Main Content -->
 
-		<footer>
-			<p>2019 © MADHAVI.</p>
-		</footer>
+	<footer>
+		<p>2019 © MADHAVI.</p>
+	</footer>
 
-		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-			class="fa fa-chevron-up"></i></a>
+	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+		class="fa fa-chevron-up"></i></a>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 			function submitBill() {
 
 				//submitBillForm.submit();
@@ -345,16 +438,28 @@
 		</script>
 
 
-		<script type="text/javascript">
-	
+	<script type="text/javascript">
+		
 	function getMenuListBySectionId() {
 		
 		var sectionId = $("#sectionId").val();
+		//alert("sectionId "+sectionId);
+		 $('#table_grid td').remove();
+		 if(sectionId==1){
+			   document.getElementById("billTo").style.display="none";
+			   document.getElementById("shipTo").style.display="none";
+			 document.getElementById("multiFr").style="display:block"
+					 document.getElementById("singleFr").style.display = "none";
+			 document.getElementById("advOrdHeaderDiv").style.display = "none";
+
+
+		}else{
+			document.getElementById("singleFr").style.display="block"
+				 document.getElementById("multiFr").style.display = "none";
+			
+		} 
 		
-		 
 			 if(sectionId=="" || sectionId==null){
-				 
-				  
 					$('#selectMenu')
 				    .find('option')
 				    .remove()
@@ -362,20 +467,15 @@
 				    $("#selectMenu").trigger("chosen:updated");
 			 }else{
 					$.getJSON('${getMenuListBySectionId}', {
-						
 						sectionId : sectionId,
 						ajax : 'true'
 					}, function(data) {
 					 	var html = '<option value="">Select Section</option>';
-					
 						var len = data.length;
-						
 						$('#selectMenu')
 					    .find('option')
 					    .remove()
 					    .end()
-					    
-					 
 						
 						for ( var i = 0; i < len; i++) {
 				            $("#selectMenu").append(
@@ -384,19 +484,29 @@
 				                );
 						}
 						   $("#selectMenu").trigger("chosen:updated");
+						   //$("#selectFr").trigger("chosen:updated");
 					}); 
 			 }
 		 
 	}
+	
 	
 		function generateNewBill() {
  
 			var isValid = validate();
 
 			if (isValid) {
-				var selectedFr = $("#selectFr").val();
+				var selectedFr="";
+var advOrdHeaderId=0;
 				var routeId=$("#selectRoute").val();
 				var sectionId=$("#sectionId").val();
+				if(sectionId==1){
+					selectedFr = $("#selectFr").val();
+				}else{
+					selectedFr = $("#selectFr1").val();
+					advOrdHeaderId=document.getElementById("advOrdHeaderId").value
+				}
+				
 				var selectedMenu = $("#selectMenu").val();
 				var deliveryDate = $("#deliveryDate").val();
 				
@@ -412,6 +522,7 @@
 									menu_id_list : JSON.stringify(selectedMenu),
 									deliveryDate : deliveryDate,
 									route_id:routeId,
+									advOrdHeaderId : advOrdHeaderId,
 									ajax : 'true'
 
 								},
@@ -661,10 +772,18 @@
 		}
 	</script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 	function validate() {
+		var selectedFr="";
 
-		var selectedFr = $("#selectFr").val();
+		var sectionId=$("#sectionId").val();
+		
+		if(sectionId==1){
+			selectedFr = $("#selectFr").val();
+		}else{
+			selectedFr = $("#selectFr1").val();
+		}
+		
 		var selectedMenu = $("#selectMenu").val();
 		var selectedRoute = $("#selectRoute").val();
 
@@ -687,7 +806,7 @@
 	}
 	</script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 		function updateTotal(catId,orderId, rate) {
 			
 			var qty= parseFloat($("#billQty" +catId+""+orderId).val());//alert(qty+"qty");
@@ -735,7 +854,7 @@
 		}
 	</script>
 
-		<script>
+	<script>
 $('.datepicker').datepicker({
     format: {
         /*
@@ -751,7 +870,7 @@ $('.datepicker').datepicker({
 
 </script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 
 function disableFr(){
 
@@ -775,7 +894,7 @@ function disableRoute(){
 }
 
 </script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 function onDeliveryChange(delType)
 {
 	$.getJSON('${getRouteListByDelType}', {
@@ -816,41 +935,99 @@ $.getJSON('${getFrListByRouteId}', {
 
 		var len = data.length;
 		
-		$('#selectFr')
-	    .find('option')
-	    .remove()
-	    .end()
-	    $("#selectFr").append($("<option value='-1'>All</option>"));
-		for ( var i = 0; i < len; i++) {
-            $("#selectFr").append($("<option ></option>").attr("value", data[i].frId).text(data[i].frName));
+		
+		var selectedFr="";
+
+		var sectionId=$("#sectionId").val();
+		
+		if(sectionId==1){
+			
+			$('#selectFr')
+		    .find('option')
+		    .remove()
+		    .end()
+		    $("#selectFr").append($("<option value='-1'>All</option>"));
+			for ( var i = 0; i < len; i++) {
+	            $("#selectFr").append($("<option ></option>").attr("value", data[i].frId).text(data[i].frName));
+			}
+			   $("#selectFr").trigger("chosen:updated");
+			   
+			   
+		}else{
+			$('#selectFr1')
+		    .find('option')
+		    .remove()
+		    .end()
+		   // $("#selectFr1").append($("<option value='-1'>All</option>"));
+			for ( var i = 0; i < len; i++) {
+	            $("#selectFr1").append($("<option ></option>").attr("value", data[i].frId).text(data[i].frName));
+			}
+			   $("#selectFr1").trigger("chosen:updated");
+			   $('#table_grid td').remove();
 		}
-		   $("#selectFr").trigger("chosen:updated");
+		
+		
 	});
 	
 }
 </script>
-		<script>
+	<script>
 function setAllFrSelected(frId)
 {
-	if(frId==-1){
+	
+	var sectionId=$("#sectionId").val();
+
+	if(frId>0){
 	var routeId = $("#selectRoute").val();
-	$.getJSON('${getFrListByRouteId}', {
+	$.getJSON('${getFrListofAllFr}', {
 		
-	    routeId : routeId,
+	  //  routeId : routeId,
 		ajax : 'true'
 	}, function(data) {
 
 		var len = data.length;
 		
-		$('#selectFr')
-	    .find('option')
-	    .remove()
-	    .end()
-	    $("#selectFr").append($("<option value='-1'>All</option>"));
-		for ( var i = 0; i < len; i++) {
-            $("#selectFr").append($("<option selected ></option>").attr("value", data[i].frId).text(data[i].frName));
+		
+		if(sectionId==1){
+			/* $('#selectFr')
+		    .find('option')
+		    .remove()
+		    .end()
+		    $("#selectFr").append($("<option value='-1'>All</option>"));
+			for ( var i = 0; i < len; i++) {
+	            $("#selectFr").append($("<option selected ></option>").attr("value", data[i].frId).text(data[i].frName));
+			}
+			   $("#selectFr").trigger("chosen:updated"); */	
+			
+		}else{
+			//alert("Hi")
+			$('#selectFr1')
+		    .find('option')
+		    .remove()
+		    .end()
+		   // $("#selectFr1").append($("<option value='-1'>All</option>"));
+			for ( var i = 0; i < len; i++) {
+	            $("#selectFr1").append($("<option selected ></option>").attr("value", data[i].frId).text(data[i].frName));
+			}
+			   $("#selectFr1").trigger("chosen:updated");
+			   
+			   //get Adv Order Header for selected fr by passing delDate,frId
+			   
+				//alert("sectionId "+sectionId);
+				
+				 if(sectionId==1){
+					// alert("a")
+					
+							 document.getElementById("advOrdHeaderDiv").style.display = "none";
+
+				}else{
+					//alert("b")
+					document.getElementById("advOrdHeaderDiv").style.display="block"
+					
+						
+				} 
 		}
-		   $("#selectFr").trigger("chosen:updated");
+		
 	});
 	
 	}
@@ -863,7 +1040,9 @@ function setAllFrSelected(frId)
 			var len = data.length;
 			
 			//alert(len);
-			
+			var sectionId=$("#sectionId").val();
+		
+		if(sectionId==1){
 			$('#selectFr')
 		    .find('option')
 		    .remove()
@@ -873,65 +1052,120 @@ function setAllFrSelected(frId)
 	            $("#selectFr").append($("<option selected ></option>").attr("value", data[i].frId).text(data[i].frName));
 			}
 			   $("#selectFr").trigger("chosen:updated");
+				 document.getElementById("advOrdHeaderDiv").style.display = "none";
+
+		}else{
+			$('#selectFr1')
+		    .find('option')
+		    .remove()
+		    .end()
+		   // $("#selectFr1").append($("<option value='-1'>All</option>"));
+			for ( var i = 0; i < len; i++) {
+	            $("#selectFr1").append($("<option selected ></option>").attr("value", data[i].frId).text(data[i].frName));
+			}
+			   $("#selectFr1").trigger("chosen:updated");
+		}
+			
 		});
 	}
 }
+
+</script>
+	<script type="text/javascript">
+$("selectFr1").select(function(){
+	  alert("Text marked!");
+	});
+
+function getAdvOrderHeaders(){
+	var selectedFr = $("#selectFr1").val();
+	  var deliveryDate = $("#deliveryDate").val();
+	//  alert("JSON.stringify(selectedFr)" +JSON.stringify(selectedFr))
+	 //  alert("JSON.stringify(deliveryDate)" +deliveryDate)
+		$.getJSON('${getAdvOrderHeadList}',
+				{
+					fr_id_list : JSON.stringify(selectedFr),
+					deliveryDate : deliveryDate,
+					ajax : 'true'
+
+				},
+				function(data) {
+					//alert("KK"+JSON.stringify(data));
+					document.getElementById("advOrdHeaderDiv").style.display="block";
+				//	advOrdHeaderId
+										
+					var len = data.length;
+											
+					$('#advOrdHeaderId')
+				    .find('option')
+				    .remove()
+				    .end()
+				    $("#advOrdHeaderId").append($("<option disabled selected value='-1'>Select Order</option>"));
+					for ( var i = 0; i < len; i++) {
+						var custData=data[i].custName+" Ph: "+data[i].phoneNumber+" Rs: "+data[i].total;
+			            $("#advOrdHeaderId").append($("<option></option>").attr("value", data[i].advHeaderId).text(custData));
+					}
+					   $("#advOrdHeaderId").trigger("chosen:updated");
+						   
+						document.getElementById("billTo").style.display="block";
+					    document.getElementById("shipTo").style.display="block";
+				});
+}
 </script>
 
-		<!--basic scripts-->
-		<script
-			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script>
+	<!--basic scripts-->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script>
 		window.jQuery
 				|| document
 						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
 	</script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 
-		<!--page specific plugin scripts-->
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
 
-		<!--flaty scripts-->
-		<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
 </body>
 </html>

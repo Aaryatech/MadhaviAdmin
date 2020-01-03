@@ -92,6 +92,7 @@ import com.ats.adminpanel.model.billing.PostBillDataCommon;
 import com.ats.adminpanel.model.billing.PostBillDetail;
 import com.ats.adminpanel.model.billing.PostBillHeader;
 import com.ats.adminpanel.model.billing.SlabwiseBillList;
+import com.ats.adminpanel.model.dashboard.GetAdvanceOrderList;
 import com.ats.adminpanel.model.franchisee.AllMenuResponse;
 import com.ats.adminpanel.model.franchisee.FrNameIdByRouteId;
 import com.ats.adminpanel.model.franchisee.FrNameIdByRouteIdResponse;
@@ -663,7 +664,8 @@ public class BillController {
 			selectedDate = request.getParameter("deliveryDate");
 			String selectedMenu = request.getParameter("menu_id_list");
 			String routeId = request.getParameter("route_id");
-
+			int advOrdHeaderId = Integer.parseInt(request.getParameter("advOrdHeaderId"));
+			
 			boolean isAllFrSelected = false;
 			boolean isAllMenuSelected = false;
 
@@ -734,7 +736,7 @@ public class BillController {
 				RestTemplate restTemplate = new RestTemplate();
 
 				if (isAllFrSelected && isAllMenuSelected) {
-
+					System.err.println("A");
 					map.add("delDate", selectedDate);
 
 					generateBillList = restTemplate.postForObject(Constants.url + "generateBillForAllFrAllMenu", map,
@@ -742,7 +744,7 @@ public class BillController {
 					System.out.println("generate bill list All Fr All Menu " + generateBillList.toString());
 
 				} else if (isAllMenuSelected) {
-
+					System.err.println("B");
 					map.add("frId", selectedFr);
 					map.add("delDate", selectedDate);
 
@@ -753,7 +755,7 @@ public class BillController {
 					System.out.println("g bill first size " + generateBillList.getGenerateBills().size());
 
 				} else if (isAllFrSelected) {
-
+					System.err.println("C");
 					map.add("menuId", selectedMenu);
 					map.add("delDate", selectedDate);
 
@@ -761,7 +763,8 @@ public class BillController {
 							GenerateBillList.class);
 					System.out.println("generate bill list All Fr" + generateBillList.toString());
 
-				} else {
+				} else if(advOrdHeaderId==0) {
+					System.err.println("D");
 					System.err.println("Menu Id:" + selectedMenu);
 					map.add("frId", selectedFr);
 					map.add("menuId", selectedMenu);
@@ -772,6 +775,19 @@ public class BillController {
 					System.out.println("generate bill list " + generateBillList.toString());
 
 					System.out.println("g bill first size " + generateBillList.getGenerateBills().size());
+
+				}else {
+					System.err.println("E");
+					System.err.println("In Last else ");
+					/*
+					 * map.add("frId", selectedFr); map.add("menuId", selectedMenu);
+					 * map.add("delDate", selectedDate);
+					 */
+					map.add("advOrdHeaderId", advOrdHeaderId);
+					
+					generateBillList = restTemplate.postForObject("" + Constants.url + "generateBillForAdvOrder", map,
+							GenerateBillList.class);
+					System.out.println("generate bill list " + generateBillList.toString());
 
 				}
 
@@ -849,6 +865,37 @@ public class BillController {
 	}
 
 	
+	@RequestMapping(value = "/getAdvOrderHeadList", method = RequestMethod.GET)
+	public @ResponseBody List<GetAdvanceOrderList> getAdvOrderHeadList(HttpServletRequest request, HttpServletResponse response) {
+		List<GetAdvanceOrderList> advList=null;
+		System.err.println("In getAdvOrderHeadList");
+		try {
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		RestTemplate restTemplate = new RestTemplate();
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String selectedFr = request.getParameter("fr_id_list");
+		selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
+		selectedFr = selectedFr.replaceAll("\"", "");
+		
+		map.add("delDate", request.getParameter("deliveryDate"));
+		map.add("frId", selectedFr);
+		System.err.println("Map /getAdvOrderHeadList " +map);
+		GetAdvanceOrderList[] holListArray = restTemplate
+				.postForObject(Constants.url + "/getAdvOrderHeadList", map, GetAdvanceOrderList[].class);
+
+		 advList = new ArrayList<>(Arrays.asList(holListArray));
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Hi  " +e.getMessage());
+		}
+		
+		return advList;
+
+		
+		
+	}
 
 	@RequestMapping(value = "/showBillListForPrint", method = RequestMethod.GET)
 	public ModelAndView showBillListForPrint(HttpServletRequest request, HttpServletResponse response) {
