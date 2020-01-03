@@ -462,9 +462,36 @@ public class BillController {
 						header.setFrCode(gBill.getFrCode());
 						header.setBillDate(billDate);
 						header.setRemark("");
-						header.setPartyName(gBill.getPartyName());// new
-						header.setPartyGstin(gBill.getPartyGstin());// new
-						header.setPartyAddress(gBill.getPartyAddress());// new
+						
+						if(Integer.parseInt(sectionId)==1) {
+							header.setPartyName(gBill.getPartyName());// new
+							header.setPartyGstin(gBill.getPartyGstin());// new
+							header.setPartyAddress(gBill.getPartyAddress());// new
+							
+							header.setExVarchar3(gBill.getPartyName());
+							header.setExVarchar4(gBill.getPartyGstin());
+							header.setExVarchar5(gBill.getPartyAddress());
+							
+							
+						}else {
+							
+							String partyName = request.getParameter("shipToFrName");
+							String partyGstin = request.getParameter("shipToGstin");
+							String partyAddress = request.getParameter("shipToAddress");
+						    
+							String	billToName = request.getParameter("billToName");
+						    String  billToGstin = request.getParameter("billToGstin");
+						    String  billToAddress = request.getParameter("billToAddress");
+							
+							header.setPartyName(partyName);// new
+							header.setPartyGstin(partyGstin);// new
+							header.setPartyAddress(partyAddress);// new
+							
+							header.setExVarchar3(billToName);
+							header.setExVarchar4(billToGstin);
+							header.setExVarchar5(billToAddress);
+							
+						}
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
 						header.setExVarchar1(sectionId);
 						if (gBill.getIsOwnFr() == 1)
