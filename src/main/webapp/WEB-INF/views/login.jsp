@@ -31,7 +31,7 @@
     padding-top: 0px;
 }
 </style>
-</head>
+</head> 
 <body class="bg-overlay">
 	<img src="${pageContext.request.contextPath}/resources/img/Logo.png"></img> 
 	<div class="limiter">
