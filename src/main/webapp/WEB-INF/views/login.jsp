@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Monginis-Admin</title>
+	<title>Admin</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/img/favicon.png"/>
@@ -21,7 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <style type="text/css">
 .bg-overlay {
-    /*background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url("${pageContext.request.contextPath}/resources/img/cake1.jpeg");*/
+   background: linear-gradient(rgba(228, 202, 17, 0.4), rgba(255, 77, 23, 0.4)), url("${pageContext.request.contextPath}/resources/img/bodybg.jpg");
    background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -32,15 +32,15 @@
 }
 </style>
 </head>
-<body class="container bg-overlay">
-	
+<body class="bg-overlay">
+	<img src="${pageContext.request.contextPath}/resources/img/Logo.png"></img> 
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
 				<form class="login100-form validate-form" id="form-login" action="loginProcess" method="post">
 				
 					<span class="login100-form-title p-b-33">
-				<img src="/adminpanel/resources/img/Madhvi_Logo(4).jpg"></img>
+				<!-- <img src="/adminpanel/resources/img/Madhvi_Logo(4).jpg"></img> -->Admin Login
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid username is required" style="border-radius:25px;">
