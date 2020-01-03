@@ -628,8 +628,12 @@ function onMrpRateChange(id,flag) {
    $('#loader').show();
 
 	if(flag==1){
+		 var margin=parseFloat($('#marginPer'+id).text());
 	    var inputMrp = $('#itemMrp'+id).find('input').val();
-	    var inputRate = parseFloat($('#itemRate'+id).text());
+		var calRate=inputMrp-((inputMrp*margin)/100);      
+	    document.getElementById('itemRate'+id).innerHTML = calRate.toFixed(2);
+	    var inputRate = calRate.toFixed(2);
+
        $.getJSON(
 				'${updateItemRateAndMrp}',
 				{
@@ -671,11 +675,11 @@ function onMrpRateChange(id,flag) {
 					});
 		}else
 			{
-			  var margin= parseFloat($('#marginPer'+id).find('input').val());
-			  var inputMrp = parseFloat($('#itemMrp'+id).text());
-			  var inputRate = parseFloat($('#itemRate'+id).text());
+			    var margin= parseFloat($('#marginPer'+id).find('input').val());
+			    var inputMrp = parseFloat($('#itemMrp'+id).text());
 				var calRate=inputMrp-((inputMrp*margin)/100);      
 			    document.getElementById('itemRate'+id).innerHTML = calRate.toFixed(2);
+				 var inputRate = calRate.toFixed(2);
 
 		        $.getJSON(
 						'${updateItemRateAndMrp}',
