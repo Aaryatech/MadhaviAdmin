@@ -93,6 +93,7 @@ import com.ats.adminpanel.model.billing.PostBillDetail;
 import com.ats.adminpanel.model.billing.PostBillHeader;
 import com.ats.adminpanel.model.billing.SlabwiseBillList;
 import com.ats.adminpanel.model.dashboard.GetAdvanceOrderList;
+import com.ats.adminpanel.model.franchisee.AdvanceOrderHeader;
 import com.ats.adminpanel.model.franchisee.AllMenuResponse;
 import com.ats.adminpanel.model.franchisee.FrNameIdByRouteId;
 import com.ats.adminpanel.model.franchisee.FrNameIdByRouteIdResponse;
@@ -113,7 +114,7 @@ import com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE;
 public class BillController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BillController.class);
-
+ 
 	public AllFrIdNameList allFrIdNameList = new AllFrIdNameList();
 	public List<Menu> menuList = new ArrayList<Menu>();
 	public String selectedFrArray;
@@ -674,6 +675,7 @@ public class BillController {
 		return model;
 	}
 
+	AdvanceOrderHeader advHeader=null;
 	@RequestMapping(value = "/generateNewBill", method = RequestMethod.GET)
 	public @ResponseBody List<GenerateBill> generateNewBill(HttpServletRequest request, HttpServletResponse response) {
 
@@ -789,6 +791,8 @@ public class BillController {
 					generateBillList = restTemplate.postForObject("" + Constants.url + "generateBillForAllFr", map,
 							GenerateBillList.class);
 					System.out.println("generate bill list All Fr" + generateBillList.toString());
+					
+					
 
 				} else if(advOrdHeaderId==0) {
 					System.err.println("D");
@@ -802,6 +806,7 @@ public class BillController {
 					System.out.println("generate bill list " + generateBillList.toString());
 
 					System.out.println("g bill first size " + generateBillList.getGenerateBills().size());
+					
 
 				}else {
 					System.err.println("E");
@@ -815,7 +820,9 @@ public class BillController {
 					generateBillList = restTemplate.postForObject("" + Constants.url + "generateBillForAdvOrder", map,
 							GenerateBillList.class);
 					System.out.println("generate bill list " + generateBillList.toString());
-
+					
+					
+						 
 				}
 
 				/*
@@ -890,7 +897,22 @@ public class BillController {
 
 		return generateBillList.getGenerateBills();
 	}
+	@RequestMapping(value = "/getCustIdFromOrderHeaderId", method = RequestMethod.POST)
+	public @ResponseBody Object getCustId(HttpServletRequest request, HttpServletResponse response) {
+	
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		
+		int advOrdHeaderId = Integer.parseInt(request.getParameter("advOrdHeaderId"));
 
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("headId", advOrdHeaderId);
+			 advHeader = restTemplate
+					.postForObject(Constants.url + "/advanceOrderHistoryHedaerByHeadId", map, AdvanceOrderHeader.class);
+			 int custId=advHeader.getCustId();
+
+		return custId;
+	}
 	
 	@RequestMapping(value = "/getAdvOrderHeadList", method = RequestMethod.GET)
 	public @ResponseBody List<GetAdvanceOrderList> getAdvOrderHeadList(HttpServletRequest request, HttpServletResponse response) {

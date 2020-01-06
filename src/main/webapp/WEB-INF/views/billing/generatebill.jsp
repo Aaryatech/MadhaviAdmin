@@ -22,8 +22,7 @@
 	<c:url var="getAdvOrderHeadList" value="/getAdvOrderHeadList"></c:url>
 		<c:url var="findFranchiseeData" value="/findFranchiseeData" />
 		<c:url var="editCustomerFromBill" value="/editCustomerFromBill" /><!-- no edit on this page only to get cust data  -->
-		
-	
+	<c:url var="getCustIdFromOrderHeaderId" value="/getCustIdFromOrderHeaderId" />
 
 
 	<!-- BEGIN Sidebar -->
@@ -531,7 +530,9 @@ var advOrdHeaderId=0;
 
 								},
 								function(data) {
-
+									
+									
+									
 									$('#table_grid td').remove();
 									$('#loader').hide();
 									document.getElementById("submitBill").disabled = false;
@@ -773,7 +774,25 @@ var advOrdHeaderId=0;
 								});
 
 			}
+			getAdvOrHeader(advOrdHeaderId);
 		}
+		
+		function getAdvOrHeader(advOrdHeaderId)
+		{
+			//alert("advOrdHeaderId" +advOrdHeaderId)
+			$.post(
+					'${getCustIdFromOrderHeaderId}',
+					{
+						advOrdHeaderId : advOrdHeaderId,
+						ajax : 'true'
+					},
+					function(data) {
+						   //alert(data);
+						getCustData(data);
+					});
+			
+		}
+		
 	</script>
 
 	<script type="text/javascript">
@@ -1082,6 +1101,10 @@ function getAdvOrderHeaders(){
 	  var deliveryDate = $("#deliveryDate").val();
 	//  alert("JSON.stringify(selectedFr)" +JSON.stringify(selectedFr))
 	 //  alert("JSON.stringify(deliveryDate)" +deliveryDate)
+	 
+	  document.getElementById("shipToName").value="";
+						     document.getElementById("shipToGstin").value="";
+							 document.getElementById("shipToAddress").value="";
 	  var frId=0;
 		$.getJSON('${getAdvOrderHeadList}',
 				{
@@ -1105,7 +1128,7 @@ function getAdvOrderHeaders(){
 						document.getElementById("billTo").style.display="block";
 					    document.getElementById("shipTo").style.display="block";
 					    findShipFranchiseeData(data[0].frId);
-					    getCustData(data[0].custId);
+					    //getCustData(data[0].custId);
 				});
 		}
 
