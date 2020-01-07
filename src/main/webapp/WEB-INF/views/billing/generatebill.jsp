@@ -600,21 +600,30 @@ var advOrdHeaderId=0;
 
 														 var billQty = "<td align=center><input type='text' min=0 style='width: 5em' class=form-control   onkeyup= updateTotal("
 																+ bill.catId+","+bill.orderId + ","
-																+ bill.orderRate + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ")  id=billQty"+ bill.catId+""+bill.orderId+ " name=billQty"+bill.catId+""+bill.orderId+" value = "+ bill.orderQty+ "></td>"; 
+																+ bill.orderRate + ","+ bill.orderMrp + ","+ bill.isOwnFr + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+","+ bill.orderMrp + ","+ bill.isOwnFr + ")  id=billQty"+ bill.catId+""+bill.orderId+ " name=billQty"+bill.catId+""+bill.orderId+" value = "+ bill.orderQty+ "></td>"; 
 														
 												 var discPer = "<td align=center><input type=text  style='width: 5em' class=form-control   onkeyup= updateTotal("
 																		+ bill.catId+","+bill.orderId + ","
-																		+ bill.orderRate + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ")  id=discPer"+ bill.catId+""+bill.orderId+ " name=discPer"+bill.catId+""+bill.orderId+" value ="+bill.isPositive+" ></td>"; 
+																		+ bill.orderRate + ","+ bill.orderMrp + ","+ bill.isOwnFr + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ","+ bill.orderMrp + ","+ bill.isOwnFr + ")  id=discPer"+ bill.catId+""+bill.orderId+ " name=discPer"+bill.catId+""+bill.orderId+" value ="+bill.isPositive+" ></td>"; 
 																	
 																//var billQty = "<td align=center><input name=newId id=newId value=21 type=number ></td>";
                                                    
 															var baseRateAmt	;
-														if(bill.isSameState==1)	{
-														 baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax1+bill.itemTax2);	
-														}
-														else{
-															baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax3);	
-														}
+															if(bill.isOwnFr==1){
+																if(bill.isSameState==1)	{
+																	 baseRateAmt=(bill.orderMrp*100)/(100+bill.itemTax1+bill.itemTax2);	
+																}
+																else{
+																	baseRateAmt=(bill.orderMrp*100)/(100+bill.itemTax3);	
+																}
+															}else{
+																	if(bill.isSameState==1)	{
+																		 baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax1+bill.itemTax2);	
+																	}
+																	else{
+																		baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax3);	
+																	}
+															}
 																
 														//var baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax1+bill.itemTax2);
 														//alert("base Rate Amt ="+baseRateAmt);
@@ -830,13 +839,19 @@ var advOrdHeaderId=0;
 	</script>
 
 	<script type="text/javascript">
-		function updateTotal(catId,orderId, rate) {
+		function updateTotal(catId,orderId, rate,mrp,isOwnFr) {
 			
+			var baseRate=0;
 			var qty= parseFloat($("#billQty" +catId+""+orderId).val());//alert(qty+"qty");
 			var discPer=parseFloat($("#discPer" + catId+""+orderId).val());//alert(discPer+"discPer");
 			var sgstPer=parseFloat($("#sgstPer" + catId+""+orderId).val());// alert(sgstPer+"sgstPer");
 			var cgstPer=parseFloat($("#cgstPer" + catId+""+orderId).val());//alert(cgstPer+"cgstPer");
-    		var baseRate = ((rate * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
+    		if(isOwnFr==1){
+			        baseRate = ((mrp * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
+    		}else
+    			{
+    			    baseRate = ((rate * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
+    			}
 
 			var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
 			 if(discPer>0){

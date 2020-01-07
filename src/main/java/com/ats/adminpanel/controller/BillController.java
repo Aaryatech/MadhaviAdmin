@@ -323,7 +323,13 @@ public class BillController {
 										+ "" + tempGenerateBillList.get(j).getOrderId()));
 
 						// billQty = String.valueOf(gBill.getOrderQty());
-						Float orderRate = (float) gBill.getOrderRate();
+						Float orderRate=0.0f;
+						if(gBill.getIsOwnFr()==1) {
+							orderRate = (float) gBill.getOrderMrp();
+						}
+						else {
+						 orderRate = (float) gBill.getOrderRate();
+						}
 						Float tax1 = (float) gBill.getItemTax1();
 						Float tax2 = (float) gBill.getItemTax2();
 						Float tax3 = (float) gBill.getItemTax3();

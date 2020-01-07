@@ -383,7 +383,7 @@
 											<label class="col-sm-3 col-lg-2 control-label">FDA
 												License No</label>
 											<div class="col-sm-5 col-lg-4 controls">
-												<input class="form-control date-picker"
+												<input class="form-control"
 													id="fba_license_date" size="16" type="text"
 													name="fba_license_date" required autocomplete="off"
 													placeholder="FDA License No" />
