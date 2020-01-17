@@ -375,7 +375,7 @@ input:checked + .slider:before {
 						</div>
 										</div>
 										<div class="form-group">
-										<label class="col-sm-3 col-lg-2 control-label">Order</label>
+										<!-- <label class="col-sm-3 col-lg-2 control-label">Order</label> -->
 									  <label class="col-sm-3 col-lg-2 control-label" hidden>
     <input type="radio" name="typename" class="type" value="0" checked="" id="t1" onchange="checkOrderByStatus()">
     <label for="t1">Billing</label>
@@ -384,7 +384,7 @@ input:checked + .slider:before {
     <input type="radio" name="typename" class="type" value="1" id="t2" onchange="checkOrderByStatus()">
     <label for="t2">By MRP</label>
   </label>			
-  	<label class="col-sm-3 col-lg-1	 control-label">Delivery</label>
+  	<label class="col-sm-3 col-lg-2	 control-label">Delivery Option/ Delivery Date/ Delivery Time </label>
 						<div class="col-sm-6 col-lg-2 controls date_select">
 							<select data-placeholder="Choose Menu"
 								class="form-control chosen" id="delType" name="delType" onchange="onDelChange(this.value)">
@@ -1212,7 +1212,7 @@ $(function() {
     	var type = $('.type:checked').val();
     	var delType=$('#delType').val();
     	var ordertype = $('.order:checked').val();
-    	alert(type);
+    	//alert(type);
        // document.getElementById("myCheck").checked = true;alert("ji7")
         var isChecked = $('#isDairyMart').is(':checked');
         var delDate=null;
@@ -1504,7 +1504,7 @@ $(function() {
 			//calculate total value  
 			var qty =parseInt( $('#qty' + id + '' + frId).val());
 			var discper =parseFloat( $('#discper' + id + '' + frId).val());
-alert(discper);
+//alert(discper);
 			var minqty = parseInt($('#minqty' + id + '' + frId).val());
 			var limqty = parseInt($('#limqty' + id + '' + frId).val());
 		//	alert(limqty);
@@ -1873,7 +1873,7 @@ function findFranchiseeData(frId)
 		ajax : 'true'
 	}, function(data) {
 		var html = '<option value="0">Menu</option>';
-	alert(data);
+	//alert(data);
 		var len = data.length;
 		
 		$('#menu')
@@ -1907,7 +1907,7 @@ function findFranchiseeData(frId)
                               document.getElementById("frName").value=data.frName;
                               document.getElementById("gstin").value=data.frGstNo;
                               document.getElementById("address").value=data.frAddress;
-                              alert(data.frKg1);
+                             // alert(data.frKg1);
                               if(data.frKg1==1)
                             	  {
                               $('#t2').prop('checked', true)
@@ -2065,10 +2065,10 @@ function checkOrderByStatus()
 	    	   document.getElementById("flagRate").value=1;
 	    	   onSearchMulFr();
 	    	   document.getElementById("flagRate").value=0;
-	    	   alert('checkOrderByStatus11');
+	    	  // alert('checkOrderByStatus11');
 	       }else{
 		   onSearch();
-		   alert('checkOrderByStatus12');
+		   //alert('checkOrderByStatus12');
 	       }
 	   }else
 	   if($('#t2').is(':checked')) { 
@@ -2076,10 +2076,10 @@ function checkOrderByStatus()
 	 document.getElementById("flagRate").value=1;
 	 onSearchMulFr();
 	 document.getElementById("flagRate").value=0;
-	 alert('checkOrderByStatus13');
+	// alert('checkOrderByStatus13');
 	       }else{
 		   onSearch();
-		   alert('checkOrderByStatus14');
+		  // alert('checkOrderByStatus14');
 	       }
 	   }
       }
