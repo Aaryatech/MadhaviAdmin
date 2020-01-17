@@ -376,11 +376,11 @@ input:checked + .slider:before {
 										</div>
 										<div class="form-group">
 										<label class="col-sm-3 col-lg-2 control-label">Order</label>
-									  <label class="col-sm-3 col-lg-2 control-label">
+									  <label class="col-sm-3 col-lg-2 control-label" hidden>
     <input type="radio" name="typename" class="type" value="0" checked="" id="t1" onchange="checkOrderByStatus()">
     <label for="t1">Billing</label>
   </label>
-<label class="col-sm-3 col-lg-2 control-label">
+<label class="col-sm-3 col-lg-2 control-label"hidden>
     <input type="radio" name="typename" class="type" value="1" id="t2" onchange="checkOrderByStatus()">
     <label for="t2">By MRP</label>
   </label>			
@@ -397,7 +397,7 @@ input:checked + .slider:before {
 		<div id="dt" style="display: none;"> <div class="col-md-1" style="width: 10.333333%;">
 										<input class="form-control date-picker" id="delDate" size="16"   style="width: 110px;"
 											type="text" name="delDate"  placeholder="dd-MM-yyyy"   autocomplete="off"/>
-										</div><div class="col-md-1">	<input type="text" id="clockface_1" name="delTime" value="2:30 PM" data-format="hh:mm A" style="width: 110px;" class="form-control small clockface-open">
+										</div><div class="col-md-1">	<input type="text" id="clockface_1" name="delTime" value="2:30 PM" data-format="hh:mm A" style="width: 110px;" class="form-control small clockface-open" autocomplete="off">
 											
 								</div>	</div>				    
   </div>
@@ -1212,11 +1212,14 @@ $(function() {
     	var type = $('.type:checked').val();
     	var delType=$('#delType').val();
     	var ordertype = $('.order:checked').val();
+    	alert(type);
        // document.getElementById("myCheck").checked = true;alert("ji7")
         var isChecked = $('#isDairyMart').is(':checked');
         var delDate=null;
+        
 		 if(delType==3)
 		   delDate=$('#delDate').val();	
+		 	
         var isDairyMart=0;
         if(isChecked==true)
         	{
@@ -1321,10 +1324,12 @@ $(function() {
          var isDairyMart=0;
          if(isChecked==true)
          	{
-         	isDairyMart=1;
+         	isDairyMart=2;
         	document.getElementById("dailyFlagMart1").value = isDairyMart;
 
          	}
+         
+         
           	 $('#loader').show();
           
                 $.getJSON('${findItemsByCatIdForMulFr}', {
@@ -1499,7 +1504,7 @@ $(function() {
 			//calculate total value  
 			var qty =parseInt( $('#qty' + id + '' + frId).val());
 			var discper =parseFloat( $('#discper' + id + '' + frId).val());
-
+alert(discper);
 			var minqty = parseInt($('#minqty' + id + '' + frId).val());
 			var limqty = parseInt($('#limqty' + id + '' + frId).val());
 		//	alert(limqty);
@@ -1525,6 +1530,7 @@ $(function() {
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
 				}
+				calTotal(2);
 			} else {
 				if (qty % minqty == 0
 						 &&  qty >= limqty && discper >= 0 )  {
@@ -1541,6 +1547,7 @@ $(function() {
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
 				}
+				calTotal(2);
 
 			}
 		}
@@ -1733,11 +1740,13 @@ function validation() {
 	}else if(delType==3)
 		{
 		var delDate= $('#delDate').val();
+		
 		if(delDate=="" || delDate==null)
 			{
 			isValid = false;
 			alert("Please Select Delivery Date ");
 			}
+		
 		}
 	return isValid;
 }
@@ -1817,6 +1826,7 @@ function deleteItem(key){
 		  	
 		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderRate));
 		  	var total=item.orderQty*item.orderRate;
+		  //	var total=(item.orderQty*item.orderRate)-(item.isPositive*((item.orderQty*item.orderRate)/100));
 		  	tr.append($('<td style="text-align:right;"class="col-md-1-2"></td>').html(total.toFixed(2)));
 		  	
 		 	tr.append($('<td style="text-align:center;"></td>').html("<a href='#' class='action_btn' onclick=deleteItem("+key+")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
@@ -1863,7 +1873,7 @@ function findFranchiseeData(frId)
 		ajax : 'true'
 	}, function(data) {
 		var html = '<option value="0">Menu</option>';
-	
+	alert(data);
 		var len = data.length;
 		
 		$('#menu')
@@ -1897,6 +1907,11 @@ function findFranchiseeData(frId)
                               document.getElementById("frName").value=data.frName;
                               document.getElementById("gstin").value=data.frGstNo;
                               document.getElementById("address").value=data.frAddress;
+                              alert(data.frKg1);
+                              if(data.frKg1==1)
+                            	  {
+                              $('#t2').prop('checked', true)
+                            	  }
 							}
 						
 					});
@@ -2041,6 +2056,8 @@ function checkOrderByStatus()
 {
 	    var isConfirm=confirm('Do you want to change order By ?');
 		var ordertype = $('.order:checked').val();
+		
+		
 	 if(isConfirm){
 	   if($('#t1').is(':checked')) { 
 		   
@@ -2048,8 +2065,10 @@ function checkOrderByStatus()
 	    	   document.getElementById("flagRate").value=1;
 	    	   onSearchMulFr();
 	    	   document.getElementById("flagRate").value=0;
+	    	   alert('checkOrderByStatus11');
 	       }else{
 		   onSearch();
+		   alert('checkOrderByStatus12');
 	       }
 	   }else
 	   if($('#t2').is(':checked')) { 
@@ -2057,8 +2076,10 @@ function checkOrderByStatus()
 	 document.getElementById("flagRate").value=1;
 	 onSearchMulFr();
 	 document.getElementById("flagRate").value=0;
+	 alert('checkOrderByStatus13');
 	       }else{
 		   onSearch();
+		   alert('checkOrderByStatus14');
 	       }
 	   }
       }

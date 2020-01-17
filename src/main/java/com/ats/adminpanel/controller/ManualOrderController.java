@@ -999,7 +999,7 @@ public class ManualOrderController {
 			advHeader.setExInt2(1);
 			advHeader.setExVar1(dateFormat1.format(date));
 			advHeader.setExVar2(delTime);
-			advHeader.setIsDailyMart(dm);
+			advHeader.setIsDailyMart(dm+1);
 
 			advHeader.setFrId(franchiseeList.getFrId());
 			advHeader.setOrderDate(todaysDate);
@@ -1060,16 +1060,23 @@ public class ManualOrderController {
 						det.setMrp(Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp())));
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))) * qty;
-						float discountAmount = (calTotal * orderList.get(i).getIsPositive()) / 100;
+						//float discountAmount = (calTotal * orderList.get(i).getIsPositive()) / 100;
+						int discPer1 = Integer
+								.parseInt(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
+						float discountAmount = (calTotal * discPer1) / 100;
+						
 						discAmt = discAmt + discountAmount;
 						float subTotal = calTotal - discountAmount;
 						det.setSubTotal(roundUp(subTotal));
+						System.err.println("discPer1:"+discPer1);
+						det.setDiscPer(discPer1);
 
 					} else {
-						System.err.println("  adv order without DM");
-						det.setDiscPer(orderList.get(i).getOrderStatus());
+						System.err.println("  adv order without DM"); 
+						//det.setDiscPer(orderList.get(i).getOrderStatus());
+						System.err.println("adv order without DM"+orderList.get(i).toString());
 
-						det.setMrp(Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate())));
+						det.setMrp(Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp())));
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))) * qty;
 
@@ -1079,6 +1086,8 @@ public class ManualOrderController {
 						float subTotal = calTotal - discountAmount;
 						discAmt = discAmt + discountAmount;
 						det.setSubTotal(roundUp(subTotal));
+						System.err.println("discPer1:"+discPer1);
+						det.setDiscPer(discPer1);
 
 					}
 					det.setEvents("");
