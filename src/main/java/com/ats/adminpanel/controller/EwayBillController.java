@@ -102,7 +102,7 @@ public class EwayBillController {
 				ReqEwayBill billReq = new ReqEwayBill();
 
 				billReq.setActFromStateCode(company.getStateCode());
-				billReq.setActToStateCode(franchise.getFrKg2());
+				billReq.setActToStateCode(company.getStateCode());
 
 				billReq.setCessNonAdvolValue(00);
 				billReq.setCessValue(0);
