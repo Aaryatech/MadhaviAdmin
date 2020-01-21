@@ -59,8 +59,9 @@
 							</div>
 						</div> -->
              <input type="hidden" name="transport_mode" id="transport_mode" value="${transportMode}"/>
-            <input type="hidden" name="select_to_print" id="select_to_print" value="${selectedBills}"/>
+            <%-- <input type="hidden" name="select_to_print" id="select_to_print" value="${selectedBills}"/> --%>
 			    <input type="hidden" name="vehicle_no" id="vehicle_no" value="${vehicleNo}"/>
+			     <input type="hidden" name="billId" id="billId" value="${billId}"/>
 			   
 			    
 							<c:forEach items="${billDetails}" var="frDetails"
@@ -303,8 +304,9 @@
 function genPdf()
 {
 	var transport_mode = $("#transport_mode").val();
-	var select_to_print = $("#select_to_print").val();
+	var select_to_print = $("#billId").val();
 	var vehicle_no = $("#vehicle_no").val();
+	alert(select_to_print);
 	
    window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/'+transport_mode+'/'+vehicle_no+'/'+select_to_print+'/');
 

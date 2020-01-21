@@ -431,7 +431,21 @@ th.sorted-asc, th.sorted-desc {
 	<script type="text/javascript">
 		function submitBill(val) {
 			 
-			 document.getElementById("billId").value=val;
+var select_to_print = document.forms[0];
+			
+			var txt = "";
+			
+			for (i = 0; i < select_to_print.length; i++) {
+				if (select_to_print[i].checked
+						&& select_to_print[i].value != "on") {
+					txt = txt + select_to_print[i].value + ",";
+					
+				}
+			}		
+			
+			
+			 //document.getElementById("billId").value=val;
+			  document.getElementById("billId").value=txt;
 				var form = document.getElementById("validation-form")
 				form.action = "${pageContext.request.contextPath}/getBillDetailForPrint1";
 				form.submit();
@@ -451,8 +465,20 @@ th.sorted-asc, th.sorted-desc {
 		 
 		function submitBillPdf(val) {
 							
-							 document.getElementById("billId").value=val;
-							 
+			
+			
+			var select_to_print = document.forms[0];
+			
+			var txt = "";
+			
+			for (i = 0; i < select_to_print.length; i++) {
+				if (select_to_print[i].checked
+						&& select_to_print[i].value != "on") {
+					txt = txt + select_to_print[i].value + ",";
+					
+				}
+			}						// document.getElementById("billId").value=val;
+			document.getElementById("billId").value=txt;
 							
 			document.getElementById("validation-form").target = "_blank";
 
@@ -735,6 +761,7 @@ th.sorted-asc, th.sorted-desc {
 				}
 			}
 
+			
 			if (flag == 1) {
 				$.getJSON('${excelForFrBill}', {
 					checkboxes : txt,
@@ -812,8 +839,9 @@ th.sorted-asc, th.sorted-desc {
 
 			for (var i = 0, n = checkboxes.length; i < n; i++) {
 				checkboxes[i].checked = source.checked;
+				
 			}
-
+			
 		}
 
 		function myFunction() {

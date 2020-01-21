@@ -2020,7 +2020,8 @@ public class BillController {
 			// ses.setAttribute("billDetails", billPrintList);
 			model.addObject("vehicleNo", vehicleNo);
 			model.addObject("transportMode", transportMode);
-			model.addObject("selectedBills", billList);
+			//model.addObject("selectedBills", billList);
+			model.addObject("billId", billId);
 		} catch (Exception e) {
 			System.out.println("Exce in getting bill Detail for Print " + e.getMessage());
 			e.printStackTrace();

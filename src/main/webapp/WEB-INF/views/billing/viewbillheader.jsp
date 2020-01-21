@@ -322,7 +322,7 @@ table {
 																<td class="col-sm-1"><c:out
 																		value="${count.index+1}" /></td>
 																<td class="col-md-1" align="left"><c:out
-																		value="${billHeadersList.invoiceNo}" /></td>
+																		value="${billHeadersList.invoiceNo} - ${billHeadersList.ewayBillNo}" /></td>
 
 																<td class="col-md-1" align="left"><c:out
 																		value="${billHeadersList.billDate}" /></td>
