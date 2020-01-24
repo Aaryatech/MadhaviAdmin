@@ -143,6 +143,7 @@ public class EwayBillController {
 				} else {
 					billReq.setSubSupplyType("8");// while selling to Own Fr -Others(8)
 					billReq.setDocType("CHL");
+					billReq.setSubSupplyDesc("SU Supply");
 				}
 
 				billReq.setTransactionType(1);
@@ -391,6 +392,7 @@ public class EwayBillController {
 				} else {
 					billReq.setSubSupplyType("8");// while RETURN to Own Fr -CHL(8)
 					billReq.setDocType("CHL");
+					//billReq.setSubSupplyDesc("SU Supply");
 				}
 
 				billReq.setTransactionType(1); //need to discuss for Dairy Mart Sumit Sir
