@@ -90,6 +90,7 @@ public class AdvOrdController {
 
 			int dm = 0;
 			int rateCat = frDetails.getFrRateCat();
+			int isOwnFr=frDetails.getFrKg1();
 
 			dm = advHeader.getIsDailyMart();
 			System.err.println("Order date: " + todaysDate);
@@ -174,14 +175,30 @@ public class AdvOrdController {
 						det.setDiscPer(det.getDiscPer());
 						if (rateCat == 1) {
 							det.setRate(rate);
-							float calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							
+							float calTotal =0;
+							if(isOwnFr==1) {
+								calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							}else {
+								calTotal = (Float.parseFloat(String.valueOf(det.getRate()))) * qty;
+							}
+							
+							//float calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
 							float discountAmount = (calTotal * det.getDiscPer()) / 100;
 							discAmt = discAmt + discountAmount;
 							float subTotal = calTotal - discountAmount;
 							det.setSubTotal(roundUp(subTotal));
 						} else if (rateCat == 3) {
 							det.setRate(rate);
-							float calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							
+							float calTotal = 0;
+							if(isOwnFr==1) {
+								calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							}else {
+								calTotal = (Float.parseFloat(String.valueOf(det.getRate()))) * qty;
+							}
+							
+							//float calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
 							float discountAmount = (calTotal * det.getDiscPer()) / 100;
 							discAmt = discAmt + discountAmount;
 							float subTotal = calTotal - discountAmount;
@@ -191,14 +208,30 @@ public class AdvOrdController {
 						det.setDiscPer(det.getDiscPer());
 						if (rateCat == 1) {
 							det.setRate(rate);
-							float calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							
+							float calTotal = 0;
+							if(isOwnFr==1) {
+								calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							}else {
+								calTotal = (Float.parseFloat(String.valueOf(det.getRate()))) * qty;
+							}
+							
+							//float calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
 							float discountAmount = (calTotal * det.getDiscPer()) / 100;
 							float subTotal = calTotal - discountAmount;
 							discAmt = discAmt + discountAmount;
 							det.setSubTotal(roundUp(subTotal));
 						} else if (rateCat == 3) {
 							det.setRate(rate);
-							float calTotal = (rate) * qty;
+							
+							float calTotal = 0;
+							if(isOwnFr==1) {
+								calTotal = (Float.parseFloat(String.valueOf(det.getMrp()))) * qty;
+							}else {
+								calTotal = (rate) * qty;
+							}
+							
+							//float calTotal = (rate) * qty;
 							float discountAmount = (calTotal * det.getDiscPer()) / 100;
 							discAmt = discAmt + discountAmount;
 							float subTotal = calTotal - discountAmount;

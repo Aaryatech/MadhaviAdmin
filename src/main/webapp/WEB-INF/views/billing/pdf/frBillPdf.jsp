@@ -111,8 +111,7 @@ table {
 						style="color: #000; font-weight: bold; font-size: 13px; text-align: left; margin: 0px;">
 						<%-- Place
 						of supply: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ${Constants.STATE}    &nbsp;&nbsp;&nbsp;&nbsp; --%>
-						&nbsp; Date Of
-						Remo.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${frDetails.billDate}&nbsp;&nbsp;${frDetails.billTime}
+						&nbsp; 
 					</p>
 				</td>
 			</tr>

@@ -1280,7 +1280,11 @@ td, th {
 										data[i].id).text(data[i].itemName));
 					}
 					$("#item").trigger("chosen:updated");
+					
+					callSearch();
 				});
+				
+				
 			}
 		}
 	</script>

@@ -187,6 +187,8 @@ public class ProductionController {
 	@RequestMapping(value = "/showproduction/{catId}", method = RequestMethod.GET)
 	public ModelAndView showProdForcasting(HttpServletRequest request, HttpServletResponse response,@PathVariable int catId) {
 
+		System.err.println("CATID ------------------------- "+catId);
+		
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
 
@@ -592,6 +594,9 @@ public class ProductionController {
 
 		map.add("productionDate", productionDate);
 		map.add("menuId", selectedMenuList);
+		
+		System.err.println("PARAM ======= "+productionDate+"                  "+selectedMenuList);
+		
 		try {
 			ParameterizedTypeReference<List<GetOrderItemQty>> typeRef = new ParameterizedTypeReference<List<GetOrderItemQty>>() {
 			};
@@ -812,7 +817,7 @@ public class ProductionController {
 
 				HttpSession session = request.getSession();
 				session.setAttribute("exportExcelList", exportToExcelList);
-				session.setAttribute("excelName", "savariousProductionList");
+				session.setAttribute("excelName", "OrderProductionList");
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -824,6 +829,8 @@ public class ProductionController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		System.err.println("OUTPUT ================================================= "+getOrderItemQtyList);
 
 		return getOrderItemQtyList;
 

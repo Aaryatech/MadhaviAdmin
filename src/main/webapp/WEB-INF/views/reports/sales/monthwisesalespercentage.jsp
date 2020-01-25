@@ -50,7 +50,7 @@
 			<div class="box">
 				<div class="box-title">
 					<h3>
-						<i class="fa fa-bars"></i>Monthly Sales (Value)wise Report
+						<i class="fa fa-bars"></i>Sub Category Wise Contribution Report
 					</h3>
 				</div>
 				<div class="box-content">
@@ -122,7 +122,7 @@
 			<div class="box">
 				<div class="box-title">
 					<h3>
-						<i class="fa fa-list-alt"></i>Monthly Sales (Value)wise Report
+						<i class="fa fa-list-alt"></i>Sub Category Wise Contribution Report
 					</h3>
 				</div>
 				<div class=" box-content">

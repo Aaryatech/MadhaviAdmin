@@ -38,7 +38,7 @@
 		<div class="page-title">
 			<div>
 				<h1>
-					<i class="fa fa-file-o"></i>Dispatch Item Report
+					<i class="fa fa-file-o"></i>Dispatch Station wise Report
 				</h1>
 				<h4></h4>
 			</div>
@@ -60,7 +60,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Dispatch Report
+					<i class="fa fa-bars"></i>Dispatch Station wise Report
 				</h3>
 
 			</div>

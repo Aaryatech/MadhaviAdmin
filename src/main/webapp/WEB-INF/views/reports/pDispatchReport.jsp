@@ -59,7 +59,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Dispatch Item Report
+					<i class="fa fa-bars"></i>Dispatch Check List
 				</h3>
 
 			</div>
@@ -90,8 +90,8 @@
 								</c:forEach> --%>
 							</select>
 						</div>
-                    <label class="col-sm-3 col-lg-1 control-label">Route</label>
-						<div class="col-sm-6 col-lg-3 controls">
+                    <label class="col-sm-3 col-lg-1 control-label" >Route</label>
+						<div class="col-sm-6 col-lg-3 controls"  >
 							<select data-placeholder="Select Route" 
 								class="form-control chosen" name="selectRoute" id="selectRoute"
 								onchange="getFranchise(this.value)" >
@@ -227,7 +227,7 @@
 			<div class="box">
 				<div class="box-title">
 					<h3>
-						<i class="fa fa-list-alt"></i>Dispatch Item List
+						<i class="fa fa-list-alt"></i>Dispatch Check List
 					</h3>
 
 				</div>

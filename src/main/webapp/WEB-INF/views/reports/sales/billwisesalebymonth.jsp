@@ -57,7 +57,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>View Billwise Sale Grp By Date
+					<i class="fa fa-bars"></i>Month Wise Report
 				</h3>
 
 			</div>
@@ -93,9 +93,9 @@
  -->
 				<div class="row">
 					<div class="form-group">
-						<label class="col-sm-3 col-lg-2 control-label">Select
+						<label class="col-sm-3 col-lg-2 control-label" style="display: none;">Select
 							Route</label>
-						<div class="col-sm-6 col-lg-4 controls">
+						<div class="col-sm-6 col-lg-4 controls" style="display: none;">
 							<select data-placeholder="Select Route"
 								class="form-control chosen" name="selectRoute" id="selectRoute"
 								onchange="disableFr()">
@@ -110,9 +110,9 @@
 
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b>Select
+						<label class="col-md-2 control-label">Select
 							Franchisee</label>
-						<div class="col-sm-6 col-lg-4">
+						<div class="col-md-10">
 
 							<select data-placeholder="Choose Franchisee"
 								class="form-control chosen" multiple="multiple" tabindex="6"
@@ -171,7 +171,7 @@
 				<div class="row">
 					<div class="col-md-6" style="text-align: right;">
 						<button class="btn btn-info" onclick="searchReport()">Search
-							Billwise Report</button>
+							Month wise Report</button>
 
 						<!-- <button class="btn search_btn" onclick="showChart()">Graph</button> -->
 

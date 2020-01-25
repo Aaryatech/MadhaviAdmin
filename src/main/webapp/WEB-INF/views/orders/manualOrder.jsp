@@ -396,7 +396,7 @@ input:checked + .slider:before {
 		</div>		
 		<div id="dt" style="display: none;"> <div class="col-md-1" style="width: 10.333333%;">
 										<input class="form-control date-picker" id="delDate" size="16"   style="width: 110px;"
-											type="text" name="delDate"  placeholder="dd-MM-yyyy"   autocomplete="off"/>
+											type="text" name="delDate"  placeholder="dd-mm-yyyy"   autocomplete="off"/>
 										</div><div class="col-md-1">	<input type="text" id="clockface_1" name="delTime" value="2:30 PM" data-format="hh:mm A" style="width: 110px;" class="form-control small clockface-open" autocomplete="off">
 											
 								</div>	</div>				    
@@ -1472,8 +1472,9 @@ $(function() {
 			        sum += parseFloat($(element).text());
 			    });
 			 $('#calTotal'+flag).text(sum);
-	 		 document.getElementById("fintotal"+flag).value = sum;
-	 		 document.getElementById("remainAmt"+flag).value = sum;
+			 //alert(sum.toFixed(2));
+	 		 document.getElementById("fintotal"+flag).value = sum.toFixed(2);
+	 		 document.getElementById("remainAmt"+flag).value = sum.toFixed(2);
 	 		document.getElementById("advanceAmt"+flag).value = 0.00;
 	 		
 		}
@@ -1486,13 +1487,14 @@ $(function() {
 			if(parseFloat(adv) <= parseFloat(tot)){
 				//alert("if");
 				var rem=parseFloat(tot)-parseFloat(adv);
-				document.getElementById("remainAmt"+flag).value = rem;
+				document.getElementById("remainAmt"+flag).value = rem.toFixed(2);
+				
 			}
 			else{
 				//alert("else");
 				alert("Enter Advance Amount Less than Total Amount");
 				document.getElementById("advanceAmt"+flag).value = 0.00;
-				document.getElementById("remainAmt"+flag).value = tot;
+				document.getElementById("remainAmt"+flag).value = tot.toFixed(2);
 				//document.getElementById("remainAmt"+flag).value = 0.00;
 			}
 			
@@ -1600,6 +1602,7 @@ $(document).ready(function() {
 $(document).ready(function() { 
 	
 	  $('#limQtyCol').hide();
+	  //alert('limQtyCol1');
 	
 	
  
@@ -1868,6 +1871,8 @@ function generateBill()
 function findFranchiseeData(frId)
 {
 	$('#table_grid td').remove();
+	 $('#isDairyMart').attr("checked", false);
+	 
 	$.getJSON('${findAllMenus}', {
 		fr_id :frId,
 		ajax : 'true'
@@ -1912,6 +1917,9 @@ function findFranchiseeData(frId)
                             	  {
                               $('#t2').prop('checked', true)
                             	  }
+                              else {
+                                  $('#t1').prop('checked', true)
+                                	  }
 							}
 						
 					});
@@ -2105,12 +2113,14 @@ function onCatIdChangeForManOrder(menuId) {
 			 document.getElementById("delType").value=3 ;
 			   $("#delType").trigger("chosen:updated");
 			  //ocument.getElementById("delType").disabled=true;
+			  // alert('limQtyCol2');
 			   $('#limQtyCol').hide();
 	} else {
 		
 		   document.getElementById("advOrderTotal").style = "display:none";
 		    $("#isDairyMart").prop('checked', false);
    		  $('#limQtyCol').hide();
+   		// alert('limQtyCol3');
    		  $('#table_grid td').remove();
 			$("#delType option[value='3']").attr("disabled","disabled");
 
@@ -2173,9 +2183,11 @@ function onDairyMartCheck()
      
      	document.getElementById("dailyFlagMart1").value = isDairyMart;
      	 $('#limQtyCol').show();
+     	// alert('limQtyCol4');
 
      	}else{
      		  $('#limQtyCol').hide();
+     		// alert('limQtyCol5');
      	}
 	
 	

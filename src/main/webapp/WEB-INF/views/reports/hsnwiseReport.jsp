@@ -32,7 +32,7 @@
 		<div class="page-title">
 			<div>
 				<h1>
-					<i class="fa fa-file-o"></i>NET SALES HSN CODE WISE SUMMERY Report
+					<i class="fa fa-file-o"></i>HSN Wise Summary Report
 				</h1>
 				<h4></h4>
 			</div>
@@ -54,7 +54,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>View HSN Wise Report
+					<i class="fa fa-bars"></i>View HSN Wise Summary Report
 				</h3>
 
 			</div>
@@ -151,7 +151,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-list-alt"></i>HSN Report
+					<i class="fa fa-list-alt"></i>HSN Wise Summary Report
 				</h3>
 
 			</div>

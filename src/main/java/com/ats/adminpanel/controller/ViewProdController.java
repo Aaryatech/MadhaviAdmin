@@ -558,8 +558,8 @@ public class ViewProdController {
 						rowData.add("" + prodPlanDetailList.get(i).getOrderQty());
 						rowData.add("" + prodPlanDetailList.get(i).getProductionQty());
 						rowData.add("" + prodPlanDetailList.get(i).getRejectedQty());
-						rowData.add("" + prodPlanDetailList.get(i).getOpeningQty()
-								+ prodPlanDetailList.get(i).getPlanQty());
+						rowData.add("" + (prodPlanDetailList.get(i).getOpeningQty()
+								+ prodPlanDetailList.get(i).getPlanQty()-prodPlanDetailList.get(i).getRejectedQty()));
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);

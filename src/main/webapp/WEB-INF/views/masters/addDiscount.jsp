@@ -165,8 +165,8 @@ select {
 									<h3>
 										<i class="fa fa-bars"></i> Add Discount
 									</h3>
-									<div class="box-tool" style="background-color: blue;">
-										<a href="${pageContext.request.contextPath}/showDiscountList">Discount
+									<div class="box-tool" >
+										<a style="color: white;" href="${pageContext.request.contextPath}/showDiscountList">Discount
 											List</a> <a data-action="collapse" href="#"><i
 											class="fa fa-chevron-up"></i></a>
 									</div>

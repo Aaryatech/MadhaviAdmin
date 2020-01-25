@@ -501,6 +501,7 @@ table {
 														.trigger(
 																"chosen:updated");
 
+												searchOrder();
 											});
 						}
 	 
@@ -536,14 +537,17 @@ table {
 
 								},
 								function(data) {
+									
+									//alert(data);
 
 									//$('#table_grid td').remove();
 
 									document.getElementById("callsearch").disabled = false;
 
 									if (data == "") {
-										//alert("No records found !!");
+										alert("No records found !!");
 										document.getElementById("callSubmit").disabled = true;
+										$('#loader').hide();
 									}
 
 									//alert(data);

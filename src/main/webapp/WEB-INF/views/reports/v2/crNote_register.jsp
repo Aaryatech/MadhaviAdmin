@@ -52,7 +52,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Credit Note Register Report
+					<i class="fa fa-bars"></i>Credit Note Wise HSN Wise Report
 				</h3>
 
 			</div>
@@ -145,7 +145,7 @@
 			<div class="box">
 				<div class="box-title">
 					<h3>
-						<i class="fa fa-list-alt"></i>Credit Note Register
+						<i class="fa fa-list-alt"></i>Credit Note Wise HSN Wise Report
 					</h3>
 
 				</div>

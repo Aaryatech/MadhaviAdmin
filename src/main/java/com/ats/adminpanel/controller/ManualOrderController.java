@@ -1080,8 +1080,8 @@ public class ManualOrderController {
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))) * qty;
 
-						int discPer1 = Integer
-								.parseInt(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
+						float discPer1 = Float
+								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
 						float discountAmount = (calTotal * discPer1) / 100;
 						float subTotal = calTotal - discountAmount;
 						discAmt = discAmt + discountAmount;

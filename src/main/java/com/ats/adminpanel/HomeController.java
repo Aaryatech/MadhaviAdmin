@@ -116,6 +116,7 @@ public class HomeController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
 
 			map.add("cDate", dateFormat.format(new Date()));
 			OrderCountsResponse orderCountList = restTemplate.postForObject(Constants.url + "/showOrderCounts", map,
@@ -124,12 +125,13 @@ public class HomeController {
 			orderCounts = orderCountList.getOrderCount();
 			mav.addObject("orderCounts", orderCounts);
 			mav.addObject("cDate", dateFormat.format(new Date()));
+			mav.addObject("cDate1", dateFormat1.format(new Date()));
 
 			System.err.println("menu list" + orderCounts.toString());
 
 			map = new LinkedMultiValueMap<>();
 
-			map.add("cDate", dateFormat.format(new Date()));
+			map.add("prodDate", dateFormat.format(new Date()));
 			map.add("isBilled", -1);
 			GetAdvanceOrderList[] holListArray = restTemplate
 					.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map, GetAdvanceOrderList[].class);
@@ -143,6 +145,19 @@ public class HomeController {
 
 			}
 			mav.addObject("advList", advList);
+			
+			allFrIdNameList = new AllFrIdNameList();
+			try {
+
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
+						AllFrIdNameList.class);
+
+			} catch (Exception e) {
+				System.out.println("Exception in getAllFrIdName" + e.getMessage());
+				e.printStackTrace();
+
+			}
+			mav.addObject("frList", allFrIdNameList.getFrIdNamesList());
 
 		} catch (Exception e) {
 			System.out.println("HomeController Home Request Page Exception:  " + e.getMessage());
@@ -160,17 +175,23 @@ public class HomeController {
 			String date = request.getParameter("from_datepicker");
 			String submit1 = request.getParameter("submit1");
 
+			date=DateConvertor.convertToYMD(date);
+			
 			String submit2 = request.getParameter("submit2");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("cDate", date);
+			mav.addObject("cDate1", DateConvertor.convertToDMY(date));
+			
 			OrderCountsResponse orderCountList = restTemplate.postForObject(Constants.url + "/showOrderCounts", map,
 					OrderCountsResponse.class);
 			List<OrderCount> orderCounts = new ArrayList<OrderCount>();
 			orderCounts = orderCountList.getOrderCount();
 			mav.addObject("orderCounts", orderCounts);
 			mav.addObject("cDate", date);
+			
+			int prodDateSearch=0;
 
 			map = new LinkedMultiValueMap<>();
 			String mappingName = "advanceOrderHistoryHeaderAdmin";
@@ -190,7 +211,12 @@ public class HomeController {
 				System.err.println("sub 1 null");
 				map.add("prodDate", date);
 				map.add("isBilled", -1);
+				
+				prodDateSearch=1;
 			}
+			
+			mav.addObject("prodDateSearch",prodDateSearch);
+			
 			System.err.println("MAP  " + map + " mappingName" +mappingName);
 			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url+"/"+mappingName,map,
 					GetAdvanceOrderList[].class);
@@ -267,6 +293,9 @@ public class HomeController {
 		res.setContentType("text/html");
 		PrintWriter pw = res.getWriter();
 		HttpSession session = request.getSession();
+		
+		
+		
 
 		try {
 			System.out.println("Login Process " + name);
@@ -331,6 +360,12 @@ public class HomeController {
 					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 					map.add("cDate", dateFormat.format(new Date()));
+					
+					SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+					String dt=sdf.format(new Date());
+					mav.addObject("cDate1", dt);
+					
+					
 					OrderCountsResponse orderCountList = restTemplate.postForObject(Constants.url + "/showOrderCounts",
 							map, OrderCountsResponse.class);
 					List<OrderCount> orderCounts = new ArrayList<OrderCount>();

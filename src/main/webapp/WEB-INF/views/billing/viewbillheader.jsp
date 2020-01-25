@@ -173,9 +173,9 @@ table {
 
 
 
-									<label for="textfield2" class="col-xs-1 col-lg-1 control-label">
-										OR </label>
-									<div class="col-sm-9 col-lg-3 controls">
+									<label for="textfield2" class="col-xs-1 col-lg-1 control-label"
+										style="display: none;"> OR </label>
+									<div class="col-sm-9 col-lg-3 controls" style="display: none;">
 
 
 										<select class="form-control chosen" tabindex="6"
@@ -192,12 +192,27 @@ table {
 									</div>
 
 
+									<label class="col-xs-1 col-lg-1 control-label">Select </label>
+									<div class="col-sm-9 col-lg-3 controls">
+
+										<select data-placeholder="Choose " class="form-control chosen"
+											multiple="multiple" tabindex="6" id="type_id" name="type_id">
+											<%-- <option value="-1"><c:out value="All" /></option> --%>
+											<option value="1">Franchise Bill</option>
+											<option value="2">Delivery Chalan</option>
+											<!-- <option value="3">Company Outlet Bill</option> -->
+										</select>
+
+									</div>
+
+
+
 								</div>
 
 								<div class="form-group">
- 
 
-<label class="col-sm-3 col-lg-2 control-label">Select
+
+									<%-- <label class="col-sm-3 col-lg-2 control-label">Select
 						</label>
 					<div class="col-sm-6 col-lg-4">
 
@@ -207,19 +222,19 @@ table {
 							<option value="-1"><c:out value="All" /></option>
 							<option value="1">Franchise Bill</option>
 							<option value="2">Delivery Chalan</option>
-							<option value="3">Company Outlet Bill</option>
+							<!-- <option value="3">Company Outlet Bill</option> -->
 						</select>
 
-					</div>
+					</div> --%>
 
 
 
 
+									<div class="col-sm-12" style="text-align: center;">
 
-
-									<input type="button" class="btn btn-primary" value="Search"
-										id="callSubmit" onclick="callSearch()">
-
+										<input type="button" class="btn btn-primary" value="Search"
+											id="callSubmit" onclick="callSearch()">
+									</div>
 
 								</div>
 
@@ -455,49 +470,52 @@ table {
 										</div>
 
 										<input type="button" id="btn_submit" class="btn btn-primary"
-											onclick="submitBill()" value="BillDetail" />
-												<input type="button" id="btn_submit" class="btn btn-primary"
+											onclick="submitBill()" value="BillDetail" /> <input
+											type="button" id="btn_submit" class="btn btn-primary"
 											onclick="showVehNo()" value="E-way Bill" />
-											<div class="form-group"></div>
-											
-											<div id="eway_submit" style="display: none">
-											
-											<input type="text" name="vehNo" id="vehNo" style="width:10%;" list="vehlist">
-											
-											<datalist id="vehlist">
-											<c:forEach var="veh" items="${vehicleList}" varStatus="count">
-											<option value="${veh.vehNo}">
-											</c:forEach>
-											
-											</datalist>
-											
-											
-											<input type="button" id="genEwayBill_button" class="btn btn-primary"
-											onclick="genEwayBill()" value="Gen E-way Bill" style="width: 10%;"/>
-											
-											</div>
-											
-											
-											<div class="table-wrap">
+										<div class="form-group"></div>
 
-												<table id="table2" class="table table-advance" border="1" style="display: none">
-													<thead>
-														<tr style="background-color: red;">
-															<th class="col-sm-1" align="left">Sr No</th>
-															<th class="col-md-2" align="left">Invoice No</th>
-															<th class="col-md-2" align="left">Error Code</th>
-															<th class="col-md-4" align="left">Error Desc</th>
-														</tr>
-													</thead>
-													<tbody>
-													
-													
-													</tbody>
-													</table>
-													</div>
-											
+										<div id="eway_submit" style="display: none">
+
+											<input type="text" name="vehNo" id="vehNo"
+												style="width: 10%;" list="vehlist">
+
+											<datalist id="vehlist">
+												<c:forEach var="veh" items="${vehicleList}"
+													varStatus="count">
+													<option value="${veh.vehNo}">
+												</c:forEach>
+
+											</datalist>
+
+
+											<input type="button" id="genEwayBill_button"
+												class="btn btn-primary" onclick="genEwayBill()"
+												value="Gen E-way Bill" style="width: 10%;" />
+
+										</div>
+
+
+										<div class="table-wrap">
+
+											<table id="table2" class="table table-advance" border="1"
+												style="display: none">
+												<thead>
+													<tr style="background-color: red;">
+														<th class="col-sm-1" align="left">Sr No</th>
+														<th class="col-md-2" align="left">Invoice No</th>
+														<th class="col-md-2" align="left">Error Code</th>
+														<th class="col-md-4" align="left">Error Desc</th>
+													</tr>
+												</thead>
+												<tbody>
+
+
+												</tbody>
+											</table>
+										</div>
+
 									</div>
-																				
 							</form>
 						</div>
 					</div>
@@ -697,7 +715,7 @@ table {
 	
 		if ((selectedFr == "" || selectedFr == null ) && (selectedRoute==0)) { 
 
-				alert("Please Select Route  Or Franchisee");
+				alert("Please Select Franchisee");
 				isValid = false;
 		
 		}

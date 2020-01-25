@@ -9,40 +9,9 @@
 table {
 	width: 100%;
 	border: 1px solid #ddd;
-	border-collapse: collapse;
 }
 
-th {
-	border: 1px #DDD solid;
-}
 
-td {
-	border: 1px #DDD solid;
-	padding: 3px 6px;
-}
-
-.selected {
-	background: #ffffff;
-}
-
-root {
-	display: block;
-}
-
-th.sortable {
-	color: #666;
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-th.sortable:hover {
-	color: black;
-}
-
-th.sorted-asc, th.sorted-desc {
-	color: black;
-	background-color: cadetblue;
-}
 </style>
 <body>
 
@@ -111,8 +80,11 @@ th.sorted-asc, th.sorted-desc {
 									<label class="col-sm-3 col-lg-2 control-label">From
 										Date</label>
 									<div class="col-sm-5 col-lg-3 controls">
-										<input class="form-control date-picker" id="dp1" size="16"
-											value="${todaysDate}" type="text" name="from_date" required />
+										 <input class="form-control date-picker" id="dp1" size="16"
+											value="${todaysDate}" type="text" name="from_date" required /> 
+											
+											
+											
 									</div>
 
 
@@ -147,10 +119,10 @@ th.sorted-asc, th.sorted-desc {
 
 
 
-									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
+									<label for="textfield2" class="col-xs-3 col-lg-2 control-label" style="display: none;">
 										<b>OR</b> &nbsp; Select Route
 									</label>
-									<div class="col-sm-9 col-lg-3 controls">
+									<div class="col-sm-9 col-lg-3 controls" style="display: none;">
 
 
 										<select class="form-control chosen" tabindex="6"
@@ -165,10 +137,8 @@ th.sorted-asc, th.sorted-desc {
 
 										</select>
 									</div>
-								</div>
-
-
-								<div align="center" class="form-group">
+									
+									
 									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
 										Section </label>
 									<div class="col-sm-9 col-lg-3 controls">
@@ -182,8 +152,27 @@ th.sorted-asc, th.sorted-desc {
 
 										</select>
 									</div>
+									
+									
+								</div>
 
-									<div class="col-sm-1">
+
+								<div align="center" class="form-group">
+									<%-- <label for="textfield2" class="col-xs-3 col-lg-2 control-label">
+										Section </label>
+									<div class="col-sm-9 col-lg-3 controls">
+
+										<select id="section" class='form-control'>
+											<option value="-">All</option>
+											<c:forEach items="${sectionList}" var="sectionList">
+												<option value="${sectionList.sectionId}"><c:out
+														value="${sectionList.sectionName}" /></option>
+											</c:forEach>
+
+										</select>
+									</div> --%>
+
+									<div class="col-sm-12" style="text-align: center;">
 										<input class="btn btn-primary" type="button" value="Search"
 											id="callSubmit" onclick="callSearch()">
 
@@ -254,7 +243,7 @@ th.sorted-asc, th.sorted-desc {
 											<!-- <div class="clearfix"></div> -->
 											<div class="table-responsive" style="border: 0">
 												<table width="100%"
-													class="table table-bordered table-striped" id="table1"
+													class="table table-bordered table-striped" id="table12"
 													border="1">
 													<thead style="background-color: #f3b5db;">
 														<tr>
@@ -369,6 +358,8 @@ th.sorted-asc, th.sorted-desc {
 					</div>
 				</div>
 			</div>
+			</div>
+		<!-- END Content -->
 			<!-- END Main Content -->
 			<footer>
 				<p>2019 © MADHAVI.</p>
@@ -377,8 +368,7 @@ th.sorted-asc, th.sorted-desc {
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 				class="fa fa-chevron-up"></i></a>
-		</div>
-		<!-- END Content -->
+		
 	</div>
 	<!-- END Container -->
 
@@ -427,6 +417,32 @@ th.sorted-asc, th.sorted-desc {
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
+
+
+<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+
 
 	<script type="text/javascript">
 		function submitBill(val) {
@@ -500,7 +516,7 @@ var select_to_print = document.forms[0];
 			if ((selectedFr == "" || selectedFr == null)
 					&& (selectedRoute == 0)) {
 
-				alert("Please Select Route  Or Franchisee");
+				alert("Please Select Franchisee");
 				isValid = false;
 
 			}
@@ -508,28 +524,7 @@ var select_to_print = document.forms[0];
 
 		}
 	</script>
-	<!--flaty scripts-->
-	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-	<!--page specific plugin scripts-->
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+	
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -575,7 +570,7 @@ var select_to_print = document.forms[0];
 									ajax : 'true'
 								},
 								function(data) {
-									$('#table1 td').remove();
+									$('#table12 td').remove();
 									$('#loader').hide();
 									if (data == "") {
 										alert("No Bill Found");
@@ -650,7 +645,7 @@ var select_to_print = document.forms[0];
 																			'<td class="col-md-2"></td>')
 																			.html(
 																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
-															$('#table1 tbody')
+															$('#table12 tbody')
 																	.append(tr);
 														}
 
@@ -727,7 +722,7 @@ var select_to_print = document.forms[0];
 																			'<td class="col-md-2"></td>')
 																			.html(
 																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
-															$('#table1 tbody')
+															$('#table12 tbody')
 																	.append(tr);
 
 															document
@@ -848,7 +843,7 @@ var select_to_print = document.forms[0];
 			var input, filter, table, tr, td, td1, i;
 			input = document.getElementById("myInput");
 			filter = input.value.toUpperCase();
-			table = document.getElementById("table1");
+			table = document.getElementById("table12");
 			tr = table.getElementsByTagName("tr");
 			for (i = 0; i < tr.length; i++) {
 				td = tr[i].getElementsByTagName("td")[2];
@@ -867,7 +862,7 @@ var select_to_print = document.forms[0];
 		}
 	</script>
 
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(document)
 				.ready(
 						function() {
@@ -992,7 +987,10 @@ var select_to_print = document.forms[0];
 																});
 											});
 						});
-	</script>
+	</script> -->
+	
+	
+	
 	<!-- <script type="text/javascript">
 	$(document).ready(function () {
 	    $(document).on('click', 'tbody tr', function () {

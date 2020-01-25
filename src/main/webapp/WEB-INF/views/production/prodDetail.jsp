@@ -454,7 +454,7 @@
 																			placeholder="Rejected Qty" class="form-control"
 																			value="0" data-rule-required="true"
 																			style="width: 65px"
-																			onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
+																			onkeyup="checkRejQtyValidation(${planDetail.productionDetailId})" /></td>
 																	</c:when>
 																	<c:otherwise>
 																		<td class="col-md-2"><input align="left" type="text"
@@ -464,7 +464,7 @@
 																			value="${planDetail.rejectedQty}"
 																			data-rule-required="true" style="width: 65px"
 																			disabled
-																			onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
+																			onkeyup="checkRejQtyValidation(${planDetail.productionDetailId})" /></td>
 																	</c:otherwise>
 																</c:choose> 
 
@@ -783,6 +783,17 @@ function changeQty(id)
  document.getElementById("total_qty"+id).value=total;
  /* alert(total); */
 	
+	}
+	
+	function checkRejQtyValidation(id){
+		var actQty=parseFloat(document.getElementById("act_prod_qty"+id).value);
+		var rejQty=parseFloat(document.getElementById("rej_qty"+id).value);
+		
+		if(rejQty>actQty){
+			document.getElementById("rej_qty"+id).value=0;
+		}
+		
+		
 	}
 
 </script>
