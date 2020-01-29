@@ -2,11 +2,11 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	<body>
- 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
+<c:url var="chkDuplicateUsername" value="/chkDuplicateUsername" />
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<body>
+	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -43,96 +43,114 @@
 								<i class="fa fa-bars"></i>User Details
 							</h3>
 							<div class="box-tool">
-							
-							<a href="${pageContext.request.contextPath}/showAssignRole"
-												data-toggle="tooltip" title="All User List"> <span
-													class='glyphicon glyphicon-user'>AllUsers</span>
-								<a href=""></a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
+
+								<%-- <a href="${pageContext.request.contextPath}/showAssignRole"
+									data-toggle="tooltip" title="All User List"></a>  --%>
+									
+									<a href="${pageContext.request.contextPath}/showManageUser"
+									data-toggle="tooltip" title="All User List">
+									
+									<span
+									class='glyphicon glyphicon-user'>AllUsers</span> <a href=""></a>
+									<a data-action="collapse" href="#"><i
+										class="fa fa-chevron-up"></i></a>
 							</div>
-						
+
 						</div>
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/addNewUser"  class="form-horizontal"
-							 id="validation-form"
-										enctype="multipart/form-data" method="post">
-							
+							<form action="${pageContext.request.contextPath}/addNewUser"
+								class="form-horizontal" id="validation-form"
+								enctype="multipart/form-data" method="post">
+
 
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">User Name</label>
+									<label class="col-sm-3 col-lg-2 control-label">User
+										Name</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="uname" id="uname" onkeyup="samePass();" class="form-control"placeholder="User Name"data-rule-required="true" />
+										<input type="text" name="uname" id="uname"
+											onkeyup="samePass();" class="form-control"
+											placeholder="User Name" data-rule-required="true" />
 									</div>
 									<input type="hidden" name="umo_id" id="umo_id" />
-									
-						</div>
-							<div class="form-group">
+
+								</div>
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Password</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="password" name="upass" id="upass" onkeyup="samePass();" class="form-control"placeholder="Password"data-rule-required="true" />
+										<input type="password" name="upass" id="upass"
+											onkeyup="samePass();" class="form-control"
+											placeholder="Password" data-rule-required="true" />
 									</div>
-									 <span class="" id="pass" ></span>
-								 
-									
-						</div>
-						<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Confirm Password</label>
-									<div class="col-sm-6 col-lg-4 controls">
-										<input type="password" name="confirmPass" id="confirmPass" onkeyup="samePass();" class="form-control"placeholder="Confirm Password"data-rule-required="true" />
-									</div>
-									
-								 <span class="" id="cpass" ></span>
-									
-						</div>
-						<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Select Department</label>
-									<div class="col-sm-6 col-lg-4 controls">
-						<select data-placeholder="Choose Department"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
-
-								<option value=""><c:out value=""/></option>
-
-								<c:forEach items="${departmentList}" var="departmentList"
-									varStatus="count">
-									<option value="${departmentList.deptId}"><c:out value="${departmentList.deptName}"/></option>
-								</c:forEach>
+									<span class="" id="pass"></span>
 
 
-							</select>
-							</div>
-							</div>
-							
+								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Select User Type</label>
+									<label class="col-sm-3 col-lg-2 control-label">Confirm
+										Password</label>
 									<div class="col-sm-6 col-lg-4 controls">
-						<select data-placeholder="Choose User Type"
-								class="form-control chosen" tabindex="6" id="user_type"
-								name="user_type" >
+										<input type="password" name="confirmPass" id="confirmPass"
+											onkeyup="samePass();" class="form-control"
+											placeholder="Confirm Password" data-rule-required="true" />
+									</div>
 
-								<option value=""><c:out value=""/></option>
+									<span class="" id="cpass"></span>
 
-								<c:forEach items="${getUserTypeList}" var="getUserTypeList"
-									varStatus="count">
-									<option value="${getUserTypeList.typeId}"><c:out value="${getUserTypeList.typeName}"/></option>
-								</c:forEach>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Select
+										Department</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<select data-placeholder="Choose Department"
+											class="form-control chosen" tabindex="6" id="dept_id"
+											name="dept_id">
+
+											<option value=""><c:out value="" /></option>
+
+											<c:forEach items="${departmentList}" var="departmentList"
+												varStatus="count">
+												<option value="${departmentList.deptId}"><c:out
+														value="${departmentList.deptName}" /></option>
+											</c:forEach>
 
 
-							</select>
-							</div>
-							</div>
+										</select>
+									</div>
+								</div>
 
-					<div class="row">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
-							<button type="button" class="btn btn-info" id="submitbtn" onclick="submitUser()" disabled>Submit</button>  
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Select
+										User Type</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<select data-placeholder="Choose User Type"
+											class="form-control chosen" tabindex="6" id="user_type"
+											name="user_type">
+
+											<option value=""><c:out value="" /></option>
+
+											<c:forEach items="${getUserTypeList}" var="getUserTypeList"
+												varStatus="count">
+												<option value="${getUserTypeList.typeId}"><c:out
+														value="${getUserTypeList.typeName}" /></option>
+											</c:forEach>
 
 
-						</div>
-					</div>
-					</form>
+										</select>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+										<button type="button" class="btn btn-info" id="submitbtn"
+											onclick="validate()" disabled>Submit</button>
+
+
+									</div>
+								</div>
+							</form>
 							<br>
-								<%-- <div class="box">
+							<%-- <div class="box">
 									<div class="box-title">
 										<h3>
 											<i class="fa fa-table"></i>User List
@@ -177,22 +195,22 @@
 								</div>
 							</div>
 					</div> --%>
+						</div>
+
+					</div>
+
 				</div>
-
 			</div>
+			<!-- END Main Content -->
+			<footer>
+				<p>2019 © MADHAVI.</p>
+			</footer>
 
+
+			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+				class="fa fa-chevron-up"></i></a>
 		</div>
-	</div>
-	<!-- END Main Content -->
-	<footer>
-	<p>2019 © MADHAVI.</p>
-	</footer>
-
-
-	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-		class="fa fa-chevron-up"></i></a>
-	</div>
-	<!-- END Content -->
+		<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -256,92 +274,118 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 
-			<script type="text/javascript"
-				src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
-			<script type="text/javascript"
-				src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
-	
-	
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
+
+
 	<script>
-	
-	function samePass(){
-		 
-	
-		  if(document.getElementById("upass").value==document.getElementById("confirmPass").value && document.getElementById("upass").value!=null && document.getElementById("upass").value!="")
-			{
-			   
-			  $("#pass").addClass("glyphicon glyphicon-ok");
-				 $("#cpass").addClass("glyphicon glyphicon-ok");
-				// flag=false;
-		
-				 
-				 
-				
-					  document.getElementById("submitbtn").disabled=false;
-			} 
-			  
-		  else{
-			  
-			  $("#pass").removeClass("glyphicon glyphicon-ok");
-			  $("#cpass").removeClass("glyphicon glyphicon-ok");
-			  document.getElementById("submitbtn").disabled=true;
-		  }
-	}
-	
-	function submitUser(){
-	
-		var valid=validate();
-	 if(!valid)
-		 {
-		 
-		// var pageContext=document.getElementById("pageContext").value;
+		function samePass() {
 
-	
-		  document.getElementById("validation-form").submit();
-		  //alert("submit");
-		   // form.submit();
-		    
-		   
-		   
-		 }
-	
-	}
-	
-	function validate()
-	{
-		
-		var flag=false;
-		 
+			if (document.getElementById("upass").value == document
+					.getElementById("confirmPass").value
+					&& document.getElementById("upass").value != null
+					&& document.getElementById("upass").value != "") {
+
+				document.getElementById('cpass').innerHTML = '';
+				
+				$("#pass").addClass("glyphicon glyphicon-ok");
+				$("#cpass").addClass("glyphicon glyphicon-ok");
+				// flag=false;
+
+				document.getElementById("submitbtn").disabled = false;
+			}
+
+			else {
+				
+				
+				
+
+				$("#pass").removeClass("glyphicon glyphicon-ok");
+				$("#cpass").removeClass("glyphicon glyphicon-ok");
+				
+				var tag="<b style='color:red; font-size: 15px;'>Password Not Matched!</b>"
+				
+				document.getElementById('cpass').innerHTML = tag;
+
+				
+				document.getElementById("submitbtn").disabled = true;
+			}
+		}
+
+		function submitUser() {
+
+			var valid = validate();
+
+			//alert(valid);
+			if (!valid) {
+
+				// var pageContext=document.getElementById("pageContext").value;
+
+				document.getElementById("validation-form").submit();
+				//alert("submit");
+				// form.submit();
+
+			}
+
+		}
+
+		function validate() {
+			
+			document.getElementById("submitbtn").style.display = "none"
+
+			var flag = false;
+
 			var usertype = $("#user_type").val();
 			var dept_id = $("#dept_id").val();
-		 var uname=document.getElementById("uname").value;
-		 if(uname=="" || uname==null)
-			 {
-			 flag=true;
-			 alert("enter Username");
-			 
-			 
-			 }
-			 
-			 
-		
-		 else if(dept_id=="" || dept_id==null)
-			 {
-			 flag=true;
+
+			var uname = document.getElementById("uname").value;
+			if (uname == "" || uname == null) {
+				flag = true;
+				alert("enter Username");
+			} else if (dept_id == "" || dept_id == null) {
+				flag = true;
 				alert("Please Select  Deptartment");
-			 }
-		 else if(usertype=="" || usertype==null ){
-				flag=true;
+			} else if (usertype == "" || usertype == null) {
+				flag = true;
 				alert("Please Select User Type");
-				
 			}
-	
-		return flag;
-	}
+
+			if (flag == false) {
+				if (uname != "") {
+					$.post('${chkDuplicateUsername}', {
+						userName : uname,
+						ajax : 'true'
+					}, function(data) {
+
+						//alert(JSON.stringify(data));
+
+						if (data.error == true) {
+							flagUname = true;
+							alert("Username already exists!");
+							document.getElementById("submitbtn").style.display = "block"
+						}else{
+							document.getElementById("validation-form").submit();
+							
+						}
+
+					});
+
+				}
+			}
+
+			return flag;
+		}
 	</script>
-	
+
+
+	<script type="text/javascript"></script>
+
+
 </body>
 </html>
 

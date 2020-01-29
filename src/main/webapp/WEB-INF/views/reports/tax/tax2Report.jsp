@@ -36,7 +36,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Tax2 Report
+					<i class="fa fa-bars"></i>Bill Wise Tax Slab Wise Report
 				</h3>
 
 			</div>

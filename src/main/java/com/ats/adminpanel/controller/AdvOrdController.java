@@ -270,6 +270,29 @@ public class AdvOrdController {
 				if(advHeader.getIsBillGenerated()==0)
 				info = restTemplate.postForObject(Constants.url + "/saveAdvanceOrderHeadAndDetail", advHeader,
 						AdvanceOrderHeader.class);
+				
+				if(info!=null) {
+					if(info.getAdvHeaderId()>0) {
+						
+						String address=request.getParameter("addr");
+						String km =request.getParameter("km");
+						
+						MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<>();
+
+						map1.add("address", address);
+						map1.add("km", km);
+						map1.add("custId", info.getCustId());
+						
+						Info res = restTemplate.postForObject(Constants.url + "/updateCustAddressAndKm", map1,
+								Info.class);
+						
+						System.err.println("CUST ADD AND KM UPDATE ------------- "+res);
+						
+					}
+				}
+				
+				
+				
 			} else {
 				System.err.println("inside saveAdvanceOrder");
 				info = new AdvanceOrderHeader();

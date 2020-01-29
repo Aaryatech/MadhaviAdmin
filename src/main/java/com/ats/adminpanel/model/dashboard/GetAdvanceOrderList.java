@@ -37,8 +37,25 @@ public class GetAdvanceOrderList {
 	private String exVar2;//Sac
 	private int isBillGenerated;//Sac
 	
+	private String address;
+	private String km;
 	
 	
+	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getKm() {
+		return km;
+	}
+	public void setKm(String km) {
+		this.km = km;
+	}
 	public String getExVar2() {
 		return exVar2;
 	}
@@ -147,6 +164,8 @@ public class GetAdvanceOrderList {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "GetAdvanceOrderList [advHeaderId=" + advHeaderId + ", advanceAmt=" + advanceAmt + ", remainingAmt="
@@ -154,7 +173,7 @@ public class GetAdvanceOrderList {
 				+ isDailyMart + ", delStatus=" + delStatus + ", exVar1=" + exVar1 + ", orderDate=" + orderDate
 				+ ", prodDate=" + prodDate + ", deliveryDate=" + deliveryDate + ", discAmt=" + discAmt + ", frName="
 				+ frName + ", custName=" + custName + ", phoneNumber=" + phoneNumber + ", exVar2=" + exVar2
-				+ ", isBillGenerated=" + isBillGenerated + "]";
+				+ ", isBillGenerated=" + isBillGenerated + ", address=" + address + ", km=" + km + "]";
 	}
  
 }

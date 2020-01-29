@@ -134,7 +134,7 @@ public class HomeController {
 			map.add("prodDate", dateFormat.format(new Date()));
 			map.add("isBilled", -1);
 			GetAdvanceOrderList[] holListArray = restTemplate
-					.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdmin", map, GetAdvanceOrderList[].class);
+					.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map, GetAdvanceOrderList[].class);
 
 			List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
 
@@ -194,7 +194,8 @@ public class HomeController {
 			int prodDateSearch=0;
 
 			map = new LinkedMultiValueMap<>();
-			String mappingName = "advanceOrderHistoryHeaderAdmin";
+			//String mappingName = "advanceOrderHistoryHeaderAdmin";
+			String mappingName = "advanceOrderHistoryHeaderAdminForAdminDash";
 			if (submit1 != null) {
 
 				System.err.println("sub 2 null");
@@ -206,7 +207,8 @@ public class HomeController {
 				map.add("toDate", request.getParameter("to_date"));
 				map.add("frId", request.getParameter("selectFr"));
 				mappingName= new String();
-				mappingName = "advOrderHistoryHeaderAdminFdTdFrId";
+				//mappingName = "advOrderHistoryHeaderAdminFdTdFrId";
+				mappingName = "advOrderHistoryHeaderAdminFdTdFrIdForAdminDash";
 			} else {
 				System.err.println("sub 1 null");
 				map.add("prodDate", date);
@@ -381,7 +383,7 @@ public class HomeController {
 					map.add("prodDate", dateFormat.format(new Date()));
 					map.add("isBilled", -1);
 					GetAdvanceOrderList[] holListArray = restTemplate.postForObject(
-							Constants.url + "/advanceOrderHistoryHeaderAdmin", map, GetAdvanceOrderList[].class);
+							Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map, GetAdvanceOrderList[].class);
 
 					List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
 

@@ -405,7 +405,7 @@ public class DispatchController {
 						for(int l=0;l<frNameIdByRouteIdList.size();l++) {
 							if(frNameIdByRouteIdList.get(l).getFrId()==frListOrdersPresent.get(i)) {
 								
-								Paragraph company = new Paragraph("MONGINIS -- SHOP NAME :--"+frNameIdByRouteIdList.get(l).getFrName() + "\n", new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.MAGENTA));
+								Paragraph company = new Paragraph("Madhvi Dairy Retail Outlet : "+frNameIdByRouteIdList.get(l).getFrName() + "\n", new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.MAGENTA));
 								company.setAlignment(Element.ALIGN_CENTER);
 								document.add(company);
 								Paragraph  header=new Paragraph(" Dispatch Sheet    Dispatch Date:  "+billDate,f1);

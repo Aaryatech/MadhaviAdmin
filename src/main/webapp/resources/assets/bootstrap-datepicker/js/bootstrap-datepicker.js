@@ -28,16 +28,20 @@
 							.appendTo('body')
 							.on({
 								click: $.proxy(this.click, this),
-								mousedown: $.proxy(this.mousedown, this)
+								mousedown: $.proxy(this.mousedown, this),
+								mouseup: $.proxy(this.hide, this)
 							});
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.date') ? this.element.find('.input-group-addon') : false;
+		
 		
 		if (this.isInput) {
 			this.element.on({
 				focus: $.proxy(this.show, this),
 				blur: $.proxy(this.hide, this),
 				keyup: $.proxy(this.update, this)
+				
+				
 			});
 		} else {
 			if (this.component){
@@ -85,7 +89,7 @@
 	
 	Datepicker.prototype = {
 		constructor: Datepicker,
-		
+		 
 		show: function(e) {
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
@@ -106,6 +110,11 @@
 		
 		hide: function(){
 			this.picker.hide();
+
+			this.element.on({
+				click: $.proxy(this.show, this)
+			});
+			
 			$(window).off('resize', this.place);
 			this.viewMode = this.startViewMode;
 			this.showMode();
@@ -238,6 +247,10 @@
 				year += 1;
 			}
 			yearCont.html(html);
+			
+			//this.picker.hide();
+			// $('input').blur();
+			
 		},
 		
 		click: function(e) {

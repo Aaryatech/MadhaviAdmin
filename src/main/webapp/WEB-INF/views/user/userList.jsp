@@ -72,10 +72,33 @@
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Password</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="upass" id="upass"
+									
+									
+									<c:choose>
+								<c:when test="${submit eq 1 }">
+								
+								<input type="password" name="upass" id="upass"
 											value="${user.password}" onkeyup="samePass();"
 											class="form-control" placeholder="Password"
 											data-rule-required="true" />
+								
+								</c:when>
+								<c:otherwise>
+								
+								<input type="password" name="upass" id="upass"
+											value="${user.password}" onkeyup="samePass();"
+											class="form-control" placeholder="Password"
+											data-rule-required="true" readonly="readonly" />
+								
+								</c:otherwise>
+								</c:choose>
+									
+										
+									
+									
+									
+									
+									
 									</div>
 									<span class="" id="pass"></span>
 									<!-- </div>
@@ -83,10 +106,34 @@
 									<label class="col-sm-3 col-lg-2 control-label">Confirm
 										Password</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="password" name="confirmPass"
+									
+									
+									
+									<c:choose>
+								<c:when test="${submit eq 1 }">
+								
+								<input type="password" name="confirmPass"
 											value="${user.password}" id="confirmPass"
 											onkeyup="samePass();" class="form-control"
 											placeholder="Confirm Password" data-rule-required="true" />
+								
+								</c:when>
+								<c:otherwise>
+
+												<input type="password" name="confirmPass"
+													value="${user.password}" id="confirmPass"
+													onkeyup="samePass();" class="form-control"
+													placeholder="Confirm Password" data-rule-required="true"
+													readonly="readonly" />
+
+											</c:otherwise>
+								</c:choose>
+								
+								
+										
+									
+									
+									
 									</div>
 									
 									<span class="" id="cpass"></span>
@@ -309,13 +356,13 @@
 	}
 	
 	function submitUser(){
-	alert("in fun");
+	//alert("in fun");
 		var valid=validate();
 	 if(!valid)
 		 {
-		 alert("in If");
+		// alert("in If");
 		 var form= document.getElementById("validation-form");
-		 alert("form = " +form);
+		// alert("form = " +form);
 		 form.action='${pageContext.request.contextPath}/editUserProcess';
 		 form.submit();
 		

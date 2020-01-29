@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,6 +68,7 @@ public class UserController {
 		user.setPassword(upass);
 		user.setDeptId(deptId);
 		user.setUsertype(userType);
+		user.setRoleId(84);
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
@@ -75,4 +79,32 @@ public class UserController {
 		}
 		return "redirect:/showAddUser";
 	}
+	
+	
+	@RequestMapping(value = "/chkDuplicateUsername", method = RequestMethod.POST)
+	public @ResponseBody Info chkDuplicateUsername(HttpServletRequest request, HttpServletResponse response) {
+
+		Info info =null;
+		
+		String uname = request.getParameter("userName"); 
+		
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			
+			MultiValueMap<String, Object> mav = new LinkedMultiValueMap<String, Object>();
+			mav.add("userName", uname);
+			
+			info = restTemplate.postForObject(Constants.url + "checkDuplicateUsername", mav, Info.class);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return info;
+		
+		
+	}
+	
+	
+	
 }

@@ -60,7 +60,7 @@ th {
 </head>
 <body onload="directPrint()">
 <c:forEach items="${frListSelected}" var="frId" varStatus="ct">
-<h5 align="center">MONGINIS &nbsp;&nbsp;
+<h5 align="center">Madhvi Dairy Retail Outlet : &nbsp;&nbsp;
 <!-- <p align="center">Patna,Bihar</p>
  -->
 <c:forEach items="${frList}" var="fr" varStatus="count">

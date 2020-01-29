@@ -622,7 +622,7 @@ public class ProdForcastingController {
 				postProductionHeader.setIsMixing(0);
 				postProductionHeader.setIsPlanned(1);
 				postProductionHeader.setProductionBatch("0");
-				postProductionHeader.setProductionStatus(3);
+				postProductionHeader.setProductionStatus(2);
 				postProductionHeader.setProductionHeaderId(0);
 
 				List<PostProductionPlanDetail> postProductionDetailList = new ArrayList<>();

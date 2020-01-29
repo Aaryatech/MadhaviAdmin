@@ -179,9 +179,10 @@
 
 
 
-											<td><span class='<c:out value="${btnClass}" />'
+											<td>
+											 <span class='<c:out value="${btnClass}" />'
 												data-toggle="tooltip" title='<c:out value="${add}" />'
-						  						onclick="editRole('${userList.username}', ${userList.id})"></span>
+						  						onclick="editRole('${userList.username}', ${userList.id})"></span> 
 												<a
 												href="${pageContext.request.contextPath}/showAssignUserDetail/<c:out value="${userList.id}" />/${rId}/<c:out value="${userList.username}" />/${empRoll}"
 												data-toggle="tooltip" title="Access Detail"> <span
@@ -292,6 +293,8 @@
 	<script>
 		function editRole(empName, empId)
 		{
+			
+			
 			
 			//alert(empId);
 			document.getElementById("empId").value=empId;

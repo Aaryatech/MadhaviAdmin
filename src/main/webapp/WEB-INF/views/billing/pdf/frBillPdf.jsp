@@ -23,7 +23,7 @@ table {
 </style>
 </head>
 <body>
-<!-- c:forEach for multiple bills -->
+	<!-- c:forEach for multiple bills -->
 	<c:forEach items="${billDetails}" var="frDetails" varStatus="count">
 		<c:set var="srCnt" value="0" />
 		<c:set var="totalRowCount" value="0" />
@@ -33,8 +33,8 @@ table {
 		</div>
 		<div style="text-align: right; font-size: 10px;">CIN :
 			${frDetails.company.cinNo}</div>
-			
-			<!-- bill detail block start -->
+
+		<!-- bill detail block start -->
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"
 			style="border-left: 1px solid #313131; border-right: 1px solid #313131; border-top: 1px solid #313131;">
 			<tr>
@@ -53,8 +53,7 @@ table {
 						&nbsp; Fact.Address: ${frDetails.company.factAddress} <br />&nbsp;
 						Phone: ${frDetails.company.phoneNo1}, Email:
 						${frDetails.company.email}
-					</p>
-					<br>
+					</p> <br>
 						<p
 							style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
 							&nbsp; <b>GST No:</b>
@@ -111,17 +110,17 @@ table {
 						style="color: #000; font-weight: bold; font-size: 13px; text-align: left; margin: 0px;">
 						<%-- Place
 						of supply: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ${Constants.STATE}    &nbsp;&nbsp;&nbsp;&nbsp; --%>
-						&nbsp; 
+						&nbsp;
 					</p>
 				</td>
 			</tr>
 
 		</table>
-		
+
 		<!-- bill detail block ends -->
-		
-		
-			<!-- bill item  block start -->
+
+
+		<!-- bill item  block start -->
 
 		<table width="100%" border="1" cellpadding="0" cellspacing="0"
 			style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-right: 1px solid #313131">
@@ -142,6 +141,9 @@ table {
 				</td> -->
 				<td align="center" width="5%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Rate</td>
+				<td align="center" width="5%" rowspan="2"
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Taxable
+					Rate</td>
 				<td align="center" width="5%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">
 					Disc %</td>
@@ -217,8 +219,8 @@ table {
 
 								<c:when test="${totalRowCount eq maxRowCount}">
 		</table>
-		
-		
+
+
 		<!-- bill item  block start -->
 
 		<table width="100%" border="1" cellpadding="0" cellspacing="0"
@@ -258,8 +260,7 @@ table {
 						&nbsp; Fact.Address: ${frDetails.company.factAddress} <br />&nbsp;
 						Phone: ${frDetails.company.phoneNo1}, Email:
 						${frDetails.company.email}
-					</p>
-					<br>
+					</p> <br>
 						<p
 							style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
 							&nbsp; <b>GST No:</b>
@@ -341,6 +342,11 @@ table {
 				</td> -->
 				<td align="center" width="5%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Rate</td>
+
+				<td align="center" width="5%" rowspan="2"
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Taxable
+					Rate</td>
+
 				<td align="center" width="5%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">
 					Disc %</td>
@@ -428,7 +434,13 @@ table {
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
+						value="${billDetails.rate}" /></td>
+
+				<td align="right"
+					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;"><fmt:formatNumber
+						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${billDetails.baseRate}" /></td>
+
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
@@ -491,6 +503,8 @@ table {
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 
 				<td align="right"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
@@ -529,6 +543,7 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 
@@ -559,6 +574,7 @@ table {
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
@@ -655,7 +671,7 @@ table {
 			style="border-top: 1px solid #313131; border-right: 1px solid #313131;">
 			<tr>
 				<td colspan="10" width="100%"
-					style="border-left: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">
+					style="border-left: 1px solid #313131; border-right: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">
 					<p
 						style="color: #000; font-size: 12px; text-align: left; margin: 0px;">FDA
 						Declaration:${frDetails.company.fdaDeclaration} FDA Lic. No:
@@ -663,8 +679,8 @@ table {
 				</td>
 
 
-				<td colspan="11" width="40%" rowspan="2"
-					style="color: #000; font-size: 10px;"></td>
+				<!-- <td colspan="11" width="40%" rowspan="2"
+					style="color: #000; font-size: 10px;"></td> -->
 			</tr>
 
 			<tr>
@@ -712,7 +728,7 @@ table {
 
 		<div style="page-break-after: always;"></div>
 	</c:forEach>
-	
+
 	<!-- c:forEach for multiple bills -->
 </body>
 </html>

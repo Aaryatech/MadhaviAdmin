@@ -5637,6 +5637,10 @@ public class SalesReportController {
 
 				ResponseEntity<List<SubCategory>> responseEntity2 = restTemplate.exchange(
 						Constants.url + "getSubCatListForDis", HttpMethod.POST, new HttpEntity<>(map), typeRef2);
+				
+				
+				System.err.println("dispatchReportList --------------- "+dispatchReportList);
+				System.err.println("itemList --------------- "+responseEntity1.getBody());
 
 				model.addObject("dispatchReportList", dispatchReportList);
 				model.addObject("frList", frNameIdByRouteIdList);

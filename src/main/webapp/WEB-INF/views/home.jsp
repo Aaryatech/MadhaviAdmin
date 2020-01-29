@@ -113,7 +113,7 @@
 								id="from_datepicker" type="date" format="dd-mm-yyyy"
 								value="${cDate}" /> --%>
 
-							<input class="form-control datepicker22  date-picker"
+							<input class="form-control datepicker22  date-picker"  
 								autocomplete="off" placeholder="Date" name="from_datepicker"
 								style="border-radius: 25px;" id="from_datepicker" type="text"
 								value="${cDate1}" />
@@ -213,6 +213,13 @@
 												class="col-md-1">Customer Name</th>
 											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Customer Phone No.</th>
+												
+												<th style="background-color: #f3b5db; color: #fff"
+												class="col-md-1">Address</th>
+												
+												<th style="background-color: #f3b5db; color: #fff"
+												class="col-md-1">Kilometer</th>
+												
 											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Delivery Date</th>
 											<th style="background-color: #f3b5db; color: #fff"
@@ -241,6 +248,12 @@
 															value="${advList.custName}" /></td>
 													<td class="col-md-1"><c:out
 															value="${advList.phoneNumber}" /></td>
+															
+															<td class="col-md-1"><c:out
+															value="${advList.address}" /></td>
+															
+															<td class="col-md-1"><c:out
+															value="${advList.km}" /></td>
 
 													<td class="col-md-2"><c:out
 															value="${advList.deliveryDate}" /></td>
@@ -258,7 +271,7 @@
 
 													<td class="col-md-2" style="white-space: nowrap;"><a
 														href=""
-														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}')"
+														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}')"
 														class="btn btn-default btn-rounded" data-toggle="modal"
 														data-target="#elegantModalForm"><abbr title='Edit'><i
 																class='fa fa-edit'></i></abbr></a> <c:if
@@ -423,6 +436,23 @@
 										class="form-control small clockface-open">
 								</div>
 							</div>
+							
+							<div class="row">
+							
+							<label class="col-sm-1 control-label" style="color: blue;">Delivery Address: </label>
+								<div class="col-sm-8">
+									<input type="text" id="addr" name="addr"
+										class="form-control" value="">
+								</div>
+								
+								<label class="col-sm-1 control-label" style="color: blue;">Kilometer: </label>
+								<div class="col-sm-2">
+									<input type="text" id="km" name="km" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+										class="form-control" style="width: 70%" value="0">
+								</div>
+							
+							</div>
+							
 							<div class="form-group"></div>
 							<div class="col-md-6">
 
@@ -493,7 +523,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-
+	
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
@@ -665,7 +695,7 @@ function submitOnClick() {
 
 	<script type="text/javascript">
 		function showDetailsForCp(headId, frName, custName, amount, isMart,
-				devDate, advanceAmt, prodDate, isBillGenerated, delivTime) {
+				devDate, advanceAmt, prodDate, isBillGenerated, delivTime,addr,km) {
 
 			//alert(" hiiiiiiiiiiiiiii "+prodDate);
 
@@ -692,6 +722,9 @@ function submitOnClick() {
 			document.getElementById("custName").innerHTML = custName;
 			document.getElementById("deliveryDate").value = devDate;
 			document.getElementById("clockface_1").value = delivTime;
+			
+			document.getElementById("addr").value = addr;
+			document.getElementById("km").value = km;
 
 			document.getElementById("deliveryDate_hide").value = devDate;
 
@@ -859,7 +892,7 @@ function submitOnClick() {
 
 			var oldProd = document.getElementById("prod_date_hide").value;
 			var oldDel = document.getElementById("deliveryDate_hide").value;
-
+			
 			//alert(prod + "             " + del);
 
 			var day1 = prod.slice(0, 2);

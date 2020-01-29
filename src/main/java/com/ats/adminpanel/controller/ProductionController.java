@@ -1086,7 +1086,7 @@ public class ProductionController {
 			postProductionHeader.setIsMixing(0);
 			postProductionHeader.setIsPlanned(0);
 			postProductionHeader.setProductionBatch("");
-			postProductionHeader.setProductionStatus(3);
+			postProductionHeader.setProductionStatus(1);
 
 			List<PostProductionDetail> postProductionDetailList = new ArrayList<>();
 			PostProductionDetail postProductionDetail;
