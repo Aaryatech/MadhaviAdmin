@@ -4,21 +4,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%-- <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
- --%><!-- <script type="text/javascript"
+ --%>
+<!-- <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script> -->
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-<c:url var="routListByAbcType" value="/routListByAbcType"></c:url>
+	<c:url var="routListByAbcType" value="/routListByAbcType"></c:url>
 
 	<c:url var="getBillList" value="/getPDispatchReportByRoute"></c:url>
-   	<c:url var="getFranchisees" value="/getFranchiseByRouteMul"></c:url>
-   	<c:url var="getSubCatByCatId" value="/getSubCatByCatId"></c:url>
-   	<c:url var="getAllMenusForDisp" value="/getAllMenusForDisp"></c:url>
+	<c:url var="getFranchisees" value="/getFranchiseByRouteMul"></c:url>
+	<c:url var="getSubCatByCatId" value="/getSubCatByCatId"></c:url>
+	<c:url var="getAllMenusForDisp" value="/getAllMenusForDisp"></c:url>
 	<!-- BEGIN Sidebar -->
-	<div id="sidebar" class="navbar-collapse collapse" >
+	<div id="sidebar" class="navbar-collapse collapse">
 
 		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
 
@@ -26,7 +27,7 @@
 			<i class="fa fa-angle-double-left"></i>
 		</div>
 		<!-- END Sidebar Collapse Button -->
-	</div> 
+	</div>
 	<!-- END Sidebar -->
 
 
@@ -34,7 +35,7 @@
 	<!-- BEGIN Content -->
 	<div id="main-content">
 		<!-- BEGIN Page Title -->
-	<!-- 	<div class="page-title">
+		<!-- 	<div class="page-title">
 			<div>
 				<h1>
 					<i class="fa fa-file-o"></i>Dispatch Item Report
@@ -69,7 +70,8 @@
 
 
 					<div class="form-group">
-						<label class="col-sm-3 col-lg-2	 control-label">Delivery Date</label>
+						<label class="col-sm-3 col-lg-2	 control-label">Delivery
+							Date</label>
 						<div class="col-sm-6 col-lg-2 controls date_select">
 							<input class="form-control date-picker" id="billDate"
 								name="billDate" size="30" type="text" value="${todaysDate}" />
@@ -78,7 +80,7 @@
 						<div class="col-sm-3 col-lg-2">
 
 							<select data-placeholder="Choose Category"
-								class="form-control chosen"   onchange="routListByAbcType()"
+								class="form-control chosen" onchange="routListByAbcType()"
 								id="abcType" name="abcType">
 
 								<option value="">Select</option>
@@ -90,11 +92,11 @@
 								</c:forEach> --%>
 							</select>
 						</div>
-                    <label class="col-sm-3 col-lg-1 control-label" >Route</label>
-						<div class="col-sm-6 col-lg-3 controls"  >
-							<select data-placeholder="Select Route" 
+						<label class="col-sm-3 col-lg-1 control-label">Route</label>
+						<div class="col-sm-6 col-lg-3 controls">
+							<select data-placeholder="Select Route"
 								class="form-control chosen" name="selectRoute" id="selectRoute"
-								onchange="getFranchise(this.value)" >
+								onchange="getFranchise(this.value)">
 								<option value="0">Select Route</option>
 								<%-- <c:forEach items="${routeList}" var="route" varStatus="count">
 									<option value="${route.routeId}"><c:out value="${route.routeName}"/> </option>
@@ -112,23 +114,39 @@
 
 					<div class="form-group">
 
-						<label class="col-sm-3 col-lg-2 control-label">Select Menu </label>
-						<div class="col-sm-3 col-lg-10">
+						<label class="col-sm-3 col-lg-2 control-label">Select Menu
+						</label>
+						<div class="col-sm-3 col-lg-6">
 
 							<select data-placeholder="Select Menu "
-								class="form-control chosen" 
-								id="menuId" name="menuId" multiple="multiple" required onchange="onMenuChange(this.value)">
+								class="form-control chosen" id="menuId" name="menuId"
+								multiple="multiple" required onchange="onMenuChange(this.value)">
 
-								  <option value="-1" >All</option>
-								<c:forEach items="${menuList}" var="menuList" >
-									<option value="${menuList.menuId}"><c:out value="${menuList.menuTitle}"/> </option>
+								<option value="-1">All</option>
+								<c:forEach items="${menuList}" var="menuList">
+									<option value="${menuList.menuId}"><c:out
+											value="${menuList.menuTitle}" />
+									</option>
 
-								</c:forEach> 
+								</c:forEach>
 							</select>
 						</div>
+
+						<label class="col-sm-3 col-lg-2 control-label">Advance Order
+						</label>
+						<div class="col-sm-3 col-lg-2">
+
+							<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="advOrd" id="advNo" value="0">No
+						</div>
+
+
+
 					</div>
-					</div><br>
-						<div class="row">
+				</div>
+				<br>
+				<div class="row">
 
 					<div class="form-group">
 						<label class="col-sm-3 col-lg-2 control-label">Select
@@ -136,18 +154,21 @@
 						<div class="col-sm-3 col-lg-10">
 
 							<select data-placeholder="Choose Category"
-								class="form-control chosen"  tabindex="6" multiple="multiple" 
-								id="selectCat" name="selectCat" onchange="getSubCategoriesByCatId()"> <!-- multiple="multiple" -->
+								class="form-control chosen" tabindex="6" multiple="multiple"
+								id="selectCat" name="selectCat"
+								onchange="getSubCategoriesByCatId()">
+								<!-- multiple="multiple" -->
 
-								<option value="-1"><c:out value="All"/></option>
+								<%-- <option value="-1"><c:out value="All" /></option> --%>
 
 								<c:forEach items="${catList}" var="cat" varStatus="count">
-									<option value="${cat.catId}"><c:out value="${cat.catName}"/></option>
+									<option value="${cat.catId}"><c:out
+											value="${cat.catName}" /></option>
 								</c:forEach>
 							</select>
 						</div>
-					
-					
+
+
 						<%-- <a
 							href="${pageContext.request.contextPath}/pdfForReport?url=showSaleRoyaltyByCatPdf"
 							target="_blank">PDF</a>
@@ -156,61 +177,63 @@
 
 
 
-				</div><br>
-					<div class="row">
+				</div>
+				<br>
+				<div class="row">
 
 					<div class="form-group">
-					<label class="col-sm-3 col-lg-2 control-label">Sub-Category</label>
+						<label class="col-sm-3 col-lg-2 control-label">Sub-Category</label>
 						<div class="col-sm-3 col-lg-10">
 
 							<select data-placeholder="Choose Sub Category"
 								class="form-control chosen" multiple="multiple" tabindex="6"
 								id="selectSubCat" name="selectSubCat">
 
-								<option value="-1"><c:out value="All"/></option>
+								<option value="-1"><c:out value="All" /></option>
 
 							</select>
 						</div>
-					
+
 					</div>
-				<!-- 		<button class="btn btn-info" onclick="searchReport()">Search
+					<!-- 		<button class="btn btn-info" onclick="searchReport()">Search
 							Report</button>
 
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
 							onclick="genPdf()">PDF</button>
-					</div><br> --></div><br>
+					</div><br> -->
+				</div>
+				<br>
 				<div class="row">
 
 					<div class="form-group">
 
-						<label class="col-sm-2 col-lg-2 control-label">
-							Franchisee</label>
+						<label class="col-sm-2 col-lg-2 control-label"> Franchisee</label>
 						<div class="col-sm-3 col-lg-8">
 
-							<select data-placeholder="Choose Franchise"
-							tabindex="6" class="form-control chosen" multiple="multiple"
-								id="fraId" name="fraId" onchange="onFrChange()">
+							<select data-placeholder="Choose Franchise" tabindex="6"
+								class="form-control chosen" multiple="multiple" id="fraId"
+								name="fraId" onchange="onFrChange()">
 								<option value="">Select Franchisee</option>
-								<option value="-1"><c:out value="All"/></option>
-								
-                               <%--  	<c:forEach items="${frListRes}" var="frListRes" varStatus="cnt">
+								<option value="-1"><c:out value="All" /></option>
+
+								<%--  	<c:forEach items="${frListRes}" var="frListRes" varStatus="cnt">
 									<option value="${frListRes.frId}">${frListRes.frName}</option>
 								</c:forEach> --%>
-								
+
 							</select>
 						</div>
 
 
-					<!-- 	<button class="btn btn-primary" value="PDF" id="PDFButton"
+						<!-- 	<button class="btn btn-primary" value="PDF" id="PDFButton"
 							onclick="genPdfBill()">Franchise PDF</button> -->
-							
-							
+
+
+						<button class="btn btn-primary" value="PDF" id="PDFButton" style="display: none;"
+							onclick="genDispatchPdf()">PDF</button>
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
-							onclick="genDispatchPdf()">PDF</button> 
-						<button class="btn btn-primary" value="PDF" id="PDFButton"
-							onclick="genDispatchItextPdf()">Disp PDF1</button>
-							</div>
-							
+							onclick="genDispatchItextPdf()">PDF</button>
+					</div>
+
 					<div align="center" id="loader" style="display: none">
 
 						<span>
@@ -220,7 +243,8 @@
 						</span> <span class="l-1"></span> <span class="l-2"></span> <span
 							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 						<span class="l-6"></span>
-					</div></div>
+					</div>
+				</div>
 			</div>
 
 
@@ -234,49 +258,54 @@
 				<form id="submitBillForm"
 					action="${pageContext.request.contextPath}/submitEditedQty"
 					method="post">
-					
-				
-					<div class="box-content" >
-					<div id="routeName"></div>
+
+
+					<div class="box-content">
+						<div id="routeName"></div>
 						<div class="row">
 							<div class="col-md-12 table-responsive">
-							<div style="">
-							
-								<table class="table table-bordered table-striped fill-head "
-								style="width: 100%" id="table_grid">
-									<thead style="background-color: #f3b5db;">
-										<tr>
-											<!-- <th>Sr.No.</th>
+								<div style="">
+
+									<table class="table table-bordered table-striped fill-head "
+										style="width: 100%" id="table_grid">
+										<thead style="background-color: #f3b5db;">
+											<tr>
+												<!-- <th>Sr.No.</th>
 											<th>Franchisee Name</th>
 											<th>Category</th>
 											<th>Item Name</th>
 											<th>Bill Qty</th> -->
-											
-										</tr>
-									</thead>
-									<tbody>
 
-									</tbody>
-								</table>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+									</table>
+								</div>
 							</div>
+							<div style="text-align: center;">
+								<!-- 											 <input type="submit" id="submit" class="btn btn-primary" value="SUBMIT" disabled>
+ -->
 							</div>
-								<div style="text-align:center;">
-<!-- 											 <input type="submit" id="submit" class="btn btn-primary" value="SUBMIT" disabled>
- -->											</div>
 							<div class="form-group" style="display: none;" id="range">
-								 
-											 
-											 
-											<div class="col-sm-3  controls">
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled="disabled">
-											</div>
-											</div>
+
+
+
+								<div class="col-sm-3  controls">
+									<input type="button" id="expExcel" class="btn btn-primary"
+										value="EXPORT TO Excel" onclick="exportToExcel();"
+										disabled="disabled">
+								</div>
+							</div>
 						</div>
 
 					</div>
 
-					<div id="chart_div" style="width: 100%; height: 700px; background-color: white;" ></div>
-					<div id="PieChart_div" style="width: 100%; height: 700px;background-color: white;"></div>
+					<div id="chart_div"
+						style="width: 100%; height: 700px; background-color: white;"></div>
+					<div id="PieChart_div"
+						style="width: 100%; height: 700px; background-color: white;"></div>
 
 				</form>
 			</div>
@@ -292,270 +321,303 @@
 
 
 
-<script type="text/javascript">
-
+		<script type="text/javascript">
 			function getFranchise(routeId) {
-			
-				$.getJSON('${getFranchisees}', {
-					
-					routeId :routeId ,
-					ajax : 'true'
-				}, function(data) {
-				 	var html = '<option value="">Select Franchisee</option>';
-				/*  	var html1 = '<option value="-1">All</option>'; */
-				
-					var len = data.length;
-					
-					$('#fraId')
-				    .find('option')
-				    .remove()
-				    .end()
-				    
-				 $("#fraId").append(
-                                $("<option></option>").attr(
-                                    "value", 0).text("Select Franchisee")
-                            );
-					 $("#fraId").append(
-                             $("<option></option>").attr(
-                                 "value", -1).text("ALL")
-                         );
-						
-					for ( var i = 0; i < len; i++) {
-                        $("#fraId").append(
-                                $("<option></option>").attr(
-                                    "value", data[i].frId).text(data[i].frName)
-                            );
-					}
-					   $("#fraId").trigger("chosen:updated");
-				}); 
-			}
-</script>
-<script type="text/javascript">
 
-			function onFrChange() {
-				var frId = $("#fraId").val();
-				var routeId = $("#selectRoute").val();
-				if(frId=='-1'){
 				$.getJSON('${getFranchisees}', {
-					
+
 					routeId : routeId,
 					ajax : 'true'
 				}, function(data) {
-				 	var html = '<option value="">Select Franchisee</option>';
-				/*  	var html1 = '<option value="-1">All</option>'; */
-				
+					var html = '<option value="">Select Franchisee</option>';
+					/*  	var html1 = '<option value="-1">All</option>'; */
+
 					var len = data.length;
-					
-					$('#fraId')
-				    .find('option')
-				    .remove()
-				    .end()
-				    
-				 $("#fraId").append(
-                                $("<option></option>").attr(
-                                    "value", 0).text("Select Franchisee")
-                            );
-					 $("#fraId").append(
-                             $("<option></option>").attr(
-                                 "value", -1).text("ALL")
-                         );
-						
-					for ( var i = 0; i < len; i++) {
-                        $("#fraId").append(
-                                $("<option selected></option>").attr(
-                                    "value", data[i].frId).text(data[i].frName)
-                            );
+
+					$('#fraId').find('option').remove().end()
+
+					$("#fraId").append(
+							$("<option></option>").attr("value", 0).text(
+									"Select Franchisee"));
+					$("#fraId").append(
+							$("<option></option>").attr("value", -1)
+									.text("ALL"));
+
+					for (var i = 0; i < len; i++) {
+						$("#fraId").append(
+								$("<option></option>").attr("value",
+										data[i].frId).text(data[i].frName));
 					}
-					   $("#fraId").trigger("chosen:updated");
-				}); 
+					$("#fraId").trigger("chosen:updated");
+				});
+			}
+		</script>
+		<script type="text/javascript">
+			function onFrChange() {
+				var frId = $("#fraId").val();
+				var routeId = $("#selectRoute").val();
+				if (frId == '-1') {
+					$
+							.getJSON(
+									'${getFranchisees}',
+									{
+
+										routeId : routeId,
+										ajax : 'true'
+									},
+									function(data) {
+										var html = '<option value="">Select Franchisee</option>';
+										/*  	var html1 = '<option value="-1">All</option>'; */
+
+										var len = data.length;
+
+										$('#fraId').find('option').remove()
+												.end()
+
+										$("#fraId").append(
+												$("<option></option>").attr(
+														"value", 0).text(
+														"Select Franchisee"));
+										$("#fraId").append(
+												$("<option></option>").attr(
+														"value", -1)
+														.text("ALL"));
+
+										for (var i = 0; i < len; i++) {
+											$("#fraId")
+													.append(
+															$(
+																	"<option selected></option>")
+																	.attr(
+																			"value",
+																			data[i].frId)
+																	.text(
+																			data[i].frName));
+										}
+										$("#fraId").trigger("chosen:updated");
+									});
 				}
 			}
-</script>
+		</script>
 		<script type="text/javascript">
 			function searchReport() {
-					var isValid = validate();
-				if(isValid==true){
-				//document.getElementById('chart').style.display = "block";
-				document.getElementById("PieChart_div").style = "display:none";
-				document.getElementById("chart_div").style = "display:none";
+				var isValid = validate();
+				if (isValid == true) {
+					//document.getElementById('chart').style.display = "block";
+					document.getElementById("PieChart_div").style = "display:none";
+					document.getElementById("chart_div").style = "display:none";
 
-				var routeId = $("#selectRoute").val();
-				
-				var routeName = $("#selectRoute option:selected").text();
-				document.getElementById("routeName").innerText="Route: "+$("#selectRoute option:selected").text();
-				document.getElementById("routeName").style.fontWeight="900";
-				var isGraph = 0;
+					var routeId = $("#selectRoute").val();
 
-				var selectedCat = $("#selectSubCat").val();
+					var routeName = $("#selectRoute option:selected").text();
+					document.getElementById("routeName").innerText = "Route: "
+							+ $("#selectRoute option:selected").text();
+					document.getElementById("routeName").style.fontWeight = "900";
+					var isGraph = 0;
 
-				var billDate = $("#billDate").val();
-				$('#loader').show();
+					var selectedCat = $("#selectSubCat").val();
 
-				$
-						.getJSON(
-								'${getBillList}',
+					var billDate = $("#billDate").val();
+					$('#loader').show();
 
-								{
-									bill_date : billDate,
-									route_id : routeId,
-									cat_id_list : JSON.stringify(selectedCat),
-									routeName : routeName,
-									ajax : 'true'
+					$
+							.getJSON(
+									'${getBillList}',
 
-								},
-								function(data) {
-									 document.getElementById("submit").disabled=true;
-									$('#table_grid th').remove();
+									{
+										bill_date : billDate,
+										route_id : routeId,
+										cat_id_list : JSON
+												.stringify(selectedCat),
+										routeName : routeName,
+										ajax : 'true'
 
-									$('#table_grid td').remove();
-									
-									$('#loader').hide();
-                                    var frListLength=data.frList.length;
-									if (data == "") {
-										alert("No records found !!");
-										  document.getElementById("expExcel").disabled=true;
-										  document.getElementById("submit").disabled=true;
-									}
-									
-									 var tr;
-								        tr = document.getElementById('table_grid').tHead.children[0];
-								        tr.insertCell(0).outerHTML = "<th align='left'>Sr.No.</th>"
+									},
+									function(data) {
+										document.getElementById("submit").disabled = true;
+										$('#table_grid th').remove();
 
-								        tr.insertCell(1).outerHTML = "<th style='width=170px'>ItemName</th>"
-								        	var i=0;var j=0;
-								        	 $.each(data.frList, function(key,fr){  
-								        	       i=key+2;
-								                 tr.insertCell(i).outerHTML = "<th style='width=80px'>"+fr.frName+"</th>"
-								         });//franchise for end    
-/* 								         tr.insertCell(i+1).outerHTML = "<th style='font-weight:bold'>Total</th>"
- */								         
-								         $.each(data.subCatList,
-													function(key,subCat) {
-								        		var tr = $('<tr></tr>');
-								        		tr
-												.append($(
-														'<td></td>')
-														.html(" "));
-												tr
-														.append($(
-																'<td style="font-weight:bold"></td>')
-																.html(subCat.subCatName));
-												for(var i=0;i<=frListLength;i++)
-													{
-													tr
-													.append($(
-															'<td></td>')
-															.html(" "));
-													}
-												
-												$(
-												'#table_grid tbody')
-												.append(
-														tr);
-								        	 
-								             	var srNo = 0;
-													$.each(data.itemList,
-																	function(key,item) {
-														if(item.itemGrp2==subCat.subCatId)
-															{
-														srNo = srNo + 1;
-														var tr = $('<tr></tr>');
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				srNo));
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				item.itemName));
-														 $.each(data.frList, function(key,franchise){  
-																//alert(franchise.frId)
-																var orderId='o';
-																var orderQty=0;
-																var isBillGenerated=0;
-                                                          $.each(data.dispatchReportList,
-																		function(key,report) {
-                                                        	  if(franchise.frId==report.frId && item.id==report.itemId){
-                                                        		  orderId=report.orderId;
-                                                        		  orderQty=report.orderQty;
-                                                        		  isBillGenerated=report.isBillGenerated;
-															 }
-                                                        	  
-                                                          });
-                                                          if(isBillGenerated==2){
-                                                          tr
-															.append($(
-																	'<td style="color:blue;"></td>')
-																	.html("Qty: "+orderQty+" <input type=number style='text-align:right; width:60px' min=0 class=form-control name=itemQty"+franchise.frId+""+item.id+""+orderId+" id=itemQty"+franchise.frId+""+item.id+""+orderId+" value=0 disabled/>"));
-                                                          }
-                                                          else
-                                                        	  {
-                                                        	 if(orderId=='o'){
-                                                        	  tr
-  															.append($(
-  																	'<td style="color:red;"></td>')
-  																	.html("Qty: "+orderQty+" <input type=number style='text-align:right; width:60px' min=0 class=form-control name=itemQty"+franchise.frId+""+item.id+""+orderId+" id=itemQty"+franchise.frId+""+item.id+""+orderId+" value=0 disabled/>"));
-                                                        	 }
-                                                        	 else{
-                                                        		  tr
-        															.append($(
-        																	'<td style="color:green;"></td>')
-        																	.html("Qty: "+orderQty+" <input type=number style='text-align:right; width:60px' min=0 class=form-control name=itemQty"+franchise.frId+""+item.id+""+orderId+" id=itemQty"+franchise.frId+""+item.id+""+orderId+" value=0 />"));
-                                                              	 
-                                                        	 }
-                                                        	  }
-														 });
-														/*  tr
-															.append($(
-																	'<td></td>')
-																	.html("<input type=text style='text-align:right; width:60px' class=form-control name=total"+key+""+item.id+" id=total"+key+""+item.id+" value=0 disabled/>"));
-												 */		$(
-																'#table_grid tbody')
-																.append(
-																		tr);
-															}//end if
-													});//itemList for end
-								         });//subCatList for end
-													//	var srNo = 0;
-														 $.each(data.dispatchReportList,
-																		function(key,report) {
-                                                                
-													         document.getElementById('itemQty'+report.frId+''+report.itemId+''+report.orderId).value = report.editQty;
+										$('#table_grid td').remove();
 
-															       
+										$('#loader').hide();
+										var frListLength = data.frList.length;
+										if (data == "") {
+											alert("No records found !!");
+											document.getElementById("expExcel").disabled = true;
+											document.getElementById("submit").disabled = true;
+										}
 
-																		});
-														
-														/* $.each(data.itemList,
-																	function(key,item) {
-																 var total=0;
-													     		 $.each(data.frList, function(key,franchise){  	
-													     			 var tot=parseFloat($("#itemQty"+franchise.frId+''+item.id).val());
-													     			
-													     			 total=total+tot;
-													     			 
-														     		
- 
-													     		 });
-													     		  document.getElementById('total'+key+''+item.id).value =total;
-													     	});	 */
-																		 
-																		
-																
-								        	 
+										var tr;
+										tr = document
+												.getElementById('table_grid').tHead.children[0];
+										tr.insertCell(0).outerHTML = "<th align='left'>Sr.No.</th>"
 
-								});
+										tr.insertCell(1).outerHTML = "<th style='width=170px'>ItemName</th>"
+										var i = 0;
+										var j = 0;
+										$
+												.each(
+														data.frList,
+														function(key, fr) {
+															i = key + 2;
+															tr.insertCell(i).outerHTML = "<th style='width=80px'>"
+																	+ fr.frName
+																	+ "</th>"
+														});//franchise for end    
+										/* 								         tr.insertCell(i+1).outerHTML = "<th style='font-weight:bold'>Total</th>"
+										 */
+
+										$
+												.each(
+														data.subCatList,
+														function(key, subCat) {
+															var tr = $('<tr></tr>');
+															tr
+																	.append($(
+																			'<td></td>')
+																			.html(
+																					" "));
+															tr
+																	.append($(
+																			'<td style="font-weight:bold"></td>')
+																			.html(
+																					subCat.subCatName));
+															for (var i = 0; i <= frListLength; i++) {
+																tr
+																		.append($(
+																				'<td></td>')
+																				.html(
+																						" "));
+															}
+
+															$(
+																	'#table_grid tbody')
+																	.append(tr);
+
+															var srNo = 0;
+															$
+																	.each(
+																			data.itemList,
+																			function(
+																					key,
+																					item) {
+																				if (item.itemGrp2 == subCat.subCatId) {
+																					srNo = srNo + 1;
+																					var tr = $('<tr></tr>');
+																					tr
+																							.append($(
+																									'<td></td>')
+																									.html(
+																											srNo));
+																					tr
+																							.append($(
+																									'<td></td>')
+																									.html(
+																											item.itemName));
+																					$
+																							.each(
+																									data.frList,
+																									function(
+																											key,
+																											franchise) {
+																										//alert(franchise.frId)
+																										var orderId = 'o';
+																										var orderQty = 0;
+																										var isBillGenerated = 0;
+																										$
+																												.each(
+																														data.dispatchReportList,
+																														function(
+																																key,
+																																report) {
+																															if (franchise.frId == report.frId
+																																	&& item.id == report.itemId) {
+																																orderId = report.orderId;
+																																orderQty = report.orderQty;
+																																isBillGenerated = report.isBillGenerated;
+																															}
+
+																														});
+																										if (isBillGenerated == 2) {
+																											tr
+																													.append($(
+																															'<td style="color:blue;"></td>')
+																															.html(
+																																	"Qty: "
+																																			+ orderQty
+																																			+ " <input type=number style='text-align:right; width:60px' min=0 class=form-control name=itemQty"+franchise.frId+""+item.id+""+orderId+" id=itemQty"+franchise.frId+""+item.id+""+orderId+" value=0 disabled/>"));
+																										} else {
+																											if (orderId == 'o') {
+																												tr
+																														.append($(
+																																'<td style="color:red;"></td>')
+																																.html(
+																																		"Qty: "
+																																				+ orderQty
+																																				+ " <input type=number style='text-align:right; width:60px' min=0 class=form-control name=itemQty"+franchise.frId+""+item.id+""+orderId+" id=itemQty"+franchise.frId+""+item.id+""+orderId+" value=0 disabled/>"));
+																											} else {
+																												tr
+																														.append($(
+																																'<td style="color:green;"></td>')
+																																.html(
+																																		"Qty: "
+																																				+ orderQty
+																																				+ " <input type=number style='text-align:right; width:60px' min=0 class=form-control name=itemQty"+franchise.frId+""+item.id+""+orderId+" id=itemQty"+franchise.frId+""+item.id+""+orderId+" value=0 />"));
+
+																											}
+																										}
+																									});
+																					/*  tr
+																						.append($(
+																								'<td></td>')
+																								.html("<input type=text style='text-align:right; width:60px' class=form-control name=total"+key+""+item.id+" id=total"+key+""+item.id+" value=0 disabled/>"));
+																					 */$(
+																							'#table_grid tbody')
+																							.append(
+																									tr);
+																				}//end if
+																			});//itemList for end
+														});//subCatList for end
+										//	var srNo = 0;
+										$
+												.each(
+														data.dispatchReportList,
+														function(key, report) {
+
+															document
+																	.getElementById('itemQty'
+																			+ report.frId
+																			+ ''
+																			+ report.itemId
+																			+ ''
+																			+ report.orderId).value = report.editQty;
+
+														});
+
+										/* $.each(data.itemList,
+													function(key,item) {
+												 var total=0;
+										 		 $.each(data.frList, function(key,franchise){  	
+										 			 var tot=parseFloat($("#itemQty"+franchise.frId+''+item.id).val());
+										 			
+										 			 total=total+tot;
+										 			 
+										     		
+										
+										 		 });
+										 		  document.getElementById('total'+key+''+item.id).value =total;
+										 	});	 */
+
+									});
 				}
 
 			}
 		</script>
 
-	
+
 		<script type="text/javascript">
 			function showChart() {
-			
+
 				$("#PieChart_div").empty();
 				$("#chart_div").empty();
 				//document.getElementById('chart').style.display = "block";
@@ -590,7 +652,7 @@
 								function(data) {
 
 									$('#loader').hide();
-								
+
 									if (data == "") {
 										alert("No records found !!");
 
@@ -760,10 +822,10 @@
 				var isValid = true;
 
 				if (selectedRoute == "0" || selectedRoute == null) {
-					
-						alert("Please Select Route");
-						isValid = false;
-					
+
+					alert("Please Select Route");
+					isValid = false;
+
 				} else if (selectCat == "" || selectCat == null) {
 
 					isValid = false;
@@ -830,39 +892,58 @@
 				var billDate = $("#billDate").val();
 				var routeId = $("#selectRoute").val();
 				var selectedCat = $("#selectSubCat").val();
-				
+
 				window.open('pdfForDisReport?url=pdf/getPDispatchReportPdf/'
-						+ billDate + '/'+routeId+'/'+selectedCat);
+						+ billDate + '/' + routeId + '/' + selectedCat);
 
 			}
-			function exportToExcel()
-			{
-				 
+			function exportToExcel() {
+
 				window.open("${pageContext.request.contextPath}/exportToExcel");
-						document.getElementById("expExcel").disabled=true;
+				document.getElementById("expExcel").disabled = true;
 			}
 			function genPdfBill() {
 				var billDate = $("#billDate").val();
 				var routeId = $("#selectRoute").val();
 				var selectedCat = $("#selectCat").val();
 				var frId = $("#fraId").val();
-				
-				window.open('pdfForDisReport?url=pdf/getDispatchPReportPdfForBill/'
-						+ billDate + '/'+routeId+'/'+selectedCat+'/'+frId);
+
+				window
+						.open('pdfForDisReport?url=pdf/getDispatchPReportPdfForBill/'
+								+ billDate
+								+ '/'
+								+ routeId
+								+ '/'
+								+ selectedCat
+								+ '/' + frId);
 
 			}
-			</script>	
-			<script type="text/javascript">
-			function genDispatchPdf()
-			{
+		</script>
+		<script type="text/javascript">
+			function genDispatchPdf() {
+				
+				var advOrd=1;
+				if (document.getElementById('advYes').checked) {
+					advOrd=1;
+				}else{
+					advOrd=0;
+				}
+				
 				var billDate = $("#billDate").val();
 				var routeId = $("#selectRoute").val();
 				var menuId = $("#menuId").val();
 				var selectedCat = $("#selectSubCat").val();//new for pune on 14 feb 19
 				var frId = $("#fraId").val();
-				
-				  window.open('pdfForDisReport?url=pdf/getDispatchPReportPdfForDispatch/'
-							+ billDate + '/'+menuId+'/'+routeId+'/'+selectedCat+'/'+frId);
+
+				window
+						.open('pdfForDisReport?url=pdf/getDispatchPReportPdfForDispatch/'
+								+ billDate
+								+ '/'
+								+ menuId
+								+ '/'
+								+ routeId
+								+ '/'
+								+ selectedCat + '/' + frId+'/'+advOrd);
 			}
 			/* var fld = document.getElementById('fraId');
 			var values = [];
@@ -872,251 +953,263 @@
 				
 			  }
 			} */
-			
-			function genDispatchItextPdf()
-			{
+
+			function genDispatchItextPdf() {
+				
+				var advOrd=1;
+				if (document.getElementById('advYes').checked) {
+					advOrd=1;
+				}else{
+					advOrd=0;
+				}
+				
 				var billDate = $("#billDate").val();
 				var routeId = $("#selectRoute").val();
 				var menuId = $("#menuId").val();
 				var selectedCat = $("#selectSubCat").val();//new for pune on 14 feb 19
 				var frId = $("#fraId").val();
-				
-				  window.open('getDispatchPdfForDispatch/'
-							+ billDate + '/'+menuId+'/'+routeId+'/'+selectedCat+'/'+frId);
+
+				window.open('getDispatchPdfForDispatch/' + billDate + '/'
+						+ menuId + '/' + routeId + '/' + selectedCat + '/'
+						+ frId+ '/'
+						+ advOrd);
 			}
 		</script>
 		<!--basic scripts-->
 		<script
-		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
-	</script>
-	<script
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script>
+			window.jQuery
+					|| document
+							.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
+		</script>
+		<script
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 
-	<!--page specific plugin scripts-->
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
+		<!--page specific plugin scripts-->
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
 
-	<!--flaty scripts-->
-	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-<script type="text/javascript">
-function getSubCategoriesByCatId()
-{
-	var catId = $("#selectCat").val();
+		<!--flaty scripts-->
+		<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+		<script type="text/javascript">
+			function getSubCategoriesByCatId() {
+				var catId = $("#selectCat").val();
 
 				$.getJSON('${getSubCatByCatId}', {
 					catId : JSON.stringify(catId),
 					ajax : 'true'
 				}, function(data) {
 					var html = '<option value="">Sub Category</option>';
-				
+
 					var len = data.length;
-					
-					$('#selectSubCat')
-				    .find('option')
-				    .remove()
-				    .end()
-				    
-				 $("#selectSubCat").append(
-                                $("<option></option>").attr(
-                                    "value", "").text("Select Sub Category")
-                            );
-					 $("#selectSubCat").append(
-                             $("<option></option>").attr(
-                                 "value", -1).text("ALL")
-                         );
-					for ( var i = 0; i < len; i++) {
-                        $("#selectSubCat").append(
-                                $("<option></option>").attr(
-                                    "value", data[i].subCatId).text(data[i].subCatName)
-                            );
+
+					$('#selectSubCat').find('option').remove().end()
+
+					$("#selectSubCat").append(
+							$("<option></option>").attr("value", "").text(
+									"Select Sub Category"));
+					$("#selectSubCat").append(
+							$("<option></option>").attr("value", -1)
+									.text("ALL"));
+					for (var i = 0; i < len; i++) {
+						$("#selectSubCat").append(
+								$("<option></option>").attr("value",
+										data[i].subCatId).text(
+										data[i].subCatName));
 					}
-					   $("#selectSubCat").trigger("chosen:updated");
+					$("#selectSubCat").trigger("chosen:updated");
 				});
-}
-</script>
-		
-<script type="text/javascript">
-$(document).ready(function() { // if all label selected set all items selected
-	
-$('#selectSubCat').change(
-		function () {
-			 var selected=$('#selectSubCat').val();
-			 var catId = $("#selectCat").val();
-			 
-        if(selected==-1){
-			$.getJSON('${getSubCatByCatId}', {
-				catId : JSON.stringify(catId),
-				ajax : 'true'
-			}, function(data) {
-				var html = '<option value="">Select Sub Category</option>';
-				
-				var len = data.length;
-				
-				$('#selectSubCat')
-			    .find('option')
-			    .remove()
-			    .end()
-			 $("#selectSubCat").append(
-                             $("<option></option>").attr(
-                                 "value", -1).text("ALL")
-                         );
-			
-				for ( var i = 0; i < len; i++) {
-    
-                   $("#selectSubCat").append(
-                           $("<option selected></option>").attr(
-                               "value", data[i].subCatId).text(data[i].subCatName)
-                       );
-				}
-		
-				   $("#selectSubCat").trigger("chosen:updated");
-			});
-  }
-});
-});
-
-
-
-</script>
-<script type="text/javascript">
-function onMenuChange(menuId)
-{
-	if(menuId==-1)
-		{
-		$.getJSON('${getAllMenusForDisp}', {
-			ajax : 'true'
-		}, function(data) {
-			var html = '<option value="">Select Menus</option>';
-			
-			var len = data.length;
-			
-			$('#menuId')
-		    .find('option')
-		    .remove()
-		    .end()
-		 $("#menuId").append(
-                         $("<option></option>").attr(
-                             "value", -1).text("ALL")
-                     );
-		
-			for ( var i = 0; i < len; i++) {
-
-               $("#menuId").append(
-                       $("<option selected></option>").attr(
-                           "value", data[i].menuId).text(data[i].menuTitle)
-                   );
 			}
-	
-			   $("#menuId").trigger("chosen:updated");
-		});
-		}
-	
-}
-</script>
-<script type="text/javascript">
+		</script>
 
-function routListByAbcType() {
-	
-	var abcType = $("#abcType").val();
-	$('#fraId')
-    .find('option')
-    .remove()
-    .end()
-      $("#fraId").trigger("chosen:updated");
-	
-	if(abcType!=0){
-		 
-				$.getJSON('${routListByAbcType}', {
-					
-					abcType : abcType,
-					ajax : 'true'
-				}, function(data) {
-				 	var html = '<option value="">Select Route</option>';
-				
-					var len = data.length;
-					
-					$('#selectRoute')
-				    .find('option')
-				    .remove()
-				    .end();
-					var allSelected="";
-				    	for ( var i = 0; i < len; i++) {
-				    		allSelected=allSelected+""+data[i].routeId+",";
-				    		}
-				    	if(allSelected.length>0){
-				    	allSelected = allSelected.substring(0, allSelected.length - 1);
-				    	}
-				    	$("#selectRoute").append(
-				                 $("<option></option>").attr(
-				                     "value", 0).text("Select Route"));
-				$("#selectRoute").append(
-                 $("<option></option>").attr(
-                     "value", allSelected).text("All"));
-					
-					for ( var i = 0; i < len; i++) {
-			            $("#selectRoute").append(
-			                    $("<option></option>").attr(
-			                        "value", data[i].routeId).text(data[i].routeName)
-			                );
-					}
-					   $("#selectRoute").trigger("chosen:updated");
-				}); 
-	}
-	else{
-		$('#selectRoute')
-	    .find('option')
-	    .remove()
-	    .end()
-		 $("#selectRoute").append(
-                 $("<option></option>").attr(
-                     "value", 0).text("Select Route")
-             );
-		 $("#selectRoute").trigger("chosen:updated");
-	}
-}
+		<script type="text/javascript">
+			$(document)
+					.ready(
+							function() { // if all label selected set all items selected
 
-</script>
+								$('#selectSubCat')
+										.change(
+												function() {
+													var selected = $(
+															'#selectSubCat')
+															.val();
+													var catId = $("#selectCat")
+															.val();
+
+													if (selected == -1) {
+														$
+																.getJSON(
+																		'${getSubCatByCatId}',
+																		{
+																			catId : JSON
+																					.stringify(catId),
+																			ajax : 'true'
+																		},
+																		function(
+																				data) {
+																			var html = '<option value="">Select Sub Category</option>';
+
+																			var len = data.length;
+
+																			$(
+																					'#selectSubCat')
+																					.find(
+																							'option')
+																					.remove()
+																					.end()
+																			$(
+																					"#selectSubCat")
+																					.append(
+																							$(
+																									"<option></option>")
+																									.attr(
+																											"value",
+																											-1)
+																									.text(
+																											"ALL"));
+
+																			for (var i = 0; i < len; i++) {
+
+																				$(
+																						"#selectSubCat")
+																						.append(
+																								$(
+																										"<option selected></option>")
+																										.attr(
+																												"value",
+																												data[i].subCatId)
+																										.text(
+																												data[i].subCatName));
+																			}
+
+																			$(
+																					"#selectSubCat")
+																					.trigger(
+																							"chosen:updated");
+																		});
+													}
+												});
+							});
+		</script>
+		<script type="text/javascript">
+			function onMenuChange(menuId) {
+				if (menuId == -1) {
+					$.getJSON('${getAllMenusForDisp}', {
+						ajax : 'true'
+					}, function(data) {
+						var html = '<option value="">Select Menus</option>';
+
+						var len = data.length;
+
+						$('#menuId').find('option').remove().end()
+						$("#menuId").append(
+								$("<option></option>").attr("value", -1).text(
+										"ALL"));
+
+						for (var i = 0; i < len; i++) {
+
+							$("#menuId").append(
+									$("<option selected></option>").attr(
+											"value", data[i].menuId).text(
+											data[i].menuTitle));
+						}
+
+						$("#menuId").trigger("chosen:updated");
+					});
+				}
+
+			}
+		</script>
+		<script type="text/javascript">
+			function routListByAbcType() {
+
+				var abcType = $("#abcType").val();
+				$('#fraId').find('option').remove().end()
+				$("#fraId").trigger("chosen:updated");
+
+				if (abcType != 0) {
+
+					$.getJSON('${routListByAbcType}', {
+
+						abcType : abcType,
+						ajax : 'true'
+					}, function(data) {
+						var html = '<option value="">Select Route</option>';
+
+						var len = data.length;
+
+						$('#selectRoute').find('option').remove().end();
+						var allSelected = "";
+						for (var i = 0; i < len; i++) {
+							allSelected = allSelected + "" + data[i].routeId
+									+ ",";
+						}
+						if (allSelected.length > 0) {
+							allSelected = allSelected.substring(0,
+									allSelected.length - 1);
+						}
+						$("#selectRoute").append(
+								$("<option></option>").attr("value", 0).text(
+										"Select Route"));
+						$("#selectRoute").append(
+								$("<option></option>").attr("value",
+										allSelected).text("All"));
+
+						for (var i = 0; i < len; i++) {
+							$("#selectRoute").append(
+									$("<option></option>").attr("value",
+											data[i].routeId).text(
+											data[i].routeName));
+						}
+						$("#selectRoute").trigger("chosen:updated");
+					});
+				} else {
+					$('#selectRoute').find('option').remove().end()
+					$("#selectRoute").append(
+							$("<option></option>").attr("value", 0).text(
+									"Select Route"));
+					$("#selectRoute").trigger("chosen:updated");
+				}
+			}
+		</script>
 </body>
 </html>

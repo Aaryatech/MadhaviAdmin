@@ -226,13 +226,13 @@ select {
 													class="form-control chosen" tabindex="-1" id="frId" multiple="multiple"
 													data-rule-required="true">
                                                    <option value=""> </option>
-													<optgroup label="All Franchisee">
+													<optgroup >
 														<option value=""></option>
 															<option value="-1">ALL</option>
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 
 														</c:forEach>
 													</optgroup>
@@ -248,7 +248,7 @@ select {
 													class="form-control chosen"  id="menu_id" onchange="getItemsByMenuId()"
 													>
                                                    <option value=""> </option>
-													<optgroup label="All Menu">
+													<optgroup >
 														
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllMenu()}"

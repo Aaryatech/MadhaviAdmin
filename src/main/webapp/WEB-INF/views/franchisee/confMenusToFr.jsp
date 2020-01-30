@@ -198,7 +198,7 @@ select {
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 
 														</c:forEach>
 												<!-- 	</optgroup> -->

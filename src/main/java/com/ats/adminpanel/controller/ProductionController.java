@@ -63,6 +63,7 @@ import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.AllRoutesListResponse;
 import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.Info;
+import com.ats.adminpanel.model.MenuShow;
 import com.ats.adminpanel.model.Route;
 import com.ats.adminpanel.model.Variance;
 import com.ats.adminpanel.model.VarianceList;
@@ -182,13 +183,13 @@ public class ProductionController {
 		}
 		return model;
 	}
-	
-	
-	@RequestMapping(value = "/showproduction/{catId}", method = RequestMethod.GET)
-	public ModelAndView showProdForcasting(HttpServletRequest request, HttpServletResponse response,@PathVariable int catId) {
 
-		System.err.println("CATID ------------------------- "+catId);
-		
+	@RequestMapping(value = "/showproduction/{catId}", method = RequestMethod.GET)
+	public ModelAndView showProdForcasting(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable int catId) {
+
+		System.err.println("CATID ---------(MENU ID)---------------- " + catId);
+
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
 
@@ -206,27 +207,38 @@ public class ProductionController {
 
 			RestTemplate restTemplate = new RestTemplate();
 
-			CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("menuId", catId);
+
+			MenuShow menuData = restTemplate.postForObject(Constants.url + "getMenuShowByMenuId", map, MenuShow.class);
+
+			if (menuData != null) {
+				catId = menuData.getCatId();
+			}
+
+			// CategoryListResponse categoryListResponse =
+			// restTemplate.getForObject(Constants.url + "showAllCategory",
+			// CategoryListResponse.class);
+
+			CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "findAllCatForStock",
 					CategoryListResponse.class);
 
 			categoryList = categoryListResponse.getmCategoryList();
-			// allFrIdNameList = new AllFrIdNameList();
 			System.out.println("Category list  " + categoryList);
 			System.out.println("catId  " + catId);
 			int productionTimeSlot = 0;
-			try {
 
+			try {
 				productionTimeSlot = restTemplate.getForObject(Constants.url + "getProductionTimeSlot", Integer.class);
 				System.out.println("time slot  " + productionTimeSlot);
 			} catch (Exception e) {
-				// System.out.println(e.getMessage());
-				// e.printStackTrace();
-
 			}
 
 			timeSlot = new int[productionTimeSlot];
+
 			for (int i = 0; i < productionTimeSlot; i++)
 				timeSlot[i] = i + 1;
+
 			model.addObject("todayDate", new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 			model.addObject("unSelectedCatList", categoryList);
 			model.addObject("productionTimeSlot", timeSlot);
@@ -594,9 +606,9 @@ public class ProductionController {
 
 		map.add("productionDate", productionDate);
 		map.add("menuId", selectedMenuList);
-		
-		System.err.println("PARAM ======= "+productionDate+"                  "+selectedMenuList);
-		
+
+		System.err.println("PARAM ======= " + productionDate + "                  " + selectedMenuList);
+
 		try {
 			ParameterizedTypeReference<List<GetOrderItemQty>> typeRef = new ParameterizedTypeReference<List<GetOrderItemQty>>() {
 			};
@@ -662,129 +674,6 @@ public class ProductionController {
 
 			System.out.println("Finished Good Stock Detail " + finGoodDetail.toString());
 
-			/*// new code
-			List<FinishedGoodStockDetail> updateStockDetailList = new ArrayList<>();
-
-			FinishedGoodStockDetail stockDetail = new FinishedGoodStockDetail();
-			GetCurProdAndBillQty curProdBilQty = new GetCurProdAndBillQty();
-
-			for (int i = 0; i < getCurProdAndBillQty.size(); i++) {
-
-				curProdBilQty = getCurProdAndBillQty.get(i);
-
-				for (int j = 0; j < finGoodDetail.size(); j++) {
-
-					stockDetail = finGoodDetail.get(j);
-
-					if (curProdBilQty.getId() == stockDetail.getItemId()) {
-
-						System.out
-								.println("item Id Matched " + curProdBilQty.getId() + "and " + stockDetail.getItemId());
-
-						float a = 0, b = 0, c = 0;
-
-						float cloT1 = 0;
-						float cloT2 = 0;
-						float cloT3 = 0;
-
-						float curClosing = 0;
-
-						float totalClosing = 0;
-
-						int billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
-						int prodQty = curProdBilQty.getProdQty();
-						int rejQty = curProdBilQty.getRejectedQty();
-
-						float t1 = stockDetail.getOpT1();
-						float t2 = stockDetail.getOpT2();
-						float t3 = stockDetail.getOpT3();
-
-						System.out.println("t1 : " + t1 + " t2: " + t2 + " t3: " + t3);
-
-						if (t3 > 0) {
-
-							if (billQty < t3) {
-								c = billQty;
-							} else {
-								c = t3;
-							}
-
-						} // end of t3>0
-
-						if (t2 > 0) {
-
-							if ((billQty - c) < t2) {
-								b = (billQty - c);
-							} else {
-
-								b = t2;
-							}
-
-						} // end of t2>0
-
-						if (t1 > 0) {
-
-							if ((billQty - c - b) < t1) {
-
-								a = (billQty - b - c);
-
-							} else {
-
-								a = t1;
-							}
-						} // end of if t1>0
-
-						System.out.println("---------");
-						System.out.println("bill Qty = " + curProdBilQty.getBillQty());
-						System.out.println(" for Item Id " + curProdBilQty.getId());
-						System.out.println("a =" + a + "b = " + b + "c= " + c);
-						float damagedQty = curProdBilQty.getDamagedQty();
-
-						float curIssue = billQty - (a + b + c);
-
-						System.out.println("cur Issue qty =" + curIssue);
-
-						cloT1 = t1 - a;
-						cloT2 = t2 - b;
-						cloT3 = t3 - c;
-
-						curClosing = prodQty - rejQty - curIssue;
-						totalClosing = ((t1 + t2 + t3) + (prodQty - rejQty)) - billQty;
-						stockDetail.setCloCurrent(curClosing);
-						stockDetail.setCloT1(cloT1);
-						stockDetail.setCloT2(cloT2);
-						stockDetail.setCloT3(cloT3);
-						stockDetail.setFrSaleQty(billQty);
-						stockDetail.setGateSaleQty(damagedQty);
-						stockDetail.setProdQty(prodQty);
-						stockDetail.setRejQty(rejQty);
-						stockDetail.setTotalCloStk(totalClosing);
-
-						updateStockDetailList.add(stockDetail);
-
-						System.out.println("closing Qty  : t1 " + cloT1 + " t2 " + cloT2 + " t3 " + cloT3);
-
-						System.out.println("cur Closing " + curClosing);
-						System.out.println("total closing " + totalClosing);
-
-						System.out.println("---------");
-
-					} // end of if isSameItem =true
-				} // end of Inner For Loop
-			} // End of outer For loop
-
-			for (int i = 0; i < getOrderItemQtyList.size(); i++) {
-
-				for (int j = 0; j < updateStockDetailList.size(); j++) {
-					if (Integer.parseInt(getOrderItemQtyList.get(i).getItemId()) == updateStockDetailList.get(j)
-							.getItemId()) {
-
-						getOrderItemQtyList.get(i).setCurClosingQty(updateStockDetailList.get(j).getCloCurrent());
-						getOrderItemQtyList.get(i).setCurOpeQty(updateStockDetailList.get(j).getTotalCloStk());
-					}
-				}
-			}
-*/
 			try {
 
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -829,8 +718,8 @@ public class ProductionController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
-		System.err.println("OUTPUT ================================================= "+getOrderItemQtyList);
+
+		System.err.println("OUTPUT ================================================= " + getOrderItemQtyList);
 
 		return getOrderItemQtyList;
 
@@ -1048,6 +937,9 @@ public class ProductionController {
 
 		// ModelAndView model = new ModelAndView("production/production");
 
+		System.err.println("ADV ------------- "+request.getParameter("advOrdFlag"));
+		int advOrdFlag = Integer.parseInt(request.getParameter("advOrdFlag"));
+
 		// String productionDate=request.getParameter("production_date");
 		String selectTime = request.getParameter("selectTime");
 		String convertedDate = null;
@@ -1086,7 +978,7 @@ public class ProductionController {
 			postProductionHeader.setIsMixing(0);
 			postProductionHeader.setIsPlanned(0);
 			postProductionHeader.setProductionBatch("");
-			postProductionHeader.setProductionStatus(1);
+			postProductionHeader.setProductionStatus(2);
 
 			List<PostProductionDetail> postProductionDetailList = new ArrayList<>();
 			PostProductionDetail postProductionDetail;
@@ -1101,7 +993,14 @@ public class ProductionController {
 
 				postProductionDetail.setItemId(Integer.parseInt(a));
 
-				postProductionDetail.setOrderQty(getOrderItemQtyList.get(i).getQty());
+				int qty =0;
+				if (advOrdFlag == 1) {
+					qty = getOrderItemQtyList.get(i).getQty() + getOrderItemQtyList.get(i).getAdvQty();
+				} else {
+					qty = getOrderItemQtyList.get(i).getQty();
+				}
+				
+				postProductionDetail.setOrderQty(qty);
 				postProductionDetail.setProductionDate(convertedDate);
 				postProductionDetail.setProductionQty(0);
 				postProductionDetail.setProductionBatch("");

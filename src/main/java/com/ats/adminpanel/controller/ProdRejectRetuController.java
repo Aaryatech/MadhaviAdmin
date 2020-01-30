@@ -84,7 +84,9 @@ public class ProdRejectRetuController {
 
 				for (MCategoryList mCategory : catList) {
 					if (mCategory.getCatId() != 5 && mCategory.getCatId() != 3) {
-						filteredCatList.add(mCategory);
+						if (mCategory.getIsSameDay() != 2) {
+							filteredCatList.add(mCategory);
+						}
 
 					}
 				}

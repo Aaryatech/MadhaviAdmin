@@ -313,7 +313,7 @@ input:checked + .slider:before {
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 
 														</c:forEach>
 												
@@ -333,7 +333,7 @@ input:checked + .slider:before {
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 															var="franchiseeList">
 															<c:if test="${franchiseeList.frRateCat==1}">
-																<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+																<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 															</c:if>
 
 														</c:forEach>
@@ -497,7 +497,7 @@ input:checked + .slider:before {
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 
 														</c:forEach>
 												

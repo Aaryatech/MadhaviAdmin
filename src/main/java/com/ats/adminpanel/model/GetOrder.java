@@ -25,6 +25,8 @@ public class GetOrder {
     private Integer isPositive;
    
     private Integer editQty;
+    
+    private Integer advQty;
 
     public Integer getOrderId() {
         return orderId;
@@ -108,11 +110,23 @@ public class GetOrder {
         this.editQty = editQty;
     }
 
+    
+    
+	public Integer getAdvQty() {
+		return advQty;
+	}
+
+	public void setAdvQty(Integer advQty) {
+		this.advQty = advQty;
+	}
+	
+	
+
 	@Override
 	public String toString() {
-		return "GetOder [orderId=" + orderId + ", frName=" + frName + ", catName=" + catName + ", itemName=" + itemName
+		return "GetOrder [orderId=" + orderId + ", frName=" + frName + ", catName=" + catName + ", itemName=" + itemName
 				+ ", orderQty=" + orderQty + ", id=" + id + ", deliveryDate=" + deliveryDate + ", isEdit=" + isEdit
-				+ ", isPositive=" + isPositive + ", editQty=" + editQty + "]";
+				+ ", isPositive=" + isPositive + ", editQty=" + editQty + ", advQty=" + advQty + "]";
 	}
 
 }

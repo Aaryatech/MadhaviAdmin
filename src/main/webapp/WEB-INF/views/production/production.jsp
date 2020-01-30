@@ -64,7 +64,7 @@ table {
 
 			<!-- BEGIN Main Content -->
 
-
+<div class="row">
 			<div class="box">
 				<div class="box-title">
 					<h3>
@@ -75,29 +75,12 @@ table {
 
 				<div class="box-content">
 					<div class="row">
-						<!-- 		<div class="box-title">
-							<h3>
-								<i class="fa fa-bars"></i> Search Production Order
-							</h3>
-							<div class="box-tool">
-								<a href="">Back to List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
-							</div>
-							<div class="box-tool">
-								<a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a> <a data-action="close" href="#"><i
-									class="fa fa-times"></i></a>
-							</div>
-						</div>
-
-			<div class="box-content">
-						<div class="row" > -->
 
 						<div class="form-group">
 
-							<label class=" col-md-1 control-label menu_label">Category
+							<label class=" col-md-2 control-label menu_label">Category
 							</label>
-							<div class="col-md-3 controls">
+							<div class="col-md-4 controls">
 
 								<select class="form-control chosen"
 									data-placeholder="Choose Category" name="selectCategory"
@@ -108,9 +91,6 @@ table {
 									<c:forEach items="${unSelectedCatList}" var="unSelectedCat"
 										varStatus="count">
 										<c:choose>
-
-											<c:when test="${unSelectedCat.catId==5}">
-											</c:when>
 
 											<c:when test="${catId==unSelectedCat.catId}">
 												<option selected value="${unSelectedCat.catId}"><c:out
@@ -127,13 +107,8 @@ table {
 								</select>
 							</div>
 
-
-							<!-- </div>
-							
-							<div class="form-group col-md-8" align="left">
-					<label class=" col-md-3 control-label franchisee_label"></label> -->
-							<label class="col-md-1 control-label menu_label">Menu</label>
-							<div class="col-md-3 controls">
+							<label class="col-md-2 control-label menu_label">Menu</label>
+							<div class="col-md-4 controls">
 								<select data-placeholder="Select Menu" multiple="multiple"
 									class="form-control chosen-select chosen" name="selectMenu"
 									tabindex="-1" id="selectMenu" data-rule-required="true">
@@ -142,49 +117,57 @@ table {
 							</div>
 
 
-							<!-- </div><br></br>
+						</div>
+					</div>
+					<br>
+					<div class="row">
 
-								<div class="form-group"><div class="col-md-1"></div> -->
-							<label class=" col-md-1 control-label menu_label">Production
+						<div class="form-group">
+
+
+
+							<label class="col-md-2 control-label menu_label">Advance
+								Order</label>
+							<div class="col-md-4 controls">
+								<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="advOrd" id="advNo" value="0">No
+							</div>
+
+
+
+							<label class=" col-md-2 control-label menu_label">Production
 								Date</label>
-							<div class="col-md-2 controls">
+							<div class="col-md-3 controls">
 								<input value="${todayDate}" class="form-control date-picker"
 									id="datepicker" size="16" type="text" name="production_date"
 									required />
 							</div>
 
 
+							<div class="col-md-1 controls">
+								<input type="button" class="btn btn-info" value="Search"
+									id="callsearch" onclick="searchOrder()">
+							</div>
 
-
-
-
-							<!-- </div>
-								<div class="row" align="center">
-									<div
-										class="col-md-12"> -->
-							<input type="button" class="btn btn-info" value="Search"
-								id="callsearch" onclick="searchOrder()">
-
-							<!-- </div> -->
 						</div>
+
 					</div>
+					<div align="center" id="loader"
+						style="display: none; background-color: white;">
 
+						<span>
+							<h4>
+								<font color="#343690">Loading</font>
+							</h4>
+						</span> <span class="l-1"></span> <span class="l-2"></span> <span
+							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+						<span class="l-6"></span>
+					</div>
 				</div>
-				<div align="center" id="loader"
-					style="display: none; background-color: white;">
 
-					<span>
-						<h4>
-							<font color="#343690">Loading</font>
-						</h4>
-					</span> <span class="l-1"></span> <span class="l-2"></span> <span
-						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-					<span class="l-6"></span>
-				</div>
-			</div>
-
-			<div class="box">
-				<!-- 	<div class="box-title">
+				<div class="box">
+					<!-- 	<div class="box-title">
 										<h3>
 											<i class="fa fa-table"></i>  Production List
 										</h3>
@@ -196,14 +179,16 @@ table {
 									</div>
 									 -->
 
-			 
-<form action="${pageContext.request.contextPath}/submitProduction"
-							 method="post"	 >
 
-					<div class="box-content">
-						<div id="table-scroll" class="table-scroll">
+					<form action="${pageContext.request.contextPath}/submitProduction"
+						method="post">
 
-							<!-- <div id="faux-table" class="faux-table" aria="hidden">
+						<input type="text" id="advOrdFlag" name="advOrdFlag" style="display: none;">
+
+						<div class="box-content">
+							<div id="table-scroll" class="table-scroll">
+
+								<!-- <div id="faux-table" class="faux-table" aria="hidden">
 									<table id="table2" class="table table-advance" border="1">
 											<thead>
 												<tr class="bgpink">
@@ -216,112 +201,82 @@ table {
 												</table>
 									
 									</div> -->
-							<div class="table-wrap">
+								<div class="table-wrap">
 
-								<table id="table1" class="table table-advance" border="1">
-									<thead>
-										<tr class="bgpink">
-											<th width="60" style="width: 50px">Sr No</th>
-											<th width="100">Item Id</th>
-											<th width="170">Item Name</th>
-											<!-- 	<th width="100">Current Opening Qty</th> -->
-											<th width="100">Order Quantity</th>
-										</tr>
-									</thead>
-
-									<!-- <div class="col-md-12 table-responsive" >
-										 
-											<table width="60%" class="table table-advance " id="table1" name="table1" align="left">
-												<thead>
-													<tr>
-														<th width="18" style="width: 18px">Sr No</th>
-														<th width="50">Item Id</th>
-														<th width="100">Item Name</th> 
-														<th width="100">Current Opening Qty</th>
-														<th width="100">Order Quantity</th>
-													</tr>
-												</thead> -->
-									<tbody>
-
-									</tbody>
-
-								</table>
-							</div>
-							<br /> <br />
-							<br />
-							<div class="form-group col-md-8" align="left">
-								<label class=" col-md-3   "></label> <label class=" col-md-3   ">Select
-									Time Slot </label>
-								<div class="col-md-6 controls">
-
-									<select class="form-control chosen"
-										data-placeholder="Choose Time Slot" name="selectTime"
-										id="selectTime" tabindex="-1" data-rule-required="true">
-
-
-
-										<c:forEach items="${productionTimeSlot}" var="productionTime"
-											varStatus="count">
-											<option value="${productionTime}"><c:out
-													value="Time Slot ${productionTime}" /></option>
-										</c:forEach>
-									</select>
-								</div>
-
-
-
-							</div>
-
-							<br />
-							<div class="row" align="center">
-								<div class="col-md-12">
-									<input type="submit" class="btn btn-primary" value="Submit"
-										disabled id="callSubmit"> <input type="button"
-										id="expExcel" class="btn btn-primary" value="EXPORT TO Excel"
-										onclick="exportToExcel();" disabled="disabled">
-								</div>
-							</div>
-
-
-							<%-- 
-									<div align="center" class="form-group">
-								<div class="col-sm-5 " align="center">
-
-										Select Time Slot <select class="form-control" data-placeholder=" Choose Time Slot"
-											tabindex="-1" name="selectTime" id="selectTime" data-rule-required="true">
+									<table id="table1" class="table table-advance" border="1">
+										<thead>
+											<tr class="bgpink">
+												<th width="60" >Sr</th>
+												<th width="100">Item Id</th>
+												<th width="170">Item Name</th>
+												<!-- 	<th width="100">Current Opening Qty</th> -->
+												<th width="100">Order Qty</th>
+												<th width="100" id="advQtyCol" style="display: none;">Adv Qty</th>
+												<th width="100" id="totQtyCol" style="display: none;">Total Qty</th>
+											</tr>
+										</thead>
 
 										
+										<tbody>
+
+										</tbody>
+
+									</table>
+								</div>
+								<br /> <br /> <br />
+								<div class="form-group col-md-8" align="left">
+									<label class=" col-md-3   "></label> <label
+										class=" col-md-3   ">Select Time Slot </label>
+									<div class="col-md-6 controls">
+
+										<select class="form-control chosen"
+											data-placeholder="Choose Time Slot" name="selectTime"
+											id="selectTime" tabindex="-1" data-rule-required="true">
+
+
+
 											<c:forEach items="${productionTimeSlot}" var="productionTime"
-													varStatus="count">
-												<option value="${productionTime}"><c:out value="Time Slot ${productionTime}"/></option>
-												</c:forEach>
-										
-										
+												varStatus="count">
+												<option value="${productionTime}"><c:out
+														value="Time Slot ${productionTime}" /></option>
+											</c:forEach>
 										</select>
-										</div>
-									<div
-										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-0">
-										<input type="submit" class="btn btn-primary" value="Submit" id="callSubmit">
+									</div>
 
 
-									</div>--%>
-						</div>
-				</form>
+
+								</div>
+
+								<br />
+								<div class="row" align="center">
+									<div class="col-md-12">
+										<input type="submit" class="btn btn-primary" value="Submit"
+											disabled id="callSubmit"> <input type="button"
+											id="expExcel" class="btn btn-primary" value="EXPORT TO Excel"
+											onclick="exportToExcel();" disabled="disabled">
+									</div>
+								</div>
+
+
+								
+							</div>
+					</form>
+				</div>
+
+
+
 			</div>
+			</div>
+			<!-- END Main Content -->
+			<footer>
+			<p style="text-align: center;">2019 © MADHVI.</p>
+			</footer>
 
 
-
+			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+				class="fa fa-chevron-up"></i></a>
 		</div>
-		<!-- END Main Content -->
-		<footer>
-		<p>2019 © MADHAVI.</p>
-		</footer>
-
-
-		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-			class="fa fa-chevron-up"></i></a>
-	</div>
-	<!-- END Content -->
+		<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
@@ -512,6 +467,26 @@ table {
 	</script>
 	<script type="text/javascript">
 		function searchOrder() {
+			
+			var advOrd=1;
+			if (document.getElementById('advYes').checked) {
+				advOrd=1;
+				
+				document.getElementById('advOrdFlag').value="1";
+				
+				
+				$('#advQtyCol').show();
+				$('#totQtyCol').show();
+				
+			}else{
+				advOrd=0;
+			
+				document.getElementById('advOrdFlag').value="0";
+				
+				$('#advQtyCol').hide();
+				$('#totQtyCol').hide();
+			}
+			
 
 			$('#table1 td').remove();
 
@@ -562,41 +537,7 @@ table {
 																document
 																		.getElementById("callSubmit").disabled = false;
 															}
-															/* 
-															 autoindex = autoindex +1 ;
-
-															 var tr = "<tr>";
-
-															 var index = "<td>&nbsp;&nbsp;&nbsp;"
-															 + autoindex + "</td>";
-
-															 var itemId = "<td>&nbsp;&nbsp;&nbsp;"
-															 + order.itemId
-															 + "</td>";
-															 var itemName = "<td>&nbsp;&nbsp;&nbsp;"
-															 + order.itemName
-															 + "</td>";
-															 var Qty = "<td>&nbsp;&nbsp;&nbsp;"
-															 + order.qty
-															 + "</td>";
 															
-
-
-															 var trclosed = "</tr>";
-
-															
-															 $('#table1 tbody').append(tr);
-															 $('#table1 tbody').append(index);
-															 $('#table1 tbody').append(order.itemId);
-															 $('#table1 tbody').append(order.itemName);
-															 $('#table1 tbody').append(Qty);
-															
-															 $('#table1 tbody').append(trclosed);
-															
-															
-
-															 })
-															 */
 															document
 																	.getElementById("expExcel").disabled = false;
 															var tr = $('<tr></tr>');
@@ -623,6 +564,23 @@ table {
 																			'<td style="text-align:right;"></td>')
 																			.html(
 																					order.qty));
+															
+															if(advOrd==1){
+																tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				order.advQty));
+															
+																tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(order.qty+
+																				order.advQty));
+																
+															}
+															
+															
 
 															$('#table1 tbody')
 																	.append(tr);
@@ -672,33 +630,6 @@ table {
 															}
 															autoindex = autoindex + 1;
 
-															/* 	var tr = "<tr>";
-
-																var index = "<td>&nbsp;&nbsp;&nbsp;"
-																	+ autoindex + "</td>";
-
-																var itemId = "<td>&nbsp;&nbsp;&nbsp;"
-																		+ order.itemId
-																		+ "</td>";
-																		var itemName = "<td>&nbsp;&nbsp;&nbsp;"
-																			+ order.itemName
-																			+ "</td>";
-																			var Qty = "<td>&nbsp;&nbsp;&nbsp;"
-																				+ order.qty
-																				+ "</td>";
-																				
-
-
-																var trclosed = "</tr>";
-
-															
-																$('#table1 tbody').append(tr);
-																$('#table1 tbody').append(index);
-																$('#table1 tbody').append(itemId);
-																$('#table1 tbody').append(itemName);
-																$('#table1 tbody').append(Qty);
-																
-																$('#table1 tbody').append(trclosed); */
 
 															var tr = $('<tr></tr>');
 															tr

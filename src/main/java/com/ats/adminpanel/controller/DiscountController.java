@@ -154,9 +154,9 @@ public class DiscountController {
 			disc.setInt1(0);
 			disc.setInt2(0);
 			disc.setInt3(0);
-			disc.setVar1(""+discPer2);
-			disc.setVar2(""+discPer3);
-			disc.setVar3(""+discPer4);
+			disc.setVar1("" + discPer2);
+			disc.setVar2("" + discPer3);
+			disc.setVar3("" + discPer4);
 
 			Discount discount = rest.postForObject(Constants.url + "/saveDiscount", disc, Discount.class);
 
@@ -214,11 +214,14 @@ public class DiscountController {
 			logger.info("Filter Item List " + itemList.toString());
 
 			for (Item items : itemList) {
-				CommonConf commonConf = new CommonConf();
-				commonConf.setId(items.getId());
-				commonConf.setName(items.getItemName());
-				commonConfList.add(commonConf);
-				logger.info("itemCommonConf" + commonConf.toString());
+
+				if (items.getIsStockable() == 1) {
+					CommonConf commonConf = new CommonConf();
+					commonConf.setId(items.getId());
+					commonConf.setName(items.getItemName());
+					commonConfList.add(commonConf);
+					logger.info("itemCommonConf" + commonConf.toString());
+				}
 			}
 			logger.info("------------------------");
 		}

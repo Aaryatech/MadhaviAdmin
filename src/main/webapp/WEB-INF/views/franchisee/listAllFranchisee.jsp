@@ -31,7 +31,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
+			<!-- 	<div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i> Franchisee
@@ -91,40 +91,50 @@
 										<i class="fa fa-bars"></i> Franchisee List
 									</h3>
 									<div class="box-tool">
-										<a href="${pageContext.request.contextPath}/listAllFranchisee"></a> <a data-action="collapse" href="#"><i
+										<a href="${pageContext.request.contextPath}/listAllFranchisee"></a>
+										<a data-action="collapse" href="#"><i
 											class="fa fa-chevron-up"></i></a>
 									</div>
 								</div>
 								<div class="box-content">
-									<form action="${pageContext.request.contextPath}/uploadFrByFile" class="form-horizontal"
-							method="post" enctype="multipart/form-data">
-							<div class="form-group">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-2 col-lg-offset-5">	<input type="button" id="expExcel1" class="btn btn-primary" value="Excel Import Format" onclick="exportToExcel1();">
-						</div>		<label class="col-sm-1 col-lg-1 control-label">Select
-									File</label>
-								<div class="col-sm-3 col-lg-2 controls">
-									<input type="file"  name="file" required/>
-								</div>&nbsp;&nbsp;&nbsp;
-								<div class="col-sm-2 col-lg-1">
-									<input type="submit" class="btn btn-primary" value="Save">
-								</div>
-								</div>
-							
-							</form>
+									<form
+										action="${pageContext.request.contextPath}/uploadFrByFile"
+										class="form-horizontal" method="post"
+										enctype="multipart/form-data">
+										<div class="form-group">
+											<div
+												class="col-sm-9 col-sm-offset-3 col-lg-2 col-lg-offset-5">
+												<input type="button" id="expExcel1" class="btn btn-primary"
+													value="Excel Import Format" onclick="exportToExcel1();">
+											</div>
+											<label class="col-sm-1 col-lg-1 control-label">Select
+												File</label>
+											<div class="col-sm-3 col-lg-2 controls">
+												<input type="file" name="file" required />
+											</div>
+											&nbsp;&nbsp;&nbsp;
+											<div class="col-sm-2 col-lg-1">
+												<input type="submit" class="btn btn-primary" value="Save">
+											</div>
+										</div>
+
+									</form>
 									<div class="col-md-9"></div>
 									<label for="search" class="col-md-3" id="search"> <i
 										class="fa fa-search" style="font-size: 20px"></i> <input
-										type="text" id="myInput" style="border-radius: 25px;"  onkeyup="myFunction()"
-										placeholder="Search.." title="Type in a name">
+										type="text" id="myInput" style="border-radius: 25px;"
+										onkeyup="myFunction()" placeholder="Search.."
+										title="Type in a name">
 									</label>
 									<div class="clearfix"></div>
-									<div id="table-scroll" class="table-scroll" >
+									<div id="table-scroll" class="table-scroll">
 										<div id="faux-table" class="faux-table" aria="hidden">
-											<table id="table2" class="table table-advance" >
+											<table id="table2" class="table table-advance">
 												<thead>
 													<tr class="bgpink">
 														<th width="158" style="width: 18px" align="left">#</th>
 														<th class="col-md-2">Name</th>
+														<th class="col-md-1">Code</th>
 														<th class="col-md-2">Image</th>
 														<th class="col-md-2">Owner</th>
 														<th class="col-md-2">City</th>
@@ -142,13 +152,14 @@
 											</table>
 
 										</div>
-										<div class="table-wrap"  style="overflow: auto;">
+										<div class="table-wrap" style="overflow: auto;">
 
 											<table id="table1" class="table table-advance">
 												<thead>
 													<tr class="bgpink">
 														<th width="138" style="width: 18px" align="left">#</th>
 														<th class="col-md-2">Name</th>
+														<th class="col-md-1">Code</th>
 														<th class="col-md-2">Image</th>
 														<th class="col-md-2">Owner</th>
 														<th class="col-md-2">City</th>
@@ -156,7 +167,7 @@
 														<th class="col-md-2">Route</th>
 														<!--    <th class="col-md-2">Rate Type</th>
                                           <th class="col-md-2">GST Type</th> -->
-													<!-- 	<th class="col-md-2">Stock Type</th> -->
+														<!-- 	<th class="col-md-2">Stock Type</th> -->
 														<th class="col-md-2">Rating</th>
 														<!--   <th class="col-md-2">Status</th> -->
 														<th class="col-md-2" width="90px">Action</th>
@@ -171,6 +182,8 @@
 															<td><c:out value="${count.index+1}"></c:out></td>
 															<td align="left"><c:out
 																	value="${franchiseeList.frName}" /></td>
+															<td align="left"><c:out
+																	value="${franchiseeList.frCode}" /></td>
 															<td align="left"><img
 																src="${url}${franchiseeList.frImage}" height="80"
 																width="80"
@@ -226,7 +239,7 @@
               </c:choose>
                 
                </td> --%>
-														<%-- 	<td align="left"><c:choose>
+															<%-- 	<td align="left"><c:choose>
 																	<c:when test="${franchiseeList.stockType==1}">
 																		<c:out value="Type1" />
 																	</c:when>
@@ -356,7 +369,7 @@
 									<input type="button" id="expExcel" class="btn btn-primary"
 										value="EXPORT TO Excel" onclick="exportToExcel();">
 								</div>
-								
+
 							</div>
 						</div>
 					</div>
@@ -381,10 +394,10 @@
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script>
-				window.jQuery
-						|| document
-								.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
-			</script>
+		window.jQuery
+				|| document
+						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
+	</script>
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script
@@ -440,36 +453,35 @@
 </body>
 
 <script>
-function myFunction() {
-  var input, filter, table, tr, td, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
+	function myFunction() {
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("table1");
+		tr = table.getElementsByTagName("tr");
+		for (i = 0; i < tr.length; i++) {
+			td = tr[i].getElementsByTagName("td")[1];
+			td = tr[i].getElementsByTagName("td")[2];
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
+				}
+			}
+		}
+	}
 </script>
 <script type="text/javascript">
-function exportToExcel()
-{
-	window.open("${pageContext.request.contextPath}/exportToExcel");
-			document.getElementById("expExcel").disabled=true;
-}
+	function exportToExcel() {
+		window.open("${pageContext.request.contextPath}/exportToExcel");
+		document.getElementById("expExcel").disabled = true;
+	}
 
-function exportToExcel1()
-{
-	window.open("${pageContext.request.contextPath}/exportToExcelDummy");
-			document.getElementById("expExcel1").disabled=true;
-}
+	function exportToExcel1() {
+		window.open("${pageContext.request.contextPath}/exportToExcelDummy");
+		document.getElementById("expExcel1").disabled = true;
+	}
 </script>
 
 </html>

@@ -203,18 +203,18 @@ select {
 														<c:when test="${isEdit==1}">
 														
 														<c:forEach	items="${selectedFr}"	var="frList">
-															<option value="${frList.frId}" selected>${frList.frName}</option>
+															<option value="${frList.frId}" selected>${frList.frName} - ${frList.frCode}</option>
 														</c:forEach>
 														
 														<c:forEach	items="${nonSelectedFr}"	var="frList">
-															<option value="${frList.frId}" >${frList.frName}</option>
+															<option value="${frList.frId}" >${frList.frName} - ${frList.frCode}</option>
 														</c:forEach>
 														</c:when>
 														<c:otherwise>
 															<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 
 														</c:forEach>
 														</c:otherwise>

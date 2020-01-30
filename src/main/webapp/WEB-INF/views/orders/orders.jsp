@@ -182,13 +182,13 @@ td, th {
 
 													<option value="0">All</option>
 												</c:otherwise>
-												</c:choose>
+											</c:choose>
 
-												<c:forEach items="${franchiseeList}" var="franchiseeList">
-													<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+											<c:forEach items="${franchiseeList}" var="franchiseeList">
+												<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
 
 
-												</c:forEach>
+											</c:forEach>
 										</select>
 
 									</div>
@@ -252,8 +252,8 @@ td, th {
 
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-1 control-label">Items</label>
-									<div class="col-sm-9 col-lg-10 controls">
+									<label class="col-md-1 control-label">Items</label>
+									<div class="col-md-5 controls">
 										<select data-placeholder="Select Items" name="items[]"
 											class="form-control chosen" tabindex="-1" id="item"
 											multiple="multiple" data-rule-required="true">
@@ -263,10 +263,19 @@ td, th {
 
 											</optgroup>
 										</select>
-
 									</div>
+
+
+									<label class="col-md-2 control-label">Advance Order</label>
+									<div class="col-md-2 controls">
+										<input type="radio" name="advOrd" id="advYes" value="1"
+											checked>Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+											type="radio" name="advOrd" id="advNo" value="0">No
+									</div>
+
+
 									<input type="button" class="btn btn-primary" value="Submit"
-										id="callSubmit" onclick="callSearch()">
+										id="callSubmit" onclick="callSearch(1)">
 								</div>
 								<div align="center" id="loader" style="display: none">
 
@@ -332,7 +341,11 @@ td, th {
 															<th width="198" align="left">Franchisee Name</th>
 															<th width="190" align="left">Item Name</th>
 															<th width="199" align="left">Category</th>
-															<th width="199" align="left">Quantity</th>
+															<th width="199" align="left">Qty</th>
+															
+															<th width="199" align="left" id="advQtyCol" style="display: none;">Adv Qty</th>
+															<th width="199" align="left" id="totQtyCol" style="display: none;">Total Qty</th>
+															
 															<th width="199" align="left">Del. Date</th>
 															<th width="100" align="right">Action</th>
 														</tr>
@@ -424,6 +437,8 @@ td, th {
 											<br> <input type="button" class="btn btn-primary"
 												value="Delete" disabled="disabled" id="calldelete"
 												onclick="deleteMultipleOrder()"> <br>
+												
+												
 											<div class="form-group" align="left" style="display: none;"
 												id="opt">
 												<div>
@@ -545,6 +560,7 @@ td, th {
 
 	<script type="text/javascript">
 		function updateDetails() {
+			
 
 			var delDate = $("#delivery_date").val();
 			var prodDate = $("#production_date").val();
@@ -577,7 +593,7 @@ td, th {
 						if (data.error == false) {
 
 							alert("Delivery Date updated Successfully.");
-							callSearch();
+							callSearch(1);
 						} else {
 							alert("Delivery Date Not Updated.");
 						}
@@ -587,7 +603,7 @@ td, th {
 		}
 	</script>
 	<script type="text/javascript">
-		function validate() {
+		function validate(flag) {
 
 			var menu = $("#menuId").val();
 			var selectFr = $("#fr_id").val();
@@ -597,7 +613,11 @@ td, th {
 
 			if (selectFr == "" || selectFr == null) {
 				isValid = false;
-				alert("Please Select Franchise");
+				
+				if(flag==1){
+					alert("Please Select Franchise");
+				}
+				
 			} else if (menu == "" || menu == null) {
 
 				isValid = false;
@@ -616,7 +636,29 @@ td, th {
 
 
 	<script type="text/javascript">
-		function callSearch() {
+		function callSearch(flag) {
+			
+			//alert("hi");
+			
+			var advOrd=1;
+			if (document.getElementById('advYes').checked) {
+				advOrd=1;
+				
+				//document.getElementById('advOrdFlag').value="1";
+				
+				
+				$('#advQtyCol').show();
+				$('#totQtyCol').show();
+				
+			}else{
+				advOrd=0;
+			
+				//document.getElementById('advOrdFlag').value="0";
+				
+				$('#advQtyCol').hide();
+				$('#totQtyCol').hide();
+			}
+			
 
 			$('#all').prop('checked', false);
 
@@ -626,7 +668,7 @@ td, th {
 			//	alert("isDelete" +isDelete);
 			//alert("isEdit" +isEdit);
 
-			var isValid = validate();
+			var isValid = validate(flag);
 			if (isValid == true) {
 				var menuIds = $("#menuId").val();
 				var itemId = $("#item").val();
@@ -729,6 +771,35 @@ td, th {
 																								+ "  disabled='disabled' >"));
 
 															}
+															
+															
+															if(advOrd==1){
+																
+																tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=advQty"
+																						+ orders.orderId
+																						+ " value="
+																						+ orders.advQty
+																						+ "  disabled='disabled' >"));
+																
+																var tot= orders.orderQty+ orders.advQty;
+																
+																tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=totQty"
+																						+ orders.orderId
+																						+ " value="
+																						+ tot
+																						+ "  disabled='disabled' >"));
+																
+															}
+															
+															
 															tr
 																	.append($(
 																			'<td></td>')
@@ -871,6 +942,35 @@ td, th {
 																								+ "  disabled='disabled' >"));
 
 															}
+															
+															
+if(advOrd==1){
+																
+																tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=advQty"
+																						+ orders.orderId
+																						+ " value="
+																						+ orders.advQty
+																						+ "  disabled='disabled' >"));
+																
+																var tot= orders.orderQty+ orders.advQty;
+																
+																tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=totQty"
+																						+ orders.orderId
+																						+ " value="
+																						+ tot
+																						+ "  disabled='disabled' >"));
+																
+															}
+															
+															
 															tr
 																	.append($(
 																			'<td></td>')
@@ -1124,7 +1224,7 @@ td, th {
 						ajax : 'true'
 
 					}, function(data) {
-						callSearch();
+						callSearch(1);
 						/* document.getElementById("expExcel").disabled=true;
 						$('#loader').hide();
 						var len = data.length;
@@ -1246,7 +1346,7 @@ td, th {
 			}
 		}
 	</script>
-	
+
 	<script>
 		function getItemsByMenuIdDefault(menuIds) {
 
@@ -1281,7 +1381,7 @@ td, th {
 					}
 					$("#item").trigger("chosen:updated");
 					
-					callSearch();
+					callSearch(0);
 				});
 				
 				

@@ -5447,9 +5447,9 @@ public class SalesReportController {
 
 	}
 
-	@RequestMapping(value = "pdf/getDispatchPReportPdfForDispatch/{billDate}/{menuId}/{routeId}/{selectedCat}/{frId}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/getDispatchPReportPdfForDispatch/{billDate}/{menuId}/{routeId}/{selectedCat}/{frId}/{advOrd}", method = RequestMethod.GET)
 	public ModelAndView getDispatchPReportPdfForDispatch(@PathVariable String billDate, @PathVariable String menuId,
-			@PathVariable String routeId, @PathVariable String selectedCat, @PathVariable String frId,
+			@PathVariable String routeId, @PathVariable String selectedCat, @PathVariable String frId,@PathVariable String advOrd,
 			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/dispatchMini");/* dispatchReportPPdfBill */
 		RestTemplate restTemplate = new RestTemplate();
@@ -5674,6 +5674,9 @@ public class SalesReportController {
 			e.printStackTrace();
 
 		}
+		
+		model.addObject("advOrd", advOrd);
+		
 		return model;
 
 	}

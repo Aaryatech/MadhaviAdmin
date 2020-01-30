@@ -135,7 +135,10 @@ public class FinishedGoodStockController {
 
 				for (MCategoryList mCategory : catList) {
 					if (mCategory.getCatId() != 5 && mCategory.getCatId() != 3) {
-						filteredCatList.add(mCategory);
+
+						if (mCategory.getIsSameDay() != 2) {
+							filteredCatList.add(mCategory);
+						}
 
 					}
 				}
@@ -1079,7 +1082,7 @@ public class FinishedGoodStockController {
 
 			session.setAttribute("exportExcelList1", exportToExcelList1);
 			session.setAttribute("excelName1", "Summery Report");
-// Closing Qty Export to excel
+			// Closing Qty Export to excel
 			List<ExportToExcel> exportToExcelList2 = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel2 = new ExportToExcel();
@@ -1831,7 +1834,9 @@ public class FinishedGoodStockController {
 
 			for (MCategoryList mCategory : catList) {
 				if (mCategory.getCatId() != 5 && mCategory.getCatId() != 3) {
-					filteredCatList.add(mCategory);
+					if (mCategory.getIsSameDay() != 2) {
+						filteredCatList.add(mCategory);
+					}
 
 				}
 			}

@@ -168,8 +168,20 @@ public class DispachReport {
 
 			AllItemsListResponse allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems",
 					AllItemsListResponse.class);
-			List<Item> itemsList = null;
-			itemsList = allItemsListResponse.getItems();
+			List<Item> itemsList = new ArrayList<>();
+
+			if(allItemsListResponse!=null) {
+				for(int i=0;i<allItemsListResponse.getItems().size();i++) {
+					if(allItemsListResponse.getItems().get(i).getIsStockable()==1) {
+						itemsList.add(allItemsListResponse.getItems().get(i));
+					}
+				}
+			}
+			
+			//itemsList = allItemsListResponse.getItems();
+			
+			
+			
 
 			System.out.println("Item List" + itemsList);
 

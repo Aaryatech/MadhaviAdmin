@@ -15,7 +15,7 @@ public class GetOrderItemQty {
 	int orderId;
 	
 	private int qty;
-	
+	private int advQty;
 
 	private String itemId;
 	
@@ -105,6 +105,14 @@ public class GetOrderItemQty {
 
 	public void setCurOpeQty(float curOpeQty) {
 		this.curOpeQty = curOpeQty;
+	}
+
+	public int getAdvQty() {
+		return advQty;
+	}
+
+	public void setAdvQty(int advQty) {
+		this.advQty = advQty;
 	}
 
 	

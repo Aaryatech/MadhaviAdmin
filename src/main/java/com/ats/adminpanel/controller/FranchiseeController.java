@@ -2057,7 +2057,7 @@ public class FranchiseeController {
 				}
 			}
 			int catId = 6;
-			int menuId = frMenu.getMenuId();
+			//int menuId = frMenu.getMenuId();
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemGrp1", catId);

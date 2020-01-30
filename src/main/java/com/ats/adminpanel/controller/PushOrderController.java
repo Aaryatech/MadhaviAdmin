@@ -181,6 +181,20 @@ public class PushOrderController {
 
 			items = responseEntity.getBody();
 
+			if (items != null) {
+
+				List<Item> tempList = new ArrayList<>();
+				for (int i = 0; i < items.size(); i++) {
+					if (items.get(i).getIsStockable() == 1) {
+						tempList.add(items.get(i));
+					}
+				}
+				
+				items.clear();
+				items=tempList;
+
+			}
+
 		} catch (Exception e) {
 
 			System.out.println(e.getMessage());
