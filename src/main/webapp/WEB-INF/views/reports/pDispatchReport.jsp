@@ -9,6 +9,24 @@
 	src="https://www.gstatic.com/charts/loader.js"></script> -->
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
+<style>
+.buttonload {
+	background-color: white; /* Green background */
+	border: none; /* Remove borders */
+	color: #ec268f; /* White text */
+	padding: 12px 20px; /* Some padding */
+	font-size: 15px; /* Set a font-size */
+	display: none;
+}
+
+/* Add a right margin to each icon */
+.fa {
+	margin-left: -12px;
+	margin-right: 8px;
+}
+</style>
+
 <body>
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
@@ -18,6 +36,10 @@
 	<c:url var="getFranchisees" value="/getFranchiseByRouteMul"></c:url>
 	<c:url var="getSubCatByCatId" value="/getSubCatByCatId"></c:url>
 	<c:url var="getAllMenusForDisp" value="/getAllMenusForDisp"></c:url>
+	<c:url var="getCatByMenuId" value="/getCatByMenuId"></c:url>
+
+
+
 	<!-- BEGIN Sidebar -->
 	<div id="sidebar" class="navbar-collapse collapse">
 
@@ -116,7 +138,7 @@
 
 						<label class="col-sm-3 col-lg-2 control-label">Select Menu
 						</label>
-						<div class="col-sm-3 col-lg-6">
+						<div class="col-sm-3 col-lg-4">
 
 							<select data-placeholder="Select Menu "
 								class="form-control chosen" id="menuId" name="menuId"
@@ -130,15 +152,23 @@
 
 								</c:forEach>
 							</select>
+
+
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label">Advance Order
-						</label>
+						<div class="col-sm-3 col-lg-2">
+
+							<button class="buttonload" id="loader">
+								<i class="fa fa-spinner fa-spin"></i>Loading
+							</button>
+						</div>
+						<label class="col-sm-3 col-lg-2 control-label">Advance
+							Order </label>
 						<div class="col-sm-3 col-lg-2">
 
 							<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="radio" name="advOrd" id="advNo" value="0">No
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="advOrd"
+								id="advNo" value="0">No
 						</div>
 
 
@@ -161,10 +191,10 @@
 
 								<%-- <option value="-1"><c:out value="All" /></option> --%>
 
-								<c:forEach items="${catList}" var="cat" varStatus="count">
+								<%-- <c:forEach items="${catList}" var="cat" varStatus="count">
 									<option value="${cat.catId}"><c:out
 											value="${cat.catName}" /></option>
-								</c:forEach>
+								</c:forEach> --%>
 							</select>
 						</div>
 
@@ -228,8 +258,8 @@
 							onclick="genPdfBill()">Franchise PDF</button> -->
 
 
-						<button class="btn btn-primary" value="PDF" id="PDFButton" style="display: none;"
-							onclick="genDispatchPdf()">PDF</button>
+						<button class="btn btn-primary" value="PDF" id="PDFButton"
+							style="display: none;" onclick="genDispatchPdf()">PDF</button>
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
 							onclick="genDispatchItextPdf()">PDF</button>
 					</div>
@@ -921,14 +951,14 @@
 		</script>
 		<script type="text/javascript">
 			function genDispatchPdf() {
-				
-				var advOrd=1;
+
+				var advOrd = 1;
 				if (document.getElementById('advYes').checked) {
-					advOrd=1;
-				}else{
-					advOrd=0;
+					advOrd = 1;
+				} else {
+					advOrd = 0;
 				}
-				
+
 				var billDate = $("#billDate").val();
 				var routeId = $("#selectRoute").val();
 				var menuId = $("#menuId").val();
@@ -943,7 +973,7 @@
 								+ '/'
 								+ routeId
 								+ '/'
-								+ selectedCat + '/' + frId+'/'+advOrd);
+								+ selectedCat + '/' + frId + '/' + advOrd);
 			}
 			/* var fld = document.getElementById('fraId');
 			var values = [];
@@ -955,14 +985,14 @@
 			} */
 
 			function genDispatchItextPdf() {
-				
-				var advOrd=1;
+
+				var advOrd = 1;
 				if (document.getElementById('advYes').checked) {
-					advOrd=1;
-				}else{
-					advOrd=0;
+					advOrd = 1;
+				} else {
+					advOrd = 0;
 				}
-				
+
 				var billDate = $("#billDate").val();
 				var routeId = $("#selectRoute").val();
 				var menuId = $("#menuId").val();
@@ -971,8 +1001,7 @@
 
 				window.open('getDispatchPdfForDispatch/' + billDate + '/'
 						+ menuId + '/' + routeId + '/' + selectedCat + '/'
-						+ frId+ '/'
-						+ advOrd);
+						+ frId + '/' + advOrd);
 			}
 		</script>
 		<!--basic scripts-->
@@ -1032,6 +1061,7 @@
 			src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
 		<script type="text/javascript">
 			function getSubCategoriesByCatId() {
+
 				var catId = $("#selectCat").val();
 
 				$.getJSON('${getSubCatByCatId}', {
@@ -1132,29 +1162,73 @@
 		</script>
 		<script type="text/javascript">
 			function onMenuChange(menuId) {
-				if (menuId == -1) {
-					$.getJSON('${getAllMenusForDisp}', {
+
+				var mId = $("#menuId").val();
+				$('#loader').show();
+
+				if (mId == null) {
+					$('#selectCat').find('option').remove();
+					$("#selectCat").trigger("chosen:updated");
+					$('#loader').hide();
+				} else {
+
+					//alert(mId);
+
+					/*  if (menuId == -1) {
+						$.getJSON('${getAllMenusForDisp}', {
+							ajax : 'true'
+						}, function(data) {
+							var html = '<option value="">Select Menus</option>';
+
+							var len = data.length;
+
+							$('#menuId').find('option').remove().end()
+							$("#menuId").append(
+									$("<option></option>").attr("value", -1).text(
+											"ALL"));
+
+							for (var i = 0; i < len; i++) {
+
+								$("#menuId").append(
+										$("<option selected></option>").attr(
+												"value", data[i].menuId).text(
+												data[i].menuTitle));
+							}
+
+							$("#menuId").trigger("chosen:updated");
+						});
+					}  */
+
+					$.getJSON('${getCatByMenuId}', {
+						menuId : JSON.stringify(mId),
 						ajax : 'true'
 					}, function(data) {
-						var html = '<option value="">Select Menus</option>';
+						$('#loader').hide();
+
+						//alert(JSON.stringify(data));
+
+						var html = '<option value="">Select Category</option>';
 
 						var len = data.length;
 
-						$('#menuId').find('option').remove().end()
-						$("#menuId").append(
-								$("<option></option>").attr("value", -1).text(
-										"ALL"));
+						$('#selectCat').find('option').remove().end()
+						/* 	$("#selectCat").append(
+									$("<option></option>").attr("value", -1).text(
+											"ALL")); */
 
 						for (var i = 0; i < len; i++) {
 
-							$("#menuId").append(
+							$("#selectCat").append(
 									$("<option selected></option>").attr(
-											"value", data[i].menuId).text(
-											data[i].menuTitle));
+											"value", data[i].catId).text(
+											data[i].catName));
 						}
 
-						$("#menuId").trigger("chosen:updated");
+						$("#selectCat").trigger("chosen:updated");
+
+						getSubCategoriesByCatId();
 					});
+
 				}
 
 			}

@@ -171,7 +171,7 @@ public class ItemController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/itemList";
+		return "redirect:/updateHsnAndPer";
 	}
 	@RequestMapping(value = "/updateItemRateAndMrp", method = RequestMethod.GET)
 	public @ResponseBody Info updateItemRateAndMrp(HttpServletRequest request, HttpServletResponse response) {

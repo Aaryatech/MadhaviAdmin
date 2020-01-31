@@ -533,10 +533,10 @@ table {
 														data,
 														function(key, order) {
 															//$('#loader').hide();
-															if (order.qty > 0) {
+															//if (order.qty > 0) {
 																document
 																		.getElementById("callSubmit").disabled = false;
-															}
+															//}
 															
 															document
 																	.getElementById("expExcel").disabled = false;

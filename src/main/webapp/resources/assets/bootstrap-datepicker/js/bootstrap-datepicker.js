@@ -29,7 +29,7 @@
 							.on({
 								click: $.proxy(this.click, this),
 								mousedown: $.proxy(this.mousedown, this),
-								mouseup: $.proxy(this.hide, this)
+								//mouseup: $.proxy(this.hide, this)
 							});
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.date') ? this.element.find('.input-group-addon') : false;
@@ -110,10 +110,10 @@
 		
 		hide: function(){
 			this.picker.hide();
-
+/*
 			this.element.on({
 				click: $.proxy(this.show, this)
-			});
+			});*/
 			
 			$(window).off('resize', this.place);
 			this.viewMode = this.startViewMode;

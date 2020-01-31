@@ -317,7 +317,7 @@ table {
 																		
 																		<a href="#"
 																			onclick="submitBillPdf(${billHeadersList.billNo})"
-																			title="PDF"><i class='fa fa-file-pdf-o'>PDF</i></a>
+																			title="PDF"><i class='fa fa-file fa-lg'></i></a>
 																			
 																		 <input type="button" id="btn_submit_pdf"
 																			class="btn btn-primary" value="PDF"

@@ -71,6 +71,7 @@ import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.FranchiseForDispatch;
 import com.ats.adminpanel.model.GrandTotalBillWise;
 import com.ats.adminpanel.model.Info;
+import com.ats.adminpanel.model.MenuShow;
 import com.ats.adminpanel.model.NonRegFrTaxDao;
 import com.ats.adminpanel.model.PDispatchReport;
 import com.ats.adminpanel.model.PDispatchReportList;
@@ -270,10 +271,10 @@ public class SalesReportController {
 			lhm.put(1, "Franchise Bill");
 			lhm.put(2, "Delivery Chalan");
 			lhm.put(3, "Company Outlet Bill");
-			
-			System.err.println("hii ttt"+lhm.get(1));
-			List<Integer> idList=new ArrayList<>();
-			model.addObject("lhm",lhm);
+
+			System.err.println("hii ttt" + lhm.get(1));
+			List<Integer> idList = new ArrayList<>();
+			model.addObject("lhm", lhm);
 			try {
 
 				RestTemplate restTemplate = new RestTemplate();
@@ -291,8 +292,7 @@ public class SalesReportController {
 				}
 				String instruments = sb.toString();
 				instruments = instruments.substring(0, instruments.length() - 1);
-				model.addObject("idList",idList);
-			
+				model.addObject("idList", idList);
 
 				if (fromDate == null && toDate == null) {
 					Date date = new Date();
@@ -577,10 +577,10 @@ public class SalesReportController {
 			lhm.put(1, "Franchise Bill");
 			lhm.put(2, "Delivery Chalan");
 			lhm.put(3, "Company Outlet Bill");
-			
-			System.err.println("hii ttt"+lhm.get(1));
-			List<Integer> idList=new ArrayList<>();
-			model.addObject("lhm",lhm);
+
+			System.err.println("hii ttt" + lhm.get(1));
+			List<Integer> idList = new ArrayList<>();
+			model.addObject("lhm", lhm);
 			try {
 
 				RestTemplate restTemplate = new RestTemplate();
@@ -2158,7 +2158,7 @@ public class SalesReportController {
 		return model;
 	}
 
-// getSaleReportBillwiseByMonth
+	// getSaleReportBillwiseByMonth
 
 	@RequestMapping(value = "/showSaleReportByMonth", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByMonth(HttpServletRequest request, HttpServletResponse response) {
@@ -2648,8 +2648,8 @@ public class SalesReportController {
 	 * model.addObject("report", saleListForPdf); return model; }
 	 */
 
-// *******************************************************************//
-// Royalty Sale
+	// *******************************************************************//
+	// Royalty Sale
 
 	@RequestMapping(value = "/showSaleRoyaltyByCat", method = RequestMethod.GET)
 	public ModelAndView showSaleRoyaltyByCat(HttpServletRequest request, HttpServletResponse response) {
@@ -3026,7 +3026,7 @@ public class SalesReportController {
 		return model;
 	}
 
-// royalty FR wise
+	// royalty FR wise
 
 	@RequestMapping(value = "/showSaleRoyaltyByFr", method = RequestMethod.GET)
 	public ModelAndView showSaleRoyaltyByFr(HttpServletRequest request, HttpServletResponse response) {
@@ -3285,9 +3285,9 @@ public class SalesReportController {
 
 	}
 
-// royalty fr pdf is not done
+	// royalty fr pdf is not done
 
-// done pdf
+	// done pdf
 	@RequestMapping(value = "pdf/showSaleRoyaltyByFrPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
 	public ModelAndView showSaleRoyaltyByFrPdf(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
@@ -4374,6 +4374,69 @@ public class SalesReportController {
 
 	}
 
+	@RequestMapping(value = "/getCatByMenuId", method = RequestMethod.GET)
+	public @ResponseBody List<MCategoryList> getCatByMenuId(HttpServletRequest request, HttpServletResponse response) {
+
+		List<MCategoryList> result=new ArrayList<>();
+		
+		RestTemplate restTemplate = new RestTemplate();
+
+		MCategoryList cat = new MCategoryList();
+
+		String menuId = request.getParameter("menuId");
+
+		menuId = menuId.substring(1, menuId.length() - 1);
+		menuId = menuId.replaceAll("\"", "");
+
+		System.err.println("MENU LIST ------------------------- " + menuId);
+
+		CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
+				CategoryListResponse.class);
+		List<MCategoryList> categoryList;
+		categoryList = categoryListResponse.getmCategoryList();
+
+		List<Menu> menuList = null;
+		try {
+			AllMenuResponse allMenuResponse = restTemplate.getForObject(Constants.url + "getAllMenu",
+					AllMenuResponse.class);
+
+			menuList = allMenuResponse.getMenuConfigurationPage();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		List<Integer> menuIds = Stream.of(menuId.split(",")).map(Integer::parseInt)
+				.collect(Collectors.toList());
+
+		if (menuList != null) {
+			for (int i = 0; i < menuIds.size(); i++) {
+				for(int j=0;j<menuList.size();j++) {
+					if(menuIds.get(i)==menuList.get(j).getMenuId()) {
+						
+						System.err.println("MENU ----------------------- "+menuList.get(j));
+						
+						for (int k = 0; k < categoryList.size(); k++) {
+							if (menuList.get(j).getMainCatId() == categoryList.get(k).getCatId()) {
+								cat = categoryList.get(k);
+								result.add(cat);
+								break;
+							}
+						}
+
+						break;
+					}
+				}
+				
+			}
+		}
+
+	
+
+		System.err.println("MATCH CATEGORY ------------------------- MENU = " + menuIds + "      ========== > " + result);
+		return result;
+	}
+
 	@RequestMapping(value = "/getAllMenusForDisp", method = RequestMethod.GET)
 	public @ResponseBody List<Menu> getAllMenusForDisp() {
 
@@ -5449,8 +5512,8 @@ public class SalesReportController {
 
 	@RequestMapping(value = "pdf/getDispatchPReportPdfForDispatch/{billDate}/{menuId}/{routeId}/{selectedCat}/{frId}/{advOrd}", method = RequestMethod.GET)
 	public ModelAndView getDispatchPReportPdfForDispatch(@PathVariable String billDate, @PathVariable String menuId,
-			@PathVariable String routeId, @PathVariable String selectedCat, @PathVariable String frId,@PathVariable String advOrd,
-			HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String routeId, @PathVariable String selectedCat, @PathVariable String frId,
+			@PathVariable String advOrd, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/dispatchMini");/* dispatchReportPPdfBill */
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -5637,10 +5700,9 @@ public class SalesReportController {
 
 				ResponseEntity<List<SubCategory>> responseEntity2 = restTemplate.exchange(
 						Constants.url + "getSubCatListForDis", HttpMethod.POST, new HttpEntity<>(map), typeRef2);
-				
-				
-				System.err.println("dispatchReportList --------------- "+dispatchReportList);
-				System.err.println("itemList --------------- "+responseEntity1.getBody());
+
+				System.err.println("dispatchReportList --------------- " + dispatchReportList);
+				System.err.println("itemList --------------- " + responseEntity1.getBody());
 
 				model.addObject("dispatchReportList", dispatchReportList);
 				model.addObject("frList", frNameIdByRouteIdList);
@@ -5674,14 +5736,14 @@ public class SalesReportController {
 			e.printStackTrace();
 
 		}
-		
+
 		model.addObject("advOrd", advOrd);
-		
+
 		return model;
 
 	}
 
-// --------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/getSaleReportRoyConsoByCat", method = RequestMethod.GET)
 	public @ResponseBody RoyaltyListBean getSaleReportRoyConsoByCat(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -5715,10 +5777,9 @@ public class SalesReportController {
 			catList = Arrays.asList(selectedCat);
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
-			
-			
+
 			String selectedType = request.getParameter("type_id");
-			
+
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
 
@@ -5777,8 +5838,7 @@ public class SalesReportController {
 				map.add("getBy", getBy);
 				map.add("type", type);
 				map.add("typeIdList", selectedType);
-				
-				
+
 				if (isGraph == 0) {
 					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
 					};
@@ -6070,8 +6130,8 @@ public class SalesReportController {
 	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}/{isGraph}/{getBy}/{type}/{typeId}", method = RequestMethod.GET)
 	public ModelAndView getSaleReportRoyConsoByCat(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
-			@PathVariable int isGraph, @PathVariable int getBy, @PathVariable int type,  @PathVariable String  typeId,HttpServletRequest request,
-			HttpServletResponse response) {
+			@PathVariable int isGraph, @PathVariable int getBy, @PathVariable int type, @PathVariable String typeId,
+			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesconsbycatPdf");
 
 		List<SalesReportBillwise> saleList = new ArrayList<>();
@@ -6286,33 +6346,29 @@ public class SalesReportController {
 		lhm.put(1, "Franchise Bill");
 		lhm.put(2, "Delivery Chalan");
 		lhm.put(3, "Company Outlet Bill");
-		
-		System.err.println("hii ttt"+lhm.get(1));
-		List<Integer> idList=new ArrayList<>();
-		model.addObject("lhm",lhm);
+
+		System.err.println("hii ttt" + lhm.get(1));
+		List<Integer> idList = new ArrayList<>();
+		model.addObject("lhm", lhm);
 		String[] typeIds = request.getParameterValues("type_id");
 
 		System.out.println("mId" + typeIds);
-		String instruments=null;
+		String instruments = null;
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			
-		
-		for (int i = 0; i < typeIds.length; i++) {
-			sb = sb.append(typeIds[i] + ",");
-			idList.add(Integer.parseInt(typeIds[i]));
-		}
-		 instruments = sb.toString();
-		instruments = instruments.substring(0, instruments.length() - 1);
 
-		
+			for (int i = 0; i < typeIds.length; i++) {
+				sb = sb.append(typeIds[i] + ",");
+				idList.add(Integer.parseInt(typeIds[i]));
+			}
+			instruments = sb.toString();
+			instruments = instruments.substring(0, instruments.length() - 1);
+
 		} catch (Exception e) {
 			idList.add(0);
 		}
-		
-		
-		
+
 		model.addObject("idList", idList);
 		try {
 			String year = request.getParameter("year");
@@ -6462,8 +6518,7 @@ public class SalesReportController {
 	}
 	// monthwisesalespercentage
 
-	
-	//need to check  mapping 
+	// need to check mapping
 	@RequestMapping(value = "/showMonthlySalesPercentageReport", method = RequestMethod.GET)
 	public ModelAndView showMonthlySalesPercentageReport(HttpServletRequest request, HttpServletResponse response) {
 
@@ -6479,29 +6534,29 @@ public class SalesReportController {
 			lhm.put(1, "Franchise Bill");
 			lhm.put(2, "Delivery Chalan");
 			lhm.put(3, "Company Outlet Bill");
-			
-			System.err.println("hii ttt"+lhm.get(1));
-			List<Integer> idList=new ArrayList<>();
-			model.addObject("lhm",lhm);
-			
+
+			System.err.println("hii ttt" + lhm.get(1));
+			List<Integer> idList = new ArrayList<>();
+			model.addObject("lhm", lhm);
+
 			String[] typeIds = request.getParameterValues("type_id");
 
 			System.out.println("mId" + typeIds);
 
 			StringBuilder sb = new StringBuilder();
-			String instruments=null;
-			
+			String instruments = null;
+
 			try {
 				for (int i = 0; i < typeIds.length; i++) {
 					sb = sb.append(typeIds[i] + ",");
 					idList.add(Integer.parseInt(typeIds[i]));
 				}
-				 instruments = sb.toString();
+				instruments = sb.toString();
 				instruments = instruments.substring(0, instruments.length() - 1);
-			}catch(Exception e) {
-				
+			} catch (Exception e) {
+
 			}
-			model.addObject("idList",idList);
+			model.addObject("idList", idList);
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
@@ -6509,7 +6564,7 @@ public class SalesReportController {
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
-				map.add("typeIdList",instruments);
+				map.add("typeIdList", instruments);
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -6641,36 +6696,35 @@ public class SalesReportController {
 
 		try {
 			String year = request.getParameter("year");
-			
+
 			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
 			lhm.put(-1, "All");
 			lhm.put(1, "Franchise Bill");
 			lhm.put(2, "Delivery Chalan");
 			lhm.put(3, "Company Outlet Bill");
-			
-			System.err.println("hii ttt"+lhm.get(1));
-			List<Integer> idList=new ArrayList<>();
-			model.addObject("lhm",lhm);
-			
+
+			System.err.println("hii ttt" + lhm.get(1));
+			List<Integer> idList = new ArrayList<>();
+			model.addObject("lhm", lhm);
+
 			String[] typeIds = request.getParameterValues("type_id");
 
 			System.out.println("mId" + typeIds);
 
 			StringBuilder sb = new StringBuilder();
-			String instruments=null;
-			
+			String instruments = null;
+
 			try {
 				for (int i = 0; i < typeIds.length; i++) {
 					sb = sb.append(typeIds[i] + ",");
 					idList.add(Integer.parseInt(typeIds[i]));
 				}
-				 instruments = sb.toString();
+				instruments = sb.toString();
 				instruments = instruments.substring(0, instruments.length() - 1);
-			}catch(Exception e) {
-				
+			} catch (Exception e) {
+
 			}
-			model.addObject("idList",idList);
-			
+			model.addObject("idList", idList);
 
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
@@ -6679,7 +6733,7 @@ public class SalesReportController {
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
-				map.add("typeIdList",instruments );
+				map.add("typeIdList", instruments);
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getSalesReturnValueReport", map, SalesReturnValueDaoList[].class);

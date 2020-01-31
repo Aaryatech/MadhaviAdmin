@@ -24,7 +24,7 @@ import java.util.Date;
 		private int isEdit;
 		private int editQty;
 		private int userId;
-		private int isPositive;//discPer
+		private float isPositive;//discPer
 		private int menuId;
 		private String menuTitle;
 		private String itemName;
@@ -79,9 +79,7 @@ import java.util.Date;
 		public int getUserId() {
 			return userId;
 		}
-		public int getIsPositive() {
-			return isPositive;
-		}
+		
 		public int getMenuId() {
 			return menuId;
 		}
@@ -142,9 +140,7 @@ import java.util.Date;
 		public void setUserId(int userId) {
 			this.userId = userId;
 		}
-		public void setIsPositive(int isPositive) {
-			this.isPositive = isPositive;
-		}
+		
 		public void setMenuId(int menuId) {
 			this.menuId = menuId;
 		}
@@ -154,15 +150,26 @@ import java.util.Date;
 		public void setItemName(String itemName) {
 			this.itemName = itemName;
 		}
+		
+		
+		
+		public float getIsPositive() {
+			return isPositive;
+		}
+		public void setIsPositive(float isPositive) {
+			this.isPositive = isPositive;
+		}
+		
+		
 		@Override
 		public String toString() {
 			return "ItemOrderHis [orderId=" + orderId + ", orderDate=" + orderDate + ", frId=" + frId + ", orderType="
 					+ orderType + ", orderSubType=" + orderSubType + ", refId=" + refId + ", itemId=" + itemId
-					+ ", orderQty=" + orderQty + ", orderRate=" + orderRate + ", orderMrp=" + orderMrp + ", orderStatus="
-					+ orderStatus + ", orderDatetime=" + orderDatetime + ", productionDate=" + productionDate
-					+ ", deliveryDate=" + deliveryDate + ", isEdit=" + isEdit + ", editQty=" + editQty + ", userId="
-					+ userId + ", isPositive=" + isPositive + ", menuId=" + menuId + ", menuTitle=" + menuTitle
-					+ ", itemName=" + itemName + "]";
+					+ ", orderQty=" + orderQty + ", orderRate=" + orderRate + ", orderMrp=" + orderMrp
+					+ ", orderStatus=" + orderStatus + ", orderDatetime=" + orderDatetime + ", productionDate="
+					+ productionDate + ", deliveryDate=" + deliveryDate + ", isEdit=" + isEdit + ", editQty=" + editQty
+					+ ", userId=" + userId + ", isPositive=" + isPositive + ", menuId=" + menuId + ", menuTitle="
+					+ menuTitle + ", itemName=" + itemName + "]";
 		}
 		
 	
