@@ -2051,8 +2051,8 @@ public class BillController {
 			RestTemplate restTemplate = new RestTemplate();
 
 			
-			  String selectedBill = request.getParameter("select_to_print"); String[]
-			  selectedBills = request.getParameterValues("select_to_print");
+			  String selectedBill = request.getParameter("select_to_print"); 
+			  String[] selectedBills = request.getParameterValues("select_to_print");
 			  
 			  for (int i = 0; i < selectedBills.length; i++) { billList = selectedBills[i]
 			  + "," + billList; }

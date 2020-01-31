@@ -615,10 +615,9 @@ input:checked + .slider:before {
 
 							<input type="hidden" name="fintotal1" id="fintotal2" value="0">
 </div>
-							<!-- </div>
-						<div class="row"> -->
+						
 					
-						<div class="col-md-1" style="float: right;">
+						<div class="col-md-1" >
 							<input type="submit" class="btn btn-info" value="ORDER" name="submitorder" id="submitorder"  disabled>
 <input type="submit" class="btn btn-info" value="ORDER_&_BILL" name="submitbill" id="submitbill" style="display: none;"  disabled>
 						</div>
@@ -1970,7 +1969,7 @@ function checkCheckedStatus()
 		   document.getElementById("submitorder").disabled = true;
 		   	 $("#submitorder").show();
 		     document.getElementById("flagRate").value=1;
-   		document.getElementById("submitorder").style.backgroundColor = "blue";
+   		//document.getElementById("submitorder").style.backgroundColor = "blue";
    	 $("#mulFr").hide();
 	   $("#singleFr").show();
 	   $("#mulOrder").hide();
@@ -1989,7 +1988,7 @@ function checkCheckedStatus()
 		   document.getElementById("submitbill").disabled = true;
 		   $("#submitbill").show();
 		   document.getElementById("flagRate").value=1;
-		   document.getElementById("submitbill").style.backgroundColor = "blue";
+		  // document.getElementById("submitbill").style.backgroundColor = "blue";
 		  // document.getElementById("submitorder").style.backgroundColor = "#ffeadd";
 		   document.getElementById("submitorder").style.display = "none";
 		   $("#mulFr").hide();
@@ -2017,7 +2016,7 @@ function checkCheckedStatus()
 				    .end()
 				  $("#itemId").trigger("chosen:updated");
 				 
-			   document.getElementById("submitbill").style.backgroundColor = "blue";
+			   //document.getElementById("submitbill").style.backgroundColor = "blue";
 			  // document.getElementById("submitorder").style.backgroundColor = "#ffeadd";
 			   document.getElementById("submitorder").style.display = "none";
 			   $("#singleFr").hide();

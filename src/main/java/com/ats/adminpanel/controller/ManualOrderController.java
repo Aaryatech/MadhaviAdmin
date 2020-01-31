@@ -888,6 +888,7 @@ public class ManualOrderController {
 
 									e.printStackTrace();
 								}
+								
 
 								billDetail.setExpiryDate(expiryDate);
 								postBillDetailsList.add(billDetail);
@@ -1022,7 +1023,7 @@ public class ManualOrderController {
 				x1 = incrementDate(devDate, -1);
 
 			}
-			System.err.println("x1"+x1);
+			System.err.println("x1-------------------------------------"+x1);
 			advHeader.setProdDate(x1);
 
 			advHeader.setIsBillGenerated(0);
@@ -1061,8 +1062,8 @@ public class ManualOrderController {
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))) * qty;
 						//float discountAmount = (calTotal * orderList.get(i).getIsPositive()) / 100;
-						int discPer1 = Integer
-								.parseInt(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
+						float discPer1 = Float
+								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
 						float discountAmount = (calTotal * discPer1) / 100;
 						
 						discAmt = discAmt + discountAmount;
@@ -1110,7 +1111,7 @@ public class ManualOrderController {
 					det.setItemId(Integer.parseInt(orderList.get(i).getItemId()));
 					det.setMenuId(menuId);
 					det.setOrderDate(todaysDate);
-					det.setProdDate(DateConvertor.convertToDMY(x1));
+					det.setProdDate(x1);
 					det.setQty(qty);
 					det.setIsBillGenerated(0);
 					det.setIsSellBillGenerated(0);

@@ -27,6 +27,7 @@
 		<!-- END Sidebar -->
 
 
+
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
@@ -113,7 +114,7 @@
 								id="from_datepicker" type="date" format="dd-mm-yyyy"
 								value="${cDate}" /> --%>
 
-							<input class="form-control datepicker22  date-picker"  
+							<input class="form-control datepicker22  date-picker"
 								autocomplete="off" placeholder="Date" name="from_datepicker"
 								style="border-radius: 25px;" id="from_datepicker" type="text"
 								value="${cDate1}" />
@@ -175,7 +176,7 @@
 						</div>
 
 						<div class="col-md-1">
-							<input type="submit" name="submit2" id="submit2" value="Search" 
+							<input type="submit" name="submit2" id="submit2" value="Search"
 								class="btn btn-primary" />
 						</div>
 					</div>
@@ -213,13 +214,13 @@
 												class="col-md-1">Customer Name</th>
 											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Customer Phone No.</th>
-												
-												<th style="background-color: #f3b5db; color: #fff"
+
+											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Address</th>
-												
-												<th style="background-color: #f3b5db; color: #fff"
+
+											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Kilometer</th>
-												
+
 											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Delivery Date</th>
 											<th style="background-color: #f3b5db; color: #fff"
@@ -248,12 +249,10 @@
 															value="${advList.custName}" /></td>
 													<td class="col-md-1"><c:out
 															value="${advList.phoneNumber}" /></td>
-															
-															<td class="col-md-1"><c:out
-															value="${advList.address}" /></td>
-															
-															<td class="col-md-1"><c:out
-															value="${advList.km}" /></td>
+
+													<td class="col-md-1"><c:out value="${advList.address}" /></td>
+
+													<td class="col-md-1"><c:out value="${advList.km}" /></td>
 
 													<td class="col-md-2"><c:out
 															value="${advList.deliveryDate}" /></td>
@@ -271,7 +270,7 @@
 
 													<td class="col-md-2" style="white-space: nowrap;"><a
 														href=""
-														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}')"
+														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}')"
 														class="btn btn-default btn-rounded" data-toggle="modal"
 														data-target="#elegantModalForm"><abbr title='Edit'><i
 																class='fa fa-edit'></i></abbr></a> <c:if
@@ -362,18 +361,23 @@
 						<div class="modal-body mx-6">
 							<div class="row">
 								<label class="col-sm-2 col-lg-2 control-label"
-									style="color: #e20b31;">Amount :<span id="billAmt"></span></label>
-
+									style="color: blue;">Amount :<span id="billAmt"></span>
+								</label>
 								<label class="col-sm-2 col-lg-2 control-label"
-									style="color: #e20b31;">Delivery Date :<span
-									id="devDate"></span>
-								</label> <label class="col-sm-1 col-lg-1 control-label"
-									style="color: #e20b31;"><span id="isMart"></span> </label> <label
-									class="col-sm-2 col-lg-3 control-label" style="color: blue;">Franchise
+									style="color: blue;">Delivery Date :<span id="devDate"></span>
+								</label> 
+								<label class="col-sm-1 col-lg-1 control-label"
+									style="color: #e20b31;"><span id="isMart1"></span> 
+								</label> 
+								<label class="col-sm-2 col-lg-3 control-label" style="color: blue;">Franchise
 									Name:<span id="frName"></span>
-								</label> <label class="col-sm-2 col-lg-3 control-label"
-									style="color: blue;">Customer Name :<span id="custName"></span></label>
-
+								</label> 
+								<label class="col-sm-2 col-lg-2 control-label"
+									style="color: blue;">Customer Name :<span id="custName"></span>
+								</label>
+								<label class="col-sm-2 col-lg-2 control-label"
+									style="color: blue;">Mobile :<span id="mob"></span>
+								</label>
 							</div>
 							<div class="component">
 
@@ -398,6 +402,7 @@
 									</tbody>
 								</table>
 							</div>
+							<br>
 							<div class="form-group"></div>
 							<div class="row">
 								<label class="col-sm-1 control-label" style="color: blue;">Advance
@@ -436,25 +441,28 @@
 										class="form-control small clockface-open">
 								</div>
 							</div>
-							
+<br>
 							<div class="row">
-							
-							<label class="col-sm-1 control-label" style="color: blue;">Delivery Address: </label>
+
+								<label class="col-sm-1 control-label" style="color: blue;">Delivery
+									Address: </label>
 								<div class="col-sm-8">
-									<input type="text" id="addr" name="addr"
-										class="form-control" value="">
+									<input type="text" id="addr" name="addr" class="form-control"
+										value="">
 								</div>
-								
-								<label class="col-sm-1 control-label" style="color: blue;">Kilometer: </label>
+
+								<label class="col-sm-1 control-label" style="color: blue;">Kilometer:
+								</label>
 								<div class="col-sm-2">
-									<input type="text" id="km" name="km" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+									<input type="text" id="km" name="km"
+										oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 										class="form-control" style="width: 70%" value="0">
 								</div>
-							
+
 							</div>
-							
+
 							<div class="form-group"></div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 
 								<c:choose>
 									<c:when test="${prodDateSearch==1}">
@@ -523,7 +531,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	
+
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
@@ -558,52 +566,49 @@
 
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
+		function submitOnClick() {
 
-function submitOnClick() {
-	
-	var from = document.getElementById("from_date").value;
-	var to = document.getElementById("to_date").value;
+			var from = document.getElementById("from_date").value;
+			var to = document.getElementById("to_date").value;
 
-	//alert(from + "             " + to);
+			//alert(from + "             " + to);
 
-	if (from == "" || to == "") {
-		alert("Please select date!");
-	} else {
+			if (from == "" || to == "") {
+				alert("Please select date!");
+			} else {
 
-		var day1 = from.slice(0, 2);
-		var month1 = from.slice(3, 5) - 1;
-		var year1 = from.slice(6, 10);
+				var day1 = from.slice(0, 2);
+				var month1 = from.slice(3, 5) - 1;
+				var year1 = from.slice(6, 10);
 
-		var day2 = to.slice(0, 2);
-		var month2 = to.slice(3, 5) - 1;
-		var year2 = to.slice(6, 10);
+				var day2 = to.slice(0, 2);
+				var month2 = to.slice(3, 5) - 1;
+				var year2 = to.slice(6, 10);
 
-		var g1 = new Date(year1, month1, day1);
-		var g2 = new Date(year2, month2, day2);
+				var g1 = new Date(year1, month1, day1);
+				var g2 = new Date(year2, month2, day2);
 
-		//alert(g1 + "    -------------         " + g2);
+				//alert(g1 + "    -------------         " + g2);
 
-		if (g1.getTime() > g2.getTime()) {
+				if (g1.getTime() > g2.getTime()) {
 
-		
-			alert("From Date should be less than To Date");
+					alert("From Date should be less than To Date");
 
-			document.getElementById("from_date").value = "";
-			document.getElementById("to_date").value = "";
-		}else{
-			//document.getElementById("validation-form").submit();
-			var form1=document.getElementById("validation-form");
-			form1.action="searchOrdersCount";
-			form1.method="post";
-			form1.submit();
-			alert("submit");
+					document.getElementById("from_date").value = "";
+					document.getElementById("to_date").value = "";
+				} else {
+					//document.getElementById("validation-form").submit();
+					var form1 = document.getElementById("validation-form");
+					form1.action = "searchOrdersCount";
+					form1.method = "post";
+					form1.submit();
+					alert("submit");
+				}
+			}
+
 		}
-	}
-	
-}
-
-</script>
+	</script>
 
 	<script type="text/javascript">
 		function checkDashboardDate() {
@@ -634,7 +639,6 @@ function submitOnClick() {
 
 				if (g1.getTime() > g2.getTime()) {
 
-				
 					alert("From Date should be less than To Date");
 
 					document.getElementById("from_date").value = "";
@@ -695,21 +699,27 @@ function submitOnClick() {
 
 	<script type="text/javascript">
 		function showDetailsForCp(headId, frName, custName, amount, isMart,
-				devDate, advanceAmt, prodDate, isBillGenerated, delivTime,addr,km) {
+				devDate, advanceAmt, prodDate, isBillGenerated, delivTime,
+				addr, km, phone) {
 
-			//alert(" hiiiiiiiiiiiiiii "+prodDate);
+			//alert(" hiiiiiiiiiiiiiii "+phone);
 
 			$("#billAmt").css("color", "red");
 			$("#devDate").css("color", "red");
-			$("#isMart").css("color", "red");
+			$("#isMart1").css("color", "red");
 			$("#custName").css("color", "red");
+			$("#mob").css("color", "red");
 			$("#frName").css("color", "red");
+			
+			//alert(isMart);
+			
 			var x;
-			if (parseInt(isMart) == 1) {
+			if (isMart == 1) {
 				x = "Adv Order";
 			} else {
 				x = "DM Order";
 			}
+			//alert(x);
 
 			document.getElementById("ordHeaderId").value = headId;
 			document.getElementById("isMart").value = isMart;
@@ -717,14 +727,15 @@ function submitOnClick() {
 
 			document.getElementById("billAmt").innerHTML = amount;
 			document.getElementById("devDate").innerHTML = devDate;
-			document.getElementById("isMart").innerHTML = x;
+			//document.getElementById("isMart1").innerHTML = x;
 			document.getElementById("frName").innerHTML = frName;
 			document.getElementById("custName").innerHTML = custName;
 			document.getElementById("deliveryDate").value = devDate;
 			document.getElementById("clockface_1").value = delivTime;
-			
+
 			document.getElementById("addr").value = addr;
 			document.getElementById("km").value = km;
+			document.getElementById("mob").innerHTML = phone;
 
 			document.getElementById("deliveryDate_hide").value = devDate;
 
@@ -744,6 +755,7 @@ function submitOnClick() {
 								document.getElementById("prod_date").value = prodDate;
 								document.getElementById("prod_date_hide").value = prodDate;
 
+								
 								$
 										.each(
 												data,
@@ -892,7 +904,7 @@ function submitOnClick() {
 
 			var oldProd = document.getElementById("prod_date_hide").value;
 			var oldDel = document.getElementById("deliveryDate_hide").value;
-			
+
 			//alert(prod + "             " + del);
 
 			var day1 = prod.slice(0, 2);

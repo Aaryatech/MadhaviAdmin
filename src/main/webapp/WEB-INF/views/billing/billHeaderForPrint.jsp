@@ -216,7 +216,7 @@ table {
 
 									<div class="box-content">
 										<div align="center" class="form-group"
-											style="color: white; height: 65px; background: #0288d1; background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%); background: linear-gradient(45deg, #e693c6 0%, #5cc8d6 100%); box-shadow: 0 6px 20px 0 rgba(38, 198, 218, 0.5);">
+											style="color: white; height: 65px; background: #f95d64; ">
 											<br> <label class="col-sm-3 col-lg-2 control-label">Transport
 												Mode </label>
 											<div class="col-sm-5 col-lg-3 controls">
@@ -245,7 +245,7 @@ table {
 												<table width="100%"
 													class="table table-bordered table-striped" id="table12"
 													border="1">
-													<thead style="background-color: #f3b5db;">
+													<thead style="background-color: #f95d64;">
 														<tr>
 															<th class="col-sm-1"><input type="checkbox"
 																onClick="selectBillNo(this)" /> All<br /></th>
@@ -313,10 +313,16 @@ table {
 																		<!-- <input type="button"  id="btn_submit"
 															class="btn btn-primary" onclick="submitBill()"
 															value="BillDetail" /> -->
-																		&nbsp;&nbsp; <input type="button" id="btn_submit_pdf"
+																		&nbsp;&nbsp;
+																		
+																		<a href="#"
+																			onclick="submitBillPdf(${billHeadersList.billNo})"
+																			title="PDF"><i class='fa fa-file-pdf-o'>PDF</i></a>
+																			
+																		 <input type="button" id="btn_submit_pdf"
 																			class="btn btn-primary" value="PDF"
 																			onclick="submitBillPdf(${billHeadersList.billNo})"
-																			style="padding: 0px 4px; font-size: 14px;">&nbsp;
+																			style="padding: 0px 4px; font-size: 14px; display: none;">&nbsp;
 
 																		<c:if test="${billHeadersList.status==1}">
 																			<a
