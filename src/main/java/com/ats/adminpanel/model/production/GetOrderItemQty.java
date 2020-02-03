@@ -3,38 +3,27 @@ package com.ats.adminpanel.model.production;
 import java.io.Serializable;
 import java.sql.Date;
 
-
-
-
 public class GetOrderItemQty {
 
-	
-
-
-	
 	int orderId;
-	
-	private int qty;
-	private int advQty;
+
+	private float qty;
+	private float advQty;
 
 	private String itemId;
-	
+
 	private int menuId;
-	
+
 	private int itemGrp1;
-	
+
 	private Date productionDate;
 
 	private String itemName;
-	
-	
-	
-	private float  curClosingQty;//new Field Added Sachin
 
+	private float curClosingQty;// new Field Added Sachin
 
-	private float curOpeQty;//new fiedl
+	private float curOpeQty;// new fiedl
 
-	
 	public String getItemName() {
 		return itemName;
 	}
@@ -57,14 +46,6 @@ public class GetOrderItemQty {
 
 	public void setItemGrp1(int itemGrp1) {
 		this.itemGrp1 = itemGrp1;
-	}
-
-	public int getQty() {
-		return qty;
-	}
-
-	public void setQty(int qty) {
-		this.qty = qty;
 	}
 
 	public String getItemId() {
@@ -107,23 +88,27 @@ public class GetOrderItemQty {
 		this.curOpeQty = curOpeQty;
 	}
 
-	public int getAdvQty() {
+	public float getQty() {
+		return qty;
+	}
+
+	public void setQty(float qty) {
+		this.qty = qty;
+	}
+
+	public float getAdvQty() {
 		return advQty;
 	}
 
-	public void setAdvQty(int advQty) {
+	public void setAdvQty(float advQty) {
 		this.advQty = advQty;
 	}
 
-	
-	 
+	@Override
+	public String toString() {
+		return "GetOrderItemQty [orderId=" + orderId + ", qty=" + qty + ", advQty=" + advQty + ", itemId=" + itemId
+				+ ", menuId=" + menuId + ", itemGrp1=" + itemGrp1 + ", productionDate=" + productionDate + ", itemName="
+				+ itemName + ", curClosingQty=" + curClosingQty + ", curOpeQty=" + curOpeQty + "]";
+	}
 
-	 
-	
-	
-
-	
-	
-	
-	
 }

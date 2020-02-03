@@ -31,7 +31,7 @@ public class Orders {
 	private String itemId;
 
 	
-	private int orderQty;
+	private float orderQty;
 
 	
 	private double orderRate;
@@ -150,13 +150,8 @@ public class Orders {
 		this.itemId = itemId;
 	}
 
-	public int getOrderQty() {
-		return orderQty;
-	}
 
-	public void setOrderQty(int orderQty) {
-		this.orderQty = orderQty;
-	}
+
 
 	public double getOrderRate() {
 		return orderRate;
@@ -244,6 +239,16 @@ public class Orders {
 
 	public void setMenuId(int menuId) {
 		this.menuId = menuId;
+	}
+
+	
+	
+	public float getOrderQty() {
+		return orderQty;
+	}
+
+	public void setOrderQty(float orderQty) {
+		this.orderQty = orderQty;
 	}
 
 	@Override

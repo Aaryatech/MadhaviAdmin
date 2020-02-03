@@ -10,15 +10,15 @@ public class PostProductionPlanDetail {
 
 	private int productionHeaderId;
 
-	private int planQty;
+	private float planQty;
 
-	private int orderQty;
+	private float orderQty;
 
-	private int openingQty;
+	private float openingQty;
 
-	private int rejectedQty;
+	private float rejectedQty;
 
-	private int productionQty;
+	private float productionQty;
 
 	private int itemId;
 
@@ -66,36 +66,42 @@ public class PostProductionPlanDetail {
 		this.productionDate = productionDate;
 	}
 
-	public int getOrderQty() {
+	
+
+	public float getOrderQty() {
 		return orderQty;
 	}
 
-	public void setOrderQty(int orderQty) {
+	public void setOrderQty(float orderQty) {
 		this.orderQty = orderQty;
 	}
 
-	public int getOpeningQty() {
+	public float getOpeningQty() {
 		return openingQty;
 	}
 
-	public void setOpeningQty(int openingQty) {
+	public void setOpeningQty(float openingQty) {
 		this.openingQty = openingQty;
 	}
 
-	public int getRejectedQty() {
+	public float getRejectedQty() {
 		return rejectedQty;
 	}
 
-	public void setRejectedQty(int rejectedQty) {
+	public void setRejectedQty(float rejectedQty) {
 		this.rejectedQty = rejectedQty;
 	}
 
-	public int getProductionQty() {
+	public float getProductionQty() {
 		return productionQty;
 	}
 
-	public void setProductionQty(int productionQty) {
+	public void setProductionQty(float productionQty) {
 		this.productionQty = productionQty;
+	}
+
+	public void setPlanQty(float planQty) {
+		this.planQty = planQty;
 	}
 
 	public int getProductionDetailId() {
@@ -114,12 +120,9 @@ public class PostProductionPlanDetail {
 		this.productionHeaderId = productionHeaderId;
 	}
 
-	public int getPlanQty() {
+	
+	public float getPlanQty() {
 		return planQty;
-	}
-
-	public void setPlanQty(int planQty) {
-		this.planQty = planQty;
 	}
 
 	public int getItemId() {

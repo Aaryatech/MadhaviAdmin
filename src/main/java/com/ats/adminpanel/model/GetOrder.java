@@ -14,7 +14,7 @@ public class GetOrder {
    
     private String itemName;
    
-    private Integer orderQty;
+    private float orderQty;
     
     private int id;
    
@@ -26,51 +26,49 @@ public class GetOrder {
    
     private Integer editQty;
     
-    private Integer advQty;
+    private float advQty;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
+	public Integer getOrderId() {
+		return orderId;
+	}
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
 
-    public String getFrName() {
-        return frName;
-    }
+	public String getFrName() {
+		return frName;
+	}
 
-    public void setFrName(String frName) {
-        this.frName = frName;
-    }
+	public void setFrName(String frName) {
+		this.frName = frName;
+	}
 
-    public String getCatName() {
-        return catName;
-    }
+	public String getCatName() {
+		return catName;
+	}
 
-    public void setCatName(String catName) {
-        this.catName = catName;
-    }
+	public void setCatName(String catName) {
+		this.catName = catName;
+	}
 
-    public String getItemName() {
-        return itemName;
-    }
+	public String getItemName() {
+		return itemName;
+	}
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 
-    public Integer getOrderQty() {
-        return orderQty;
-    }
+	public float getOrderQty() {
+		return orderQty;
+	}
 
-    public void setOrderQty(Integer orderQty) {
-        this.orderQty = orderQty;
-    }
+	public void setOrderQty(float orderQty) {
+		this.orderQty = orderQty;
+	}
 
-   
-
-    public int getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -87,40 +85,36 @@ public class GetOrder {
 	}
 
 	public Integer getIsEdit() {
-        return isEdit;
-    }
+		return isEdit;
+	}
 
-    public void setIsEdit(Integer isEdit) {
-        this.isEdit = isEdit;
-    }
+	public void setIsEdit(Integer isEdit) {
+		this.isEdit = isEdit;
+	}
 
-    public Integer getIsPositive() {
-        return isPositive;
-    }
+	public Integer getIsPositive() {
+		return isPositive;
+	}
 
-    public void setIsPositive(Integer isPositive) {
-        this.isPositive = isPositive;
-    }
+	public void setIsPositive(Integer isPositive) {
+		this.isPositive = isPositive;
+	}
 
-    public Integer getEditQty() {
-        return editQty;
-    }
+	public Integer getEditQty() {
+		return editQty;
+	}
 
-    public void setEditQty(Integer editQty) {
-        this.editQty = editQty;
-    }
+	public void setEditQty(Integer editQty) {
+		this.editQty = editQty;
+	}
 
-    
-    
-	public Integer getAdvQty() {
+	public float getAdvQty() {
 		return advQty;
 	}
 
-	public void setAdvQty(Integer advQty) {
+	public void setAdvQty(float advQty) {
 		this.advQty = advQty;
 	}
-	
-	
 
 	@Override
 	public String toString() {
@@ -128,5 +122,7 @@ public class GetOrder {
 				+ ", orderQty=" + orderQty + ", id=" + id + ", deliveryDate=" + deliveryDate + ", isEdit=" + isEdit
 				+ ", isPositive=" + isPositive + ", editQty=" + editQty + ", advQty=" + advQty + "]";
 	}
+
+   
 
 }

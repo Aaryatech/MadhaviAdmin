@@ -7,13 +7,13 @@ public class SubCatwiseVariancePdf {
 	
 	float opBalance;
 	
-	int planQty;
+	float planQty;
 	
-	int prodQty;
+	float prodQty;
 	
 	float total;
 	
-	int orderQty;
+	float orderQty;
 	
 	float variance;
 	
@@ -40,23 +40,24 @@ public class SubCatwiseVariancePdf {
 		this.opBalance = opBalance;
 	}
 
-	public int getPlanQty() {
+	
+	
+	public float getPlanQty() {
 		return planQty;
 	}
 
-	public void setPlanQty(int planQty) {
+	public void setPlanQty(float planQty) {
 		this.planQty = planQty;
 	}
 
-	public int getProdQty() {
+	public float getProdQty() {
 		return prodQty;
 	}
 
-	public void setProdQty(int prodQty) {
+	public void setProdQty(float prodQty) {
 		this.prodQty = prodQty;
 	}
 
-	
 	public float getTotal() {
 		return total;
 	}
@@ -65,15 +66,17 @@ public class SubCatwiseVariancePdf {
 		this.total = total;
 	}
 
-	public int getOrderQty() {
+	
+
+	
+
+	public float getOrderQty() {
 		return orderQty;
 	}
 
-	public void setOrderQty(int orderQty) {
+	public void setOrderQty(float orderQty) {
 		this.orderQty = orderQty;
 	}
-
-	
 
 	public float getVariance() {
 		return variance;

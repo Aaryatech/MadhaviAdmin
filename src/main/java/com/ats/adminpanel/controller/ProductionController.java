@@ -993,7 +993,7 @@ public class ProductionController {
 
 				postProductionDetail.setItemId(Integer.parseInt(a));
 
-				int qty =0;
+				float qty =0;
 				if (advOrdFlag == 1) {
 					qty = getOrderItemQtyList.get(i).getQty() + getOrderItemQtyList.get(i).getAdvQty();
 				} else {

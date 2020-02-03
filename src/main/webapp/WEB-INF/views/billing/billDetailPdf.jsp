@@ -306,7 +306,7 @@ function genPdf()
 	var transport_mode = $("#transport_mode").val();
 	var select_to_print = $("#billId").val();
 	var vehicle_no = $("#vehicle_no").val();
-	alert(select_to_print+"    -     "+transport_mode+"     -      "+vehicle_no);
+	//alert(select_to_print+"    -     "+transport_mode+"     -      "+vehicle_no);
 	
    window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/'+transport_mode+'/'+vehicle_no+'/'+select_to_print+'/');
 

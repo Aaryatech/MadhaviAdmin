@@ -17,7 +17,7 @@ public class GenerateBill {
 	
 	int  itemId;
 	
-	int  orderQty;
+	float  orderQty;
 	
 	double  orderRate;
 	
@@ -190,14 +190,15 @@ public class GenerateBill {
 		this.itemId = itemId;
 	}
 
-	public int getOrderQty() {
+	
+
+	public float getOrderQty() {
 		return orderQty;
 	}
 
-	public void setOrderQty(int orderQty) {
+	public void setOrderQty(float orderQty) {
 		this.orderQty = orderQty;
 	}
-
 
 	public double getOrderRate() {
 		return orderRate;

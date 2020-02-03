@@ -93,11 +93,11 @@ select {
 }
 
 input:checked + .slider {
-  background-color: #F87DA9;
+  background-color: #ed1b24;  
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #F87DA9;
+  box-shadow: 0 0 1px #ed1b24;
 }
 
 input:checked + .slider:before {
@@ -147,7 +147,7 @@ input:checked + .slider:before {
     content: '';
     width: 12px;
     height: 12px;
-    background: #F87DA9;
+    background: #ed1b24;
     position: absolute;
     top: 3px;
     left: 3px;
@@ -414,12 +414,12 @@ input:checked + .slider:before {
 													<c:when test="${customerList.custId==defaultCustomer}">
 														<option value="${customerList.custId}"
 															style="text-align: left;" selected>${customerList.custName}
-															&nbsp;${customerList.phoneNumber}</option>
+															- ${customerList.phoneNumber}</option>
 													</c:when>
 													<c:otherwise>
 														<option value="${customerList.custId}"
 															style="text-align: left;">${customerList.custName}
-															&nbsp;${customerList.phoneNumber}</option>
+															- ${customerList.phoneNumber}</option>
 													</c:otherwise>
 												</c:choose>
 
@@ -655,7 +655,7 @@ input:checked + .slider:before {
 
 			<div class="add_frm">
 				<div class="add_frm_one">
-					<div class="add_customer_one">Customer Name</div>
+					<div class="add_customer_one">Customer Name *</div>
 					<div class="add_input">
 						<input type="text" class="input_add"
 							placeholder="Enter Customer Name" name="customerName"
@@ -665,7 +665,7 @@ input:checked + .slider:before {
 					<div class="clr"></div>
 				</div>
 				<div class="add_frm_one">
-					<div class="add_customer_one">Mobile Number</div>
+					<div class="add_customer_one">Mobile Number *</div>
 					<div class="add_input">
 						<input type="text" class="input_add"
 							placeholder="Enter Mobile Number" name="mobileNo" id="mobileNo"
@@ -675,7 +675,7 @@ input:checked + .slider:before {
 				</div>
 
 				<div class="add_frm_one">
-					<div class="add_customer_one">Gender</div>
+					<div class="add_customer_one">Gender *</div>
 					<div class="add_input">
 						<div class="radio_row popup_radio">
 							<ul>
@@ -692,7 +692,7 @@ input:checked + .slider:before {
 					</div>
 					<div class="clr"></div>
 				</div>
-				<div class="add_frm_one">
+				<div class="add_frm_one" style="display: none;">
 					<div class="add_customer_one">Type</div>
 					<div class="add_input">
 						<select name="custType" id="custType"
@@ -707,7 +707,7 @@ input:checked + .slider:before {
 					</div>
 				</div>
 				<div class="add_frm_one">
-					<div class="add_customer_one">Age-Group</div>
+					<div class="add_customer_one">Age-Group *</div>
 					<div class="add_input">
 						<select name="ageRange" id="ageRange"
 							data-placeholder="Customer Age-Group" class="input_add"
@@ -734,7 +734,7 @@ input:checked + .slider:before {
 					<div class="clr"></div>
 				</div>
 				<div class="add_frm_one">
-					<div class="add_customer_one">Business</div>
+					<div class="add_customer_one">Business *</div>
 					<div class="add_input">
 						<div class="radio_row popup_radio">
 							<ul>
@@ -755,7 +755,7 @@ input:checked + .slider:before {
 				</div>
 				<div style="display: none;" id="isbuissnessdiv">
 					<div class="add_frm_one">
-						<div class="add_customer_one">Company Name</div>
+						<div class="add_customer_one">Company Name *</div>
 						<div class="add_input">
 							<input placeholder="Enter Company Name" name="companyName"
 								onchange="trim(this)" id="companyName" type="text"
@@ -764,15 +764,15 @@ input:checked + .slider:before {
 						<div class="clr"></div>
 					</div>
 					<div class="add_frm_one">
-						<div class="add_customer_one">GST Number</div>
+						<div class="add_customer_one">GST Number *</div>
 						<div class="add_input">
 							<input placeholder="Enter GST Name" name="gstNo" id="gstNo"
-								onchange="trim(this)" type="text" class="input_add" />
+								onchange="trim(this)" type="text" class="input_add" maxlength="15" />
 						</div>
 						<div class="clr"></div>
 					</div>
 					<div class="add_frm_one">
-						<div class="add_customer_one">Address</div>
+						<div class="add_customer_one">Address *</div>
 						<div class="add_input">
 							<input placeholder="Enter Address" name="custAdd" id="custAdd"
 								onchange="trim(this)" type="text" class="input_add" />
@@ -788,7 +788,7 @@ input:checked + .slider:before {
 						onclick="closeMyModal('myModal')">Close</button>
 				</div>
 				<div class="close_r">
-					<a href="#" onclick="addCustomer()">Save</a>
+					<a href="#" onclick="addCustomer()" id="saveCust">Save</a>
 				</div>
 				<div class="clr"></div>
 			</div>
@@ -880,6 +880,9 @@ $(function() {
     });
 });
 </script>
+
+
+
 <script type="text/javascript">
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -972,8 +975,26 @@ $(function() {
 			}
 
 		}
+		
+		
+		function checkGST(g){
+		    let regTest = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/.test(g)
+		     if(regTest){
+		        let a=65,b=55,c=36;
+		        return Array['from'](g).reduce((i,j,k,g)=>{ 
+		           p=(p=(j.charCodeAt(0)<a?parseInt(j):j.charCodeAt(0)-b)*(k%2+1))>c?1+(p-c):p;
+		           return k<14?i+p:j==((c=(c-(i%c)))<10?c:String.fromCharCode(c+b));
+		        },0); 
+		    }
+		    return regTest
+		}
+		
+		
 
 		function addCustomer() {
+			
+			document.getElementById("saveCust").style.display="none"; 
+			
 			var phNo="";
 			//$('#addcust').modal('hide');
 			//$('#addcust').popup('hide'); //for close popup;
@@ -984,22 +1005,32 @@ $(function() {
 			var dateOfBirth = document.getElementById("dateOfBirth").value;
 			var custType = document.getElementById("custType").value;
 			var ageRange = document.getElementById("ageRange").value;
-			if(custId!=0)
+			
+			/* if(custId!=0)
 				{
 				phNo="0000000000";
-				}
+				} */
+			
 			$.getJSON('${checkEmailText}', {
 				phoneNo : phNo,	
 					ajax : 'true',
 			},
 
 			function(saveFlag) {
-				 if(parseInt(saveFlag)==1){		
-					   alert("Duplicate Mobile No Found.");
-						//document.getElementById("sbtbtn4").disabled = true;
+				
+				
+				document.getElementById("saveCust").style.display="block"; 
+				
+				 if(parseInt(saveFlag)>0 && parseInt(saveFlag)!=custId){
+					 
+					 document.getElementById("saveCust").style.display="block"; 
+					 alert("Duplicate Mobile Number Found.");	 
+				
 						document.getElementById("mobileNo").value = "";
 						document.getElementById("mobileNo").focus();
+						
 				}else{
+					
 			var gender = 2;
 			if (document.getElementById('moption').checked) {
 				gender = 1;
@@ -1024,10 +1055,13 @@ $(function() {
 			} /* else if (dateOfBirth == "") {
 				alert("Enter Date of Birth");
 				flag = 1;
-			} */else if (custType == 0) {
+			} */
+			
+			/* else if (custType == 0) {
 				alert("Please Select Customer Type");
 				flag = 1;
-			}
+			} */
+			
 			else if (ageRange == 0) {
 				alert("Please Select Age Group");
 				flag = 1;
@@ -1039,7 +1073,11 @@ $(function() {
 				} else if (gstNo == "") {
 					alert("Enter GST No");
 					flag = 1;
-				} else if (custAdd == "") {
+				}else if(checkGST(gstNo)==false){
+					alert("Invalid GST No");
+					flag = 1;
+					
+				}else if (custAdd == "") {
 					alert("Enter Address");
 					flag = 1;
 				}
@@ -1064,6 +1102,8 @@ $(function() {
 									ajax : 'true'
 								},
 								function(data) {
+									
+									document.getElementById("saveCust").style.display="block"; 
 
 									//alert(JSON.stringify(data));
 

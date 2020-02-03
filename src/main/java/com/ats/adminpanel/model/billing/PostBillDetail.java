@@ -25,10 +25,10 @@ public class PostBillDetail {
 	private int itemId;
 	
 	
-	private int orderQty;
+	private float orderQty;
 	
 	
-	private int billQty;
+	private float billQty;
 	
 	private int orderId;
 	
@@ -177,26 +177,24 @@ public class PostBillDetail {
 	}
 
 
-	public int getOrderQty() {
+	
+
+
+	
+
+
+	public float getOrderQty() {
 		return orderQty;
 	}
-
-
-	public void setOrderQty(int orderQty) {
+	public void setOrderQty(float orderQty) {
 		this.orderQty = orderQty;
 	}
-
-
-	public int getBillQty() {
+	public float getBillQty() {
 		return billQty;
 	}
-
-
-	public void setBillQty(int billQty) {
+	public void setBillQty(float billQty) {
 		this.billQty = billQty;
 	}
-
-
 	public int getRateType() {
 		return rateType;
 	}

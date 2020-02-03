@@ -185,7 +185,7 @@ td, th {
 											</c:choose>
 
 											<c:forEach items="${franchiseeList}" var="franchiseeList">
-												<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+												<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
 
 
 											</c:forEach>
@@ -748,27 +748,29 @@ td, th {
 																			.html(
 																					orders.catName));
 
+															
+															
 															if (isEdit == 1) {
 																tr
 																		.append($(
 																				'<td></td>')
 																				.html(
-																						"<input type='number' onkeypress='return IsNumeric(event);' ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=qty"
+																						"<input type='number' step='0.01'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=qty"
 																								+ orders.orderId
 																								+ " value="
 																								+ orders.orderQty
-																								+ " disabled='disabled' >"));
+																								+ " disabled='disabled'  >"));
 
 															} else {
 																tr
 																		.append($(
 																				'<td></td>')
 																				.html(
-																						"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=qty"
+																						"<input type='number' step='0.01'   ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=qty"
 																								+ orders.orderId
 																								+ " value="
 																								+ orders.orderQty
-																								+ "  disabled='disabled' >"));
+																								+ "  disabled='disabled'  >"));
 
 															}
 															
@@ -779,7 +781,7 @@ td, th {
 																.append($(
 																		'<td></td>')
 																		.html(
-																				"<input type='number' onkeypress='return IsNumeric(event);'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=advQty"
+																				"<input type='number'  ondrop='return false;' onpaste='return false;' style='text-align: center;    height: 35px;' class='form-control' min='0' id=advQty"
 																						+ orders.orderId
 																						+ " value="
 																						+ orders.advQty
@@ -1025,6 +1027,14 @@ if(advOrd==1){
 		}
 	</script>
 
+
+<script type="text/javascript">
+
+$('.form-control numbers').keyup(function () { 
+    this.value = this.value.replace(/[^0-9\.]/g,'');
+});
+
+</script>
 
 
 

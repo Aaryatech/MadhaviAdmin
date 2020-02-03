@@ -3,7 +3,7 @@ package com.ats.adminpanel.model.franchisee;
 public class CommonConf {
 private int id;
 private String name;
-private int qty;
+private float qty;
 private int rmUomId;
 
 
@@ -21,10 +21,11 @@ public int getRmUomId() {
 public void setRmUomId(int rmUomId) {
 	this.rmUomId = rmUomId;
 }
-public int getQty() {
+
+public float getQty() {
 	return qty;
 }
-public void setQty(int qty) {
+public void setQty(float qty) {
 	this.qty = qty;
 }
 public int getId() {

@@ -9,8 +9,8 @@ public class GetBillDetailPrint {
 	    private Integer menuId;
 	    private Integer catId;
 	    private Integer itemId;
-	    private Integer orderQty;
-	    private Integer billQty;
+	    private float orderQty;
+	    private float billQty;
 	    private Integer orderId;
 	    private Integer rateType;
 	    private float rate;
@@ -41,213 +41,348 @@ public class GetBillDetailPrint {
 		
 		
 		private int  subCatId;
-		
-		
+
+
 		public Integer getBillDetailNo() {
 			return billDetailNo;
 		}
+
+
 		public void setBillDetailNo(Integer billDetailNo) {
 			this.billDetailNo = billDetailNo;
 		}
-		
-		public float getDiscPer() {
-			return discPer;
-		}
-		public void setDiscPer(float discPer) {
-			this.discPer = discPer;
-		}
-		public float getDiscAmt() {
-			return discAmt;
-		}
-		public void setDiscAmt(float discAmt) {
-			this.discAmt = discAmt;
-		}
+
+
 		public Integer getBillNo() {
 			return billNo;
 		}
+
+
 		public void setBillNo(Integer billNo) {
 			this.billNo = billNo;
 		}
+
+
 		public Integer getMenuId() {
 			return menuId;
 		}
+
+
 		public void setMenuId(Integer menuId) {
 			this.menuId = menuId;
 		}
+
+
 		public Integer getCatId() {
 			return catId;
 		}
+
+
 		public void setCatId(Integer catId) {
 			this.catId = catId;
 		}
+
+
 		public Integer getItemId() {
 			return itemId;
 		}
+
+
 		public void setItemId(Integer itemId) {
 			this.itemId = itemId;
 		}
-		public Integer getOrderQty() {
+
+
+		public float getOrderQty() {
 			return orderQty;
 		}
-		public void setOrderQty(Integer orderQty) {
+
+
+		public void setOrderQty(float orderQty) {
 			this.orderQty = orderQty;
 		}
-		public Integer getBillQty() {
+
+
+		public float getBillQty() {
 			return billQty;
 		}
-		public void setBillQty(Integer billQty) {
+
+
+		public void setBillQty(float billQty) {
 			this.billQty = billQty;
 		}
+
+
 		public Integer getOrderId() {
 			return orderId;
 		}
+
+
 		public void setOrderId(Integer orderId) {
 			this.orderId = orderId;
 		}
+
+
 		public Integer getRateType() {
 			return rateType;
 		}
+
+
 		public void setRateType(Integer rateType) {
 			this.rateType = rateType;
 		}
+
+
 		public float getRate() {
 			return rate;
 		}
+
+
 		public void setRate(float rate) {
 			this.rate = rate;
 		}
+
+
 		public float getMrp() {
 			return mrp;
 		}
+
+
 		public void setMrp(float mrp) {
 			this.mrp = mrp;
 		}
+
+
 		public float getGrandTotal() {
 			return grandTotal;
 		}
+
+
 		public void setGrandTotal(float grandTotal) {
 			this.grandTotal = grandTotal;
 		}
+
+
 		public float getSgstPer() {
 			return sgstPer;
 		}
+
+
 		public void setSgstPer(float sgstPer) {
 			this.sgstPer = sgstPer;
 		}
+
+
 		public float getSgstRs() {
 			return sgstRs;
 		}
+
+
 		public void setSgstRs(float sgstRs) {
 			this.sgstRs = sgstRs;
 		}
+
+
 		public float getCgstPer() {
 			return cgstPer;
 		}
+
+
 		public void setCgstPer(float cgstPer) {
 			this.cgstPer = cgstPer;
 		}
+
+
 		public float getCgstRs() {
 			return cgstRs;
 		}
+
+
 		public void setCgstRs(float cgstRs) {
 			this.cgstRs = cgstRs;
 		}
+
+
 		public float getIgstPer() {
 			return igstPer;
 		}
+
+
 		public void setIgstPer(float igstPer) {
 			this.igstPer = igstPer;
 		}
+
+
 		public float getIgstRs() {
 			return igstRs;
 		}
+
+
 		public void setIgstRs(float igstRs) {
 			this.igstRs = igstRs;
 		}
+
+
+		public float getDiscPer() {
+			return discPer;
+		}
+
+
+		public void setDiscPer(float discPer) {
+			this.discPer = discPer;
+		}
+
+
+		public float getDiscAmt() {
+			return discAmt;
+		}
+
+
+		public void setDiscAmt(float discAmt) {
+			this.discAmt = discAmt;
+		}
+
+
 		public float getTaxableAmt() {
 			return taxableAmt;
 		}
+
+
 		public void setTaxableAmt(float taxableAmt) {
 			this.taxableAmt = taxableAmt;
 		}
+
+
 		public String getRemark() {
 			return remark;
 		}
+
+
 		public void setRemark(String remark) {
 			this.remark = remark;
 		}
+
+
 		public Integer getDelStatus() {
 			return delStatus;
 		}
+
+
 		public void setDelStatus(Integer delStatus) {
 			this.delStatus = delStatus;
 		}
+
+
 		public String getItemName() {
 			return itemName;
 		}
+
+
 		public void setItemName(String itemName) {
 			this.itemName = itemName;
 		}
+
+
 		public String getCatName() {
 			return catName;
 		}
+
+
 		public void setCatName(String catName) {
 			this.catName = catName;
 		}
+
+
 		public String getBillDate() {
 			return billDate;
 		}
+
+
 		public void setBillDate(String billDate) {
 			this.billDate = billDate;
 		}
+
+
 		public float getBaseRate() {
 			return baseRate;
 		}
+
+
 		public void setBaseRate(float baseRate) {
 			this.baseRate = baseRate;
 		}
+
+
 		public float getTotalTax() {
 			return totalTax;
 		}
+
+
 		public void setTotalTax(float totalTax) {
 			this.totalTax = totalTax;
 		}
+
+
 		public int getGrnType() {
 			return grnType;
 		}
+
+
 		public void setGrnType(int grnType) {
 			this.grnType = grnType;
 		}
+
+
 		public Date getExpiryDate() {
 			return expiryDate;
 		}
+
+
 		public void setExpiryDate(Date expiryDate) {
 			this.expiryDate = expiryDate;
 		}
+
+
 		public int getIsGrngvnApplied() {
 			return isGrngvnApplied;
 		}
+
+
 		public void setIsGrngvnApplied(int isGrngvnApplied) {
 			this.isGrngvnApplied = isGrngvnApplied;
 		}
+
+
 		public String getItemHsncd() {
 			return itemHsncd;
 		}
+
+
 		public void setItemHsncd(String itemHsncd) {
 			this.itemHsncd = itemHsncd;
 		}
+
+
 		public String getItemUom() {
 			return itemUom;
 		}
+
+
 		public void setItemUom(String itemUom) {
 			this.itemUom = itemUom;
 		}
+
+
 		public int getSubCatId() {
 			return subCatId;
 		}
+
+
 		public void setSubCatId(int subCatId) {
 			this.subCatId = subCatId;
 		}
+
+
 		@Override
 		public String toString() {
 			return "GetBillDetailPrint [billDetailNo=" + billDetailNo + ", billNo=" + billNo + ", menuId=" + menuId
@@ -261,6 +396,9 @@ public class GetBillDetailPrint {
 					+ ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied + ", itemHsncd=" + itemHsncd
 					+ ", itemUom=" + itemUom + ", subCatId=" + subCatId + "]";
 		}
+		
+		
+	
 		
 		
 		

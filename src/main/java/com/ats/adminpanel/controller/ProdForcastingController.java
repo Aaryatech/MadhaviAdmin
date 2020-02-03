@@ -555,7 +555,7 @@ public class ProdForcastingController {
 			String planDate = request.getParameter("datepicker5");
 			for (Item item : globalItemList) {
 				CommonConf commonConf = new CommonConf();
-				int qty = Integer.parseInt(request.getParameter("qty5" + item.getId()));
+				float qty = Float.parseFloat(request.getParameter("qty5" + item.getId()));
 
 				System.out.println(qty);
 				if (qty > 0) {
@@ -650,7 +650,7 @@ public class ProdForcastingController {
 			String planDate = request.getParameter("datepicker5");
 			for (int j = 0; j < globalItemList.size(); j++) {
 				int flag = 0;
-				int qty = Integer.parseInt(request.getParameter("qty5" + globalItemList.get(j).getId()));
+				float qty = Float.parseFloat(request.getParameter("qty5" + globalItemList.get(j).getId()));
 
 				for (int i = 0; i < postProdPlanHeaderRes.getPostProductionPlanDetail().size(); i++) {
 					if (globalItemList.get(j).getId() == postProdPlanHeaderRes.getPostProductionPlanDetail().get(i)

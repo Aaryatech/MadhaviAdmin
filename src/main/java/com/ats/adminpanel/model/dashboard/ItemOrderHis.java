@@ -14,7 +14,7 @@ import java.util.Date;
 		private int orderSubType;
 		private int refId;
 		private String itemId;
-		private int orderQty;
+		private float orderQty;
 		private double orderRate;
 		private double orderMrp;
 		private int orderStatus;
@@ -22,7 +22,7 @@ import java.util.Date;
 		private String productionDate;
 		private String deliveryDate;
 		private int isEdit;
-		private int editQty;
+		private float editQty;
 		private int userId;
 		private float isPositive;//discPer
 		private int menuId;
@@ -49,9 +49,7 @@ import java.util.Date;
 		public String getItemId() {
 			return itemId;
 		}
-		public int getOrderQty() {
-			return orderQty;
-		}
+	
 		public double getOrderRate() {
 			return orderRate;
 		}
@@ -73,9 +71,7 @@ import java.util.Date;
 		public int getIsEdit() {
 			return isEdit;
 		}
-		public int getEditQty() {
-			return editQty;
-		}
+	
 		public int getUserId() {
 			return userId;
 		}
@@ -110,9 +106,7 @@ import java.util.Date;
 		public void setItemId(String itemId) {
 			this.itemId = itemId;
 		}
-		public void setOrderQty(int orderQty) {
-			this.orderQty = orderQty;
-		}
+		
 		public void setOrderRate(double orderRate) {
 			this.orderRate = orderRate;
 		}
@@ -131,9 +125,7 @@ import java.util.Date;
 		public void setDeliveryDate(String deliveryDate) {
 			this.deliveryDate = deliveryDate;
 		}
-		public void setIsEdit(int isEdit) {
-			this.isEdit = isEdit;
-		}
+		
 		public void setEditQty(int editQty) {
 			this.editQty = editQty;
 		}
@@ -161,6 +153,23 @@ import java.util.Date;
 		}
 		
 		
+		
+		
+		public float getOrderQty() {
+			return orderQty;
+		}
+		public void setOrderQty(float orderQty) {
+			this.orderQty = orderQty;
+		}
+		public float getEditQty() {
+			return editQty;
+		}
+		public void setEditQty(float editQty) {
+			this.editQty = editQty;
+		}
+		public void setIsEdit(int isEdit) {
+			this.isEdit = isEdit;
+		}
 		@Override
 		public String toString() {
 			return "ItemOrderHis [orderId=" + orderId + ", orderDate=" + orderDate + ", frId=" + frId + ", orderType="

@@ -698,7 +698,7 @@ public class ManualOrderController {
 
 						for (int i = 0; i < orderList.size(); i++) {
 
-							int qty = Integer.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
+							float qty = Float.parseFloat(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
 							// if (submitorder == null) {
 						 System.err.println("qty"+qty);
 							float discPer = Float.parseFloat(
@@ -767,7 +767,7 @@ public class ManualOrderController {
 								Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
 								baseRate = roundUp(baseRate);
 
-								Float taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
+								Float taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 
 								System.out.println("taxableAmt: " + taxableAmt);
 								taxableAmt = roundUp(taxableAmt);
@@ -783,7 +783,7 @@ public class ManualOrderController {
 
 								if (gBill.getIsSameState() == 1) {
 									baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-									taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
+									taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 									// ----------------------------------------------------------
 									discAmt = ((taxableAmt * discPer) / 100); // new row added
 									System.out.println("discAmt: " + discAmt);// new row added
@@ -800,7 +800,7 @@ public class ManualOrderController {
 
 								else {
 									baseRate = (orderRate * 100) / (100 + (tax3));
-									taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
+									taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 									// ----------------------------------------------------------
 									discAmt = ((taxableAmt * discPer) / 100); // new row added
 									System.out.println("discAmt: " + discAmt);// new row added
@@ -841,7 +841,7 @@ public class ManualOrderController {
 								billDetail.setCatId(gBill.getCatId());
 								billDetail.setItemId(gBill.getItemId());
 								billDetail.setOrderQty(gBill.getOrderQty());
-								billDetail.setBillQty(Integer.parseInt(billQty));
+								billDetail.setBillQty(Float.parseFloat(billQty));
 								billDetail.setMrp((float) gBill.getOrderMrp());
 								billDetail.setRateType(gBill.getRateType());
 								billDetail.setRate((float) gBill.getOrderRate());
@@ -1032,7 +1032,7 @@ public class ManualOrderController {
 			float totGrand = 0;
 			for (int i = 0; i < orderList.size(); i++) {
 				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId() );
-				int qty = 0;
+				float qty = 0;
 				String strQty = null;
 
 				try {
@@ -1040,7 +1040,7 @@ public class ManualOrderController {
 					strQty = request.getParameter("qty" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id")));
 					System.err.println("inside det" + qty);
 					 
-					qty = Integer.parseInt(strQty);
+					qty = Float.parseFloat(strQty);
 
 				} catch (Exception e) {
 					
@@ -1182,7 +1182,7 @@ public class ManualOrderController {
 						Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
 						baseRate = roundUp(baseRate);
 
-						Float taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
+						Float taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 
 						System.out.println("taxableAmt: " + taxableAmt);
 						taxableAmt = roundUp(taxableAmt);
@@ -1198,7 +1198,7 @@ public class ManualOrderController {
 
 						if (gBill.getIsSameState() == 1) {
 							baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-							taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
+							taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 							// ----------------------------------------------------------
 							discAmt1 = ((taxableAmt * discPer) / 100); // new row added
 							System.out.println("discAmt: " + discAmt1);// new row added
@@ -1215,7 +1215,7 @@ public class ManualOrderController {
 
 						else {
 							baseRate = (orderRate * 100) / (100 + (tax3));
-							taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
+							taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 							// ----------------------------------------------------------
 							discAmt1 = ((taxableAmt * discPer) / 100); // new row added
 							System.out.println("discAmt: " + discAmt1);// new row added
@@ -1256,7 +1256,7 @@ public class ManualOrderController {
 						billDetail.setCatId(gBill.getCatId());
 						billDetail.setItemId(gBill.getItemId());
 						billDetail.setOrderQty(gBill.getOrderQty());
-						billDetail.setBillQty(Integer.parseInt(billQty));
+						billDetail.setBillQty(Float.parseFloat(billQty));
 
 						if (dm == 1) {
 							billDetail.setMrp((float) gBill.getOrderMrp());

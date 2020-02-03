@@ -128,9 +128,12 @@ public class AdvOrdController {
 				map.add("advHeadId", ordHeaderId);
 				AdvanceOrderDetail[] detailList = restTemplate.postForObject(Constants.url + "/getAdvOrdDetailByHeadId",
 						map, AdvanceOrderDetail[].class);
+				
+				System.err.println("DETAIL LIST -------------- "+detailList);
 
 				itmList = new ArrayList<>(Arrays.asList(detailList));
-
+				System.err.println("DETAIL LIST -----***--------- "+itmList);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -140,7 +143,7 @@ public class AdvOrdController {
 
 				AdvanceOrderDetail det = itmList.get(i);
 				String strQty = null;
-				int qty = 0;
+				float qty = 0;
 				String strRate = null;
 				String strDiscPer = null;
 				float rate = 0.0f;
@@ -148,12 +151,14 @@ public class AdvOrdController {
 				try {
 
 					strQty = request.getParameter("tb_qty" + String.valueOf(det.getAdvDetailId()));
+					System.err.println("QTY ====================== "+strQty);
+					
 					strRate = request.getParameter("tb_rate" + String.valueOf(det.getAdvDetailId()));
 					strDiscPer = request.getParameter("disc_per" + String.valueOf(det.getAdvDetailId()));
 					System.err.println("inside strQty" + strQty);
 					System.err.println("inside strRate" + strRate);
 					System.err.println("inside strDiscPer" + strDiscPer);
-					qty = Integer.parseInt(strQty);
+					qty = Float.parseFloat(strQty);
 					rate = Float.parseFloat(strRate);
 					try {
 						discPer = Float.parseFloat(strDiscPer);

@@ -255,10 +255,25 @@ public class HomeController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 			map.add("headId", date);
-			itm = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin", map,
-					ItemOrderList.class);
+			
+			/*System.err.println("OUTPUT =========================>   "+restTemplate.postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin", map,
+					ItemOrderList.class));
+			*/
+			
+			itmList = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin1", map,
+					List.class);
+			
+			
+		/*	ParameterizedTypeReference<ItemOrderList> typeRef = new ParameterizedTypeReference<ItemOrderList>() {
+			};
+			ResponseEntity<ItemOrderList> responseEntity = restTemplate.exchange(
+					Constants.url + "advanceOrderHistoryDetailForAdmin", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
-			itmList = itm.getItemOrderList();
+			ItemOrderList newModuleList = responseEntity.getBody();*/
+			
+			
+
+			//itmList = itm.getItemOrderListt();
 
 		} catch (Exception e) {
 			e.printStackTrace();
