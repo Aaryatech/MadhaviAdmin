@@ -390,13 +390,13 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Agreement
+											<label class="col-sm-3 col-lg-2 control-label">FDA License
 												Date</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker"
 													id="fr_agreement_date" size="16" type="text"
 													name="fr_agreement_date"  autocomplete="off"
-													placeholder="Agreement Date" />
+													placeholder="FDA License Date" />
 											</div>
 										</div>
 										<div class="form-group">
