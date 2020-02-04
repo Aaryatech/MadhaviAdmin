@@ -302,7 +302,7 @@ table {
 
 																	<c:when test="${planHeader.productionStatus==1}">
 																		<td class="col-md-1"><input align="left"
-																			type="text"
+																			type="number" step="0.01" min="0"
 																			name="plan_qty${planDetail.productionDetailId}"
 																			id="plan_qty${planDetail.productionDetailId}"
 																			placeholder="Plan Qty" class="form-control"
@@ -312,7 +312,7 @@ table {
 																	</c:when>
 																	<c:otherwise>
 																		<td class="col-md-1"><input align="left"
-																			type="text"
+																			type="number" step="0.01" min="0"
 																			name="plan_qty${planDetail.productionDetailId}"
 																			id="plan_qty${planDetail.productionDetailId}"
 																			placeholder="Plan Qty" class="form-control"
@@ -324,7 +324,7 @@ table {
 
 																<c:if test="${planHeader.isPlanned!=0}">
 																	<td class="col-md-1"><input align="left"
-																		type="text"
+																		type="number" step="0.01" min="0"
 																		name="prod1_qty${planDetail.productionDetailId}"
 																		id="prod1_qty${planDetail.productionDetailId}"
 																		placeholder="Production1 Qty" class="form-control"
@@ -333,7 +333,7 @@ table {
 																</c:if>
 																<c:if test="${planHeader.isPlanned==2}">
 																	<td class="col-md-1"><input align="left"
-																		type="text"
+																		type="number" step="0.01" min="0"
 																		name="total${planDetail.productionDetailId}"
 																		id="total${planDetail.productionDetailId}"
 																		placeholder="Total" class="form-control"
@@ -346,7 +346,7 @@ table {
 																	<c:choose>
 																		<c:when test="${planHeader.productionStatus==2}">
 																			<td class="col-md-1"><input align="left"
-																				type="text"
+																				type="number" step="0.01" min="0"
 																				name="order_qty${planDetail.productionDetailId}"
 																				id="order_qty${planDetail.productionDetailId}"
 																				placeholder="Order Qty" class="form-control"
@@ -355,7 +355,7 @@ table {
 																		</c:when>
 																		<c:otherwise>
 																			<td class="col-md-1"><input align="left"
-																				type="text"
+																				type="number" step="0.01" min="0"
 																				name="order_qty${planDetail.productionDetailId}"
 																				id="order_qty${planDetail.productionDetailId}"
 																				placeholder="Order Qty" class="form-control"
@@ -367,7 +367,7 @@ table {
 																</c:if>
 																<c:if test="${planHeader.isPlanned==2}">
 																	<td class="col-md-1"><input align="left"
-																		type="text"
+																		type="number" step="0.01" min="0"
 																		name="prod2_qty${planDetail.productionDetailId}"
 																		id="prod2_qty${planDetail.productionDetailId}"
 																		placeholder="Production2 Qty" class="form-control"
@@ -382,25 +382,23 @@ table {
 																		<c:choose>
 																			<c:when test="${planHeader.isPlanned==1}">
 																				<td class="col-md-2"><input align="left"
-																					type="text"
+																					type="number" step="0.01" min="0"
 																					name="act_prod_qty${planDetail.productionDetailId}"
 																					id="act_prod_qty${planDetail.productionDetailId}"
 																					placeholder="Actual Prod" class="form-control"
 																					value="${planDetail.planQty}"
-																					data-rule-required="true" style="width: 65px"
-																					onkeypress="return IsNumeric(event);"
+																					data-rule-required="true" style="width: 80px"
 																					ondrop="return false;" onpaste="return false;"
 																					onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
 																			</c:when>
 																			<c:when test="${planHeader.isPlanned==0}">
 																				<td class="col-md-2"><input align="left"
-																					type="text"
+																					type="number" step="0.01" min="0"
 																					name="act_prod_qty${planDetail.productionDetailId}"
 																					id="act_prod_qty${planDetail.productionDetailId}"
 																					placeholder="Actual Prod" class="form-control"
 																					value="${planDetail.orderQty}"
-																					data-rule-required="true" style="width: 65px"
-																					onkeypress="return IsNumeric(event);"
+																					data-rule-required="true" style="width: 80px"
 																					ondrop="return false;" onpaste="return false;"
 																					onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
 																			</c:when>
@@ -413,27 +411,25 @@ table {
 																							minFractionDigits="0" maxFractionDigits="0" />
 
 																						<td class="col-md-2"><input align="left"
-																							type="text"
+																							type="number" step="0.01" min="0"
 																							name="act_prod_qty${planDetail.productionDetailId}"
 																							id="act_prod_qty${planDetail.productionDetailId}"
 																							placeholder="Actual Prod" class="form-control"
 																							value="${act}" data-rule-required="true"
-																							style="width: 65px"
-																							onkeypress="return IsNumeric(event);"
-																							ondrop="return false;" onpaste="return false;"
+																							style="width: 80px" ondrop="return false;"
+																							onpaste="return false;"
 																							onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
 
 																					</c:when>
 																					<c:otherwise>
 
 																						<td class="col-md-2"><input align="left"
-																							type="text"
+																							type="number" step="0.01" min="0"
 																							name="act_prod_qty${planDetail.productionDetailId}"
 																							id="act_prod_qty${planDetail.productionDetailId}"
 																							placeholder="Actual Prod" class="form-control"
 																							value="${planDetail.planQty}"
-																							data-rule-required="true" style="width: 65px"
-																							onkeypress="return IsNumeric(event);"
+																							data-rule-required="true" style="width: 80px"
 																							ondrop="return false;" onpaste="return false;"
 																							onkeyup="changeQty(${planDetail.productionDetailId})" />
 																						</td>
@@ -448,12 +444,12 @@ table {
 
 																	<c:otherwise>
 																		<td class="col-md-2"><input align="left"
-																			type="text"
+																			type="number" step="0.01" min="0"
 																			name="act_prod_qty${planDetail.productionDetailId}"
 																			id="act_prod_qty${planDetail.productionDetailId}"
 																			placeholder="Actual Prod" class="form-control"
 																			value="${planDetail.productionQty}"
-																			data-rule-required="true" style="width: 65px"
+																			data-rule-required="true" style="width: 80px"
 																			disabled /></td>
 																	</c:otherwise>
 																</c:choose>
@@ -461,22 +457,22 @@ table {
 																<c:choose>
 																	<c:when test="${planHeader.productionStatus==3}">
 																		<td class="col-md-2"><input align="left"
-																			type="text"
+																			type="number" step="0.01" min="0"
 																			name="rej_qty${planDetail.productionDetailId}"
 																			id="rej_qty${planDetail.productionDetailId}"
 																			placeholder="Rejected Qty" class="form-control"
 																			value="0" data-rule-required="true"
-																			style="width: 65px"
+																			style="width: 80px"
 																			onkeyup="checkRejQtyValidation(${planDetail.productionDetailId})" /></td>
 																	</c:when>
 																	<c:otherwise>
 																		<td class="col-md-2"><input align="left"
-																			type="text"
+																			type="number" step="0.01" min="0"
 																			name="rej_qty${planDetail.productionDetailId}"
 																			id="rej_qty${planDetail.productionDetailId}"
 																			placeholder="Rejected Qty" class="form-control"
 																			value="${planDetail.rejectedQty}"
-																			data-rule-required="true" style="width: 65px"
+																			data-rule-required="true" style="width: 80px"
 																			disabled
 																			onkeyup="checkRejQtyValidation(${planDetail.productionDetailId})" /></td>
 																	</c:otherwise>
@@ -594,9 +590,10 @@ table {
 																	<i class="fa fa-check"></i> Start Production
 																</button>
 															</a> --%>
-															
+
 															<a href="#">
-																<button id="start_prod" type="button" class="btn btn-primary">
+																<button id="start_prod" type="button"
+																	class="btn btn-primary">
 																	<i class="fa fa-check"></i> Start Production
 																</button>
 															</a>

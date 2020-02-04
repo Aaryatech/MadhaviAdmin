@@ -461,12 +461,18 @@ table {
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
-						value="${billDetails.rate}" /></td>
+						value="${billDetails.baseRate}" /></td>
 
+				
+				<c:set var="baseRate" value="${billDetails.baseRate}" />
+				<c:set var="totTax" value="${billDetails.cgstPer+billDetails.sgstPer}" />
+				<c:set var="taxRt" value="${baseRate*((totTax)/100)}" />
+				<c:set var="unitRate" value="${baseRate+taxRt}" />
+				
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
-						value="${billDetails.baseRate}" /></td>
+						value="${unitRate}" /></td>
 
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber

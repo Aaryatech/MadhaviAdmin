@@ -6,15 +6,15 @@ public class GetProdPlanDetail {
 	
 	private int productionHeaderId;
 
-	private int planQty;
+	private float planQty;
 	
-	private int orderQty;
+	private float orderQty;
 	
-	private int openingQty;
+	private float openingQty;
 	
-	private int rejectedQty;
+	private float rejectedQty;
 	
-	private int productionQty;
+	private float productionQty;
 	 
 	private int itemId;
 	
@@ -52,45 +52,7 @@ private float opTotal;
 		this.productionHeaderId = productionHeaderId;
 	}
 
-	public int getPlanQty() {
-		return planQty;
-	}
 
-	public void setPlanQty(int planQty) {
-		this.planQty = planQty;
-	}
-
-	public int getOrderQty() {
-		return orderQty;
-	}
-
-	public void setOrderQty(int orderQty) {
-		this.orderQty = orderQty;
-	}
-
-	public int getOpeningQty() {
-		return openingQty;
-	}
-
-	public void setOpeningQty(int openingQty) {
-		this.openingQty = openingQty;
-	}
-
-	public int getRejectedQty() {
-		return rejectedQty;
-	}
-
-	public void setRejectedQty(int rejectedQty) {
-		this.rejectedQty = rejectedQty;
-	}
-
-	public int getProductionQty() {
-		return productionQty;
-	}
-
-	public void setProductionQty(int productionQty) {
-		this.productionQty = productionQty;
-	}
 
 	public int getItemId() {
 		return itemId;
@@ -146,6 +108,48 @@ private float opTotal;
 
 	public void setOpTotal(float opTotal) {
 		this.opTotal = opTotal;
+	}
+	
+	
+
+	public float getPlanQty() {
+		return planQty;
+	}
+
+	public void setPlanQty(float planQty) {
+		this.planQty = planQty;
+	}
+
+	public float getOrderQty() {
+		return orderQty;
+	}
+
+	public void setOrderQty(float orderQty) {
+		this.orderQty = orderQty;
+	}
+
+	public float getOpeningQty() {
+		return openingQty;
+	}
+
+	public void setOpeningQty(float openingQty) {
+		this.openingQty = openingQty;
+	}
+
+	public float getRejectedQty() {
+		return rejectedQty;
+	}
+
+	public void setRejectedQty(float rejectedQty) {
+		this.rejectedQty = rejectedQty;
+	}
+
+	public float getProductionQty() {
+		return productionQty;
+	}
+
+	public void setProductionQty(float productionQty) {
+		this.productionQty = productionQty;
 	}
 
 	@Override

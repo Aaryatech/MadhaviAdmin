@@ -797,9 +797,9 @@ public class ViewProdController {
 								cell.setPadding(4);
 								table.addCell(cell);
 
-								int currentQty = (int) (Math.round(moneyOutList.get(k).getCurOpeQty()));
-								int production1Qty = (moneyOutList.get(k).getPlanQty() - currentQty);
-								int production2Qty = (moneyOutList.get(k).getOrderQty() - production1Qty);
+								float currentQty =  (Math.round(moneyOutList.get(k).getCurOpeQty()));
+								float production1Qty = (moneyOutList.get(k).getPlanQty() - currentQty);
+								float production2Qty = (moneyOutList.get(k).getOrderQty() - production1Qty);
 								if (pdfPlanHeader.getIsPlanned() == 0) {
 									cell = new PdfPCell(
 											new Phrase(String.valueOf(moneyOutList.get(k).getOrderQty()), headFont));
@@ -1000,14 +1000,14 @@ public class ViewProdController {
 			for (int i = 0; i < postProdPlanDetailList.size(); i++) {
 
 				if (prodStatus == 1) {
-					int planQty = Integer.parseInt(
+					float planQty = Float.parseFloat(
 							request.getParameter("plan_qty" + postProdPlanDetailList.get(i).getProductionDetailId()));
 					System.out.println("planQty" + planQty);
 
 					postProdPlanDetailList.get(i).setPlanQty(planQty);
 
 				} else if (prodStatus == 2) {
-					int orderQty = Integer.parseInt(
+					float orderQty = Float.parseFloat(
 							request.getParameter("order_qty" + postProdPlanDetailList.get(i).getProductionDetailId()));
 					System.out.println("orderQty:" + orderQty);
 
@@ -1156,7 +1156,7 @@ public class ViewProdController {
 				System.err.println("Batch ==" + prodBatch.concat("-" + serial));
 				// prodBatch=prodBatch.concat("-"+serial);
 				// int prodQty = 0,opTotal = 0, rejQty = 0;
-				int prodQty = Integer.parseInt(
+				float prodQty = Float.parseFloat(
 						request.getParameter("act_prod_qty" + postProdPlanDetailList.get(i).getProductionDetailId()));
 				float opTotal = Float.parseFloat(
 						request.getParameter("op_total" + postProdPlanDetailList.get(i).getProductionDetailId()));
@@ -1167,8 +1167,8 @@ public class ViewProdController {
 				System.out.println("prodQty:" + prodQty);
 
 				postProdPlanDetailList.get(i).setProductionQty(prodQty);
-				postProdPlanDetailList.get(i).setOpeningQty((int) opTotal);
-				postProdPlanDetailList.get(i).setRejectedQty((int) rejQty);
+				postProdPlanDetailList.get(i).setOpeningQty(opTotal);
+				postProdPlanDetailList.get(i).setRejectedQty(rejQty);
 
 				postProdPlanDetailList.get(i).setProductionBatch(prodBatch + "-" + serial);
 				serial = serial + 1;

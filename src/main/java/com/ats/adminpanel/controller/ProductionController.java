@@ -347,7 +347,7 @@ public class ProductionController {
 		date = request.getParameter("productionDate");
 		int cat = Integer.parseInt(request.getParameter("selectedCat"));
 		int id = Integer.parseInt(request.getParameter("selectedItem"));
-		int qty = Integer.parseInt(request.getParameter("qty"));
+		float qty = Float.parseFloat(request.getParameter("qty"));
 
 		for (Item item : itemList) {
 
@@ -373,7 +373,7 @@ public class ProductionController {
 			HttpServletResponse response) {
 
 		int key = Integer.parseInt(request.getParameter("key"));
-		int qty = Integer.parseInt(request.getParameter("qty"));
+		float qty = Float.parseFloat(request.getParameter("qty"));
 
 		System.err.println("key = " + key + "Qty = " + qty);
 
@@ -399,7 +399,7 @@ public class ProductionController {
 
 			for (ProductionBarcode prod : barcodeList) {
 
-				int q = prod.getProductionQty();
+				float q = prod.getProductionQty();
 
 				for (int i = 1; i <= q; i++) {
 
@@ -617,8 +617,7 @@ public class ProductionController {
 
 			getOrderItemQtyList = responseEntity.getBody();
 
-			// getOrderItemQtyList=rest.postForObject(Constants.url + "getOrderAllItemQty",
-			// map, List.class);
+			// getOrderItemQtyList=rest.postForObject(Constants.url + "getOrderAllItemQty", map, List.class);
 
 			// new code for getting current stock
 			RestTemplate restTemplate = new RestTemplate();
@@ -1444,9 +1443,9 @@ public class ProductionController {
 
 							float totalClosing = 0;
 
-							int billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
-							int prodQty = curProdBilQty.getProdQty();
-							int rejQty = curProdBilQty.getRejectedQty();
+							float billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
+							float prodQty = curProdBilQty.getProdQty();
+							float rejQty = curProdBilQty.getRejectedQty();
 
 							float t1 = stockDetail.getOpT1();
 							float t2 = stockDetail.getOpT2();

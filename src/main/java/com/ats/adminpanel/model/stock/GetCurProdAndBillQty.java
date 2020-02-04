@@ -7,10 +7,10 @@ public class GetCurProdAndBillQty {
 	
 	String itemName;
 	
-	int prodQty;
-	int rejectedQty;
-	int billQty;
-	int damagedQty;
+	float prodQty;
+	float rejectedQty;
+	float billQty;
+	float damagedQty;
 	
 	public int getId() {
 		return id;
@@ -24,28 +24,29 @@ public class GetCurProdAndBillQty {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public int getProdQty() {
+	
+	public float getProdQty() {
 		return prodQty;
 	}
-	public void setProdQty(int prodQty) {
+	public void setProdQty(float prodQty) {
 		this.prodQty = prodQty;
 	}
-	public int getRejectedQty() {
+	public float getRejectedQty() {
 		return rejectedQty;
 	}
-	public void setRejectedQty(int rejectedQty) {
+	public void setRejectedQty(float rejectedQty) {
 		this.rejectedQty = rejectedQty;
 	}
-	public int getBillQty() {
+	public float getBillQty() {
 		return billQty;
 	}
-	public void setBillQty(int billQty) {
+	public void setBillQty(float billQty) {
 		this.billQty = billQty;
 	}
-	public int getDamagedQty() {
+	public float getDamagedQty() {
 		return damagedQty;
 	}
-	public void setDamagedQty(int damagedQty) {
+	public void setDamagedQty(float damagedQty) {
 		this.damagedQty = damagedQty;
 	}
 	@Override

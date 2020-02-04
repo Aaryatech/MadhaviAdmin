@@ -3,7 +3,7 @@ package com.ats.adminpanel.model.production;
 public class ProductionBarcode {
 
 	private int itemId;
-	private int productionQty;
+	private float productionQty;
 	private String itemCode;
 	private String itemName;
 	public int getItemId() {
@@ -12,10 +12,11 @@ public class ProductionBarcode {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public int getProductionQty() {
+	
+	public float getProductionQty() {
 		return productionQty;
 	}
-	public void setProductionQty(int productionQty) {
+	public void setProductionQty(float productionQty) {
 		this.productionQty = productionQty;
 	}
 	public String getItemCode() {
