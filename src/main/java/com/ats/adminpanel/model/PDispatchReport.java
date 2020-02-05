@@ -21,13 +21,13 @@ public class PDispatchReport implements Serializable{
 	
 	private String itemName;
 	
-	private int orderQty;
+	private float orderQty;
 	
-	private int editQty;
+	private float editQty;
 
 	private int isBillGenerated;
 	
-	private int advQty;
+	private float advQty;
 
 	
 	public int getIsBillGenerated() {
@@ -102,33 +102,37 @@ public class PDispatchReport implements Serializable{
 		this.itemName = itemName;
 	}
 
-	public int getOrderQty() {
+	
+
+	
+	
+	
+	
+	
+
+	public float getOrderQty() {
 		return orderQty;
 	}
 
-	public void setOrderQty(int orderQty) {
+	public void setOrderQty(float orderQty) {
 		this.orderQty = orderQty;
 	}
 
-	public int getEditQty() {
+	public float getEditQty() {
 		return editQty;
 	}
 
-	public void setEditQty(int editQty) {
+	public void setEditQty(float editQty) {
 		this.editQty = editQty;
 	}
 
-	
-	
-	public int getAdvQty() {
+	public float getAdvQty() {
 		return advQty;
 	}
 
-	public void setAdvQty(int advQty) {
+	public void setAdvQty(float advQty) {
 		this.advQty = advQty;
 	}
-	
-	
 
 	@Override
 	public String toString() {

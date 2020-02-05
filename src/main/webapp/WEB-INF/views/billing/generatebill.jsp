@@ -325,7 +325,7 @@
 						<div class="col-md-12 table-responsive">
 							<table class="table table-bordered table-striped fill-head "
 								border="1" style="width: 100%" id="table_grid">
-								<thead style="background-color: #f3b5db;">
+								<thead style="background-color: #f95d64;">
 									<tr>
 										<th>Sr</th>
 										<th>Franchise</th>
@@ -570,7 +570,7 @@ var advOrdHeaderId=0;
 
 																
 														var frName = "<td style="+cls+">&nbsp;"
-																+ bill.frName
+																+ bill.frName+" - "+bill.frCode
 																+ "</td>";
 
 														var menuTitle = "<td >&nbsp;"

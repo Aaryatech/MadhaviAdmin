@@ -10,8 +10,6 @@ table {
 	width: 100%;
 	border: 1px solid #ddd;
 }
-
-
 </style>
 <body>
 
@@ -80,11 +78,11 @@ table {
 									<label class="col-sm-3 col-lg-2 control-label">From
 										Date</label>
 									<div class="col-sm-5 col-lg-3 controls">
-										 <input class="form-control date-picker" id="dp1" size="16"
-											value="${todaysDate}" type="text" name="from_date" required /> 
-											
-											
-											
+										<input class="form-control date-picker" id="dp1" size="16"
+											value="${todaysDate}" type="text" name="from_date" required />
+
+
+
 									</div>
 
 
@@ -119,8 +117,8 @@ table {
 
 
 
-									<label for="textfield2" class="col-xs-3 col-lg-2 control-label" style="display: none;">
-										<b>OR</b> &nbsp; Select Route
+									<label for="textfield2" class="col-xs-3 col-lg-2 control-label"
+										style="display: none;"> <b>OR</b> &nbsp; Select Route
 									</label>
 									<div class="col-sm-9 col-lg-3 controls" style="display: none;">
 
@@ -137,8 +135,8 @@ table {
 
 										</select>
 									</div>
-									
-									
+
+
 									<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
 										Section </label>
 									<div class="col-sm-9 col-lg-3 controls">
@@ -152,8 +150,8 @@ table {
 
 										</select>
 									</div>
-									
-									
+
+
 								</div>
 
 
@@ -216,7 +214,7 @@ table {
 
 									<div class="box-content">
 										<div align="center" class="form-group"
-											style="color: white; height: 65px; background: #f95d64; ">
+											style="color: white; height: 65px; background: #f95d64;">
 											<br> <label class="col-sm-3 col-lg-2 control-label">Transport
 												Mode </label>
 											<div class="col-sm-5 col-lg-3 controls">
@@ -306,20 +304,15 @@ table {
 																<td class="col-md-2" align="center">
 																	<div class="form-group">
 
-																		<a href="#"
+																		<a href="#" style="display: none;"
 																			onclick="submitBill(${billHeadersList.billNo})"
 																			title="Bill Detail"><i class='fa fa-info  fa-lg'></i></a>
 
-																		<!-- <input type="button"  id="btn_submit"
-															class="btn btn-primary" onclick="submitBill()"
-															value="BillDetail" /> -->
-																		&nbsp;&nbsp;
-																		
-																		<a href="#"
+
+																		&nbsp;&nbsp; <a href="#" style="display: none;"
 																			onclick="submitBillPdf(${billHeadersList.billNo})"
-																			title="PDF"><i class='fa fa-file fa-lg'></i></a>
-																			
-																		 <input type="button" id="btn_submit_pdf"
+																			title="PDF"><i class='fa fa-file fa-lg'></i></a> <input
+																			type="button" id="btn_submit_pdf"
 																			class="btn btn-primary" value="PDF"
 																			onclick="submitBillPdf(${billHeadersList.billNo})"
 																			style="padding: 0px 4px; font-size: 14px; display: none;">&nbsp;
@@ -344,7 +337,16 @@ table {
 								style="margin-right: 5px;" onclick="submitBill()">Get
 								PDF</button> -->
 
-											<input type="button" margin-right: 5px;" id="btn_submit"
+
+											<input type="button" margin-right: 5px;" id="btn_detail"
+												class="btn btn-primary" onclick="submitBill()"
+												value="Bill Detail" /> <input type="button"
+												margin-right: 5px;" id="btn_pdff" class="btn btn-primary"
+												onclick="submitBillPdf()" value="PDF" /> <input
+												type="button" margin-right: 5px;" id="btn_submit"
+												class="btn btn-primary" onclick="submitBill()"
+												value="BillDetail" style="display: none;" /> <input
+												type="button" margin-right: 5px;" id="btn_submit"
 												class="btn btn-primary" onclick="submitBill()"
 												value="BillDetail" style="display: none;" /> <input
 												type="button" id="expExcel" class="btn btn-primary"
@@ -364,17 +366,17 @@ table {
 					</div>
 				</div>
 			</div>
-			</div>
+		</div>
 		<!-- END Content -->
-			<!-- END Main Content -->
-			<footer>
-				<p>2019 © MADHAVI.</p>
-			</footer>
+		<!-- END Main Content -->
+		<footer>
+			<p>2019 © MADHAVI.</p>
+		</footer>
 
 
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
-		
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+
 	</div>
 	<!-- END Container -->
 
@@ -425,7 +427,7 @@ table {
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 
 
-<!--flaty scripts-->
+	<!--flaty scripts-->
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
@@ -453,7 +455,9 @@ table {
 	<script type="text/javascript">
 		function submitBill(val) {
 			 
-var select_to_print = document.forms[0];
+			var select_to_print = document.forms[0];
+			
+			//alert(JSON.stringify(select_to_print));
 			
 			var txt = "";
 			
@@ -463,14 +467,20 @@ var select_to_print = document.forms[0];
 					txt = txt + select_to_print[i].value + ",";
 					
 				}
-			}		
+			}	
+			
+			if(txt==""){
+				alert("Please Select Bill!")
+			}else{
+				 //document.getElementById("billId").value=val;
+				  document.getElementById("billId").value=txt;
+					var form = document.getElementById("validation-form")
+					form.action = "${pageContext.request.contextPath}/getBillDetailForPrint1";
+					form.submit();
+			}
 			
 			
-			 //document.getElementById("billId").value=val;
-			  document.getElementById("billId").value=txt;
-				var form = document.getElementById("validation-form")
-				form.action = "${pageContext.request.contextPath}/getBillDetailForPrint1";
-				form.submit();
+			
 			 
 		}
 		/* 	$('#btn_submit')
@@ -500,6 +510,12 @@ var select_to_print = document.forms[0];
 					
 				}
 			}						// document.getElementById("billId").value=val;
+			
+			
+			if(txt==""){
+				alert("Please Select Bill!")
+			}else{
+			
 			document.getElementById("billId").value=txt;
 							
 			document.getElementById("validation-form").target = "_blank";
@@ -508,6 +524,7 @@ var select_to_print = document.forms[0];
 
 			form.action = "${pageContext.request.contextPath}/getBillDetailForPrintPdf1";
 			form.submit();
+			}
 		}
 					 
 	</script>
@@ -530,7 +547,7 @@ var select_to_print = document.forms[0];
 
 		}
 	</script>
-	
+
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -646,11 +663,40 @@ var select_to_print = document.forms[0];
 																				.html(
 																						"Received"));
 															}
-															tr
+															
+															
+															 /* <a href='#' onclick='submitBill()' title='Detail'><i class='fa fa-file fa-lg'></i></a> */
+															
+															/* tr
 																	.append($(
 																			'<td class="col-md-2"></td>')
 																			.html(
-																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>")); */
+																					
+																					if(bill.status==1){
+
+																						
+																						tr
+																						.append($(
+																								'<td class="col-md-2"></td>')
+																								.html(
+																										"<a href='${pageContext.request.contextPath}/updateBillStatusAdmin?billNo="+bill.billNo+"&stat=2' title='Received'><i class='fa fa-check'></i></a>"));
+																						
+																					}else{
+																						
+																						tr
+																						.append($(
+																								'<td class="col-md-2"></td>')
+																								.html(" "));
+																					}
+
+																					
+																					/* tr
+																					.append($(
+																							'<td class="col-md-2"></td>')
+																							.html(
+																									"<a onclick='submitBill()' title='Detail'><i class='fa fa-info fa-lg'></i></a> <a onclick='submitBillPdf()' title='PDF'><i class='fa fa-file fa-lg'></i></a>")); */
+																					
 															$('#table12 tbody')
 																	.append(tr);
 														}
@@ -723,11 +769,40 @@ var select_to_print = document.forms[0];
 																				.html(
 																						"Received"));
 															}
-															tr
+															
+															/* tr
 																	.append($(
 																			'<td class="col-md-2"></td>')
 																			.html(
-																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+																					"<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='Detail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>")); */
+																					
+																					
+															if(bill.status==1){
+
+																
+																tr
+																.append($(
+																		'<td class="col-md-2"></td>')
+																		.html(
+																				"<a href='${pageContext.request.contextPath}/updateBillStatusAdmin?billNo="+bill.billNo+"&stat=2' title='Received'><i class='fa fa-check'></i></a>"));
+																
+															}else{
+																
+																tr
+																.append($(
+																		'<td class="col-md-2"></td>')
+																		.html(" "));
+															}
+
+																					
+																					/* tr
+																					.append($(
+																							'<td class="col-md-2"></td>')
+																							.html(
+																									"<a onclick='submitBill()' title='Detail'><i class='fa fa-info fa-lg'></i></a> <a onclick='submitBillPdf()' title='PDF'><i class='fa fa-file fa-lg'></i></a>")); */
+																					
+																					
+															
 															$('#table12 tbody')
 																	.append(tr);
 
@@ -994,9 +1069,9 @@ var select_to_print = document.forms[0];
 											});
 						});
 	</script> -->
-	
-	
-	
+
+
+
 	<!-- <script type="text/javascript">
 	$(document).ready(function () {
 	    $(document).on('click', 'tbody tr', function () {

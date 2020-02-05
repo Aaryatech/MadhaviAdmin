@@ -452,7 +452,7 @@ table {
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">${billDetails.itemHsncd}</td>
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
-						type="number" maxFractionDigits="2" minFractionDigits="2"
+						type="number" maxFractionDigits="3" minFractionDigits="2"
 						value="${billDetails.billQty}" /></td>
 				<c:set var="totalQty" value="${totalQty+billDetails.billQty}" />
 				<%-- <td align="center"
@@ -528,7 +528,7 @@ table {
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td align="right"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
+							type="number" maxFractionDigits="3" minFractionDigits="2"
 							value="${totalQty}" /></b></td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>

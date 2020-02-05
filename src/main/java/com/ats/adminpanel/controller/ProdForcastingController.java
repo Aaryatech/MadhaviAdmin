@@ -553,18 +553,32 @@ public class ProdForcastingController {
 		if (postProdPlanHeaderRes == null) {
 			List<CommonConf> prodPlanItems = new ArrayList<CommonConf>();
 			String planDate = request.getParameter("datepicker5");
+			
+			System.err.println("globalItemList ---------- > "+globalItemList);
+			
 			for (Item item : globalItemList) {
 				CommonConf commonConf = new CommonConf();
-				float qty = Float.parseFloat(request.getParameter("qty5" + item.getId()));
+				System.err.println("ITEM ------------> "+item.getId());
+				
 
-				System.out.println(qty);
-				if (qty > 0) {
-					commonConf.setId(item.getId());
-					commonConf.setName(item.getItemName());
-					commonConf.setQty(qty);
+				if(request.getParameter("qty5" + item.getId())!=null) {
+					
+					System.err.println("QTY =============> "+request.getParameter("qty5" + item.getId()));
+					
+					float qty = Float.parseFloat(request.getParameter("qty5" + item.getId()));
 
-					prodPlanItems.add(commonConf);
+					System.out.println(qty);
+					if (qty > 0) {
+						commonConf.setId(item.getId());
+						commonConf.setName(item.getItemName());
+						commonConf.setQty(qty);
+
+						prodPlanItems.add(commonConf);
+					}
+					
 				}
+				
+				
 			}
 
 			String selectTime = request.getParameter("selectTime");

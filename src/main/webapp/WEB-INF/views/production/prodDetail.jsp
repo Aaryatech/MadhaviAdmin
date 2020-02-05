@@ -307,7 +307,7 @@ table {
 																			id="plan_qty${planDetail.productionDetailId}"
 																			placeholder="Plan Qty" class="form-control"
 																			value="${planDetail.planQty}"
-																			data-rule-required="true" style="width: 65px" /></td>
+																			data-rule-required="true" style="width: 95px" /></td>
 
 																	</c:when>
 																	<c:otherwise>
@@ -317,7 +317,7 @@ table {
 																			id="plan_qty${planDetail.productionDetailId}"
 																			placeholder="Plan Qty" class="form-control"
 																			value="${planDetail.planQty}"
-																			data-rule-required="true" style="width: 65px"
+																			data-rule-required="true" style="width: 95px"
 																			disabled /></td>
 																	</c:otherwise>
 																</c:choose>
@@ -329,7 +329,7 @@ table {
 																		id="prod1_qty${planDetail.productionDetailId}"
 																		placeholder="Production1 Qty" class="form-control"
 																		value="${planDetail.planQty}"
-																		data-rule-required="true" style="width: 65px" /></td>
+																		data-rule-required="true" style="width: 95px" /></td>
 																</c:if>
 																<c:if test="${planHeader.isPlanned==2}">
 																	<td class="col-md-1"><input align="left"
@@ -338,7 +338,7 @@ table {
 																		id="total${planDetail.productionDetailId}"
 																		placeholder="Total" class="form-control"
 																		value="${planDetail.curOpeQty+planDetail.planQty}"
-																		data-rule-required="true" style="width: 65px" disabled /></td>
+																		data-rule-required="true" style="width: 95px" disabled /></td>
 																</c:if>
 
 
@@ -351,7 +351,7 @@ table {
 																				id="order_qty${planDetail.productionDetailId}"
 																				placeholder="Order Qty" class="form-control"
 																				value="${planDetail.orderQty}"
-																				data-rule-required="true" style="width: 65px" /></td>
+																				data-rule-required="true" style="width: 95px" /></td>
 																		</c:when>
 																		<c:otherwise>
 																			<td class="col-md-1"><input align="left"
@@ -360,7 +360,7 @@ table {
 																				id="order_qty${planDetail.productionDetailId}"
 																				placeholder="Order Qty" class="form-control"
 																				value="${planDetail.orderQty}"
-																				data-rule-required="true" style="width: 65px"
+																				data-rule-required="true" style="width: 95px"
 																				disabled /></td>
 																		</c:otherwise>
 																	</c:choose>
@@ -372,7 +372,7 @@ table {
 																		id="prod2_qty${planDetail.productionDetailId}"
 																		placeholder="Production2 Qty" class="form-control"
 																		value="${planDetail.orderQty-(planDetail.planQty+planDetail.curOpeQty)}"
-																		data-rule-required="true" style="width: 65px" disabled /></td>
+																		data-rule-required="true" style="width: 95px" disabled /></td>
 																</c:if>
 
 
@@ -387,7 +387,7 @@ table {
 																					id="act_prod_qty${planDetail.productionDetailId}"
 																					placeholder="Actual Prod" class="form-control"
 																					value="${planDetail.planQty}"
-																					data-rule-required="true" style="width: 80px"
+																					data-rule-required="true" style="width: 95px"
 																					ondrop="return false;" onpaste="return false;"
 																					onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
 																			</c:when>
@@ -398,7 +398,7 @@ table {
 																					id="act_prod_qty${planDetail.productionDetailId}"
 																					placeholder="Actual Prod" class="form-control"
 																					value="${planDetail.orderQty}"
-																					data-rule-required="true" style="width: 80px"
+																					data-rule-required="true" style="width: 95px"
 																					ondrop="return false;" onpaste="return false;"
 																					onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
 																			</c:when>
@@ -416,7 +416,7 @@ table {
 																							id="act_prod_qty${planDetail.productionDetailId}"
 																							placeholder="Actual Prod" class="form-control"
 																							value="${act}" data-rule-required="true"
-																							style="width: 80px" ondrop="return false;"
+																							style="width: 95px" ondrop="return false;"
 																							onpaste="return false;"
 																							onkeyup="changeQty(${planDetail.productionDetailId})" /></td>
 
@@ -429,7 +429,7 @@ table {
 																							id="act_prod_qty${planDetail.productionDetailId}"
 																							placeholder="Actual Prod" class="form-control"
 																							value="${planDetail.planQty}"
-																							data-rule-required="true" style="width: 80px"
+																							data-rule-required="true" style="width: 95px"
 																							ondrop="return false;" onpaste="return false;"
 																							onkeyup="changeQty(${planDetail.productionDetailId})" />
 																						</td>
@@ -449,7 +449,7 @@ table {
 																			id="act_prod_qty${planDetail.productionDetailId}"
 																			placeholder="Actual Prod" class="form-control"
 																			value="${planDetail.productionQty}"
-																			data-rule-required="true" style="width: 80px"
+																			data-rule-required="true" style="width: 95px"
 																			disabled /></td>
 																	</c:otherwise>
 																</c:choose>
@@ -462,7 +462,7 @@ table {
 																			id="rej_qty${planDetail.productionDetailId}"
 																			placeholder="Rejected Qty" class="form-control"
 																			value="0" data-rule-required="true"
-																			style="width: 80px"
+																			style="width: 95px"
 																			onkeyup="checkRejQtyValidation(${planDetail.productionDetailId})" /></td>
 																	</c:when>
 																	<c:otherwise>
@@ -472,7 +472,7 @@ table {
 																			id="rej_qty${planDetail.productionDetailId}"
 																			placeholder="Rejected Qty" class="form-control"
 																			value="${planDetail.rejectedQty}"
-																			data-rule-required="true" style="width: 80px"
+																			data-rule-required="true" style="width: 95px"
 																			disabled
 																			onkeyup="checkRejQtyValidation(${planDetail.productionDetailId})" /></td>
 																	</c:otherwise>

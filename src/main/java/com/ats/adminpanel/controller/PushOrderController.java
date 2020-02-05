@@ -398,7 +398,7 @@ public class PushOrderController {
 
 						String quantity = request
 								.getParameter("itemId" + items.get(j).getId() + "orderQty" + selectedFrIdList.get(i));
-						int qty = Integer.parseInt(quantity);
+						float qty = Float.parseFloat(quantity);
 
 						if (qty != 0) {
 
@@ -465,7 +465,7 @@ public class PushOrderController {
 					String quantity = request
 							.getParameter("itemId" + items.get(j).getId() + "orderQty" + selectedFrIdList.get(i));
 					System.out.println("qtyb    " + quantity);
-					int qty = Integer.parseInt(quantity);
+					float qty = Float.parseFloat(quantity);
 
 					if (qty != 0) {
 						List<Orders> oList = new ArrayList<>();

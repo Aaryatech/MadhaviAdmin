@@ -311,30 +311,30 @@ public class DispatchController {
 					int srNo = 1;
 					for (int k = 0; k < itemsList.size(); k++) {
 						if (itemsList.get(k).getItemGrp2() == subCatAList.get(j).getSubCatId()) {
-							int editQty = 0;
+							float editQty = 0;
 
-							int advQty = 0, totalQty = 0;
+							float advQty = 0, totalQty = 0,orderQty=0;
 
-							for (int l = 0; l < frNameIdByRouteIdList.size(); l++) {
+							//for (int l = 0; l < frNameIdByRouteIdList.size(); l++) {
 
-								if (frNameIdByRouteIdList.get(l).getFrId() == frListOrdersPresent.get(i)) {
+								//if (frNameIdByRouteIdList.get(l).getFrId() == frListOrdersPresent.get(i)) {
 									for (int m = 0; m < dispatchReportList.size(); m++) {
 
 										if (dispatchReportList.get(m).getItemId() == itemsList.get(k).getId()) {
-											if (dispatchReportList.get(m).getFrId() == frNameIdByRouteIdList.get(l)
-													.getFrId()) {
+											if (dispatchReportList.get(m).getFrId() == frListOrdersPresent.get(i)) {
 												editQty = dispatchReportList.get(m).getEditQty();
+												orderQty=dispatchReportList.get(m).getOrderQty();
 
 												advQty = dispatchReportList.get(m).getAdvQty();
-												totalQty = editQty + advQty;
+												totalQty = orderQty + advQty;
 											}
 
 										}
 
 									}
-								}
+								//}
 
-							}
+							//}
 
 							if (editQty > 0) {
 								if (flagnew == 0) {
@@ -411,7 +411,7 @@ public class DispatchController {
 								cell.setPadding(4);
 								table.addCell(cell);
 
-								cell = new PdfPCell(new Phrase("" + editQty, headFont));
+								cell = new PdfPCell(new Phrase("" + String.format("%.2f",orderQty), headFont));
 								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 								cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 								cell.setPaddingRight(2);
@@ -420,14 +420,14 @@ public class DispatchController {
 
 								if (advOrd.equalsIgnoreCase("1")) {
 
-									cell = new PdfPCell(new Phrase("" + advQty, headFont));
+									cell = new PdfPCell(new Phrase("" + String.format("%.2f",advQty), headFont));
 									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setPaddingRight(2);
 									cell.setPadding(4);
 									table.addCell(cell);
 
-									cell = new PdfPCell(new Phrase("" + totalQty, headFont));
+									cell = new PdfPCell(new Phrase("" + String.format("%.2f",totalQty), headFont));
 									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setPaddingRight(2);

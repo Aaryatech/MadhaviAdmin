@@ -43,23 +43,17 @@ public class ItemForMOrder{
 		
 	private double itemRate3;
 	
-	private int minQty;
+	private float minQty;
 	
 	private int shelfLife;
 	
     private float discPer;
     
-    private int orderQty;
+    private float orderQty;
     
     
 
-	public int getOrderQty() {
-		return orderQty;
-	}
-
-	public void setOrderQty(int orderQty) {
-		this.orderQty = orderQty;
-	}
+	
 
 	public int getId() {
 		return id;
@@ -221,13 +215,7 @@ public class ItemForMOrder{
 		this.itemRate3 = itemRate3;
 	}
 
-	public int getMinQty() {
-		return minQty;
-	}
-
-	public void setMinQty(int minQty) {
-		this.minQty = minQty;
-	}
+	
 
 	public int getShelfLife() {
 		return shelfLife;
@@ -243,6 +231,24 @@ public class ItemForMOrder{
 
 	public void setDiscPer(float discPer) {
 		this.discPer = discPer;
+	}
+	
+	
+
+	public float getMinQty() {
+		return minQty;
+	}
+
+	public void setMinQty(float minQty) {
+		this.minQty = minQty;
+	}
+
+	public float getOrderQty() {
+		return orderQty;
+	}
+
+	public void setOrderQty(float orderQty) {
+		this.orderQty = orderQty;
 	}
 
 	@Override

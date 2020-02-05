@@ -23,7 +23,7 @@ private int productionDetailId;
 	
 	private String productionDate;
 	
-	private int int4;
+	private float int4;
 	
 	
 	private float  curClosingQty;//new Field Added Sachin
@@ -135,12 +135,14 @@ private int productionDetailId;
 	}
 
 
-	public int getInt4() {
+	
+
+	public float getInt4() {
 		return int4;
 	}
 
 
-	public void setInt4(int int4) {
+	public void setInt4(float int4) {
 		this.int4 = int4;
 	}
 

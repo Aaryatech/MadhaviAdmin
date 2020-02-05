@@ -177,8 +177,8 @@ public class ProdRejectRetuController {
 
 				System.out.println(request.getParameter("qty1" + itemList.get(i).getId()));
 
-				int t1 = Integer.parseInt(request.getParameter("qty1" + itemList.get(i).getId()));
-				int t2 = Integer.parseInt(request.getParameter("qty2" + itemList.get(i).getId()));
+				float t1 = Float.parseFloat(request.getParameter("qty1" + itemList.get(i).getId()));
+				float t2 = Float.parseFloat(request.getParameter("qty2" + itemList.get(i).getId()));
 
 				if (t1 > 0 || t2 > 0) {
 					postProductionDetail = new PostProductionPlanDetail();

@@ -6,6 +6,8 @@ import java.util.Date;
 
  public class GetBillListByFrIdToSettle {
 
+	 private int billTransId;
+	 
  	private int billHeadId;
 
 	private String billNo;
@@ -21,6 +23,26 @@ import java.util.Date;
 	private String pendingAmt;
 
 	private String frName;
+	private String settleAmt;
+	
+	
+	
+
+	public String getSettleAmt() {
+		return settleAmt;
+	}
+
+	public void setSettleAmt(String settleAmt) {
+		this.settleAmt = settleAmt;
+	}
+
+	public int getBillTransId() {
+		return billTransId;
+	}
+
+	public void setBillTransId(int billTransId) {
+		this.billTransId = billTransId;
+	}
 
 	public int getBillHeadId() {
 		return billHeadId;
@@ -86,11 +108,13 @@ import java.util.Date;
 		this.frName = frName;
 	}
 
+	
+	
 	@Override
 	public String toString() {
-		return "GetBillListByFrIdToSettle [billHeadId=" + billHeadId + ", billNo=" + billNo + ", billDate=" + billDate
-				+ ", frId=" + frId + ", billAmt=" + billAmt + ", paidAmt=" + paidAmt + ", pendingAmt=" + pendingAmt
-				+ ", frName=" + frName + "]";
+		return "GetBillListByFrIdToSettle [billTransId=" + billTransId + ", billHeadId=" + billHeadId + ", billNo="
+				+ billNo + ", billDate=" + billDate + ", frId=" + frId + ", billAmt=" + billAmt + ", paidAmt=" + paidAmt
+				+ ", pendingAmt=" + pendingAmt + ", frName=" + frName + ", settleAmt=" + settleAmt + "]";
 	}
 
 }

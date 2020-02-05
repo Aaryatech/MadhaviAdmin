@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -96,7 +97,12 @@ public class OrderController {
 				model.addObject("allOtherFrList", tempFrList);
 				model.addObject("selectedFrList", selectedFrList);
 				model.addObject("menuId", 0);
-				model.addObject("date", new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+				
+				Calendar cal=Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, -1);
+				
+				
+				model.addObject("date", new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime()));
 				RestTemplate restTemplate1 = new RestTemplate();
 
 				AllMenuResponse allMenuResponse = restTemplate1.getForObject(Constants.url + "getAllMenu",

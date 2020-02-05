@@ -61,7 +61,7 @@
              <input type="hidden" name="transport_mode" id="transport_mode" value="${transportMode}"/>
             <%-- <input type="hidden" name="select_to_print" id="select_to_print" value="${selectedBills}"/> --%>
 			    <input type="hidden" name="vehicle_no" id="vehicle_no" value="${vehicleNo}"/>
-			     <input type="hidden" name="billId" id="billId" value="${selectedBills}"/>
+			     <input type="hidden" name="billId" id="billId" value="${billId}"/>
 			   
 			    
 							<c:forEach items="${billDetails}" var="frDetails"

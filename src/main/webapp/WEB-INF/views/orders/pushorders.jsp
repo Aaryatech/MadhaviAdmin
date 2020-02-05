@@ -133,7 +133,7 @@
 						
 							<label class=" col-md-1 control-label franchisee_label">Discount % </label>
 						<div class="col-md-1">
-							<input type="text" name="discPer" id="discPer" value="1" class="form-control" width="30px"/>
+							<input type="text" name="discPer" id="discPer" value="0" class="form-control" width="30px"/>
 						</div>
 					<!-- </div>
 					
@@ -340,12 +340,12 @@
 													    	  
 													    	  if(qty > 0){
 												    		//var orderQty = "<td align=center><input type=number min=0 max=500 class=form-control  readonly='true'   id=itemId"+itemname.itemId+"orderQty"+ id+ " name=itemId"+itemname.itemId+"orderQty"+id+" value = "+qty+"></td>"; 
-												    		tr.append($('<td></td>').html("<input type=number min=0 max=500 class=form-control  readonly='true' style='  height: 24px;'  id=itemId"+itemname.itemId+"orderQty"+ id+ " name=itemId"+itemname.itemId+"orderQty"+id+" value = "+qty+">"));
+												    		tr.append($('<td></td>').html("<input type=number step=0.01 min=0 max=500 class=form-control  readonly='true' style='  height: 24px;'  id=itemId"+itemname.itemId+"orderQty"+ id+ " name=itemId"+itemname.itemId+"orderQty"+id+" value = "+qty+">"));
 													    	  }
 													    	  else
 													    		{//var orderQty = "<td align=center><input onkeypress='return IsNumeric(event);' ondrop='return false;' onpaste='return false;' type=number min=0 max=500 class=form-control   id=itemId"+itemname.itemId+"orderQty"+ id+ " name=itemId"+itemname.itemId+"orderQty"+id+" value = "+qty+"></td>"; 
 	
-													    		tr.append($('<td></td>').html("<input onkeypress='return IsNumeric(event);' ondrop='return false;'style='  height: 24px;'  onpaste='return false;' type=number min=0 max=500 class=form-control   id=itemId"+itemname.itemId+"orderQty"+ id+ " name=itemId"+itemname.itemId+"orderQty"+id+" value = "+qty+" tabindex="+key+">"));
+													    		tr.append($('<td></td>').html("<input step=0.01 ondrop='return false;'style='  height: 24px;'  onpaste='return false;' type=number min=0 max=500 class=form-control   id=itemId"+itemname.itemId+"orderQty"+ id+ " name=itemId"+itemname.itemId+"orderQty"+id+" value = "+qty+" tabindex="+key+">"));
 													    		}
 												      });
 												    

@@ -374,11 +374,11 @@ table {
 																	.html(
 																			item.itemName));
 													tr
-															.append($('<td align=center ><input type=number  class=form-control style=height:26px;  id= qty1'+ item.itemId+' value='+item.opT1+' name=qty1'+item.itemId+'  required>	<input type=hidden  class=form-control style=height:26px;  id= prevQty1'+ item.itemId+' value='+item.opT1+' name=prevQty1'+item.itemId+'   ></td>'));
+															.append($('<td align=center ><input type=number step=0.01 min=0 class=form-control style=height:26px;  id= qty1'+ item.itemId+' value='+item.opT1+' name=qty1'+item.itemId+'  required>	<input type=hidden  class=form-control style=height:26px;  id= prevQty1'+ item.itemId+' value='+item.opT1+' name=prevQty1'+item.itemId+'   ></td>'));
 													tr
-															.append($('<td align=center ><input type=number  class=form-control style=height:26px;  id= qty2'+ item.itemId+ ' value='+item.opT2+' name=qty2'+item.itemId+'  required> 	<input type=hidden  class=form-control style=height:26px;  id= prevQty2'+ item.itemId+' value='+item.opT2+' name=prevQty2'+item.itemId+'   ></td>'));
+															.append($('<td align=center ><input type=number step=0.01 min=0 class=form-control style=height:26px;  id= qty2'+ item.itemId+ ' value='+item.opT2+' name=qty2'+item.itemId+'  required> 	<input type=hidden  class=form-control style=height:26px;  id= prevQty2'+ item.itemId+' value='+item.opT2+' name=prevQty2'+item.itemId+'   ></td>'));
 													tr
-															.append($('<td align=center ><input type=number  class=form-control style=height:26px;  id= qty3'+ item.itemId+' value='+item.opT3+' name=qty3'+item.itemId+'  required> <input type=hidden  class=form-control style=height:26px;  id= prevQty3'+ item.itemId+' value='+item.opT3+' name=prevQty3'+item.itemId+'   ></td>'));
+															.append($('<td align=center ><input type=number step=0.01 min=0 class=form-control style=height:26px;  id= qty3'+ item.itemId+' value='+item.opT3+' name=qty3'+item.itemId+'  required> <input type=hidden  class=form-control style=height:26px;  id= prevQty3'+ item.itemId+' value='+item.opT3+' name=prevQty3'+item.itemId+'   ></td>'));
 
 													$('#table1 tbody').append(
 															tr);

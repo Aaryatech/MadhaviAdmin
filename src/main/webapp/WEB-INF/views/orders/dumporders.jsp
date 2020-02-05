@@ -422,7 +422,7 @@ table {
 																						.append($(
 																								'<td></td>')
 																								.html(
-																										"<input onkeypress='return IsNumeric(event);' ondrop='return false;' style='  height: 24px;'  onpaste='return false;' type=number min=0 max=500 class=form-control   id=itemId"
+																										"<input  ondrop='return false;' style='  height: 24px;'  onpaste='return false;' type=number min=0 step=0.01 max=500 class=form-control   id=itemId"
 																												+ orderdata.itemId
 																												+ "orderQty"
 																												+ id

@@ -76,13 +76,15 @@ public class Orders {
 
 	private int menuId;
 
-	private int minQty;//extra for manual order at admin bean only
+	private float minQty;//extra for manual order at admin bean only
 	
-	public int getMinQty() {
+	
+
+	public float getMinQty() {
 		return minQty;
 	}
 
-	public void setMinQty(int minQty) {
+	public void setMinQty(float minQty) {
 		this.minQty = minQty;
 	}
 

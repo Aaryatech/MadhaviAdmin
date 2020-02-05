@@ -41,7 +41,7 @@
 
 			<div class="row hidden-xs">
 				<div class="col-md-12">
-					<div class="box box-pink">
+					<div class="box">
 						<div class="box-title">
 							<h3>
 								<i class="fa fa-bars"></i> Pending Bill List

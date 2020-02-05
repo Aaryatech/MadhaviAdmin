@@ -350,9 +350,9 @@ table {
 																	.html(
 																			item.itemName));
 													tr
-															.append($('<td align=center ><input type=number  class=form-control style=height:26px;  id= qty1'+ item.id+' value='+0+' name=qty1'+item.id+'  required></td>'));
+															.append($('<td align=center ><input type=number step=0.01 min=0 class=form-control style=height:26px;  id= qty1'+ item.id+' value='+0+' name=qty1'+item.id+'  required></td>'));
 													tr
-															.append($('<td align=center ><input type=number  class=form-control style=height:26px;  id= qty2'+ item.id+ ' value='+0+' name=qty2'+item.id+'  required></td>'));
+															.append($('<td align=center ><input type=number step=0.01 min=0 class=form-control style=height:26px;  id= qty2'+ item.id+ ' value='+0+' name=qty2'+item.id+'  required></td>'));
 
 													$('#table1 tbody').append(
 															tr);

@@ -26,26 +26,30 @@ public class PostProductionPlanDetail {
 
 	private String productionDate;
 
-	private int int4;
-	private int int5; // neha
+	private float int4;
+	private float int5; // neha
 
 	private float curClosingQty;// new Field Added Sachin
 
 	private float curOpeQty;// new fiedl
 
-	public int getInt5() {
+	
+
+	public float getInt5() {
 		return int5;
 	}
 
-	public void setInt5(int int5) {
+	public void setInt5(float int5) {
 		this.int5 = int5;
 	}
 
-	public int getInt4() {
+	
+
+	public float getInt4() {
 		return int4;
 	}
 
-	public void setInt4(int int4) {
+	public void setInt4(float int4) {
 		this.int4 = int4;
 	}
 

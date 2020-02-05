@@ -413,15 +413,15 @@
 													/* var qty1 = "<td align=center colspan='2'><input type=text  class=form-control  id= qty1"+ item.id+ " name=qty1"+item.id+" value = "+item.qty+ " disabled></td>"; 
 													 */
 											
-													var qty2 = "<td align=center colspan='2' padding=0><input type=number  class=form-control  id= qty2"+ item.id+ " name=qty2"+item.id+" value = "+0+ " style='font-size:10pt; height: 20px; ' disabled></td>";
+													var qty2 = "<td align=center colspan='2' padding=0><input type=number step=0.01 min=0 class=form-control  id= qty2"+ item.id+ " name=qty2"+item.id+" value = "+0+ " style='font-size:10pt; height: 20px; ' disabled></td>";
 
-													var qty3 = "<td align=center colspan='2' padding=0><input type=number  class=form-control  id= qty3"+ item.id+ " name=qty3"+item.id+" value = "+0+ " style='font-size:10pt; height: 20px; ' disabled></td>";
+													var qty3 = "<td align=center colspan='2' padding=0><input type=number step=0.01 min=0 class=form-control  id= qty3"+ item.id+ " name=qty3"+item.id+" value = "+0+ " style='font-size:10pt; height: 20px; ' disabled></td>";
 
  													/*  var qty4 = "<td align=center colspan='2'><input type=text  class=form-control  id= qty4"+ item.id+ " name=qty4"+item.id+" value = "+0+ " disabled></td>";
  */
 /* 													var qty5 = "<td align=center><input type=text min=0 max=500 class=form-control  id= qty5"+ item.id+ " name=qty5"+item.id+" value = "+0+ " disabled></td>";
  */
-													var qty5 = "<td align=center colspan='1' padding=0><input type=number  class=form-control  id= qty5"+ item.id+ " name=qty5"+item.id+" value = "+0+ " style='font-size:10pt; height: 20px; ' required></td>";
+													var qty5 = "<td align=center colspan='1' padding=0><input type=number step=0.01 min=0 class=form-control  id= qty5"+ item.id+ " name=qty5"+item.id+" value = "+0+ " style='font-size:10pt; height: 20px; ' required></td>";
 
 													var trclosed = "</tr>";
 

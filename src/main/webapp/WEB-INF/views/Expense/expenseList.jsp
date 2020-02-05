@@ -5,8 +5,8 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/css/component.css" />
+<%-- <link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/component.css" /> --%>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <style type="text/css">
@@ -16,6 +16,10 @@ a[disabled="disabled"] {
 
 .switch-toggle {
 	width: 14em;
+}
+
+.sticky-thead {
+	display: none;
 }
 </style>
 <body>
@@ -39,29 +43,22 @@ a[disabled="disabled"] {
 
 		<!-- BEGIN Content -->
 		<div id="main-content">
-			<!-- BEGIN Page Title -->
-			<!-- 	<div class="page-title">
-				<div>
-					<h1>
-						<i class="fa fa-file-o"></i> Item Ledger
-					</h1>
-				</div>
-			</div> -->
-			<!-- END Page Title -->
+
+
+
 
 
 			<div class="row hidden-xs">
 				<div class="col-md-12">
-					<div class="box box-pink">
+					<div class="box">
+
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Expense List
+								<i class="fa fa-bars"></i>Expense List
 							</h3>
-							<div class="box-tool">
-								<a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
-							</div>
+
 						</div>
+
 						<div class="box-content">
 
 							<form name="${pageContext.request.contextPath}/showExpenseList"
@@ -163,14 +160,15 @@ a[disabled="disabled"] {
 								title="Type in a name">
 							</label>
 
-							<div class="clearfix"></div>
 
-							<div id="table-scroll" class="table-scroll">
 
-								<div id="faux-table">
-									<table id="table2" class="table table-advance">
-										<thead>
-											<tr class="bgpink">
+							<div id="table-scroll">
+
+								<div id="faux-table" class="table-responsive">
+									<table id="table2"
+										class="table table-bordered table-striped fill-head">
+										<thead style="background-color: #f95d64;">
+											<tr>
 												<th class="col-sm-1">Sr No</th>
 												<th class="col-md-1">Chalan No.</th>
 												<th class="col-md-1">Date</th>
@@ -216,13 +214,14 @@ a[disabled="disabled"] {
 													<td class="col-md-2"><div>
 
 															<c:if test="${expList.expType==2}">
-													<c:if test="${expList.status==2}">
-															<a href=""
-																onclick="showDetailsForCp('${expList.expId}','${expList.chAmt}','${expList.expDate}','${expList.chalanNo}','${expList.frId}')"
-																class="btn btn-default btn-rounded" data-toggle="modal"
-																data-target="#elegantModalForm"><abbr title='Edit'><i
-																	class='fa fa-edit'></i></abbr></a>
-																</c:if></c:if>
+																<c:if test="${expList.status==2}">
+																	<a href=""
+																		onclick="showDetailsForCp('${expList.expId}','${expList.chAmt}','${expList.expDate}','${expList.chalanNo}','${expList.frId}')"
+																		class="btn btn-default btn-rounded"
+																		data-toggle="modal" data-target="#elegantModalForm"><abbr
+																		title='Edit'><i class='fa fa-edit'></i></abbr></a>
+																</c:if>
+															</c:if>
 
 														</div></td>
 												</tr>
@@ -253,7 +252,11 @@ a[disabled="disabled"] {
 		<!-- END Content -->
 	</div>
 
-	<!------------------------------------------ MODEL 1-------------------------------------------------->
+
+
+	<!-- --------------------MODAL----------------------------------- -->
+
+
 	<div class="modal fade" id="elegantModalForm" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
@@ -262,87 +265,121 @@ a[disabled="disabled"] {
 			<div class="clock"></div>
 		</div>
 
-		<div class="modal-dialog" role="document"
-			style="width: 80%; height: 50%;">
-			<!--Content-->
-			<div class="modal-content form-elegant">
-				<!--Header-->
-				<div class="modal-header text-center">
-					<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
-						id="myModalLabel" style="color: #ea4973;">
-						<strong>Close Bill Against Chalan</strong>
-					</h3>
+		<form method="post" id="modal-dialog_form">
+
+			<div class="modal-dialog" role="document"
+				style="width: 80%; height: 50%;">
+				<!--Content-->
+				<div class="modal-content form-elegant">
+
 					<a href="#" class="close" data-dismiss="modal" aria-label="Close"
-						id="closeHrefModel"> <img
-						src="${pageContext.request.contextPath}/resources/img/close.png"
-						alt="X" class="imageclass" />
+						style="margin: 10px;" id="closeHrefModel"> <i
+						class="fa fa-times" style="color: #000000;"></i>
 					</a>
-					<div></div>
-					<div class="modal-body mx-6">
-						<form name="modalfrm" id="modalfrm" method="post">
-							<label class="col-sm-3 col-lg-3 control-label"
-								style="color: #e20b31;">Amount :<span id="chAmt"></span></label>
 
-							<label class="col-sm-3 col-lg-4 control-label"
-								style="color: #e20b31;">Chalan No :<span id="chNo"></span>
-							</label> <label class="col-sm-3 col-lg-4 control-label"
-								style="color: #e20b31;">Chalan Date :<span id="chDate"></span>
-							</label> <label class="col-sm-3 col-lg-4 control-label"
-								style="color: blue;">Franchise Name :<span id="frName"></span></label>
+					<!--Header-->
+					<div class="modal-header text-center">
+						<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
+							id="myModalLabel" style="color: #ea4973;">
+							<strong>Close Bill Against Chalan</strong>
+						</h3>
 
-							<input type="hidden" name="expId" id="expId" />
-							<div class="component">
+						<div></div>
+						<div class="modal-body mx-6">
 
-								<table width="80%" id="modeltable"
-									style="font-size: 13px; font-weight: bold; border: 1px solid; border-color: #91d6b8;">
-									<!-- class="table table-advance" -->
-									<thead>
-										<tr>
-											<th width="17" style="width: 18px"><input
-												type="checkbox" /></th>
-											<th width="17" style="width: 18px">Sr No</th>
-											<th width="120" align="left">Bill No</th>
-											<th width="100" align="left">Bill Date</th>
-											<th width="100" align="left">Bill Amount</th>
-											<th width="120" align="left">Paid Amt</th>
-											<th width="120" align="left">Pending Amt</th>
-											<th width="120" align="left">Settle Amt</th>
+							<form name="modalfrm" id="modalfrm" method="post">
 
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-
-							</div>
-							<div class="component">
-								<label class="col-sm-3 col-lg-1 control-label">Total </label>
-								<div class="col-sm-9 col-lg-1 controls">
-									<input type="text" name="total" id="total" value="0"
-										style="width: 90px;" class="form-control" /> <input
-										type="hidden" name="frId" id="frId" value="0"
-										class="form-control" /> <input type="hidden" name="delDate"
-										id="delDate" value="0" class="form-control" /> <input
-										type="hidden" name="expenseId" id="expenseId" value="0"
-										class="form-control" />
+								<div class="row">
+									<label class="col-sm-2 col-lg-3 control-label"
+										style="color: blue;">Amount :<span id="chAmt"></span>
+									</label> <label class="col-sm-2 col-lg-3 control-label"
+										style="color: blue;">Chalan No :<span id="chNo"></label>
+									<label class="col-sm-2 col-lg-3 control-label"
+										style="color: blue;">Chalan Date :<span id="chDate"></span>
+									</label> <label class="col-sm-2 col-lg-3 control-label"
+										style="color: blue;">Franchise Name :<span id="frName"></span>
+									</label>
 								</div>
+
+								<input type="hidden" name="expId" id="expId" />
+								<div class="component">
+
+									<table width="80%" id="modeltable"
+										class="table table-bordered table-striped fill-head">
+										<!-- class="table table-advance" -->
+										<thead style="background-color: #f95d64;">
+											<tr>
+
+												<th width="17" style="width: 18px; text-align: center;">Sr
+													No</th>
+												<th width="120" style="text-align: center;">Bill No</th>
+												<th width="100" style="text-align: center;">Bill Date</th>
+												<th width="100" style="text-align: center;">Bill Amount</th>
+												<th width="120" style="text-align: center;">Paid Amt</th>
+												<th width="120" style="text-align: center;">Pending Amt</th>
+												<th width="120" style="text-align: center;">Settle Amt</th>
+
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+
+								</div>
+
+								<div class="component" style="display: none;">
+									<div class="row">
+										<label class="col-sm-3 col-lg-1 control-label">Total </label>
+										<div class="col-sm-9 col-lg-1 controls">
+											<input type="text" name="total" id="total" value="0"
+												style="width: 90px;" class="form-control" /> <input
+												type="hidden" name="frId" id="frId" value="0"
+												class="form-control" /> <input type="hidden" name="delDate"
+												id="delDate" value="0" class="form-control" /> <input
+												type="hidden" name="expenseId" id="expenseId" value="0"
+												class="form-control" />
+										</div>
+									</div>
+								</div>
+
+
+							</form>
+							<br>
+
+							<div class="form-group"></div>
+							<div class="col-md-12">
+								<button type="button" class="btn btn-primary" id="sbtbtn"
+									disabled="disabled">Submit</button>
 							</div>
-						</form>
-					</div>
-					<!--Body-->
-					<div class="modal-body mx-4">
-						<!--Body-->
-						<div class="text-center mb-1">
-							<button type="button" class="btn btn-primary" id="sbtbtn"
-								disabled="disabled">Submit</button>
+
+
+
+						</div>
+						<div align="center" id="loader1" style="display: none">
+
+							<span>
+								<h4>
+									<font color="#343690">Loading</font>
+								</h4>
+							</span> <span class="l-1"></span> <span class="l-2"></span> <span
+								class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+							<span class="l-6"></span>
 						</div>
 					</div>
+					<!--Body-->
+
 					<!--Footer-->
 				</div>
 				<!--/.Content-->
 			</div>
-		</div>
 	</div>
+
+
+
+
+
+
+
 
 	<script
 		src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
@@ -354,8 +391,8 @@ a[disabled="disabled"] {
 	<script type="text/javascript">
 		function showDetailsForCp(expId, expAmt, expDate, chalanNo, frId) {
 			var finTot = 0;
-			 document
-				.getElementById("total").value;
+			var settleTotal=0;
+			document.getElementById("total").value;
 			//alert("hii" + frId + expAmt + expDate + chalanNo);
 			$("#chNo").css("color", "red");
 			$("#chAmt").css("color", "red");
@@ -375,173 +412,93 @@ a[disabled="disabled"] {
 							{
 
 								frId : frId,
+								expId : expId,
+								expAmt : expAmt,
 								ajax : 'true',
 							},
 							function(data) {
-								var len = data.length;
 
 								$('#modeltable td').remove();
-								//alert(JSON.stringify(data));
-								//alert("hii"+len)
 								document.getElementById("frName").innerHTML = data[0].frName;
 								var totalcalc = 0;
+
+								$.each(data, function(key, data1) {
+									
+									var flag = 0;
+									var y = 0;
+									var tot = document.getElementById("total").value;
+
+									if (parseFloat(data1.pendingAmt) <= parseFloat(expAmt)) {
+										if ((parseFloat(tot) + parseFloat(data1.pendingAmt)) > parseFloat(expAmt)) {
+
+											y = (parseFloat(tot) + parseFloat(data1.pendingAmt))- parseFloat(expAmt);
+											flag = 1;
+										}
+									}
+
+									var tr = $('<tr></tr>');
+
+									
+									tr.append($('<td></td>').html(key + 1));
+									
+									tr.append($('<td></td>').html(data1.billNo+ ""+ "<input type=hidden value='"+data1.billNo+"'  id=billNo"+data1.billHeadId+"  name=billNo"+data1.billHeadId+"  >"));
+
+									tr.append($('<td></td>').html(data1.billDate+ ""+ "<input type=hidden value='"+data1.billDate+"'  id=billDate"+data1.billHeadId+"  name=billDate"+data1.billHeadId+"  >"));
+							
+									tr.append($('<td></td>').html(data1.billAmt+ ""+ "<input type=hidden value='"+data1.billAmt+"'  id=billAmt"+data1.billHeadId+"  name=billAmt"+data1.billHeadId+"  >"));
+							
+									tr.append($('<td></td>').html(data1.paidAmt+ ""+ "<input type=hidden value='"+data1.paidAmt+"'  id=paidAmt"+data1.billHeadId+"  name=paidAmt"+data1.billHeadId+"  >"));
+
+									tr.append($('<td></td>').html(data1.pendingAmt+ ""+ "<input type=hidden value='"+data1.pendingAmt+"'  id=pendingAmt"+data1.billHeadId+"  name=pendingAmt"+data1.billHeadId+"  >"));
+
+									tr.append($('<td></td>').html(data1.settleAmt+ ""+ "<input type=hidden value='"+data1.settleAmt+"'  id=settleAmt"+data1.billHeadId+"  name=settleAmt"+data1.billHeadId+"  >"));
+
+									
+									/* tr.append($('<td></td>').html("<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
+											+ data1.billHeadId
+											+ "'  id=settleAmt"
+											+ data1.billHeadId
+											+ " value="
+											+ data1.settleAmt
+											+ "  /> &nbsp;  ")); */
+									
+									settleTotal=parseFloat(settleTotal)+parseFloat(data1.settleAmt);
+									
+									$('#modeltable tbody').append(tr);
+
+								});
 								
-								$
-										.each(
-												data,
-												function(key, data) {
+								
+								var tr = $('<tr></tr>');
 
-													var flag = 0;
-													var y = 0;
-													var tot = document
-															.getElementById("total").value;
-													//alert("tot" + tot);
-													//alert("expAmt"+expAmt);
-													if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
-														if ((parseFloat(tot) + parseFloat(data.pendingAmt)) > parseFloat(expAmt)) {
-															//alert("ist gret");
-
-															y = (parseFloat(tot) + parseFloat(data.pendingAmt))
-																	- parseFloat(expAmt);
-															//alert("ist gret"
-															//		+ y);
-															flag = 1;
-														}
-													}
-
-													var tr = $('<tr></tr>');
-
-													if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				"<input type=checkbox class=abc name='chkItem'  checked value="+data.billHeadId+"   id="+ data.billHeadId+"  >  <label for="+ data.billHeadId+" ></label>"));
-
-													} else {
-
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				"<input type=checkbox  class=abc name='chkItem'   value="+data.billHeadId+"   id="+ data.billHeadId+" >  <label for="+ data.billHeadId+" ></label>"));
-
-													}
-
-													tr.append($('<td></td>')
-															.html(key + 1));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			data.billNo
-																					+ ""
-																					+ "<input type=hidden value='"+data.billNo+"'  id=billNo"+data.billHeadId+"  name=billNo"+data.billHeadId+"  >"));
-
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			data.billDate
-																					+ ""
-																					+ "<input type=hidden value='"+data.billDate+"'  id=billDate"+data.billHeadId+"  name=billDate"+data.billHeadId+"  >"));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			data.billAmt
-																					+ ""
-																					+ "<input type=hidden value='"+data.billAmt+"'  id=billAmt"+data.billHeadId+"  name=billAmt"+data.billHeadId+"  >"));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			data.paidAmt
-																					+ ""
-																					+ "<input type=hidden value='"+data.paidAmt+"'  id=paidAmt"+data.billHeadId+"  name=paidAmt"+data.billHeadId+"  >"));
-													tr
-															.append($(
-																	'<td></td>')
-																	.html(
-																			data.pendingAmt
-																					+ ""
-																					+ "<input type=hidden value='"+data.pendingAmt+"'  id=pendingAmt"+data.billHeadId+"  name=pendingAmt"+data.billHeadId+"  >"));
-
-													if (flag == 0) {
-														
-														//alert("in if");
-
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
-																						+ data.billHeadId
-																						+ "'  id=settleAmt"
-																						+ data.billHeadId
-																						+ " value="
-																						+ data.pendingAmt
-																						+ "  /> &nbsp;  "));
-
-														if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
-															finTot = parseFloat(data.pendingAmt)
-																	+ (parseFloat(finTot));
-															document
-																	.getElementById("total").value = finTot
-																	.toFixed(3);
-														}
-													}
-
-													else {
-														
-														//alert("in else");
-														var fin = parseFloat(data.pendingAmt)
-														- (parseFloat(y));
-														
-														//alert("fin"+fin);
-											
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				"<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
-																						+ data.billHeadId
-																						+ "'  id=settleAmt"
-																						+ data.billHeadId
-																						+ " value="
-																						+ fin
-																						+ "  /> &nbsp;  "));
-
-													
-														if (parseFloat(data.pendingAmt) <= parseFloat(expAmt)) {
-															finTot = fin
-																	+ (parseFloat(finTot));
-															//alert("finTot"+finTot);
-															document.getElementById("total").value = finTot
-																	.toFixed(3);
-															
-														
-														}
-														$("#chkItem").prop(
-																"disabled",
-																true);
-														
-														//document.getElementById("chkItem").disabled=checkStat == 1 ? true : false;
-														 
-													}
-
-													$('#modeltable tbody')
-															.append(tr);
-
-													document.getElementById(data.billHeadId).disabled = true; 
-
-												});
-								finTot = 0;
-
-							 
-
-								if (parseFloat(	document.getElementById("total").value) <= parseFloat(expAmt)) {
+								tr.append($('<td></td>').html(" "));
+								tr.append($('<td></td>').html(" "));
+								tr.append($('<td></td>').html(" "));
+								tr.append($('<td></td>').html(" "));
+								tr.append($('<td></td>').html(" "));
+								tr.append($('<td></td>').html(" TOTAL "));
+								tr.append($('<td></td>').html(settleTotal.toFixed(2)));
+								
+								$('#modeltable tbody').append(tr);
+							
+								
+								 if(parseFloat(expAmt)-parseFloat(settleTotal)==0){
 									$("#sbtbtn").prop("disabled", false);
+
+								}else{
+									$("#sbtbtn").prop("disabled", true);
+									
+									var tr = $('<tr></tr>');
+
+									tr.append($('<td></td>').html(" "));
+									tr.append($('<td></td>').html(" "));
+									tr.append($('<td></td>').html(" "));
+									tr.append($('<td></td>').html(" "));
+									tr.append($('<td></td>').html(" "));
+									tr.append($('<td></td>').html(" REMAINING AMT "));
+									tr.append($('<td></td>').html(parseFloat(expAmt)-parseFloat(settleTotal)));
+									
+									$('#modeltable tbody').append(tr);
 
 								} 
 

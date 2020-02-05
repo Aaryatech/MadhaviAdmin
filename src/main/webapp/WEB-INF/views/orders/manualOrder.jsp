@@ -18,157 +18,331 @@
 
 
 <style type="text/css">
-.close_popup{position: absolute; right: 10px; top:12px; background: none; border: 0; color: #F00; font-size: 20px;}
-.add_customer{background: #FFF; width: 100%; margin: 2px auto 0 auto;}
-.add_customer_one{float: left; width: 30%; font-size: 14px; font-weight: 700; text-align: left; margin:5px 0 0 0;}
-.close_popup{position: absolute; right: 10px; top:12px; background: none; border: 0; color: #F00; font-size: 20px;}
-.pop_head{font-size: 18px; padding: 15px; border-bottom: 1px solid #f4f4f4; letter-spacing: 0.5px; display: inline-block; width: 100%;}
-.add_frm{padding: 15px; border-bottom: 1px solid #f4f4f4;}
-.add_frm_one{margin: 6px 0; display: inline-block; width: 100%;}
-.add_customer_bx{display: block;}
-.customer_row{margin: 5px 0;}
-.customer_one{float: left; width: 20%; font-size: 14px; color: #444;}
-.customer_two{float: left; width: 65%;}
-.customer_three{float: left; width: 4%; padding: 0 5px;}
-.add_input{float: right; width: 70%;}
-.radio_row.popup_radio{margin: 5px 0 0 0;}
-.radio_row{display: inline-block; position: relative;}
+.close_popup {
+	position: absolute;
+	right: 10px;
+	top: 12px;
+	background: none;
+	border: 0;
+	color: #F00;
+	font-size: 20px;
+}
 
-.radio_row ul{list-style: none; margin: 0; padding: 0; overflow: auto;}
-.radio_row ul li{color: #777; display: block; position: relative; float: left; padding-left: 5px;}
-.plus_btn{background: #444; color: #FFF; border: 1px solid #3c3c3c; font-size: 15px; padding: 4px 10px;}
-.plus_btn:hover{background: #fff600; color: #333; border: 1px solid #f5ed00;}
-.input_add{font-size: 12px; font-weight: 400; color: #333; padding: 6px 12px; border: 1px solid #d2d6de; width: 100%;}
-.input_add:focus{border: 1px solid #3c8dbc;}
-.input_add *:focus {border: 1px solid #3c8dbc;}
-.pop_btns{padding: 15px;}
-.close_l{float: left;}
-.close_btn{background: #f4f4f4; border: 1px solid #ddd; padding: 6px 14px; font-size: 14px; border-radius: 3px; color: #444; -webkit-transition: all ease 0.5s;-moz-transition: all ease 0.5s;-o-transition: all ease 0.5s;-ms-transition: all ease 0.5s;transition: all ease 0.5s;}
-.close_btn:hover{background: #e7e7e7; border: 1px solid #adadad; -webkit-transition: all ease 0.5s;-moz-transition: all ease 0.5s;-o-transition: all ease 0.5s;-ms-transition: all ease 0.5s;transition: all ease 0.5s;}
-.close_r{float: right;}
-.close_r a{background: #ed1b24; border: 1px solid #e1001b; padding: 6px 14px; font-size: 14px; color: #FFF; border-radius: 3px; display: inline-block; -webkit-transition: all ease 0.5s;-moz-transition: all ease 0.5s;-o-transition: all ease 0.5s;-ms-transition: all ease 0.5s; transition: all ease 0.5s;}
-.close_r a:hover{background: #fff600; color: #333; border: 1px solid #f5ed00; -webkit-transition: all ease 0.5s;-moz-transition: all ease 0.5s;-o-transition: all ease 0.5s;-ms-transition: all ease 0.5s; transition: all ease 0.5s;}
+.add_customer {
+	background: #FFF;
+	width: 100%;
+	margin: 2px auto 0 auto;
+}
+
+.add_customer_one {
+	float: left;
+	width: 30%;
+	font-size: 14px;
+	font-weight: 700;
+	text-align: left;
+	margin: 5px 0 0 0;
+}
+
+.close_popup {
+	position: absolute;
+	right: 10px;
+	top: 12px;
+	background: none;
+	border: 0;
+	color: #F00;
+	font-size: 20px;
+}
+
+.pop_head {
+	font-size: 18px;
+	padding: 15px;
+	border-bottom: 1px solid #f4f4f4;
+	letter-spacing: 0.5px;
+	display: inline-block;
+	width: 100%;
+}
+
+.add_frm {
+	padding: 15px;
+	border-bottom: 1px solid #f4f4f4;
+}
+
+.add_frm_one {
+	margin: 6px 0;
+	display: inline-block;
+	width: 100%;
+}
+
+.add_customer_bx {
+	display: block;
+}
+
+.customer_row {
+	margin: 5px 0;
+}
+
+.customer_one {
+	float: left;
+	width: 20%;
+	font-size: 14px;
+	color: #444;
+}
+
+.customer_two {
+	float: left;
+	width: 65%;
+}
+
+.customer_three {
+	float: left;
+	width: 4%;
+	padding: 0 5px;
+}
+
+.add_input {
+	float: right;
+	width: 70%;
+}
+
+.radio_row.popup_radio {
+	margin: 5px 0 0 0;
+}
+
+.radio_row {
+	display: inline-block;
+	position: relative;
+}
+
+.radio_row ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+}
+
+.radio_row ul li {
+	color: #777;
+	display: block;
+	position: relative;
+	float: left;
+	padding-left: 5px;
+}
+
+.plus_btn {
+	background: #444;
+	color: #FFF;
+	border: 1px solid #3c3c3c;
+	font-size: 15px;
+	padding: 4px 10px;
+}
+
+.plus_btn:hover {
+	background: #fff600;
+	color: #333;
+	border: 1px solid #f5ed00;
+}
+
+.input_add {
+	font-size: 12px;
+	font-weight: 400;
+	color: #333;
+	padding: 6px 12px;
+	border: 1px solid #d2d6de;
+	width: 100%;
+}
+
+.input_add:focus {
+	border: 1px solid #3c8dbc;
+}
+
+.input_add *:focus {
+	border: 1px solid #3c8dbc;
+}
+
+.pop_btns {
+	padding: 15px;
+}
+
+.close_l {
+	float: left;
+}
+
+.close_btn {
+	background: #f4f4f4;
+	border: 1px solid #ddd;
+	padding: 6px 14px;
+	font-size: 14px;
+	border-radius: 3px;
+	color: #444;
+	-webkit-transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s;
+	-o-transition: all ease 0.5s;
+	-ms-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+
+.close_btn:hover {
+	background: #e7e7e7;
+	border: 1px solid #adadad;
+	-webkit-transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s;
+	-o-transition: all ease 0.5s;
+	-ms-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+
+.close_r {
+	float: right;
+}
+
+.close_r a {
+	background: #ed1b24;
+	border: 1px solid #e1001b;
+	padding: 6px 14px;
+	font-size: 14px;
+	color: #FFF;
+	border-radius: 3px;
+	display: inline-block;
+	-webkit-transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s;
+	-o-transition: all ease 0.5s;
+	-ms-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+
+.close_r a:hover {
+	background: #fff600;
+	color: #333;
+	border: 1px solid #f5ed00;
+	-webkit-transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s;
+	-o-transition: all ease 0.5s;
+	-ms-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
 
 select {
-    width: 180px;
-    height: 30px;
+	width: 180px;
+	height: 30px;
 }
 </style>
 <style>
 .switch {
-  position: relative;
-  /* display: inline-block; */
-  width: 60px;
-  height: 41px;
+	position: relative;
+	/* display: inline-block; */
+	width: 60px;
+	height: 41px;
 }
 
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 20px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+	position: absolute;
+	content: "";
+	height: 16px;
+	width: 20px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
 }
 
-input:checked + .slider {
-  background-color: #ed1b24;  
+input:checked+.slider {
+	background-color: #ed1b24;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #ed1b24;
+input:focus+.slider {
+	box-shadow: 0 0 1px #ed1b24;
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 34px;
+	border-radius: 34px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+	border-radius: 50%;
 }
 
-[type="radio"]:checked,
-[type="radio"]:not(:checked) {
-    position: absolute;
-    left: -9999px;
+[type="radio"]:checked, [type="radio"]:not (:checked ) {
+	position: absolute;
+	left: -9999px;
 }
-[type="radio"]:checked + label,
-[type="radio"]:not(:checked) + label
-{
-    position: relative;
-    padding-left: 28px;
-    cursor: pointer;
-    line-height: 20px;
-    display: inline-block;
-    color: #666;
+
+[type="radio"]:checked+label, [type="radio"]:not (:checked ) +label {
+	position: relative;
+	padding-left: 28px;
+	cursor: pointer;
+	line-height: 20px;
+	display: inline-block;
+	color: #666;
 }
-[type="radio"]:checked + label:before,
-[type="radio"]:not(:checked) + label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #ddd;
-    border-radius: 100%;
-    background: #fff;
+
+[type="radio"]:checked+label:before, [type="radio"]:not (:checked ) +label:before
+	{
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 18px;
+	height: 18px;
+	border: 1px solid #ddd;
+	border-radius: 100%;
+	background: #fff;
 }
-[type="radio"]:checked + label:after,
-[type="radio"]:not(:checked) + label:after {
-    content: '';
-    width: 12px;
-    height: 12px;
-    background: #ed1b24;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    border-radius: 100%;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+
+[type="radio"]:checked+label:after, [type="radio"]:not (:checked ) +label:after
+	{
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: #ed1b24;
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	border-radius: 100%;
+	-webkit-transition: all 0.2s ease;
+	transition: all 0.2s ease;
 }
-[type="radio"]:not(:checked) + label:after {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    transform: scale(0);
+
+[type="radio"]:not (:checked ) +label:after {
+	opacity: 0;
+	-webkit-transform: scale(0);
+	transform: scale(0);
 }
-[type="radio"]:checked + label:after {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+
+[type="radio"]:checked+label:after {
+	opacity: 1;
+	-webkit-transform: scale(1);
+	transform: scale(1);
 }
 
 /* The Modal (background) */
 .modal {
-	 /* Hidden by default */
+	/* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 9999; /* Sit on top */
 	padding-top: 60px; /* Location of the box */
@@ -207,10 +381,10 @@ input:checked + .slider:before {
 
 </head>
 <body onload="showPdf('${billNo}')">
-<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-<c:url var="checkEmailText" value="/checkEmailText" />
-<c:url var="saveCustomerFromBill" value="/saveCustomerFromBill" />
-<c:url var="editCustomerFromBill" value="/editCustomerFromBill" />
+	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
+	<c:url var="checkEmailText" value="/checkEmailText" />
+	<c:url var="saveCustomerFromBill" value="/saveCustomerFromBill" />
+	<c:url var="editCustomerFromBill" value="/editCustomerFromBill" />
 	<c:url var="setAllItemSelected" value="/setAllItemSelected" />
 	<c:url var="findFranchiseeData" value="/findFranchiseeData" />
 	<c:url var="findItemsByCatId" value="/getItemsOfMenuId" />
@@ -242,7 +416,7 @@ input:checked + .slider:before {
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
+			<!-- 	<div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i> Manual Order
@@ -260,47 +434,51 @@ input:checked + .slider:before {
 							<div class="box">
 								<div class="box-title">
 									<h3>
-										<i class="fa fa-bars"></i>  Manual Order
+										<i class="fa fa-bars"></i> Manual Order
 									</h3>
 									<div class="box-tool">
-										<a href="${pageContext.request.contextPath}/"></a> <a data-action="collapse" href="#"><i
+										<a href="${pageContext.request.contextPath}/"></a> <a
+											data-action="collapse" href="#"><i
 											class="fa fa-chevron-up"></i></a>
 									</div>
 								</div>
-		
-		<form action="${pageContext.request.contextPath}/generateManualBill" class="form-horizontal"
-										id="validation-form" method="post">
 
-								
-								<div class="box-content">
-									<%-- <form action="${pageContext.request.contextPath}/addManualOrder" class="form-horizontal"
+								<form
+									action="${pageContext.request.contextPath}/generateManualBill"
+									class="form-horizontal" id="validation-form" method="post">
+
+
+									<div class="box-content">
+										<%-- <form action="${pageContext.request.contextPath}/addManualOrder" class="form-horizontal"
 										id="validation-form" method="post"> --%>
-						<div class="form-group">
-			<label class="col-sm-3 col-lg-2 control-label">Order Type</label>
-									  <label class="col-sm-3 col-lg-2 control-label">
-    <input type="radio" name="ordertype" class="order" value="0" id="or1" checked onchange="checkCheckedStatus()">
-  <label for="or1"> Manual Order</label>
-  </label>
-<label class="col-sm-3 col-lg-2 control-label">
-    <input type="radio" name="ordertype" class="order" value="1" id="or2" onchange="checkCheckedStatus()">
-   <label for="or2"> Manual Bill </label>
-  </label>		
- <!--  <label class="col-sm-3 col-lg-2 control-label">
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Order
+												Type</label> <label class="col-sm-3 col-lg-2 control-label">
+												<input type="radio" name="ordertype" class="order" value="0"
+												id="or1" checked onchange="checkCheckedStatus()"> <label
+												for="or1"> Manual Order</label>
+											</label> <label class="col-sm-3 col-lg-2 control-label"> <input
+												type="radio" name="ordertype" class="order" value="1"
+												id="or2" onchange="checkCheckedStatus()"> <label
+												for="or2"> Manual Bill </label>
+											</label>
+											<!--  <label class="col-sm-3 col-lg-2 control-label">
     <input type="radio" name="ordertype" class="order" value="2" id="or3" onchange="checkCheckedStatus()">
    <label for="or3"> Multiple FR Bill </label>
   </label> -->
-  
-  <div id="dailyMartDiv" style="display: none;">
-  	<label class="col-sm-3 col-lg-2 control-label">	 Is Dairy Mart?	</label>
-  <label class="switch">
-  <input type="checkbox" id="isDairyMart" name="isDairyMart" onchange="onDairyMartCheck()" >
-  <span class="slider round"></span>
-</label>
 
-  	</div>				    
-  </div>
+											<div id="dailyMartDiv" style="display: none;">
+												<label class="col-sm-3 col-lg-2 control-label"> Is
+													Dairy Mart? </label> <label class="switch"> <input
+													type="checkbox" id="isDairyMart" name="isDairyMart"
+													onchange="onDairyMartCheck()"> <span
+													class="slider round"></span>
+												</label>
 
-	<input type="hidden" name="flagRate" value="0"	id="flagRate"/>
+											</div>
+										</div>
+
+										<input type="hidden" name="flagRate" value="0" id="flagRate" />
 
 
 										<div class="form-group" id="singleFr">
@@ -309,35 +487,37 @@ input:checked + .slider:before {
 												<select data-placeholder="Select Franchisee" name="fr_id"
 													class="form-control chosen" tabindex="-1" id="fr_id"
 													onchange="findFranchiseeData(this.value)">
-													<option value="0">Select Franchisee </option>
-														<c:forEach
-															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
-															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
+													<option value="0">Select Franchisee</option>
+													<c:forEach
+														items="${allFranchiseeAndMenuList.getAllFranchisee()}"
+														var="franchiseeList">
+														<option value="${franchiseeList.frId}">${franchiseeList.frName}
+															- ${franchiseeList.frCode}</option>
 
-														</c:forEach>
-												
+													</c:forEach>
+
 
 												</select>
 											</div>
-											
+
 										</div>
-<div class="form-group" style="display: none;" id="mulFr">
+										<div class="form-group" style="display: none;" id="mulFr">
 											<label class="col-sm-3 col-lg-2 control-label">Franchisee</label>
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Franchisee" name="fr_id1"
-													class="form-control chosen" tabindex="-1" id="fr_id1" multiple="multiple"
-													 >
-													<option value="0">Select Franchisee </option>
-														<c:forEach
-															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
-															var="franchiseeList">
-															<c:if test="${franchiseeList.frRateCat==1}">
-																<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
-															</c:if>
+													class="form-control chosen" tabindex="-1" id="fr_id1"
+													multiple="multiple">
+													<option value="0">Select Franchisee</option>
+													<c:forEach
+														items="${allFranchiseeAndMenuList.getAllFranchisee()}"
+														var="franchiseeList">
+														<c:if test="${franchiseeList.frRateCat==1}">
+															<option value="${franchiseeList.frId}">${franchiseeList.frName}
+																- ${franchiseeList.frCode}</option>
+														</c:if>
 
-														</c:forEach>
-												
+													</c:forEach>
+
 
 												</select>
 											</div>
@@ -346,181 +526,213 @@ input:checked + .slider:before {
 											<label class="col-sm-3 col-lg-2 control-label">Menu</label>
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Menu" name="menu"
-													class="form-control"  id="menu"
-													data-rule-required="true" onchange="onCatIdChangeForManOrder(this.value)">
-	                                            	<option value="0">Select Menu </option>                                                     
+													class="form-control" id="menu" data-rule-required="true"
+													onchange="onCatIdChangeForManOrder(this.value)">
+													<option value="0">Select Menu</option>
 
 
 												</select>
 											</div>
-											
+
 											<div style="display: none;">
-											<label class="col-sm-3 col-lg-2	 control-label">Select
-							Section</label>
-						<div class="col-sm-6 col-lg-3 controls date_select">
-							<select data-placeholder="Choose Menu"
-								class="form-control chosen" id="sectionId" name="sectionId"
-								>
+												<label class="col-sm-3 col-lg-2	 control-label">Select
+													Section</label>
+												<div class="col-sm-6 col-lg-3 controls date_select">
+													<select data-placeholder="Choose Menu"
+														class="form-control chosen" id="sectionId"
+														name="sectionId">
 
-								<option value="">Select Section</option>
+														<option value="">Select Section</option>
 
-								<%-- <c:forEach items="${sectionList}" var="sectionList"> --%>
-									<option  selected value="1"><c:out
-											value="First Delivery (Next Day)" /></option>
-							<%-- 	</c:forEach> --%>
+														<%-- <c:forEach items="${sectionList}" var="sectionList"> --%>
+														<option selected value="1"><c:out
+																value="First Delivery (Next Day)" /></option>
+														<%-- 	</c:forEach> --%>
 
 
-							</select>
-						</div>
-						</div>
+													</select>
+												</div>
+											</div>
 										</div>
 										<div class="form-group">
-										<!-- <label class="col-sm-3 col-lg-2 control-label">Order</label> -->
-									  <label class="col-sm-3 col-lg-2 control-label" hidden>
-    <input type="radio" name="typename" class="type" value="0" checked="" id="t1" onchange="checkOrderByStatus()">
-    <label for="t1">Billing</label>
-  </label>
-<label class="col-sm-3 col-lg-2 control-label"hidden>
-    <input type="radio" name="typename" class="type" value="1" id="t2" onchange="checkOrderByStatus()">
-    <label for="t2">By MRP</label>
-  </label>			
-  	<label class="col-sm-3 col-lg-2	 control-label">Delivery Option/ Delivery Date/ Delivery Time </label>
-						<div class="col-sm-6 col-lg-2 controls date_select">
-							<select data-placeholder="Choose Menu"
-								class="form-control chosen" id="delType" name="delType" onchange="onDelChange(this.value)">
-								<option value="">Select Delivery</option>
-	                            <option value="1">Same Day</option>
-	                        	<option value="2">Regular</option>
-	                        	<option value="3">Advance Order</option>
-							</select>
-		</div>		
-		<div id="dt" style="display: none;"> <div class="col-md-1" style="width: 10.333333%;">
-										<input class="form-control date-picker" id="delDate" size="16"   style="width: 110px;"
-											type="text" name="delDate"  placeholder="dd-mm-yyyy"   autocomplete="off"/>
-										</div><div class="col-md-1">	<input type="text" id="clockface_1" name="delTime" value="2:30 PM" data-format="hh:mm A" style="width: 110px;" class="form-control small clockface-open" autocomplete="off">
-											
-								</div>	</div>				    
-  </div>
-		<div class="form-group" id="custSelDiv" style="display: none;">
-			
-			<label class="col-sm-3 col-lg-2 control-label">Bill To Customer</label>
+											<!-- <label class="col-sm-3 col-lg-2 control-label">Order</label> -->
+											<label class="col-sm-3 col-lg-2 control-label" hidden>
+												<input type="radio" name="typename" class="type" value="0"
+												checked="" id="t1" onchange="checkOrderByStatus()">
+												<label for="t1">Billing</label>
+											</label> <label class="col-sm-3 col-lg-2 control-label" hidden>
+												<input type="radio" name="typename" class="type" value="1"
+												id="t2" onchange="checkOrderByStatus()"> <label
+												for="t2">By MRP</label>
+											</label> <label class="col-sm-3 col-lg-2	 control-label">Delivery
+												Option/ Delivery Date/ Delivery Time </label>
+											<div class="col-sm-6 col-lg-2 controls date_select">
+												<select data-placeholder="Choose Menu"
+													class="form-control chosen" id="delType" name="delType"
+													onchange="onDelChange(this.value)">
+													<option value="">Select Delivery</option>
+													<option value="1">Same Day</option>
+													<option value="2">Regular</option>
+													<option value="3">Advance Order</option>
+												</select>
+											</div>
+											<div id="dt" style="display: none;">
+												<div class="col-md-1" style="width: 10.333333%;">
+													<input class="form-control date-picker" id="delDate"
+														size="16" style="width: 110px;" type="text" name="delDate"
+														placeholder="dd-mm-yyyy" autocomplete="off" />
+												</div>
+												<div class="col-md-1">
+													<input type="text" id="clockface_1" name="delTime"
+														value="2:30 PM" data-format="hh:mm A"
+														style="width: 110px;"
+														class="form-control small clockface-open"
+														autocomplete="off">
+
+												</div>
+											</div>
+										</div>
+										<div class="form-group" id="custSelDiv" style="display: none;">
+
+											<label class="col-sm-3 col-lg-2 control-label">Bill
+												To Customer</label>
 											<div class="col-sm-9 col-lg-2 controls">
 												<select data-placeholder="Select Customer" name="cust"
-													class="form-control chosen"  id="cust"
-													  onchange="onCustChange()">
-	                                            	<option value="0">Select Customer </option>                                                     
-	                                         <c:forEach items="${customerList}" var="customerList">
-												<c:choose>
-													<c:when test="${customerList.custId==defaultCustomer}">
-														<option value="${customerList.custId}"
-															style="text-align: left;" selected>${customerList.custName}
-															- ${customerList.phoneNumber}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${customerList.custId}"
-															style="text-align: left;">${customerList.custName}
-															- ${customerList.phoneNumber}</option>
-													</c:otherwise>
-												</c:choose>
+													class="form-control chosen" id="cust"
+													onchange="onCustChange()">
+													<option value="0">Select Customer</option>
+													<c:forEach items="${customerList}" var="customerList">
+														<c:choose>
+															<c:when test="${customerList.custId==defaultCustomer}">
+																<option value="${customerList.custId}"
+																	style="text-align: left;" selected>${customerList.custName}
+																	- ${customerList.phoneNumber}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${customerList.custId}"
+																	style="text-align: left;">${customerList.custName}
+																	- ${customerList.phoneNumber}</option>
+															</c:otherwise>
+														</c:choose>
 
-											</c:forEach>
+													</c:forEach>
 
 												</select>
 											</div>
-											
-							<div class="customer_three">
-								<button class="plus_btn addcust_open" type="button"  onclick="openMyModal('myModal')">
-									<i class="fa fa-plus" aria-hidden="true"></i>
-								</button>
-							</div>
-							<div class="customer_three">
-								<button class="plus_btn" type="button" onclick="editCustomer()">
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</button>
-							
-							</div>
-							</div>
-				<div class="form-group">
-				
-		<div id="custOrder"  style="display: none;">
-		
-											<label class="col-sm-3 col-lg-2 control-label">Cust Name</label>
-											<div class="col-sm-9 col-lg-2 controls">
-				<input type="text" name="billToName" value="${defCust.custName}"	id="billToName" class="form-control"/>
-											
+
+											<div class="customer_three">
+												<button class="plus_btn addcust_open" type="button"
+													onclick="openMyModal('myModal')">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+												</button>
 											</div>
-											<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
-											<div class="col-sm-9 col-lg-2 controls">
-				<input type="text" name="billToGstin" value="${defCust.gstNo}"	id="billToGstin" class="form-control"/>								
+											<div class="customer_three">
+												<button class="plus_btn" type="button"
+													onclick="editCustomer()">
+													<i class="fa fa-pencil" aria-hidden="true"></i>
+												</button>
+
 											</div>
-											<label class="col-sm-3 col-lg-1 control-label">Address</label>
-											<div class="col-sm-9 col-lg-3 controls">
-				<input type="text" name="billToAddress" value="${defCust.address}"	id="billToAddress" class="form-control"/>						
+										</div>
+										<div class="form-group">
+
+											<div id="custOrder" style="display: none;">
+
+												<label class="col-sm-3 col-lg-2 control-label">Cust
+													Name</label>
+												<div class="col-sm-9 col-lg-2 controls">
+													<input type="text" name="billToName"
+														value="${defCust.custName}" id="billToName"
+														class="form-control" />
+
+												</div>
+												<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
+												<div class="col-sm-9 col-lg-2 controls">
+													<input type="text" name="billToGstin"
+														value="${defCust.gstNo}" id="billToGstin"
+														class="form-control" />
+												</div>
+												<label class="col-sm-3 col-lg-1 control-label">Address</label>
+												<div class="col-sm-9 col-lg-3 controls">
+													<input type="text" name="billToAddress"
+														value="${defCust.address}" id="billToAddress"
+														class="form-control" />
+												</div>
 											</div>
-		</div>
-		
-		<div style="display: none;" id="mulOrder">
-											<label class="col-sm-3 col-lg-2 control-label">Item</label>
-											<div class="col-sm-9 col-lg-5 controls">
-							<select data-placeholder="Choose Item"
-								class="form-control chosen" id="itemId" name="itemId"
-								>
 
-								<option value="">Select Item</option>
+											<div style="display: none;" id="mulOrder">
+												<label class="col-sm-3 col-lg-2 control-label">Item</label>
+												<div class="col-sm-9 col-lg-5 controls">
+													<select data-placeholder="Choose Item"
+														class="form-control chosen" id="itemId" name="itemId">
 
-								<c:forEach items="${itemList}" var="itemList">
-									<option value="${itemList.id}"><c:out
-											value="${itemList.itemName}" /></option>
-								</c:forEach>
+														<option value="">Select Item</option>
 
-
-							</select>
-						
-											
-				</div>
-				<label class="col-sm-3 col-lg-1 control-label">Qty</label>
-											<div class="col-sm-9 col-lg-2 controls">
-				<input type="text" name="qty" value="0"	id="qty" class="form-control"/>						
-											</div>		
-				 <input type="button" class="btn btn-primary" id="searchBtn" value="Add" onclick="onSearchMulFr()"  >					
-											
-		</div>
-		
-											
-		</div>			<div class="form-group" style="display: none;"  id="shipToFr">
-		 <label class="col-sm-3 col-lg-2 control-label" >Ship To Franchise</label>
-											<div class="col-sm-9 col-lg-2 controls">
-												<select data-placeholder="ShipTo Franchisee" name="ship_fr_id"
-													class="form-control chosen" tabindex="-1" id="ship_fr_id"
-													onchange="findShipFranchiseeData(this.value)">
-													<option value="0">Select Franchisee </option>
-														<c:forEach
-															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
-															var="franchiseeList">
-															<option value="${franchiseeList.frId}">${franchiseeList.frName} - ${franchiseeList.frCode}</option>
-
+														<c:forEach items="${itemList}" var="itemList">
+															<option value="${itemList.id}"><c:out
+																	value="${itemList.itemName}" /></option>
 														</c:forEach>
-												
+
+
+													</select>
+
+
+												</div>
+												<label class="col-sm-3 col-lg-1 control-label">Qty</label>
+												<div class="col-sm-9 col-lg-2 controls">
+													<input type="text" name="qty" value="0" id="qty"
+														class="form-control" />
+												</div>
+												<input type="button" class="btn btn-primary" id="searchBtn"
+													value="Add" onclick="onSearchMulFr()">
+
+											</div>
+
+
+										</div>
+										<div class="form-group" style="display: none;" id="shipToFr">
+											<label class="col-sm-3 col-lg-2 control-label">Ship
+												To Franchise</label>
+											<div class="col-sm-9 col-lg-2 controls">
+												<select data-placeholder="ShipTo Franchisee"
+													name="ship_fr_id" class="form-control chosen" tabindex="-1"
+													id="ship_fr_id"
+													onchange="findShipFranchiseeData(this.value)">
+													<option value="0">Select Franchisee</option>
+													<c:forEach
+														items="${allFranchiseeAndMenuList.getAllFranchisee()}"
+														var="franchiseeList">
+														<option value="${franchiseeList.frId}">${franchiseeList.frName}
+															- ${franchiseeList.frCode}</option>
+
+													</c:forEach>
+
 
 												</select>
-											</div>	</div>		
-		<div id="singleOrder" class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Party Name</label>
+											</div>
+										</div>
+										<div id="singleOrder" class="form-group">
+											<label class="col-sm-3 col-lg-2 control-label">Party
+												Name</label>
 											<div class="col-sm-9 col-lg-2 controls">
-				<input type="text" name="frName" value="-"	id="frName" class="form-control"/>
-											
+												<input type="text" name="frName" value="-" id="frName"
+													class="form-control" />
+
 											</div>
 											<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
 											<div class="col-sm-9 col-lg-2 controls">
-				<input type="text" name="gstin" value="-"	id="gstin" class="form-control"/>								
+												<input type="text" name="gstin" value="-" id="gstin"
+													class="form-control" />
 											</div>
 											<label class="col-sm-3 col-lg-1 control-label">Address</label>
 											<div class="col-sm-9 col-lg-3 controls">
-				<input type="text" name="address" value="-"	id="address" class="form-control"/>						
+												<input type="text" name="address" value="-" id="address"
+													class="form-control" />
 											</div>
-											 <input type="button" class="btn btn-primary" id="searchBtn" value="Search" onclick="onSearch()"  >
-		</div>						
-									<!-- 	<div class="form-group">
+											<input type="button" class="btn btn-primary" id="searchBtn"
+												value="Search" onclick="onSearch()">
+										</div>
+										<!-- 	<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Item</label>
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Item" name="items"
@@ -546,88 +758,99 @@ input:checked + .slider:before {
 												
 											</div>
 										</div>-->
-									<!-- </form> -->	</div>
-                <div align="center" id="loader" style="background-color:white;display: none; ">
+										<!-- </form> -->
+									</div>
+									<div align="center" id="loader"
+										style="background-color: white; display: none;">
 
-					<span style="background-color:white;font-size: 15px;text-align: center;" >
-							<font color="#343690" style="background-color:white;">Loading</font>
-					
-					</span> <span class="l-1"></span> <span class="l-2"></span> <span
-						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-					<span class="l-6"></span>
-				</div>
-							
-		
-		<div class="box-content">
-		<div class="col-md-9" ></div> 
-					<label for="search" class="col-md-3" id="search">
-    <i class="fa fa-search" style="font-size:20px"></i>
-									<input type="text"  id="myInput" onkeyup="myFunction()" autocomplete="off" style="border-radius: 25px;" placeholder="Search items by Name" title="Type in a name">
-										</label>  <br> <br> <br>
-					<div class="row">
-						<div class="col-md-12 table-responsive">
-							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%" id="table_grid">
-								<thead style="background-color: #f3b5db;">
-									<tr>
-										<th style="text-align:center;">Sr.No.</th>
-										<th style="text-align:center;">Item Name</th>
-										
-											<th style="text-align:center;" id="limQtyCol">Limit Qty</th>
-										<th style="text-align:center;">Min Qty</th>
-										<th style="text-align:center;">Qty</th>
-										<th style="text-align:center;" id="discth">Disc</th>
-										<th style="text-align:center;">MRP</th>
-										<th style="text-align:center;">Rate</th>
-										<th style="text-align:center;">Total</th>
-									</tr>
-								</thead>
-								<tbody>
+										<span
+											style="background-color: white; font-size: 15px; text-align: center;">
+											<font color="#343690" style="background-color: white;">Loading</font>
 
-								</tbody>
-							</table>
-						</div>
-				
-					</div>
-					<div class="row">
-<div id="advOrderTotal" style="display:none;">
-								<div class="col-md-1">Advance:</div>
-
-								<div class="col-md-1">
-
-									<input type="text" class="form-control" name="advanceAmt" id="advanceAmt2" onkeypress="return event.charCode >= 48"
-										onchange="setAmt(2)" oninput="setAmt(2)" 
-										autocomplete="off" required  size="20" value="0" />
-								</div>
-
-								<div class="col-md-2">Pending Amt:</div>
-								<div class="col-md-1">
-
-									<input type="text" name="remainAmt" id="remainAmt2"
-										class="form-control" autocomplete="off" required value="0" 
-										 size="20" readonly style="background-color: lightgrey;"/>
-								</div>
+										</span> <span class="l-1"></span> <span class="l-2"></span> <span
+											class="l-3"></span> <span class="l-4"></span> <span
+											class="l-5"></span> <span class="l-6"></span>
+									</div>
 
 
-								<div class="col-md-1">Total:</div>
-								<div class="col-md-1" id="calTotal2" style="color: red;">00
-								</div>
+									<div class="box-content">
+										<div class="col-md-9"></div>
+										<label for="search" class="col-md-3" id="search"> <i
+											class="fa fa-search" style="font-size: 20px"></i> <input
+											type="text" id="myInput" onkeyup="myFunction()"
+											autocomplete="off" style="border-radius: 25px;"
+											placeholder="Search items by Name" title="Type in a name">
+										</label> <br> <br> <br>
+										<div class="row">
+											<div class="col-md-12 table-responsive">
+												<table class="table table-bordered table-striped fill-head "
+													style="width: 100%" id="table_grid">
+													<thead style="background-color: #f3b5db;">
+														<tr>
+															<th style="text-align: center;">Sr.No.</th>
+															<th style="text-align: center;">Item Name</th>
 
-							<input type="hidden" name="fintotal1" id="fintotal2" value="0">
-</div>
-						
-					
-						<div class="col-md-1" >
-							<input type="submit" class="btn btn-info" value="ORDER" name="submitorder" id="submitorder"  disabled>
-<input type="submit" class="btn btn-info" value="ORDER_&_BILL" name="submitbill" id="submitbill" style="display: none;"  disabled>
-						</div>
-					</div>
+															<th style="text-align: center;" id="limQtyCol">Limit
+																Qty</th>
+															<th style="text-align: center;">Min Qty</th>
+															<th style="text-align: center;">Qty</th>
+															<th style="text-align: center;" id="discth">Disc</th>
+															<th style="text-align: center;">MRP</th>
+															<th style="text-align: center;">Rate</th>
+															<th style="text-align: center;">Total</th>
+														</tr>
+													</thead>
+													<tbody>
 
-	</div>
-	<input type="hidden" name="dailyFlagMart" id="dailyFlagMart1"
-							value="0">
-	
-	</form>
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+										<div class="row">
+											<div id="advOrderTotal" style="display: none;">
+												<div class="col-md-1">Advance:</div>
+
+												<div class="col-md-1">
+
+													<input type="text" class="form-control" name="advanceAmt"
+														id="advanceAmt2" onkeypress="return event.charCode >= 48"
+														onchange="setAmt(2)" oninput="setAmt(2)"
+														autocomplete="off" required size="20" value="0" />
+												</div>
+
+												<div class="col-md-2">Pending Amt:</div>
+												<div class="col-md-1">
+
+													<input type="text" name="remainAmt" id="remainAmt2"
+														class="form-control" autocomplete="off" required value="0"
+														size="20" readonly style="background-color: lightgrey;" />
+												</div>
+
+
+												<div class="col-md-1">Total:</div>
+												<div class="col-md-1" id="calTotal2" style="color: red;">00
+												</div>
+
+												<input type="hidden" name="fintotal1" id="fintotal2"
+													value="0">
+											</div>
+
+
+											<div class="col-md-1">
+												<input type="submit" class="btn btn-info" value="ORDER"
+													name="submitorder" id="submitorder" disabled> <input
+													type="submit" class="btn btn-info" value="ORDER_&_BILL"
+													name="submitbill" id="submitbill" style="display: none;"
+													disabled>
+											</div>
+										</div>
+
+									</div>
+									<input type="hidden" name="dailyFlagMart" id="dailyFlagMart1"
+										value="0">
+
+								</form>
 								<!-- <div align="center" id="loader1" style="display: none">
 
 					<span>
@@ -642,160 +865,166 @@ input:checked + .slider:before {
 						</div>
 					</div>
 				</div>
-					<div id="myModal" class="modal">
+				<div id="myModal" class="modal">
 
-			<!-- Modal content -->
-			<div class="modal-content">
-					<div id="addcust" class="add_customer" >
-			<button class="addcust_close close_popup"
-				onclick="closeMyModal('myModal')">
-				<i class="fa fa-times" aria-hidden="true"></i>
-			</button>
-			<h3 class="pop_head" id="add_cust_head_name">Add Customer</h3>
+					<!-- Modal content -->
+					<div class="modal-content">
+						<div id="addcust" class="add_customer">
+							<button class="addcust_close close_popup"
+								onclick="closeMyModal('myModal')">
+								<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+							<h3 class="pop_head" id="add_cust_head_name">Add Customer</h3>
 
-			<div class="add_frm">
-				<div class="add_frm_one">
-					<div class="add_customer_one">Customer Name *</div>
-					<div class="add_input">
-						<input type="text" class="input_add"
-							placeholder="Enter Customer Name" name="customerName"
-							onchange="trim(this)" id="customerName" /> <input type="hidden"
-							name="custId" id="custId" value="0" />
-					</div>
-					<div class="clr"></div>
-				</div>
-				<div class="add_frm_one">
-					<div class="add_customer_one">Mobile Number *</div>
-					<div class="add_input">
-						<input type="text" class="input_add"
-							placeholder="Enter Mobile Number" name="mobileNo" id="mobileNo"
-							onchange="trim(this)" maxlength="10" />
-					</div>
-					<div class="clr"></div>
-				</div>
+							<div class="add_frm">
+								<div class="add_frm_one">
+									<div class="add_customer_one">Customer Name *</div>
+									<div class="add_input">
+										<input type="text" class="input_add"
+											placeholder="Enter Customer Name" name="customerName"
+											onchange="trim(this)" id="customerName" /> <input
+											type="hidden" name="custId" id="custId" value="0" />
+									</div>
+									<div class="clr"></div>
+								</div>
+								<div class="add_frm_one">
+									<div class="add_customer_one">Mobile Number *</div>
+									<div class="add_input">
+										<input type="text" class="input_add"
+											placeholder="Enter Mobile Number" name="mobileNo"
+											id="mobileNo" onchange="trim(this)" maxlength="10" />
+									</div>
+									<div class="clr"></div>
+								</div>
 
-				<div class="add_frm_one">
-					<div class="add_customer_one">Gender *</div>
-					<div class="add_input">
-						<div class="radio_row popup_radio">
-							<ul>
-								<li><input type="radio" type="radio" name="gender"
-									id="moption" checked value="1"> <label for="moption">M</label>
-									<div class="check"></div></li>
-								<li><input type="radio" id="foption" name="gender"
-									value="2"> <label for="foption">F </label>
-									<div class="check">
-										<div class="inside"></div>
-									</div></li>
-							</ul>
+								<div class="add_frm_one">
+									<div class="add_customer_one">Gender *</div>
+									<div class="add_input">
+										<div class="radio_row popup_radio">
+											<ul>
+												<li><input type="radio" type="radio" name="gender"
+													id="moption" checked value="1"> <label
+													for="moption">M</label>
+													<div class="check"></div></li>
+												<li><input type="radio" id="foption" name="gender"
+													value="2"> <label for="foption">F </label>
+													<div class="check">
+														<div class="inside"></div>
+													</div></li>
+											</ul>
+										</div>
+									</div>
+									<div class="clr"></div>
+								</div>
+								<div class="add_frm_one" style="display: none;">
+									<div class="add_customer_one">Type</div>
+									<div class="add_input">
+										<select name="custType" id="custType"
+											data-placeholder="Customer Type" class="input_add"
+											style="text-align: left;" required>
+											<option value="0" style="text-align: left;">Select
+												Customer Type</option>
+											<option value="1">Owner</option>
+											<option value="2">Employee</option>
+											<option value="3">Customer</option>
+										</select>
+									</div>
+								</div>
+								<div class="add_frm_one">
+									<div class="add_customer_one">Age-Group *</div>
+									<div class="add_input">
+										<select name="ageRange" id="ageRange"
+											data-placeholder="Customer Age-Group" class="input_add"
+											style="text-align: left;" required>
+											<option value="0" style="text-align: left;">Customer
+												Age-Group</option>
+											<option value="14-21">14-21 Years</option>
+											<option value="22-28">22-28 Years</option>
+											<option value="29-35">29-35 Years</option>
+											<option value="36-42">36-42 Years</option>
+											<option value="43-49">43-49 Years</option>
+											<option value="50-56">50-56 Years</option>
+											<option value="57 & above">57 & above</option>
+
+										</select>
+									</div>
+								</div>
+								<div class="add_frm_one">
+									<div class="add_customer_one">DOB</div>
+									<div class="add_input">
+										<input autocomplete="off" placeholder="Date Of Birth"
+											name="dateOfBirth" id="dateOfBirth" type="date"
+											class="input_add" />
+									</div>
+									<div class="clr"></div>
+								</div>
+								<div class="add_frm_one">
+									<div class="add_customer_one">Business *</div>
+									<div class="add_input">
+										<div class="radio_row popup_radio">
+											<ul>
+												<li><input type="radio" type="radio" name="selector"
+													id="y-option" onclick="isBuissness(1)"> <label
+													for="y-option">Yes</label>
+													<div class="check"></div></li>
+												<li><input type="radio" id="n-option" name="selector"
+													onclick="isBuissness(0)" checked> <label
+													for="n-option">No </label>
+													<div class="check">
+														<div class="inside"></div>
+													</div></li>
+											</ul>
+										</div>
+									</div>
+									<div class="clr"></div>
+								</div>
+								<div style="display: none;" id="isbuissnessdiv">
+									<div class="add_frm_one">
+										<div class="add_customer_one">Company Name *</div>
+										<div class="add_input">
+											<input placeholder="Enter Company Name" name="companyName"
+												onchange="trim(this)" id="companyName" type="text"
+												class="input_add" />
+										</div>
+										<div class="clr"></div>
+									</div>
+									<div class="add_frm_one">
+										<div class="add_customer_one">GST Number *</div>
+										<div class="add_input">
+											<input placeholder="Enter GST Name" name="gstNo" id="gstNo"
+												onchange="trim(this)" type="text" class="input_add"
+												maxlength="15" />
+										</div>
+										<div class="clr"></div>
+									</div>
+									<div class="add_frm_one">
+										<div class="add_customer_one">Address *</div>
+										<div class="add_input">
+											<input placeholder="Enter Address" name="custAdd"
+												id="custAdd" onchange="trim(this)" type="text"
+												class="input_add" />
+										</div>
+										<div class="clr"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="pop_btns">
+								<div class="close_l">
+									<button class="addcust_close close_btn"
+										onclick="closeMyModal('myModal')">Close</button>
+								</div>
+								<div class="close_r">
+									<a href="#" onclick="addCustomer()" id="saveCust">Save</a>
+								</div>
+								<div class="clr"></div>
+							</div>
+
+
 						</div>
 					</div>
-					<div class="clr"></div>
 				</div>
-				<div class="add_frm_one" style="display: none;">
-					<div class="add_customer_one">Type</div>
-					<div class="add_input">
-						<select name="custType" id="custType"
-							data-placeholder="Customer Type" class="input_add"
-							style="text-align: left;" required>
-							<option value="0" style="text-align: left;">Select
-								Customer Type</option>
-							<option value="1">Owner</option>
-							<option value="2">Employee</option>
-							<option value="3">Customer</option>
-						</select>
-					</div>
-				</div>
-				<div class="add_frm_one">
-					<div class="add_customer_one">Age-Group *</div>
-					<div class="add_input">
-						<select name="ageRange" id="ageRange"
-							data-placeholder="Customer Age-Group" class="input_add"
-							style="text-align: left;" required>
-							<option value="0" style="text-align: left;">Customer
-								Age-Group</option>
-							<option value="14-21">14-21 Years</option>
-							<option value="22-28">22-28 Years</option>
-							<option value="29-35">29-35 Years</option>
-							<option value="36-42">36-42 Years</option>
-							<option value="43-49">43-49 Years</option>
-							<option value="50-56">50-56 Years</option>
-							<option value="57 & above">57 & above</option>
 
-						</select>
-					</div>
-				</div>
-				<div class="add_frm_one">
-					<div class="add_customer_one">DOB</div>
-					<div class="add_input">
-						<input autocomplete="off" placeholder="Date Of Birth"
-							name="dateOfBirth" id="dateOfBirth" type="date" class="input_add" />
-					</div>
-					<div class="clr"></div>
-				</div>
-				<div class="add_frm_one">
-					<div class="add_customer_one">Business *</div>
-					<div class="add_input">
-						<div class="radio_row popup_radio">
-							<ul>
-								<li><input type="radio" type="radio" name="selector"
-									id="y-option" onclick="isBuissness(1)"> <label
-									for="y-option">Yes</label>
-									<div class="check"></div></li>
-								<li><input type="radio" id="n-option" name="selector"
-									onclick="isBuissness(0)" checked> <label for="n-option">No
-								</label>
-									<div class="check">
-										<div class="inside"></div>
-									</div></li>
-							</ul>
-						</div>
-					</div>
-					<div class="clr"></div>
-				</div>
-				<div style="display: none;" id="isbuissnessdiv">
-					<div class="add_frm_one">
-						<div class="add_customer_one">Company Name *</div>
-						<div class="add_input">
-							<input placeholder="Enter Company Name" name="companyName"
-								onchange="trim(this)" id="companyName" type="text"
-								class="input_add" />
-						</div>
-						<div class="clr"></div>
-					</div>
-					<div class="add_frm_one">
-						<div class="add_customer_one">GST Number *</div>
-						<div class="add_input">
-							<input placeholder="Enter GST Name" name="gstNo" id="gstNo"
-								onchange="trim(this)" type="text" class="input_add" maxlength="15" />
-						</div>
-						<div class="clr"></div>
-					</div>
-					<div class="add_frm_one">
-						<div class="add_customer_one">Address *</div>
-						<div class="add_input">
-							<input placeholder="Enter Address" name="custAdd" id="custAdd"
-								onchange="trim(this)" type="text" class="input_add" />
-						</div>
-						<div class="clr"></div>
-					</div>
-				</div>
-			</div>
-
-			<div class="pop_btns">
-				<div class="close_l">
-					<button class="addcust_close close_btn"
-						onclick="closeMyModal('myModal')">Close</button>
-				</div>
-				<div class="close_r">
-					<a href="#" onclick="addCustomer()" id="saveCust">Save</a>
-				</div>
-				<div class="clr"></div>
-			</div>
-
-
-		</div></div></div>
-		
 			</div>
 			<!-- END Main Content -->
 
@@ -809,7 +1038,8 @@ input:checked + .slider:before {
 		<!-- END Content -->
 	</div>
 	<!-- END Container -->
- <!--basic scripts--><!-- 
+	<!--basic scripts-->
+	<!-- 
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
 	<script>
@@ -834,7 +1064,8 @@ input:checked + .slider:before {
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.stack.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script><%-- 
+		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.crosshair.js"></script>
+	<%-- 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/flot/jquery.flot.tooltip.min.js"></script> --%>
 	<script
@@ -872,7 +1103,7 @@ input:checked + .slider:before {
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script>
+	<script>
 $(function() {
     $('#typeselector').change(function(){
         $('.formgroup').hide();
@@ -883,7 +1114,7 @@ $(function() {
 
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -1200,7 +1431,7 @@ $(function() {
 		}
 
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#addcust').popup({
 				focusdelay : 400,
@@ -1239,7 +1470,7 @@ $(function() {
 
 	}
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 /* $(document).ready(function() {
 	
 	
@@ -1453,18 +1684,18 @@ $(function() {
     	}
     	  document.getElementById("flagRate").value=0;
             }
-</script> 
+</script>
 
 
-<!--for Regular  -->
+	<!--for Regular  -->
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		function onChange(rate, id, frId) {
 
-			var qty = parseInt($('#qty' + id + '' + frId).val());
+			var qty = parseFloat($('#qty' + id + '' + frId).val());
 			var discPer = parseFloat($('#discper' + id + '' + frId).val());
-			var minqty = parseInt($('#minqty' + id + '' + frId).val());
-			var limqty = parseInt($('#limqty' + id + '' + frId).val());
+			var minqty = parseFloat($('#minqty' + id + '' + frId).val());
+			var limqty = parseFloat($('#limqty' + id + '' + frId).val());
 			//alert(limqty);
 
 			var isChecked = $('#isDairyMart').is(':checked');
@@ -1473,7 +1704,7 @@ $(function() {
 				isDairyMart = 1;
 			}
 			if (isDairyMart == 0) {
-				if (qty % minqty == 0 && qty > 0
+				/* if (qty % minqty == 0 && qty > 0
 						&& discPer >=0) {
 					var total = (rate * qty) - (discPer * ((rate * qty) / 100));
 					total = total.toFixed(2)
@@ -1484,11 +1715,25 @@ $(function() {
 					$('#qty' + id + '' + frId).val(0);
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
+				} */
+				
+				
+				if (qty > 0 && discPer >=0) {
+					var total = (rate * qty) - (discPer * ((rate * qty) / 100));
+					total = total.toFixed(2)
+					$('#total' + id + '' + frId).html(total);
+				} else {
+					var total = 0;
+					alert("Please Enter Qty or Discount Properly");
+					$('#qty' + id + '' + frId).val(0);
+					$('#total' + id + '' + frId).html(total);
+					$('#qty' + id + '' + frId).focus();
 				}
+				
 				calTotal(2);
 			} else {
 
-				if (qty % minqty == 0
+				/* if (qty % minqty == 0
 						&&  qty  >=  limqty  && discPer >=0) {
 					var total = (rate * qty) - (discPer * ((rate * qty) / 100));
 					total = total.toFixed(2)
@@ -1499,7 +1744,20 @@ $(function() {
 					$('#qty' + id + '' + frId).val(0);
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
+				} */
+				
+				if (qty  >=  limqty  && discPer >=0) {
+					var total = (rate * qty) - (discPer * ((rate * qty) / 100));
+					total = total.toFixed(2)
+					$('#total' + id + '' + frId).html(total);
+				} else {
+					var total = 0;
+					alert("Please Enter Qty Less than or Equal to Limit Qty or Discount Properly ");
+					$('#qty' + id + '' + frId).val(0);
+					$('#total' + id + '' + frId).html(total);
+					$('#qty' + id + '' + frId).focus();
 				}
+				
 				calTotal(2);
 			}
 		}
@@ -1543,24 +1801,29 @@ $(function() {
 		function onChangeBill(rate, id, frId) {
 
 			//calculate total value  
-			var qty =parseInt( $('#qty' + id + '' + frId).val());
+			var qty =parseFloat( $('#qty' + id + '' + frId).val());
 			var discper =parseFloat( $('#discper' + id + '' + frId).val());
 //alert(discper);
-			var minqty = parseInt($('#minqty' + id + '' + frId).val());
-			var limqty = parseInt($('#limqty' + id + '' + frId).val());
+			var minqty = parseFloat($('#minqty' + id + '' + frId).val());
+			var limqty = parseFloat($('#limqty' + id + '' + frId).val());
 		//	alert(limqty);
 			var isChecked = $('#isDairyMart').is(':checked');
 			var isDairyMart = 0;
 			if (isChecked == true) {
 				isDairyMart = 1;
 			}
+			
+			//alert(qty);
 
 			if (isDairyMart == 0) {
-				if (qty % minqty == 0 &&  qty > 0
+				/* if (qty % minqty == 0 &&  qty > 0
 						&& discper >= 0) {
 					var total = rate * qty;
 					var disc = (total * discper) / 100;
 					total = total - disc;
+					
+					//alert(total);
+					
 					$('#total' + id + '' + frId).html(total.toFixed(2));
 				} else {
 					var total = 0;
@@ -1570,10 +1833,31 @@ $(function() {
 
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
+				} */
+				
+				
+				if (qty > 0 && discper >= 0) {
+					var total = rate * qty;
+					var disc = (total * discper) / 100;
+					total = total - disc;
+					
+					//alert(total);
+					
+					$('#total' + id + '' + frId).html(total.toFixed(2));
+				} else {
+					var total = 0;
+
+					alert("Please Enter Qty or Discount Properly");
+					$('#qty' + id + '' + frId).val(0);
+
+					$('#total' + id + '' + frId).html(total);
+					$('#qty' + id + '' + frId).focus();
 				}
+				
+				
 				calTotal(2);
 			} else {
-				if (qty % minqty == 0
+				/* if (qty % minqty == 0
 						 &&  qty >= limqty && discper >= 0 )  {
 					var total = rate * qty;
 					var disc = (total * discper) / 100;
@@ -1587,7 +1871,25 @@ $(function() {
 
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
+				} */
+				
+				
+				if (qty % minqty == 0
+						 &&  qty >= limqty && discper >= 0 )  {
+					var total = rate * qty;
+					var disc = (total * discper) / 100;
+					total = total - disc;
+					$('#total' + id + '' + frId).html(total.toFixed(2));
+				} else {
+					var total = 0;
+
+					alert("Please Enter Qty Less than or Equal to Limit Qty or Discount Properly ");
+					$('#qty' + id + '' + frId).val(0);
+
+					$('#total' + id + '' + frId).html(total);
+					$('#qty' + id + '' + frId).focus();
 				}
+				
 				calTotal(2);
 
 			}
@@ -1596,11 +1898,11 @@ $(function() {
 
 
 	<!--for Regular  ends  -->
-	
+
 	<!--for Regular  advance -->
 
 	<!--for Regular  advance  ends -->
-<!-- <script type="text/javascript">
+	<!-- <script type="text/javascript">
 $(document).ready(function() {
 	
 	
@@ -1637,7 +1939,7 @@ $(document).ready(function() {
 </script> -->
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 $(document).ready(function() { 
 	
 	  $('#limQtyCol').hide();
@@ -1678,7 +1980,7 @@ $(document).ready(function() {
 			});
 });
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 
 $(document).ready(function() {
 	$("#add").click(function() {
@@ -1756,7 +2058,7 @@ $(document).ready(function() {
 
 });
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function validation() {
 	
 	var frId = $('#fr_id').val();
@@ -1833,7 +2135,7 @@ function validation1() {
 	return isValid;
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function deleteItem(key){
 	var isDel=confirm('Are you sure want to delete this record');
 	if(isDel==true)
@@ -1880,7 +2182,7 @@ function deleteItem(key){
 	}
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function generateBill()
 {
 	$('#loader1').show();
@@ -1906,7 +2208,7 @@ function generateBill()
 
 
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function findFranchiseeData(frId)
 {
 	$('#table_grid td').remove();
@@ -1987,7 +2289,7 @@ function findShipFranchiseeData(frId)
 	 }
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function showPdf(billNo)
 {
 	
@@ -2000,7 +2302,7 @@ function showPdf(billNo)
 
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function checkCheckedStatus()
 {
 	   if($('#or1').is(':checked')) { 
@@ -2132,7 +2434,7 @@ function checkOrderByStatus()
       }
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function onCatIdChangeForManOrder(menuId) {
 	
 	if(parseInt(menuId)==42){
@@ -2209,7 +2511,7 @@ function onCatIdChangeForManOrder(menuId) {
 	
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function onDairyMartCheck()
 {
 	
@@ -2250,7 +2552,7 @@ function onDelChange(type)
 
 }
 </script>
-<script>
+	<script>
 function myFunction() {
   var input, filter, table, tr, td,td1, i;
   input = document.getElementById("myInput");

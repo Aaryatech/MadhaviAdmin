@@ -144,6 +144,8 @@ public class BillController {
 	public String vehicleNo;
 
 	private boolean isTwice = false;
+	
+	DecimalFormat qtyFormat= new DecimalFormat("#0.000");
 
 	public String getInvoiceNo() {
 
@@ -318,6 +320,9 @@ public class BillController {
 
 						String billQty = request.getParameter("" + "billQty" + tempGenerateBillList.get(j).getCatId()
 								+ "" + tempGenerateBillList.get(j).getOrderId());
+						
+						//System.err.println("QTY ============= > "+Float.parseFloat(qtyFormat.format(billQty)));
+						
 						float discPer = Float
 								.parseFloat(request.getParameter("" + "discPer" + tempGenerateBillList.get(j).getCatId()
 										+ "" + tempGenerateBillList.get(j).getOrderId()));
@@ -2409,10 +2414,8 @@ public class BillController {
 				System.err.println("Inside is All fr Selected " + allFrIdNameList.toString());
 				System.err.println("Inside is All routeList Selected " + routeList.toString());
 
-				
-
 				// to get bill list
-				map.add("typeIdList", -1);
+				map.add("typeIdList", "1,2");
 				map.add("fromDate", todaysDate);
 				map.add("toDate", todaysDate);
 				
@@ -2435,6 +2438,89 @@ public class BillController {
 		return model;
 
 	} 
+	
+	
+	@RequestMapping(value = "/showBillListCompOutlet", method = RequestMethod.GET)
+	public ModelAndView showBillListCompOutlet(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("showBillList", "showBillList", "1", "0", "0", "0", newModuleList);
+
+		if (view.getError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+			model = new ModelAndView("billing/viewBillCompOutlet");
+
+			Constants.mainAct = 2;
+			Constants.subAct = 20;
+			try {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				List<Menu> menuList = new ArrayList<Menu>();
+
+				ZoneId z = ZoneId.of("Asia/Calcutta");
+
+				LocalDate date = LocalDate.now(z);
+				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
+				String todaysDate = date.format(formatters);
+
+				AllMenuResponse allMenuResponse = restTemplate.getForObject(Constants.url + "getAllMenu",
+						AllMenuResponse.class);
+
+				menuList = allMenuResponse.getMenuConfigurationPage();
+
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+				AllRoutesListResponse allRouteListResponse = restTemplate.getForObject(Constants.url + "showRouteList",
+						AllRoutesListResponse.class);
+
+				List<Route> routeList = new ArrayList<Route>();
+
+				routeList = allRouteListResponse.getRoute();
+
+				model.addObject("routeList", routeList);
+				model.addObject("todaysDate", todaysDate);
+				model.addObject("menuList", menuList);
+				model.addObject("allFrIdNameList", allFrIdNameList.getFrIdNamesList());
+
+				System.err.println("Inside is All fr Selected " + allFrIdNameList.toString());
+				System.err.println("Inside is All routeList Selected " + routeList.toString());
+
+				// to get bill list
+				map.add("typeIdList", "3");
+				map.add("fromDate", todaysDate);
+				map.add("toDate", todaysDate);
+				
+				GetBillHeaderResponse billHeaderResponse = restTemplate
+						.postForObject(Constants.url + "getBillHeaderForAllFr", map, GetBillHeaderResponse.class);
+
+				billHeadersList = billHeaderResponse.getGetBillHeaders();
+
+				model.addObject("billHeadersList", billHeadersList);
+				
+				List<VehicalMaster> vehicleList = restTemplate.getForObject(Constants.url + "getAllVehicalList",
+						List.class);
+				model.addObject("vehicleList", vehicleList);
+
+			} catch (Exception e) {
+				System.out.println("Exce in view Bills " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return model;
+
+	} 
+	
+	
+	
+	
 	// List<GetBillHeader> billHeadersList;
 	@RequestMapping(value = "/getBillListProcess", method = RequestMethod.GET)
 	public @ResponseBody List<GetBillHeader> getBillListProcess(HttpServletRequest request,

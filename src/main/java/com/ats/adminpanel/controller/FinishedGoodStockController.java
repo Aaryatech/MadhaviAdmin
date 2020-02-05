@@ -779,9 +779,9 @@ public class FinishedGoodStockController {
 
 							float totalClosing = 0;
 
-							int billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
-							int prodQty = curProdBilQty.getProdQty();
-							int rejQty = curProdBilQty.getRejectedQty();
+							float billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
+							float prodQty = curProdBilQty.getProdQty();
+							float rejQty = curProdBilQty.getRejectedQty();
 
 							float t1 = stockDetail.getOpT1();
 							float t2 = stockDetail.getOpT2();
@@ -1294,9 +1294,9 @@ public class FinishedGoodStockController {
 
 						float totalClosing = 0;
 
-						int billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
-						int prodQty = curProdBilQty.getProdQty();
-						int rejQty = curProdBilQty.getRejectedQty();
+						float billQty = curProdBilQty.getBillQty() + curProdBilQty.getDamagedQty();
+						float prodQty = curProdBilQty.getProdQty();
+						float rejQty = curProdBilQty.getRejectedQty();
 
 						float t1 = stockDetail.getOpT1();
 						float t2 = stockDetail.getOpT2();

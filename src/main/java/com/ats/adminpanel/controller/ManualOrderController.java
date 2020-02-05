@@ -355,7 +355,7 @@ public class ManualOrderController {
 			}
 			System.err.println(ordertype + "ordertype");
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
-			int qty = Integer.parseInt(request.getParameter("qty"));
+			float qty = Float.parseFloat(request.getParameter("qty"));
 			int isDairyMart = Integer.parseInt(request.getParameter("isDairyMart"));
 
 			frIdString = frIdString.substring(1, frIdString.length() - 1);
@@ -410,7 +410,7 @@ public class ManualOrderController {
 			for (String fr : frId) {
 				int flagForItem = 0;
 				if (orderList.size() > 0) {
-					flagForItem = isItemPresent(Integer.parseInt(fr), item.getId(), qty);
+					flagForItem = isItemPresent(Integer.parseInt(fr), item.getId(), (int)qty);
 				}
 
 				FranchiseeList franchiseeList = null;
