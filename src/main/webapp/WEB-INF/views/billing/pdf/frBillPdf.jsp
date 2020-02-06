@@ -70,13 +70,15 @@ table {
  -->
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
-						Invoice No: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${frDetails.invoiceNo}</b>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						Invoice No: &nbsp;&nbsp;<b>${frDetails.invoiceNo}</b>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<!-- </p>
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;"> -->
-						Invoice Date: &nbsp;&nbsp;&nbsp;<b>${frDetails.billDate}</b>
+						Invoice Date: &nbsp;&nbsp;<b>${frDetails.billDate}</b>
 					</p>
+					<p
+						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">E-Way Bill No: <b>${frDetails.ewayBillNo}</b></p>
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">Is
 						reverse tax Applicable?(Yes/No): No</p>

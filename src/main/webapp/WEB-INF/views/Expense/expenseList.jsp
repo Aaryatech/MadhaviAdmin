@@ -265,7 +265,6 @@ a[disabled="disabled"] {
 			<div class="clock"></div>
 		</div>
 
-		<form method="post" id="modal-dialog_form">
 
 			<div class="modal-dialog" role="document"
 				style="width: 80%; height: 50%;">
@@ -301,7 +300,7 @@ a[disabled="disabled"] {
 									</label>
 								</div>
 
-								<input type="hidden" name="expId" id="expId" />
+								<input type="text" name="expId" id="expId" style="display: none;" />
 								<div class="component">
 
 									<table width="80%" id="modeltable"
@@ -351,6 +350,17 @@ a[disabled="disabled"] {
 								<button type="button" class="btn btn-primary" id="sbtbtn"
 									disabled="disabled">Submit</button>
 							</div>
+							
+							<div align="center" id="loader" style="display: none">
+
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
+								</div>
 
 
 
@@ -417,6 +427,12 @@ a[disabled="disabled"] {
 								ajax : 'true',
 							},
 							function(data) {
+								
+								if(data==""){
+									document.getElementById("expId").value=0;
+								}else{
+									document.getElementById("expId").value=expId;
+								}
 
 								$('#modeltable td').remove();
 								document.getElementById("frName").innerHTML = data[0].frName;
@@ -532,6 +548,7 @@ a[disabled="disabled"] {
 	<script type="text/javascript">
 		$('#sbtbtn').click(function() {
 			$("#overlay").fadeIn(300);
+			$('#loader').show();
 
 			$.ajax({
 				type : "POST",
@@ -539,16 +556,21 @@ a[disabled="disabled"] {
 				data : $("#modalfrm").serialize(),
 				dataType : 'json',
 				success : function(data) {
+					$('#loader').hide();
 					if (data == 2) {
 						$('#modeltable td').remove();
-						alert("Updated Successfully")
+						alert("Bill Settled Successfully")
 						$("#overlay").fadeOut(300);
-						$("#closeHrefModel")[0].click()
+						$("#closeHrefModel")[0].click();
+						
+						window.location.reload();
+						
 					}
 				}
 			}).done(function() {
 				setTimeout(function() {
 					$("#overlay").fadeOut(300);
+					$('#loader').hide();
 				}, 500);
 			});
 		});

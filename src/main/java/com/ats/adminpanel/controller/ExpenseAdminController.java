@@ -118,6 +118,7 @@ public class ExpenseAdminController {
 			HttpServletResponse response) {
 		RestTemplate restTemplate = new RestTemplate();
 
+		tempBillList.clear();
 		List<GetBillListByFrIdToSettle> billList = new ArrayList<GetBillListByFrIdToSettle>();
 		
 
@@ -245,22 +246,17 @@ public class ExpenseAdminController {
 			throws ParseException {
 		int flag = 0;
 		try {
-			List<ExpenseTransaction> expTransList = new ArrayList<ExpenseTransaction>();
 
 			RestTemplate restTemplate = new RestTemplate();
 
-			String frId = (request.getParameter("frId"));
-			String delDate = (request.getParameter("delDate"));
-			String expId = (request.getParameter("expenseId"));
+			int expId = Integer.parseInt(request.getParameter("expId"));
 			
-			List<BillTransaction> billTrList=new ArrayList<>();
+			List<BillTransaction> billTransactionList=new ArrayList<>();
 			
 			if(tempBillList!=null) {
 				
 				for(int i=0;i<tempBillList.size();i++) {
 					
-					int headId = tempBillList.get(i).getBillHeadId();
-					String billNo = tempBillList.get(i).getBillNo();
 					float billAmt = Float.parseFloat(tempBillList.get(i).getBillAmt());
 					float paidAmt = Float.parseFloat(tempBillList.get(i).getPaidAmt())+Float.parseFloat(tempBillList.get(i).getSettleAmt());
 					float pendingAmt = Float.parseFloat(tempBillList.get(i).getBillAmt())-paidAmt;
@@ -275,6 +271,7 @@ public class ExpenseAdminController {
 						bt.setExVar1(String.valueOf(settleAmt));
 						bt.setPaidAmt(String.valueOf(paidAmt));
 						bt.setPendingAmt(String.valueOf(pendingAmt));
+						bt.setExInt1(expId);//expId
 						
 						if(pendingAmt==0) {
 							bt.setIsClosed(1);
@@ -282,16 +279,12 @@ public class ExpenseAdminController {
 							bt.setIsClosed(0);
 						}
 						
-						billTrList.add(bt);
+						billTransactionList.add(bt);
 						
 					}
 				}
 				
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("billTransactionList", billTrList);
-				map.add("expId", expId);
-				
-				Info errorMessage = restTemplate.postForObject(Constants.url + "/updateBillTranscForBillSettlement", map,Info.class);
+				Info errorMessage = restTemplate.postForObject(Constants.url + "/updateBillTranscForBillSettlement", billTransactionList,Info.class);
 				
 				
 				if (errorMessage.getError() == false) {
