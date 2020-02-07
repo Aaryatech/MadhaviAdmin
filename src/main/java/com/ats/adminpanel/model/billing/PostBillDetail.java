@@ -41,7 +41,7 @@ public class PostBillDetail {
 	private float mrp;
 	
 	
-	private float grandTotal;
+	private Float grandTotal;
 	
 	
 	private Float sgstPer;

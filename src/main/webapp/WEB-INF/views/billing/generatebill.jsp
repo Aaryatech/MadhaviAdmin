@@ -20,9 +20,11 @@
 
 
 	<c:url var="getAdvOrderHeadList" value="/getAdvOrderHeadList"></c:url>
-		<c:url var="findFranchiseeData" value="/findFranchiseeData" />
-		<c:url var="editCustomerFromBill" value="/editCustomerFromBill" /><!-- no edit on this page only to get cust data  -->
-	<c:url var="getCustIdFromOrderHeaderId" value="/getCustIdFromOrderHeaderId" />
+	<c:url var="findFranchiseeData" value="/findFranchiseeData" />
+	<c:url var="editCustomerFromBill" value="/editCustomerFromBill" />
+	<!-- no edit on this page only to get cust data  -->
+	<c:url var="getCustIdFromOrderHeaderId"
+		value="/getCustIdAndDairyMartFromOrderHeaderId" />
 
 
 	<!-- BEGIN Sidebar -->
@@ -247,7 +249,7 @@
 
 							<select data-placeholder="Choose Order"
 								class="form-control chosen" tabindex="6" id="advOrdHeaderId"
-								name="advOrdHeaderId">
+								name="advOrdHeaderId" onChange="clearDiaryMartForm()">
 
 							</select>
 
@@ -353,7 +355,7 @@
 					<div class="row">
 						<div id="billTo" style="display: none">
 
-							<label class="col-sm-3 col-lg-2 control-label">Cust Name</label>
+							<label class="col-sm-3 col-lg-2 control-label">Bill To</label>
 							<div class="col-sm-9 col-lg-2 controls">
 								<input type="text" name="billToName" value="CASH"
 									id="billToName" class="form-control" />
@@ -373,9 +375,28 @@
 					</div>
 					<div class="form-group"></div>
 					<div class="row">
+
+
+
 						<div id="shipTo" style="display: none">
 
-							<label class="col-sm-3 col-lg-2 control-label">Party Name</label>
+							<div class="row">
+
+								<label class="col-sm-3 col-lg-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;Choose
+									Ship To Option</label>
+								<div class="col-sm-9 col-lg-10 controls">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"
+										id="radioFr" name="radioShip" value="1" checked="checked"
+										onchange="dairyMartShipToOption()" />Franchisee
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+										type="radio" id="radioCust" name="radioShip" value="2"
+										onchange="dairyMartShipToOption()" />Customer
+
+								</div>
+
+							</div>
+							<br> <label class="col-sm-3 col-lg-2 control-label">Ship
+								To</label>
 							<div class="col-sm-9 col-lg-2 controls">
 								<input type="text" name="shipToName" value="" id="shipToName"
 									class="form-control" />
@@ -393,6 +414,10 @@
 							</div>
 						</div>
 					</div>
+
+					<input type="hidden" id="frName"> 
+					<input type="hidden"id="frGst"> 
+					<input type="hidden" id="frAddr">
 
 					<div class="form-group"></div>
 
@@ -429,6 +454,19 @@
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>
+
+
+	<script type="text/javascript">
+
+function clearDiaryMartForm(){
+	
+	$('#table_grid td').remove();
+	
+	  document.getElementById("billTo").style.display="none";
+	   document.getElementById("shipTo").style.display="none";
+}
+
+</script>
 
 	<script type="text/javascript">
 			function submitBill() {
@@ -797,7 +835,18 @@ var advOrdHeaderId=0;
 					},
 					function(data) {
 						   //alert(data);
-						getCustData(data);
+						
+						   if(data.isDairyMart==2){
+							   document.getElementById("billTo").style.display="block";
+							   document.getElementById("shipTo").style.display="block";
+						   }else{
+							   document.getElementById("billTo").style.display="none";
+							    document.getElementById("shipTo").style.display="none";
+						   }
+						   
+						   getCustData(data.custId);
+						
+						
 					});
 			
 		}
@@ -1120,6 +1169,10 @@ function getAdvOrderHeaders(){
 	  document.getElementById("shipToName").value="";
 						     document.getElementById("shipToGstin").value="";
 							 document.getElementById("shipToAddress").value="";
+							 
+							 document.getElementById("frName").value="";
+						     document.getElementById("frGst").value="";
+							 document.getElementById("frAddr").value="";
 	  var frId=0;
 		$.getJSON('${getAdvOrderHeadList}',
 				{
@@ -1136,13 +1189,23 @@ function getAdvOrderHeaders(){
 				    .end()
 				    $("#advOrdHeaderId").append($("<option disabled selected value='-1'>Select Order</option>"));
 					for ( var i = 0; i < len; i++) {
-						var custData=data[i].custName+" Ph: "+data[i].phoneNumber+" Rs: "+data[i].total;
+						
+						var custData;
+						if(data[i].isDailyMart==2){
+							custData=data[i].custName+" Ph: "+data[i].phoneNumber+" Rs: "+data[i].total+" - DAIRY MART";	
+						}else{
+							custData=data[i].custName+" Ph: "+data[i].phoneNumber+" Rs: "+data[i].total;
+						}
+						
+						
 			            $("#advOrdHeaderId").append($("<option></option>").attr("value", data[i].advHeaderId).text(custData));
 					}
 					   $("#advOrdHeaderId").trigger("chosen:updated");
-						document.getElementById("billTo").style.display="block";
-					    document.getElementById("shipTo").style.display="block";
-					    findShipFranchiseeData(data[0].frId);
+						
+					   //document.getElementById("billTo").style.display="block";
+					   // document.getElementById("shipTo").style.display="block";
+					   
+					   findShipFranchiseeData(data[0].frId);
 					    //getCustData(data[0].custId);
 				});
 		}
@@ -1161,6 +1224,11 @@ function findShipFranchiseeData(frId)
 							 document.getElementById("shipToName").value=data.frName;
 						     document.getElementById("shipToGstin").value=data.frGstNo;
 							 document.getElementById("shipToAddress").value=data.frAddress;
+							 
+							 document.getElementById("frName").value=data.frName;
+						     document.getElementById("frGst").value=data.frGstNo;
+							 document.getElementById("frAddr").value=data.frAddress;
+
 							}
 					});
 }
@@ -1181,6 +1249,39 @@ function getCustData(custId) {
 						});
 }
 }
+
+
+
+function dairyMartShipToOption(){
+	
+	
+	var fr = document.getElementById("radioFr");
+	var cust = document.getElementById("radioCust");
+	
+	if(fr.checked==true){
+		
+		var name=document.getElementById("frName").value;
+		var gst=document.getElementById("frGst").value;
+		var addr=document.getElementById("frAddr").value;
+		
+		document.getElementById("shipToName").value = name;
+		document.getElementById("shipToGstin").value = gst;
+		document.getElementById("shipToAddress").value = addr;
+		
+	}else{
+		
+		var name=document.getElementById("billToName").value;
+		var gst=document.getElementById("billToGstin").value;
+		var addr=document.getElementById("billToAddress").value;
+		
+		document.getElementById("shipToName").value = name;
+		document.getElementById("shipToGstin").value = gst;
+		document.getElementById("shipToAddress").value = addr;
+	}
+	
+	
+}
+
 </script>
 
 	<!--basic scripts-->

@@ -514,6 +514,8 @@ table {
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.taxableAmt)}" /></td>
+						
+						
 				<c:set var="acttotal"
 					value="${acttotal+(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.taxableAmt)}" />
 			</tr>

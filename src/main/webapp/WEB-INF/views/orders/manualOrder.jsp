@@ -287,11 +287,41 @@ input:checked+.slider:before {
 	border-radius: 50%;
 }
 
-[type="radio"]:checked, [type="radio"]:not (:checked ) {
-	position: absolute;
-	left: -9999px;
-}
+[
+type
+=
+"radio"
+]
+:checked
+,
+[
+type
+=
+"radio"
+]
+:not
+ 
+(
+:checked
+ 
+)
+{
+position
+:
+ 
+absolute
+;
 
+	
+left
+:
+ 
+-9999
+px
+;
+
+
+}
 [type="radio"]:checked+label, [type="radio"]:not (:checked ) +label {
 	position: relative;
 	padding-left: 28px;
@@ -690,7 +720,23 @@ input:checked+.slider:before {
 
 
 										</div>
+
+
+										<div class="form-group" style="display: none;"
+											id="shipToOption">
+
+											<label class="col-sm-3 col-lg-2 control-label">Choose
+												Ship To Option</label>
+											<div class="col-sm-9 col-lg-2 controls">
+												<input type="radio" id="radioFr" name="radioShip"
+													checked="checked" onchange="dairyMartShipToOption()">Franchisee &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"
+													id="radioCust" name="radioShip" onchange="dairyMartShipToOption()">Customer
+											</div>
+
+										</div>
+
 										<div class="form-group" style="display: none;" id="shipToFr">
+
 											<label class="col-sm-3 col-lg-2 control-label">Ship
 												To Franchise</label>
 											<div class="col-sm-9 col-lg-2 controls">
@@ -712,8 +758,8 @@ input:checked+.slider:before {
 											</div>
 										</div>
 										<div id="singleOrder" class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Party
-												Name</label>
+											<label class="col-sm-3 col-lg-2 control-label">Ship
+												To Name</label>
 											<div class="col-sm-9 col-lg-2 controls">
 												<input type="text" name="frName" value="-" id="frName"
 													class="form-control" />
@@ -732,6 +778,11 @@ input:checked+.slider:before {
 											<input type="button" class="btn btn-primary" id="searchBtn"
 												value="Search" onclick="onSearch()">
 										</div>
+										
+										<input type="hidden" id="frNameHide">
+										<input type="hidden" id="gstinHide">
+										<input type="hidden" id="addressHide">
+										
 										<!-- 	<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Item</label>
 											<div class="col-sm-9 col-lg-5 controls">
@@ -2253,6 +2304,13 @@ function findFranchiseeData(frId)
                               document.getElementById("frName").value=data.frName;
                               document.getElementById("gstin").value=data.frGstNo;
                               document.getElementById("address").value=data.frAddress;
+                              
+                              
+                              document.getElementById("frNameHide").value=data.frName;
+                              document.getElementById("gstinHide").value=data.frGstNo;
+                              document.getElementById("addressHide").value=data.frAddress;
+                              
+                              
                              // alert(data.frKg1);
                               if(data.frKg1==1)
                             	  {
@@ -2306,6 +2364,8 @@ function showPdf(billNo)
 function checkCheckedStatus()
 {
 	   if($('#or1').is(':checked')) { 
+		   $('#shipToOption').hide();
+	   
 		   document.getElementById("searchBtn").disabled = false;
 		   document.getElementById("submitbill").style.display = "none";
 		   document.getElementById("submitorder").disabled = true;
@@ -2326,6 +2386,8 @@ function checkCheckedStatus()
    	// document.getElementById("submitbill").style.backgroundColor = "#ffeadd";
 	   }else
 	   if($('#or2').is(':checked')) { 
+		   
+		   $('#shipToOption').hide();
 		   document.getElementById("searchBtn").disabled = false;
 		   document.getElementById("submitbill").disabled = true;
 		   $("#submitbill").show();
@@ -2523,12 +2585,27 @@ function onDairyMartCheck()
      	isDairyMart=1;
      
      	document.getElementById("dailyFlagMart1").value = isDairyMart;
+     	
+     	if($('#or2').is(':checked')) { 
+     		$('#shipToOption').show();
+     	}else{
+     		$('#shipToOption').hide();
+     	}
+     	
+     	
      	 $('#limQtyCol').show();
      	// alert('limQtyCol4');
 
      	}else{
      		  $('#limQtyCol').hide();
-     		// alert('limQtyCol5');
+
+     	     	if($('#or2').is(':checked')) { 
+     	        	$('#shipToOption').hide();
+     	        }else{
+     	        	$('#shipToOption').hide();
+     	        }
+
+     		  // alert('limQtyCol5');
      	}
 	
 	
@@ -2576,5 +2653,59 @@ function myFunction() {
 
 
 </script>
+
+<script type="text/javascript">
+
+function dairyMartShipToOption(){
+	
+	
+	var fr = document.getElementById("radioFr");
+	var cust = document.getElementById("radioCust");
+	
+	if(fr.checked==true){
+		
+		//alert("fr");
+		
+		$('#shipToFr').show();
+	
+		
+		var name=document.getElementById("frNameHide").value;
+		var gst=document.getElementById("gstinHide").value;
+		var addr=document.getElementById("addressHide").value;
+		
+		document.getElementById("frName").value = name;
+		document.getElementById("gstin").value = gst;
+		document.getElementById("address").value = addr;
+		
+	}else{
+		
+		$('#shipToFr').hide();
+		//alert("Cust");
+		
+		//var eID = document.getElementById("ship_fr_id");
+		//eID.options[0].selected="true";
+		
+		
+		document.getElementById("ship_fr_id").selectedIndex="0";
+		$("#ship_fr_id").trigger("chosen:updated");
+		
+		//document.getElementById('ship_fr_id').value = '0';
+	
+		
+		var name=document.getElementById("billToName").value;
+		var gst=document.getElementById("billToGstin").value;
+		var addr=document.getElementById("billToAddress").value;
+		
+		document.getElementById("frName").value = name;
+		document.getElementById("gstin").value = gst;
+		document.getElementById("address").value = addr;
+	}
+	
+	
+}
+
+</script>
+
+
 </body>
 </html>

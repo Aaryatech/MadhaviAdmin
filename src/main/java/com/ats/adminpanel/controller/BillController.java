@@ -64,6 +64,7 @@ import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.AllMenus;
 import com.ats.adminpanel.model.AllRoutesListResponse;
+import com.ats.adminpanel.model.CheckDairyMart;
 import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.Franchisee;
 import com.ats.adminpanel.model.GenerateBill;
@@ -97,6 +98,7 @@ import com.ats.adminpanel.model.franchisee.AdvanceOrderHeader;
 import com.ats.adminpanel.model.franchisee.AllMenuResponse;
 import com.ats.adminpanel.model.franchisee.FrNameIdByRouteId;
 import com.ats.adminpanel.model.franchisee.FrNameIdByRouteIdResponse;
+import com.ats.adminpanel.model.franchisee.FranchiseeList;
 import com.ats.adminpanel.model.franchisee.Menu;
 import com.ats.adminpanel.model.franchisee.SubCategory;
 import com.ats.adminpanel.model.item.CategoryListResponse;
@@ -269,44 +271,7 @@ public class BillController {
 
 				for (int j = 0; j < tempGenerateBillList.size(); j++) {
 
-					// String invNo = getInvoiceNo();
-
-					/*
-					 * if (frIdInvoiceMap.containsKey(frId)) {
-					 * 
-					 * System.out.println("prev id found " + frId);
-					 * 
-					 * header.setInvoiceNo(frIdInvoiceMap.get(frId));
-					 * 
-					 * } else { System.out.println("New id found " + frId);
-					 * 
-					 * String invNo = getInvoiceNo(); frIdInvoiceMap.put(frId, invNo);
-					 * header.setInvoiceNo(invNo); map = new LinkedMultiValueMap<String, Object>();
-					 * 
-					 * String settingKey = new String();
-					 * 
-					 * settingKey = "PB";
-					 * 
-					 * map.add("settingKeyList", settingKey);
-					 * 
-					 * FrItemStockConfigureList settingList = restTemplate.postForObject(
-					 * Constants.url + "getDeptSettingValue", map, FrItemStockConfigureList.class);
-					 * 
-					 * System.out.println("SettingKeyList" + settingList.toString());
-					 * 
-					 * settingValue =
-					 * settingList.getFrItemStockConfigure().get(0).getSettingValue();
-					 * 
-					 * settingValue = settingValue + 1;
-					 * System.out.println("inside update setting Value " + settingValue);
-					 * 
-					 * map.add("settingValue", settingValue);
-					 * 
-					 * map.add("settingKey", Constants.SETTING_KEY);
-					 * 
-					 * Info updateSetting = restTemplate.postForObject(Constants.url +
-					 * "updateSeetingForPB", map, Info.class); }
-					 */
+					
 					GenerateBill gBill = tempGenerateBillList.get(j);
 
 					System.out.println("Inner For frId " + gBill.getFrId());
@@ -350,7 +315,7 @@ public class BillController {
 						float sgstRs = (taxableAmt * tax1) / 100;
 						float cgstRs = (taxableAmt * tax2) / 100;
 						float igstRs = (taxableAmt * tax3) / 100;
-						Float totalTax = sgstRs + cgstRs;
+						float totalTax = sgstRs + cgstRs;
 						float discAmt = 0;
 						if (billQty == null || billQty == "") {// new code to handle hidden records
 							billQty = "0";
@@ -397,19 +362,24 @@ public class BillController {
 						// header.setCgstSum(sumT2);
 						// header.setIgstSum(sumT3);
 
-						totalTax = roundUp(totalTax);
+						//totalTax = roundUp(totalTax);
+						totalTax = Float.parseFloat(String.format("%.2f",totalTax));
 
 						Float grandTotal = totalTax + taxableAmt;
-						grandTotal = roundUp(grandTotal);
+						//grandTotal = roundUp(grandTotal);
+						grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
 
 						sumTaxableAmt = sumTaxableAmt + taxableAmt;
-						sumTaxableAmt = roundUp(sumTaxableAmt);
+						//sumTaxableAmt = roundUp(sumTaxableAmt);
+						sumTaxableAmt = Float.parseFloat(String.format("%.2f", sumTaxableAmt));
 
 						sumTotalTax = sumTotalTax + totalTax;
-						sumTotalTax = roundUp(sumTotalTax);
+						//sumTotalTax = roundUp(sumTotalTax);
+						sumTotalTax = Float.parseFloat(String.format("%.2f", sumTotalTax));
 
 						sumGrandTotal = sumGrandTotal + grandTotal;
-						sumGrandTotal = roundUp(sumGrandTotal);
+						//sumGrandTotal = roundUp(sumGrandTotal);
+						sumGrandTotal = Float.parseFloat(String.format("%.2f", sumGrandTotal));
 
 						billDetail.setOrderId(tempGenerateBillList.get(j).getOrderId());
 						billDetail.setMenuId(gBill.getMenuId());
@@ -519,7 +489,8 @@ public class BillController {
 				// header.setCgstSum(sumT2);
 				// header.setIgstSum(sumT3);
 				header.setTaxableAmt(sumTaxableAmt);
-				header.setGrandTotal(Math.round(sumGrandTotal));
+				//header.setGrandTotal(Math.round(sumGrandTotal));
+				header.setGrandTotal(sumGrandTotal);
 				header.setDiscAmt(roundUp(sumDiscAmt));// new
 
 				System.err.println("sumof grand total beofre " + sumGrandTotal);
@@ -924,6 +895,31 @@ public class BillController {
 
 		return custId;
 	}
+	
+	
+	@RequestMapping(value = "/getCustIdAndDairyMartFromOrderHeaderId", method = RequestMethod.POST)
+	public @ResponseBody CheckDairyMart getCustIdAndDairyMartFromOrderHeaderId(HttpServletRequest request, HttpServletResponse response) {
+	
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		
+		int advOrdHeaderId = Integer.parseInt(request.getParameter("advOrdHeaderId"));
+
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("headId", advOrdHeaderId);
+			 advHeader = restTemplate
+					.postForObject(Constants.url + "/advanceOrderHistoryHedaerByHeadId", map, AdvanceOrderHeader.class);
+			 int custId=advHeader.getCustId();
+			 
+			 CheckDairyMart model=new CheckDairyMart();
+			 model.setCustId(custId);
+			 model.setIsDairyMart(advHeader.getIsDailyMart());
+
+		return model;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/getAdvOrderHeadList", method = RequestMethod.GET)
 	public @ResponseBody List<GetAdvanceOrderList> getAdvOrderHeadList(HttpServletRequest request, HttpServletResponse response) {
