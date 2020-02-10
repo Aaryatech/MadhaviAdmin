@@ -362,24 +362,24 @@ public class BillController {
 						// header.setCgstSum(sumT2);
 						// header.setIgstSum(sumT3);
 
-						//totalTax = roundUp(totalTax);
-						totalTax = Float.parseFloat(String.format("%.2f",totalTax));
+						totalTax = roundUp(totalTax);
+						//totalTax = Float.parseFloat(String.format("%.2f",totalTax));
 
 						Float grandTotal = totalTax + taxableAmt;
-						//grandTotal = roundUp(grandTotal);
-						grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
+						grandTotal = roundUp(grandTotal);
+						//grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
 
 						sumTaxableAmt = sumTaxableAmt + taxableAmt;
-						//sumTaxableAmt = roundUp(sumTaxableAmt);
-						sumTaxableAmt = Float.parseFloat(String.format("%.2f", sumTaxableAmt));
+						sumTaxableAmt = roundUp(sumTaxableAmt);
+						//sumTaxableAmt = Float.parseFloat(String.format("%.2f", sumTaxableAmt));
 
 						sumTotalTax = sumTotalTax + totalTax;
-						//sumTotalTax = roundUp(sumTotalTax);
-						sumTotalTax = Float.parseFloat(String.format("%.2f", sumTotalTax));
+						sumTotalTax = roundUp(sumTotalTax);
+						//sumTotalTax = Float.parseFloat(String.format("%.2f", sumTotalTax));
 
 						sumGrandTotal = sumGrandTotal + grandTotal;
-						//sumGrandTotal = roundUp(sumGrandTotal);
-						sumGrandTotal = Float.parseFloat(String.format("%.2f", sumGrandTotal));
+						sumGrandTotal = roundUp(sumGrandTotal);
+						//sumGrandTotal = Float.parseFloat(String.format("%.2f", sumGrandTotal));
 
 						billDetail.setOrderId(tempGenerateBillList.get(j).getOrderId());
 						billDetail.setMenuId(gBill.getMenuId());
@@ -3325,4 +3325,6 @@ public class BillController {
 		return "redirect:/showBillListForPrint";
 
 	}
+	
+	
 }

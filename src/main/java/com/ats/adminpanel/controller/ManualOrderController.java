@@ -765,13 +765,13 @@ public class ManualOrderController {
 								Float tax3 = (float) gBill.getItemTax3();
 
 								Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-								//baseRate = roundUp(baseRate);
+								baseRate = roundUp(baseRate);
 
 								Float taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 
 								System.out.println("taxableAmt: " + taxableAmt);
-								//taxableAmt = roundUp(taxableAmt);
-								taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
+								taxableAmt = roundUp(taxableAmt);
+								//taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
 
 								float sgstRs = (taxableAmt * tax1) / 100;
 								float cgstRs = (taxableAmt * tax2) / 100;
@@ -815,38 +815,38 @@ public class ManualOrderController {
 									totalTax = igstRs;
 								}
 
-								//sgstRs = roundUp(sgstRs);
-								//cgstRs = roundUp(cgstRs);
-								//igstRs = roundUp(igstRs);
+								sgstRs = roundUp(sgstRs);
+								cgstRs = roundUp(cgstRs);
+								igstRs = roundUp(igstRs);
 								
-								sgstRs=Float.parseFloat(String.format("%.2f", sgstRs));
-								cgstRs=Float.parseFloat(String.format("%.2f", cgstRs));
-								igstRs=Float.parseFloat(String.format("%.2f", igstRs));
+								//sgstRs=Float.parseFloat(String.format("%.2f", sgstRs));
+								//cgstRs=Float.parseFloat(String.format("%.2f", cgstRs));
+								//igstRs=Float.parseFloat(String.format("%.2f", igstRs));
 								
 
 								// header.setSgstSum(sumT1);
 								// header.setCgstSum(sumT2);
 								// header.setIgstSum(sumT3);
 
-								//totalTax = roundUp(totalTax);
-								totalTax=Float.parseFloat(String.format("%.2f", totalTax));
+								totalTax = roundUp(totalTax);
+								//totalTax=Float.parseFloat(String.format("%.2f", totalTax));
 
 								Float grandTotal = totalTax + taxableAmt;
-								//grandTotal = roundUp(grandTotal);
-								grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
+								grandTotal = roundUp(grandTotal);
+								//grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
 
 								sumTaxableAmt = sumTaxableAmt + taxableAmt;
-								//sumTaxableAmt = roundUp(sumTaxableAmt);
-								sumTaxableAmt=Float.parseFloat(String.format("%.2f", sumTaxableAmt));
+								sumTaxableAmt = roundUp(sumTaxableAmt);
+								//sumTaxableAmt=Float.parseFloat(String.format("%.2f", sumTaxableAmt));
 
 								
 								sumTotalTax = sumTotalTax + totalTax;
-								//sumTotalTax = roundUp(sumTotalTax);
-								sumTotalTax=Float.parseFloat(String.format("%.2f", sumTotalTax));
+								sumTotalTax = roundUp(sumTotalTax);
+								//sumTotalTax=Float.parseFloat(String.format("%.2f", sumTotalTax));
 
 								sumGrandTotal = sumGrandTotal + grandTotal;
-								//sumGrandTotal = roundUp(sumGrandTotal);
-								sumGrandTotal=Float.parseFloat(String.format("%.2f", sumGrandTotal));
+								sumGrandTotal = roundUp(sumGrandTotal);
+								//sumGrandTotal=Float.parseFloat(String.format("%.2f", sumGrandTotal));
 
 								billDetail.setOrderId(tempGenerateBillList.get(j).getOrderId());
 								billDetail.setMenuId(gBill.getMenuId());
@@ -858,11 +858,11 @@ public class ManualOrderController {
 								billDetail.setRateType(gBill.getRateType());
 								billDetail.setRate((float) gBill.getOrderRate());
 								
-								baseRate=Float.parseFloat(String.format("%.2f", baseRate));
+								//baseRate=Float.parseFloat(String.format("%.2f", baseRate));
 								
 								billDetail.setBaseRate(baseRate);
 								
-								taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
+								//taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
 								
 								billDetail.setTaxableAmt(taxableAmt);
 								billDetail.setDiscPer(discPer);// new
@@ -1204,12 +1204,12 @@ public class ManualOrderController {
 						float tax3 = (float) gBill.getItemTax3();
 
 						float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-						//baseRate = roundUp(baseRate);
+						baseRate = roundUp(baseRate);
 
 						float taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
 
 						System.out.println("taxableAmt: " + taxableAmt);
-						//taxableAmt = roundUp(taxableAmt);
+						taxableAmt = roundUp(taxableAmt);
 						//taxableAmt = Float.parseFloat(String.format("%.2f",taxableAmt));
 
 						float sgstRs = (taxableAmt * tax1) / 100;
@@ -1303,7 +1303,7 @@ public class ManualOrderController {
 
 						billDetail.setRateType(gBill.getRateType());
 
-						baseRate = Float.parseFloat(String.format("%.2f",baseRate));
+						//baseRate = Float.parseFloat(String.format("%.2f",baseRate));
 						
 						billDetail.setBaseRate(baseRate);
 						
