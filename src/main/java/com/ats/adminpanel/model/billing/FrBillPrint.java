@@ -35,8 +35,47 @@ public class FrBillPrint {
 	Company company;
 	
 private String ewayBillNo;
+
+private String exVarchar3;
+private String exVarchar4;
+private String exVarchar5;
+
+private int isDairyMart;
 	
-	
+
+
+	public int getIsDairyMart() {
+	return isDairyMart;
+}
+
+public void setIsDairyMart(int isDairyMart) {
+	this.isDairyMart = isDairyMart;
+}
+
+	public String getExVarchar3() {
+	return exVarchar3;
+}
+
+public void setExVarchar3(String exVarchar3) {
+	this.exVarchar3 = exVarchar3;
+}
+
+public String getExVarchar4() {
+	return exVarchar4;
+}
+
+public void setExVarchar4(String exVarchar4) {
+	this.exVarchar4 = exVarchar4;
+}
+
+public String getExVarchar5() {
+	return exVarchar5;
+}
+
+public void setExVarchar5(String exVarchar5) {
+	this.exVarchar5 = exVarchar5;
+}
+
 	public String getEwayBillNo() {
 		return ewayBillNo;
 	}
@@ -162,6 +201,8 @@ private String ewayBillNo;
 	public void setGrandTotal(float grandTotal) {
 		this.grandTotal = grandTotal;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "FrBillPrint [billDetailsList=" + billDetailsList + ", frId=" + frId + ", billNo=" + billNo + ", frName="
@@ -169,7 +210,9 @@ private String ewayBillNo;
 				+ ", billDate=" + billDate + ", amtInWords=" + amtInWords + ", grandTotal=" + grandTotal
 				+ ", partyName=" + partyName + ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress
 				+ ", vehNo=" + vehNo + ", billTime=" + billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2="
-				+ exVarchar2 + ", subCatList=" + subCatList + ", company=" + company + "]";
+				+ exVarchar2 + ", subCatList=" + subCatList + ", company=" + company + ", ewayBillNo=" + ewayBillNo
+				+ ", exVarchar3=" + exVarchar3 + ", exVarchar4=" + exVarchar4 + ", exVarchar5=" + exVarchar5
+				+ ", isDairyMart=" + isDairyMart + "]";
 	}
 	
 }

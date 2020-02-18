@@ -206,6 +206,9 @@ public class BillController {
 		String billTime = request.getParameter("time");
 		// ------------------------------------------------------------------------
 		String sectionId = request.getParameter("sectionId");
+		
+		int isDairy=Integer.parseInt(request.getParameter("isDairy"));
+		System.err.println("IS DAIRY --------------------------------------------- "+isDairy);
 
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -255,6 +258,7 @@ public class BillController {
 				header.setBillTime(billTime);
 				header.setExVarchar1("-");
 				header.setExVarchar2("-");
+				header.setIsDairyMart(isDairy);
 				// System.out.println("Invoice No= " + invoiceNo);
 				int frId = frIdList.get(i);
 
@@ -446,6 +450,9 @@ public class BillController {
 						header.setRemark("");
 						
 						if(Integer.parseInt(sectionId)==1) {
+							
+							System.err.println("SECTION ID --------- "+sectionId+" ----------------------- "+gBill.getPartyName());
+							
 							header.setPartyName(gBill.getPartyName());// new
 							header.setPartyGstin(gBill.getPartyGstin());// new
 							header.setPartyAddress(gBill.getPartyAddress());// new
@@ -457,7 +464,9 @@ public class BillController {
 							
 						}else {
 							
-							String partyName = request.getParameter("shipToFrName");
+							System.err.println("SECTION ID --------- "+sectionId+" ----------------------- "+request.getParameter("shipToFrName"));
+							
+							String partyName = request.getParameter("shipToName");
 							String partyGstin = request.getParameter("shipToGstin");
 							String partyAddress = request.getParameter("shipToAddress");
 						    
@@ -2301,6 +2310,12 @@ public class BillController {
 
 						billPrint.setCompany(billHeadersListForPrint.get(i).getCompany());
 						
+						billPrint.setExVarchar3(billHeadersListForPrint.get(i).getExVarchar3());
+						billPrint.setExVarchar4(billHeadersListForPrint.get(i).getExVarchar4());
+						billPrint.setExVarchar5(billHeadersListForPrint.get(i).getExVarchar5());
+						
+						billPrint.setIsDairyMart(billHeadersListForPrint.get(i).getIsDairyMart());
+						
 						billPrint.setEwayBillNo(billHeadersListForPrint.get(i).getEwayBillNo());
 						billDetails.add(billDetailsListForPrint.get(j));
 
@@ -2330,6 +2345,9 @@ public class BillController {
 				billPrint.setSubCatList(filteredSubCat);
 				if (billPrint != null)
 					billPrintList.add(billPrint);
+				
+				model.addObject("isDairy",billHeadersListForPrint.get(i).getIsDairyMart());
+				model.addObject("isOwnFr",billHeadersListForPrint.get(i).getExVarchar2());
 
 			}
 			//System.out.println("sub Cat List  " + billPrint.getSubCatList().toString());

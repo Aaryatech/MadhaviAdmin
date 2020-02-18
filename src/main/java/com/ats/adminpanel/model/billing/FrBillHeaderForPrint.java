@@ -27,10 +27,49 @@ public class FrBillHeaderForPrint {
 	private String exVarchar1;//new -02 july 19
 	private String exVarchar2;//new -02 july 19
 	
+	private String exVarchar3;
+	private String exVarchar4;
+	private String exVarchar5;
 	
 private String ewayBillNo;//Sachin 12-Dec-2019
+
+private int isDairyMart;
+
+
 	
 	
+	public String getExVarchar3() {
+	return exVarchar3;
+}
+
+public void setExVarchar3(String exVarchar3) {
+	this.exVarchar3 = exVarchar3;
+}
+
+public String getExVarchar4() {
+	return exVarchar4;
+}
+
+public void setExVarchar4(String exVarchar4) {
+	this.exVarchar4 = exVarchar4;
+}
+
+public String getExVarchar5() {
+	return exVarchar5;
+}
+
+public void setExVarchar5(String exVarchar5) {
+	this.exVarchar5 = exVarchar5;
+}
+
+	public int getIsDairyMart() {
+	return isDairyMart;
+}
+
+public void setIsDairyMart(int isDairyMart) {
+	this.isDairyMart = isDairyMart;
+}
+
 	public String getEwayBillNo() {
 		return ewayBillNo;
 	}
@@ -230,6 +269,7 @@ private String ewayBillNo;//Sachin 12-Dec-2019
 		this.billDate = billDate;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "FrBillHeaderForPrint [billNo=" + billNo + ", frName=" + frName + ", taxApplicable=" + taxApplicable
@@ -238,7 +278,9 @@ private String ewayBillNo;//Sachin 12-Dec-2019
 				+ status + ", remark=" + remark + ", delStatus=" + delStatus + ", isSameState=" + isSameState
 				+ ", frAddress=" + frAddress + ", partyName=" + partyName + ", partyGstin=" + partyGstin
 				+ ", partyAddress=" + partyAddress + ", vehNo=" + vehNo + ", billTime=" + billTime + ", exVarchar1="
-				+ exVarchar1 + ", exVarchar2=" + exVarchar2 + ", company=" + company + "]";
+				+ exVarchar1 + ", exVarchar2=" + exVarchar2 + ", exVarchar3=" + exVarchar3 + ", exVarchar4="
+				+ exVarchar4 + ", exVarchar5=" + exVarchar5 + ", ewayBillNo=" + ewayBillNo + ", isDairyMart="
+				+ isDairyMart + ", company=" + company + "]";
 	}
     
 }

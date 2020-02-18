@@ -15,8 +15,20 @@ public class FrSetting {
 	private int spNo;
 	
 	private int count;
+	
+	private String exVarchar;
 
 	
+	
+	
+	public String getExVarchar() {
+		return exVarchar;
+	}
+
+	public void setExVarchar(String exVarchar) {
+		this.exVarchar = exVarchar;
+	}
+
 	public int getSpNo() {
 		return spNo;
 	}
@@ -75,11 +87,14 @@ public class FrSetting {
 	public void setCount(int count) {
 		this.count = count;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "FrSetting [frSettingId=" + frSettingId + ", frId=" + frId + ", frCode=" + frCode + ", sellBillNo="
-				+ sellBillNo + ", grnGvnNo=" + grnGvnNo + ", spNo=" + spNo + ", count=" + count + "]";
+				+ sellBillNo + ", grnGvnNo=" + grnGvnNo + ", spNo=" + spNo + ", count=" + count + ", exVarchar="
+				+ exVarchar + "]";
 	}
 
 	

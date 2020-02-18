@@ -2499,6 +2499,9 @@ function checkOrderByStatus()
 	<script type="text/javascript">
 function onCatIdChangeForManOrder(menuId) {
 	
+	//alert(menuId);
+
+	
 	if(parseInt(menuId)==42){
 		   document.getElementById("advOrderTotal").style = "visible";
 		   document.getElementById("custOrder").style = "visible";

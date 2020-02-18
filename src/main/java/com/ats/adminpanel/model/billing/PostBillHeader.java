@@ -76,11 +76,22 @@ public class PostBillHeader {
 	
 	private String exVarchar5;//new on 2 july
 	
+	private int isDairyMart;
+	
 	
 	
 	List<PostBillDetail> postBillDetailsList;
 		
 	
+	
+
+	public int getIsDairyMart() {
+		return isDairyMart;
+	}
+
+	public void setIsDairyMart(int isDairyMart) {
+		this.isDairyMart = isDairyMart;
+	}
 
 	public String getExVarchar3() {
 		return exVarchar3;
@@ -319,6 +330,7 @@ public class PostBillHeader {
 		this.exVarchar2 = exVarchar2;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "PostBillHeader [billNo=" + billNo + ", taxApplicable=" + taxApplicable + ", invoiceNo=" + invoiceNo
@@ -329,7 +341,7 @@ public class PostBillHeader {
 				+ partyName + ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress + ", vehNo=" + vehNo
 				+ ", billTime=" + billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2
 				+ ", exVarchar3=" + exVarchar3 + ", exVarchar4=" + exVarchar4 + ", exVarchar5=" + exVarchar5
-				+ ", postBillDetailsList=" + postBillDetailsList + "]";
+				+ ", isDairyMart=" + isDairyMart + ", postBillDetailsList=" + postBillDetailsList + "]";
 	}
 
 	

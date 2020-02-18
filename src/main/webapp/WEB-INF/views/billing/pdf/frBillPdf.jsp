@@ -27,7 +27,24 @@ table {
 		<c:set var="totalRowCount" value="0" />
 		<c:set var="maxRowCount" value="79" />
 		<div style="text-align: center; font-size: 12px;">
-			<b>TAX INVOICE</b>
+		<%-- <h2>${isDairy}</h2>
+		<h2>${isOwnFr}</h2> --%>
+		
+			 <c:choose>
+				<c:when test="${isDairy==2}">
+					<b>TAX INVOICE</b>
+				</c:when>
+				<c:otherwise>
+					<c:if test="${isOwnFr==1}">
+						<b>DELIVERY CHALLAN</b>
+					</c:if>
+					<c:if test="${isOwnFr==0}">
+						<b>TAX INVOICE</b>
+					</c:if>
+
+				</c:otherwise>
+			</c:choose> 
+
 		</div>
 		<div style="text-align: right; font-size: 10px;">CIN :
 			${frDetails.company.cinNo}</div>
@@ -78,7 +95,9 @@ table {
 						Invoice Date: &nbsp;&nbsp;<b>${frDetails.billDate}</b>
 					</p>
 					<p
-						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">E-Way Bill No: <b>${frDetails.ewayBillNo}</b></p>
+						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
+						E-Way Bill No: <b>${frDetails.ewayBillNo}</b>
+					</p>
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">Is
 						reverse tax Applicable?(Yes/No): No</p>
@@ -110,11 +129,11 @@ table {
 					style="border-top: 1px solid #313131; padding: 7px; color: #FFF; font-size: 15px;">
 					<p
 						style="color: #000; font-size: 13px; text-align:; left; margin: 0px;">
-						<b> Billed To:&nbsp; &nbsp; ${frDetails.partyName} [GSTIN:
-							${frDetails.partyGstin}]</b>
+						<b> Billed To:&nbsp; &nbsp; ${frDetails.exVarchar3} [GSTIN:
+							${frDetails.exVarchar4}]</b>
 					</p>
 					<p
-						style="color: #000; font-size: 11px; text-align:; left; margin: 0px;">${frDetails.partyAddress}</p>
+						style="color: #000; font-size: 11px; text-align:; left; margin: 0px;">${frDetails.exVarchar5}</p>
 
 				</td>
 				<td width="50%" colspan="5"
@@ -216,7 +235,7 @@ table {
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
-						<td
+					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
 						style="border-left: 1px solid #313131; border-right: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;"></td>
@@ -465,12 +484,13 @@ table {
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${billDetails.baseRate}" /></td>
 
-				
+
 				<c:set var="baseRate" value="${billDetails.baseRate}" />
-				<c:set var="totTax" value="${billDetails.cgstPer+billDetails.sgstPer}" />
+				<c:set var="totTax"
+					value="${billDetails.cgstPer+billDetails.sgstPer}" />
 				<c:set var="taxRt" value="${baseRate*((totTax)/100)}" />
 				<c:set var="unitRate" value="${baseRate+taxRt}" />
-				
+
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
@@ -514,8 +534,8 @@ table {
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.taxableAmt)}" /></td>
-						
-						
+
+
 				<c:set var="acttotal"
 					value="${acttotal+(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.taxableAmt)}" />
 			</tr>

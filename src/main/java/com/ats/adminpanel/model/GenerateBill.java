@@ -60,6 +60,20 @@ public class GenerateBill {
 	
 	private int  isOwnFr;//new
 	
+	
+	private int isDairyMart;
+	
+	
+	
+	
+	public int getIsDairyMart() {
+		return isDairyMart;
+	}
+
+	public void setIsDairyMart(int isDairyMart) {
+		this.isDairyMart = isDairyMart;
+	}
+
 	public int getIsOwnFr() {
 		return isOwnFr;
 	}
@@ -289,7 +303,7 @@ public class GenerateBill {
 				+ itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3=" + itemTax3 + ", grnType=" + grnType
 				+ ", itemShelfLife=" + itemShelfLife + ", isSameState=" + isSameState + ", deliveryDate=" + deliveryDate
 				+ ", partyName=" + partyName + ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress
-				+ ", hsnCode=" + hsnCode + ", isOwnFr=" + isOwnFr + "]";
+				+ ", hsnCode=" + hsnCode + ", isOwnFr=" + isOwnFr + ", isDairyMart=" + isDairyMart + "]";
 	}
     
     

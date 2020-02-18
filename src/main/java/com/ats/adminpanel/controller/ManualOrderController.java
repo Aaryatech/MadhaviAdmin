@@ -633,12 +633,23 @@ public class ManualOrderController {
 		String partyAddress = "";
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
+		
+		
+		
 
 		int ordertype = Integer.parseInt(request.getParameter("ordertype"));
 		int menuId = Integer.parseInt(request.getParameter("menu"));
 		int delType= Integer.parseInt(request.getParameter("delType"));
 		int dm= Integer.parseInt(request.getParameter("dailyFlagMart"));
 
+		int isDairy=1;
+		
+		System.err.println("MENU ID:-----------------------------------------------------------" + menuId);
+		if(menuId==42) {
+			isDairy=2;
+		}
+		
+		
 		System.err.println("dm:" + dm);
 		System.err.println("button:" + submitorder + submitbill);
 
@@ -920,6 +931,7 @@ public class ManualOrderController {
 							header.setTaxableAmt(sumTaxableAmt);
 							header.setGrandTotal(sumGrandTotal);
 							header.setDiscAmt(sumDiscAmt);// new
+							header.setIsDairyMart(isDairy);
 
 							System.err.println("sumof grand total beofre " + sumGrandTotal);
 
@@ -950,7 +962,17 @@ public class ManualOrderController {
 							header.setBillTime(sdf1.format(calender.getTime()));
 							header.setVehNo("-");
 							header.setExVarchar1(sectionId);
-							header.setExVarchar2("-");
+							
+							if(franchiseeList.getFrKg1()==1) {
+								
+								header.setExVarchar2("1");
+								
+							}else {
+								
+								header.setExVarchar2("0");
+								
+							}
+							
 							header.setExVarchar3(partyName);
 							header.setExVarchar4(partyGstin);
 							header.setExVarchar5(partyAddress);
@@ -1018,7 +1040,8 @@ public class ManualOrderController {
 			advHeader.setExInt2(1);
 			advHeader.setExVar1(dateFormat1.format(date));
 			advHeader.setExVar2(delTime);
-			advHeader.setIsDailyMart(dm+1);
+			//advHeader.setIsDailyMart(dm+1);
+			advHeader.setIsDailyMart(isDairy);
 
 			advHeader.setFrId(franchiseeList.getFrId());
 			advHeader.setOrderDate(todaysDate);
@@ -1083,6 +1106,7 @@ public class ManualOrderController {
 						float discPer1 = Float
 								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
 						float discountAmount = (calTotal * discPer1) / 100;
+						
 						
 						discAmt = discAmt + discountAmount;
 						float subTotal = calTotal - discountAmount;
@@ -1151,6 +1175,7 @@ public class ManualOrderController {
 
 			advHeader.setRemainingAmt(totGrand-advanceAmt);
 			advHeader.setTotal(totGrand);
+			advHeader.setDiscAmt(discAmt);
 
 			advHeader.setDetailList(advDetailList);
 			GenerateBill[] orderListResponse1 = null;
@@ -1159,7 +1184,8 @@ public class ManualOrderController {
 					GenerateBill[].class);
 
 			List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(Arrays.asList(orderListResponse1));
-
+			
+			
 			// to save bill
 			if (tempGenerateBillList != null) {
 				System.err.println("saving bill with Advance"+tempGenerateBillList.toString());
@@ -1408,10 +1434,21 @@ public class ManualOrderController {
 					header.setBillTime(sdf1.format(calender.getTime()));
 					header.setVehNo("-");
 					header.setExVarchar1("1");
-					header.setExVarchar2("-");
+					
+					if(franchiseeList.getFrKg1()==1) {
+						header.setExVarchar2("1");	
+					}else {
+						header.setExVarchar2("0");
+					}
+					
+					
+					
 					header.setExVarchar3(billToName);
 					header.setExVarchar4(billToGstin);
 					header.setExVarchar5(billToAddress);
+					
+					header.setIsDairyMart(isDairy);
+					
 					postBillHeaderList.add(header);
 
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);

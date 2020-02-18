@@ -322,6 +322,7 @@
 				onsubmit="submitBill.disabled = true; return confirm('Do you want to Generate Bill ?');">
 
 				<input type="hidden" name="sectionId" id="postSectionId" />
+				<input type="hidden" name="isDairy" id="isDairy" />
 				<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive">
@@ -547,6 +548,14 @@ var advOrdHeaderId=0;
 					selectedFr = $("#selectFr1").val();
 					advOrdHeaderId=document.getElementById("advOrdHeaderId").value
 				}
+				
+				if(advOrdHeaderId>0){
+					document.getElementById("isDairy").value=2;
+				}else{
+					document.getElementById("isDairy").value=1;
+				}
+				
+				//alert(advOrdHeaderId);
 				
 				var selectedMenu = $("#selectMenu").val();
 				var deliveryDate = $("#deliveryDate").val();
@@ -835,6 +844,8 @@ var advOrdHeaderId=0;
 					},
 					function(data) {
 						   //alert(data);
+						   
+						   
 						
 						   if(data.isDairyMart==2){
 							   document.getElementById("billTo").style.display="block";
