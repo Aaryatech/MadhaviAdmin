@@ -91,7 +91,6 @@ public class BillHeadEwayBill {
 	public void setItemList(ArrayList<EwayItemList> itemList) {
 		this.itemList = itemList;
 	}
-	
 	@Override
 	public String toString() {
 		return "BillHeadEwayBill [billNo=" + billNo + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frId="
@@ -99,6 +98,8 @@ public class BillHeadEwayBill {
 				+ ", sgstSum=" + sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", itemList=" + itemList
 				+ "]";
 	}
+	
+	
 	
 	
 	

@@ -2,7 +2,8 @@ package com.ats.adminpanel.model.ewaybill;
 
 public class EwayItemList {
 
-	
+	private int billDetailNo;
+
 	private String productName;
 	private String productDesc;
 	private int hsnCode;
@@ -15,6 +16,15 @@ public class EwayItemList {
 	private double cessNonAdvol;
 	private double taxableAmount;
 
+	
+
+	public int getBillDetailNo() {
+		return billDetailNo;
+	}
+
+	public void setBillDetailNo(int billDetailNo) {
+		this.billDetailNo = billDetailNo;
+	}
 
 	public String getProductName() {
 		return productName;
@@ -106,10 +116,10 @@ public class EwayItemList {
 
 	@Override
 	public String toString() {
-		return "EwayItemList [productName=" + productName + ", productDesc=" + productDesc + ", hsnCode=" + hsnCode
-				+ ", quantity=" + quantity + ", qtyUnit=" + qtyUnit + ", cgstRate=" + cgstRate + ", sgstRate="
-				+ sgstRate + ", igstRate=" + igstRate + ", cessRate=" + cessRate + ", cessNonAdvol=" + cessNonAdvol
-				+ ", taxableAmount=" + taxableAmount + "]";
+		return "EwayItemList [billDetailNo=" + billDetailNo + ", productName=" + productName + ", productDesc="
+				+ productDesc + ", hsnCode=" + hsnCode + ", quantity=" + quantity + ", qtyUnit=" + qtyUnit
+				+ ", cgstRate=" + cgstRate + ", sgstRate=" + sgstRate + ", igstRate=" + igstRate + ", cessRate="
+				+ cessRate + ", cessNonAdvol=" + cessNonAdvol + ", taxableAmount=" + taxableAmount + "]";
 	}
 
 }
