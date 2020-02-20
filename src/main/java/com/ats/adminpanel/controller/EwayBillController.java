@@ -151,6 +151,7 @@ public class EwayBillController {
 				billReq.setToAddr1(franchise.getFrAddress());
 				billReq.setToAddr2("");
 				billReq.setToGstin(franchise.getFrGstNo());
+				
 				billReq.setToPincode(franchise.getFrKg2());
 				billReq.setToPlace(" ");
 				billReq.setToStateCode(company.getStateCode());
@@ -170,6 +171,24 @@ public class EwayBillController {
 
 				billReq.setVehicleNo(vehNo);
 				billReq.setVehicleType("R");
+				
+				//New 19-02-2020
+				billReq.setShipToTradeName(billHeaderList.get(i).getPartyName());
+				billReq.setShipToGSTIN(billHeaderList.get(i).getPartyGstin());
+				billReq.setToAddr1(billHeaderList.get(i).getPartyAddress());
+
+				
+				billReq.setToTrdName(billHeaderList.get(i).getExVarchar3());
+				//billReq.setToAddr1(billHeaderList.get(i).getExVarchar5());
+				billReq.setToAddr2("");
+				
+				if(billHeaderList.get(i).getExVarchar4().length()<1) {
+				billReq.setToGstin("URP");
+				}else {
+					billReq.setToGstin(billHeaderList.get(i).getExVarchar4());
+
+				}
+			
 
 				billReq.setItemList(billHeaderList.get(i).getItemList());
 

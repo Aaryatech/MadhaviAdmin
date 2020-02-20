@@ -22,6 +22,53 @@ public class BillHeadEwayBill {
 	private double cgstSum;
 	private double igstSum;
 	
+	
+	//New 19-02-2020
+		private String partyName;
+		private String partyGstin;
+		private String partyAddress;
+		private String exVarchar3;
+		private String exVarchar4;
+		private String exVarchar5;
+		
+		
+	
+	public String getPartyName() {
+			return partyName;
+		}
+		public void setPartyName(String partyName) {
+			this.partyName = partyName;
+		}
+		public String getPartyGstin() {
+			return partyGstin;
+		}
+		public void setPartyGstin(String partyGstin) {
+			this.partyGstin = partyGstin;
+		}
+		public String getPartyAddress() {
+			return partyAddress;
+		}
+		public void setPartyAddress(String partyAddress) {
+			this.partyAddress = partyAddress;
+		}
+		public String getExVarchar3() {
+			return exVarchar3;
+		}
+		public void setExVarchar3(String exVarchar3) {
+			this.exVarchar3 = exVarchar3;
+		}
+		public String getExVarchar4() {
+			return exVarchar4;
+		}
+		public void setExVarchar4(String exVarchar4) {
+			this.exVarchar4 = exVarchar4;
+		}
+		public String getExVarchar5() {
+			return exVarchar5;
+		}
+		public void setExVarchar5(String exVarchar5) {
+			this.exVarchar5 = exVarchar5;
+		}
 	ArrayList<EwayItemList> itemList;
 			
 	public int getBillNo() {
@@ -91,15 +138,17 @@ public class BillHeadEwayBill {
 	public void setItemList(ArrayList<EwayItemList> itemList) {
 		this.itemList = itemList;
 	}
+	
 	@Override
 	public String toString() {
 		return "BillHeadEwayBill [billNo=" + billNo + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frId="
 				+ frId + ", frCode=" + frCode + ", taxableAmt=" + taxableAmt + ", grandTotal=" + grandTotal
-				+ ", sgstSum=" + sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", itemList=" + itemList
-				+ "]";
+				+ ", sgstSum=" + sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", partyName=" + partyName
+				+ ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress + ", exVarchar3=" + exVarchar3
+				+ ", exVarchar4=" + exVarchar4 + ", exVarchar5=" + exVarchar5 + ", itemList=" + itemList + "]";
 	}
 	
-	
+
 	
 	
 	
