@@ -41,7 +41,7 @@ h6 {
 }
 
 th {
-	background-color: #EA3291;
+	background-color: #f95d64;
 	color: white;
 }
 </style>
@@ -55,27 +55,39 @@ th {
 		<h5>Sales Report (Group by Month Wise) &nbsp;&nbsp;&nbsp;&nbsp;
 			From &nbsp; ${fromDate} &nbsp;To &nbsp; ${toDate}</h5>
 	</div>
-	<table align="center" border="1" cellspacing="0" cellpadding="1"
-		id="table_grid" class="table table-bordered">
-		<thead>
-			<tr class="bgpink">
-				<th height="25">Sr.No.</th>
-				<th>Month</th>
-				<th>Taxable Value</th>
-				<th>Tax Value</th>
-				<th>Grand Total</th>
-				<th>GRN Taxable Value</th>
-				<th>GRN Tax Value</th>
-				<th>GRN Grand Total</th>
-				<th>GVN Taxable Value</th>
-				<th>GVN Tax Value</th>
-				<th>GVN Grand Total</th>
-				<th>NET Taxable Total</th>
-				<th>NET Tax Total</th>
-				<th>NET Grand Total</th>
-			</tr>
-		</thead>
-		<tbody>
+
+	<c:choose>
+
+		<c:when test="${billType==1}">
+
+			<table align="center" border="1" cellspacing="0" cellpadding="1"
+				id="table_grid" class="table table-bordered">
+				<thead>
+					<tr class="bgpink">
+						<!-- <th style="text-align: center;">Sr.No.</th>
+				<th style="text-align: center;">Month</th>
+				<th style="text-align: center;">Taxable Value</th>
+				<th style="text-align: center;">Tax Value</th>
+				<th style="text-align: center;">Grand Total</th>
+				<th style="text-align: center;">GRN Taxable Value</th>
+				<th style="text-align: center;">GRN Tax Value</th>
+				<th style="text-align: center;">GRN Grand Total</th>
+				<th style="text-align: center;">GVN Taxable Value</th>
+				<th style="text-align: center;">GVN Tax Value</th>
+				<th style="text-align: center;">GVN Grand Total</th>
+				<th style="text-align: center;">NET Taxable Total</th>
+				<th style="text-align: center;">NET Tax Total</th>
+				<th style="text-align: center;">NET Grand Total</th> -->
+
+						<th style="text-align: center;">Sr.No.</th>
+						<th style="text-align: center;">Month</th>
+						<th style="text-align: center;">Grand Total</th>
+						<th style="text-align: center;">GRN Grand Total</th>
+						<th style="text-align: center;">GVN Grand Total</th>
+						<th style="text-align: center;">NET Grand Total</th>
+					</tr>
+				</thead>
+				<%-- <tbody>
 
 			<c:set var="totalGrandTotal" value="${0}" />
 			<c:set var="totalTax" value="${0 }" />
@@ -244,8 +256,222 @@ th {
 							value="${totalNetGrandTotal}" /></b></td>
 
 			</tr>
-		</tbody>
-	</table>
+		</tbody> --%>
+
+
+				<tbody>
+
+					<c:set var="totalGrandTotal" value="${0}" />
+					<c:set var="totalTax" value="${0 }" />
+					<c:set var="totalTaxableAmt" value="${0 }" />
+
+					<c:set var="totalGrnGrandTotal" value="${0 }" />
+					<c:set var="totalGrnTaxableAmt" value="${0}" />
+					<c:set var="totalGrnTax" value="${0 }" />
+
+					<c:set var="totalGvnGrandTotal" value="${0 }" />
+					<c:set var="totalGvnTax" value="${0}" />
+					<c:set var="totalGvnTaxableAmt" value="${0 }" />
+
+
+					<c:set var="totalNetGrandTotal" value="${0 }" />
+					<c:set var="totalNetTax" value="${0}" />
+					<c:set var="totalNetTaxableAmt" value="${0 }" />
+					<c:forEach items="${report}" var="report" varStatus="count">
+						<tr>
+
+							<c:set var="totalTaxableAmt"
+								value="${totalTaxableAmt + report.taxableAmt}" />
+							<c:set var="totalTax" value="${totalTax + report.totalTax}" />
+							<c:set var="totalGrandTotal"
+								value="${totalGrandTotal + report.grandTotal}" />
+
+
+							<c:set var="totalGrnGrandTotal"
+								value="${totalGrnGrandTotal + report.grnGrandTotal}" />
+							<c:set var="totalGrnTaxableAmt"
+								value="${totalGrnTaxableAmt + report.grnTaxableAmt}" />
+							<c:set var="totalGrnTax"
+								value="${totalGrnTax + report.grnTotalTax}" />
+
+
+
+							<c:set var="totalGvnGrandTotal"
+								value="${totalGvnGrandTotal + report.gvnGrandTotal}" />
+							<c:set var="totalGvnTaxableAmt"
+								value="${totalGvnTaxableAmt + report.gvnTaxableAmt}" />
+							<c:set var="totalGvnTax"
+								value="${totalGvnTax + report.gvnTotalTax}" />
+
+
+							<c:set var="totalNetGrandTotal"
+								value="${totalNetGrandTotal + report.netGrandTotal}" />
+							<c:set var="totalNetTax"
+								value="${totalNetTax + report.netTotalTax}" />
+							<c:set var="totalNetTaxableAmt"
+								value="${totalNetTaxableAmt + report.netTaxableAmt}" />
+
+
+							<td style="text-align: center;"><c:out
+									value="${count.index+1}" /></td>
+							<td style="text-align: center;"><c:out
+									value="${report.month}" /></td>
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.grandTotal}" /></td>
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.grnGrandTotal}" /></td>
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.gvnGrandTotal}" /></td>
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.netGrandTotal}" /></td>
+
+						</tr>
+
+					</c:forEach>
+					<tr>
+						<td colspan='2'><b>Total</b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalGrandTotal}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalGrnGrandTotal}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalGvnGrandTotal}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalNetGrandTotal}" /></b></td>
+
+					</tr>
+				</tbody>
+
+
+			</table>
+
+		</c:when>
+		<c:otherwise>
+
+			<table align="center" border="1" cellspacing="0" cellpadding="1"
+				id="table_grid" class="table table-bordered">
+				<thead>
+					<tr class="bgpink">
+						<th style="text-align: center;">Sr.No.</th>
+						<th style="text-align: center;">Month</th>
+						<th style="text-align: center;">Franchisee</th>
+						<th style="text-align: center;">Bill Total</th>
+						<th style="text-align: center;">Transaction Total</th>
+						<th style="text-align: center;">Discount Total</th>
+						<th style="text-align: center;">Advance Total</th>
+						<th style="text-align: center;">Expense Total</th>
+						<th style="text-align: center;">Credit Note Total</th>
+						<th style="text-align: center;">Withdrawl Total</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<c:set var="totalBill" value="${0}" />
+					<c:set var="totalTr" value="${0 }" />
+					<c:set var="totalDisc" value="${0 }" />
+					<c:set var="totalAdv" value="${0 }" />
+					<c:set var="totalExp" value="${0}" />
+					<c:set var="totalCredit" value="${0 }" />
+					<c:set var="totalWithdrawl" value="${0 }" />
+
+					<c:forEach items="${compReport}" var="report" varStatus="count">
+						<tr>
+							<c:set var="totalBill" value="${totalBill + report.billTotal}" />
+							<c:set var="totalTr" value="${totalTr + report.trTotal}" />
+							<c:set var="totalDisc" value="${totalDisc + report.discTotal}" />
+							<c:set var="totalAdv" value="${totalAdv + report.advTotal}" />
+							<c:set var="totalExp" value="${totalExp + report.expTotal}" />
+							<c:set var="totalCredit" value="${totalCredit + report.creditTotal}" />
+							<c:set var="totalWithdrawl" value="${totalWithdrawl + report.withdrawlTotal}" />
+
+							<td style="text-align: center;"><c:out value="${count.index+1}" /></td>
+							<td style="text-align: center;"><c:out value="${report.billDate}" /></td>
+							<td style="text-align: left;"><c:out value="${report.frName}" /></td>
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.billTotal}" /></td>
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.trTotal}" /></td>
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.discTotal}" /></td>
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.advTotal}" /></td>
+
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.expTotal}" /></td>
+
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.creditTotal}" /></td>
+
+							<td style="text-align: right;"><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${report.withdrawlTotal}" /></td>
+
+						</tr>
+
+					</c:forEach>
+					<tr>
+
+
+
+						<td colspan='3'><b>Total</b></td>
+
+
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalBill}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalTr}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalDisc}" /></b></td>
+
+
+
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalAdv}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalExp}" /></b></td>
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalCredit}" /></b></td>
+
+
+
+						<td style="text-align: right;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalWithdrawl}" /></b></td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</c:otherwise>
+	</c:choose>
+
+
+
 
 
 	<!-- END Main Content -->

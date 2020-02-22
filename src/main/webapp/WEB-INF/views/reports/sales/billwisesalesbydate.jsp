@@ -91,9 +91,9 @@
  -->
 				<div class="row">
 					<div class="form-group">
-						<label class="col-sm-3 col-lg-2 control-label">Select
-							Route</label>
-						<div class="col-sm-6 col-lg-4 controls">
+						<label class="col-sm-3 col-lg-2 control-label"
+							style="display: none;">Select Route</label>
+						<div class="col-sm-6 col-lg-4 controls" style="display: none;">
 							<select data-placeholder="Select Route"
 								class="form-control chosen" name="selectRoute" id="selectRoute"
 								onchange="disableFr()">
@@ -108,7 +108,7 @@
 
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b>Select
+						<label class="col-sm-3 col-lg-2 control-label">Select
 							Franchise</label>
 						<div class="col-sm-6 col-lg-4">
 
@@ -125,13 +125,75 @@
 							</select>
 
 						</div>
+
+
+						<label class="col-sm-3 col-lg-2 control-label">Select Bill
+							Type</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<input type="radio" id="rd1" name="rd" value="1"
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr
+							And CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+								id="rd2" name="rd" value="2"
+								onchange="billTypeSelection(this.value)">&nbsp;Company
+							Outlet Bills
+
+						</div>
+
+
+
+
 					</div>
 				</div>
 
 				<br>
+
 				<div class="row">
-					<div class="col-md-2">Select Category</div>
-					<div class="col-md-4" style="text-align: left;">
+					<div class="form-group">
+
+						<div id="cdcDiv">
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
+									<%-- <option value="-1"><c:out value="All" /></option> --%>
+									<option value="1" selected="selected">Regular</option>
+									<option value="2" selected="selected">Is Dairy Mart</option>
+									<!-- <option value="3">Company Outlet Bill</option> -->
+								</select>
+
+							</div>
+
+
+
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type Option</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									multiple="multiple" tabindex="6" id="type_id" name="type_id">
+									<%-- <option value="-1"><c:out value="All" /></option> --%>
+									<option value="1" selected="selected">Franchise Bill</option>
+									<option value="2" selected="selected">Delivery Chalan</option>
+									<!-- <option value="3">Company Outlet Bill</option> -->
+								</select>
+
+							</div>
+							<br>
+							<br>
+						</div>
+
+
+					</div>
+				</div>
+
+
+
+				<div class="row">
+					<div class="col-md-2" style="display: none;">Select Category</div>
+					<div class="col-md-4" style="text-align: left; display: none;">
 						<select data-placeholder="Select Group"
 							class="form-control chosen" name="item_grp1" tabindex="-1"
 							id="item_grp1" data-rule-required="true"
@@ -145,28 +207,14 @@
 
 
 						</select>
-					</div>	
-					<label class="col-sm-3 col-lg-2 control-label">Select
-						</label>
-					<div class="col-sm-6 col-lg-4">
-
-						<select data-placeholder="Choose "
-							class="form-control chosen" multiple="multiple" tabindex="6"
-							id="type_id" name="type_id">
-							<option value="-1"><c:out value="All" /></option>
-							<option value="1">Franchise Bill</option>
-							<option value="2">Delivery Chalan</option>
-							<option value="3">Company Outlet Bill</option>
-						</select>
-
 					</div>
 
+
 				</div>
-<br>
 				<div class="row">
 
 
-					<div class="col-md-6" style="text-align: center;">
+					<div class="col-md-12" style="text-align: center;">
 						<button class="btn btn-info" onclick="searchReport()">Search
 							Billwise Report</button>
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
@@ -214,6 +262,7 @@
 										<th>Party Name</th>
 										<th>City</th>
 										<th>GSTIN</th>
+										<th id="custTh" style="display: none;">Customer</th>
 										<th>Basic Value</th>
 										<th>CGST</th>
 										<th>SGST</th>
@@ -253,6 +302,20 @@
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>
 
+
+
+	<script type="text/javascript">
+		function billTypeSelection(val) {
+
+			if (val == 2) {
+				document.getElementById("cdcDiv").style.display = "none";
+			} else {
+				document.getElementById("cdcDiv").style.display = "block";
+			}
+
+		}
+	</script>
+
 	<script type="text/javascript">
 		function setCatOptions(catId) {
 			if (catId == -1) {
@@ -290,132 +353,296 @@
 
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
-			
-			var typeId =$("#type_id").val(); 
 
-			$('#loader').show();
+			var typeId = $("#type_id").val();
+			var dairyMartType = $("#dairy_id").val();
+			//alert(dairyMartType);
 
-			$.getJSON('${getBillList}',
+			var billType = 1;
+			if (document.getElementById("rd1").checked == true) {
+				billType = 1;
 
-			{
-				fr_id_list : JSON.stringify(selectedFr),
-				cat_id_list : JSON.stringify(selectedCat),
-				fromDate : from_date,
-				toDate : to_date,
-				route_id : routeId,
-				typeId : JSON.stringify(typeId),
-				ajax : 'true'
+			} else {
+				billType = 2;
+			}
 
-			}, function(data) {
+			var isValid = 0;
 
-				$('#table_grid td').remove();
-				$('#loader').hide();
-
-				if (data == "") {
-					alert("No records found !!");
-					document.getElementById("expExcel").disabled = true;
+			if (selectedFr == null) {
+				alert("Please select franchisee");
+				isValid = 0;
+			} else if (billType == 1) {
+				if (typeId == null) {
+					alert("Please select bill type options");
+					isValid = 0;
+				} else if (dairyMartType == null) {
+					alert("Please select Regular or Dairy Mart Type");
+					isValid = 0;
+				} else {
+					isValid = 1;
 				}
 
-				var totalIgst = 0;
-				var totalSgst = 0;
-				var totalCgst = 0;
-				var totalBasicValue = 0;
-				var totalRoundOff = 0;
-				var totalFinal = 0;
+			} else {
+				isValid = 1;
+			}
 
-				$.each(data, function(key, report) {
+			if (isValid == 1) {
 
-					totalIgst = totalIgst + report.igstSum;
-					totalSgst = totalSgst + report.sgstSum;
-					totalCgst = totalCgst + report.cgstSum;
-					totalBasicValue = totalBasicValue + report.taxableAmt;
-					totalRoundOff = totalRoundOff + report.roundOff;
+				$('#loader').show();
 
-					document.getElementById("expExcel").disabled = false;
-					document.getElementById('range').style.display = 'block';
-					var index = key + 1;
-					//var tr = "<tr>";
+				$
+						.getJSON(
+								'${getBillList}',
 
-					var tr = $('<tr></tr>');
+								{
+									fr_id_list : JSON.stringify(selectedFr),
+									cat_id_list : JSON.stringify(selectedCat),
+									fromDate : from_date,
+									toDate : to_date,
+									route_id : routeId,
+									typeId : JSON.stringify(typeId),
+									billType : billType,
+									dairyMartType : JSON
+											.stringify(dairyMartType),
+									ajax : 'true'
 
-					tr.append($('<td></td>').html(key + 1));
+								},
+								function(data) {
 
-					tr.append($('<td></td>').html(report.invoiceNo));
+									$('#table_grid td').remove();
+									$('#loader').hide();
 
-					tr.append($('<td></td>').html(report.billDate));
+									if (data == "") {
+										alert("No records found !!");
+										document.getElementById("expExcel").disabled = true;
+									}
 
-					tr.append($('<td></td>').html(report.frName));
+									if (billType == 2) {
+										document.getElementById("custTh").style.display = "block";
+									} else {
+										document.getElementById("custTh").style.display = "none";
+									}
 
-					tr.append($('<td></td>').html(report.frCity));
+									var totalIgst = 0;
+									var totalSgst = 0;
+									var totalCgst = 0;
+									var totalBasicValue = 0;
+									var totalRoundOff = 0;
+									var totalFinal = 0;
 
-					tr.append($('<td></td>').html(report.frGstNo));
+									$
+											.each(
+													data,
+													function(key, report) {
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.taxableAmt.toFixed(2)));
+														totalIgst = totalIgst
+																+ report.igstSum;
+														totalSgst = totalSgst
+																+ report.sgstSum;
+														totalCgst = totalCgst
+																+ report.cgstSum;
+														totalBasicValue = totalBasicValue
+																+ report.taxableAmt;
+														totalRoundOff = totalRoundOff
+																+ report.roundOff;
 
-					if (report.isSameState == 1) {
-						tr.append($('<td style="text-align:right;"></td>')
-								.html(report.cgstSum.toFixed(2)));
-						tr.append($('<td style="text-align:right;"></td>')
-								.html(report.sgstSum.toFixed(2)));
-						tr.append($('<td style="text-align:right;"></td>')
-								.html(0));
-					} else {
-						tr.append($('<td style="text-align:right;"></td>')
-								.html(0));
-						tr.append($('<td style="text-align:right;"></td>')
-								.html(0));
-						tr.append($('<td style="text-align:right;"></td>')
-								.html(report.igstSum.toFixed(2)));
-					}
-					//tr.append($('<td></td>').html(report.igstSum));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.roundOff));
-					var total;
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
 
-					if (report.isSameState == 1) {
-						total = parseFloat(report.taxableAmt)
-								+ parseFloat(report.cgstSum + report.sgstSum);
-					} else {
+														var tr = $('<tr></tr>');
 
-						total = report.taxableAmt + report.igstSum;
-					}
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
 
-					totalFinal = totalFinal + total;
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.invoiceNo));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							total.toFixed(2)));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.billDate));
 
-					$('#table_grid tbody').append(tr);
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.frName));
 
-				})
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.frCity));
 
-				var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.frGstNo));
 
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td style="font-weight:bold;"></td>')
-						.html("Total"));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalBasicValue.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalCgst.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalSgst.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalIgst.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalRoundOff.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalFinal.toFixed(2)));
+														if (billType == 2) {
+															tr
+																	.append($(
+																			'<td></td>')
+																			.html(
+																					report.custName));
+														}
 
-				$('#table_grid tbody').append(tr);
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				addCommas(report.taxableAmt
+																						.toFixed(2))));
 
-			});
+														if (report.isSameState == 1) {
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(report.cgstSum
+																							.toFixed(2))));
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(report.sgstSum
+																							.toFixed(2))));
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					0));
+														} else {
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					0));
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					0));
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(report.igstSum
+																							.toFixed(2))));
+														}
+														//tr.append($('<td></td>').html(report.igstSum));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.roundOff));
+														var total;
 
+														if (report.isSameState == 1) {
+															total = parseFloat(report.taxableAmt)
+																	+ parseFloat(report.cgstSum
+																			+ report.sgstSum);
+														} else {
+
+															total = report.taxableAmt
+																	+ report.igstSum;
+														}
+
+														totalFinal = totalFinal
+																+ total;
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				addCommas(total
+																						.toFixed(2))));
+
+														$('#table_grid tbody')
+																.append(tr);
+
+													})
+
+									var tr = $('<tr></tr>');
+
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr
+											.append($(
+													'<td style="font-weight:bold;"></td>')
+													.html("Total"));
+									if (billType == 2) {
+										tr.append($('<td></td>').html(""));
+									}
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(
+															addCommas(totalBasicValue
+																	.toFixed(2))));
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(addCommas(totalCgst.toFixed(2))));
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(addCommas(totalSgst.toFixed(2))));
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(addCommas(totalIgst.toFixed(2))));
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(
+															addCommas(totalRoundOff
+																	.toFixed(2))));
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(addCommas(totalFinal.toFixed(2))));
+
+									$('#table_grid tbody').append(tr);
+
+								});
+
+			}
+
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function addCommas(x) {
+
+			x = String(x).toString();
+			var afterPoint = '';
+			if (x.indexOf('.') > 0)
+				afterPoint = x.substring(x.indexOf('.'), x.length);
+			x = Math.floor(x);
+			x = x.toString();
+			var lastThree = x.substring(x.length - 3);
+			var otherNumbers = x.substring(0, x.length - 3);
+			if (otherNumbers != '')
+				lastThree = ',' + lastThree;
+			return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",")
+					+ lastThree + afterPoint;
 		}
 	</script>
 
@@ -478,8 +705,17 @@
 			var selectedFr = $("#selectFr").val();
 			var routeId = $("#selectRoute").val();
 			var selectedCat = $("#item_grp1").val();
- 
-			var typeIdList =$("#type_id").val(); 
+
+			var typeIdList = $("#type_id").val();
+
+			var billType = 1;
+			if (document.getElementById("rd1").checked == true) {
+				billType = 1;
+
+			} else {
+				billType = 2;
+			}
+
 			window
 					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'
 							+ from_date
@@ -487,7 +723,12 @@
 							+ to_date
 							+ '/'
 							+ selectedFr
-							+ '/' + routeId + '/' + selectedCat + '/'+ typeIdList + '/');
+							+ '/'
+							+ routeId
+							+ '/'
+							+ selectedCat
+							+ '/'
+							+ typeIdList + '/' + billType + '/');
 
 			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 
@@ -529,7 +770,7 @@
 	<script>
 		window.jQuery
 				|| document
-						.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
+						.write('_$tag_________________________________________________________________________________________$tag_____')
 	</script>
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>

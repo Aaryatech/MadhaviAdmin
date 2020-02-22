@@ -13,6 +13,9 @@
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
 	<c:url var="getBillList" value="/getSaleReportRoyConsoByCat"></c:url>
+	<c:url var="getAllCategoryForReport" value="/getAllCategoryForReport"></c:url>
+	<c:url var="getFrListofAllFr" value="/getFrListForDatewiseReport"></c:url>
+	
 
 	<!-- BEGIN Sidebar -->
 	<div id="sidebar" class="navbar-collapse collapse">
@@ -56,7 +59,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>View Sales Royalty by Category
+					<i class="fa fa-bars"></i>Product Wise Report
 				</h3>
 
 			</div>
@@ -92,9 +95,9 @@
  -->
 				<div class="row">
 					<div class="form-group">
-						<label class="col-sm-3 col-lg-2 control-label">Select
-							Route</label>
-						<div class="col-sm-6 col-lg-4 controls">
+						<label class="col-sm-3 col-lg-2 control-label"
+							style="display: none;">Select Route</label>
+						<div class="col-sm-6 col-lg-4 controls" style="display: none;">
 							<select data-placeholder="Select Route"
 								class="form-control chosen" name="selectRoute" id="selectRoute"
 								onchange="disableFr()">
@@ -109,13 +112,13 @@
 
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b>Select
+						<label class="col-sm-3 col-lg-2 control-label">Select
 							Franchisee</label>
 						<div class="col-sm-6 col-lg-4">
 
 							<select data-placeholder="Choose Franchisee"
 								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectFr" name="selectFr" onchange="disableRoute()">
+								id="selectFr" name="selectFr" onchange="setAllFrSelected(this.value)" >
 
 								<option value="-1"><c:out value="All" /></option>
 
@@ -126,21 +129,41 @@
 							</select>
 
 						</div>
+
+						<label class="col-sm-3 col-lg-2 control-label">Select Bill
+							Type</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<input type="radio" id="rd1" name="rd" value="1"
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr
+							And CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+								id="rd2" name="rd" value="2"
+								onchange="billTypeSelection(this.value)">&nbsp;Company
+							Outlet Bills
+
+						</div>
+
+
+
 					</div>
 				</div>
 
-				<br>
+
+
+
+
+
+
 				<div class="row">
 
 					<div class="form-group">
-
-						<label class="col-sm-3 col-lg-2 control-label">Select
+						<br> <label class="col-sm-3 col-lg-2 control-label">Select
 							Category</label>
-						<div class="col-sm-3 col-lg-2">
+						<div class="col-sm-3 col-lg-4">
 
 							<select data-placeholder="Choose Category"
 								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectCat" name="selectCat">
+								id="selectCat" name="selectCat" onchange="setAllCategory(this.value)">
 
 								<option value="-1"><c:out value="All" /></option>
 
@@ -150,99 +173,146 @@
 								</c:forEach>
 							</select>
 						</div>
-						<label class="col-sm-3 col-lg-1 control-label">By</label>
-						<div class="col-sm-3 col-lg-2">
 
-							<select data-placeholder="Get By" class="form-control chosen"
-								tabindex="6" id="getBy" name="getBy">
+						<div id="cdcDiv">
 
-								<option value="1" selected>Taxable Amt</option>
-								<option value="2">Grand Total</option>
-							</select>
+
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type Option</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
+									<option value="1" selected="selected">Franchise Bill</option>
+									<option value="2" selected="selected">Delivery Chalan</option>
+									<!-- <option value="3">Company Outlet Bill</option> -->
+								</select>
+
+							</div>
 						</div>
-						<label class="col-sm-3 col-lg-1 control-label">GRN/CRN</label>
-						<div class="col-sm-3 col-lg-2">
 
-							<select data-placeholder="GRN/CRN" class="form-control chosen"
-								tabindex="6" id="type" name="type">
-
-								<option value="1">GRN</option>
-								<option value="2">CRN</option>
-							</select>
-						</div>
-						
-						<%-- <a
-							href="${pageContext.request.contextPath}/pdfForReport?url=showSaleRoyaltyByCatPdf"
-							target="_blank">PDF</a>
- --%>
 					</div>
-					
-						</div>
-					
-					<br>
+
+				</div>
+
+
 				<div class="row">
-				 
-				<div class="form-group">
-				<label class="col-sm-3 col-lg-2 control-label">Select
-						</label>
-					<div class="col-sm-6 col-lg-4">
 
-						<select data-placeholder="Choose "
-							class="form-control chosen" multiple="multiple" tabindex="6"
-							id="type_id" name="type_id">
-							<option value="-1"><c:out value="All" /></option>
-							<option value="1">Franchise Bill</option>
-							<option value="2">Delivery Chalan</option>
-							<option value="3">Company Outlet Bill</option>
-						</select>
+					<div class="form-group">
+
+						<div class="form-group">
+
+
+							<label class="col-sm-3 col-lg-1 control-label"
+								style="display: none;">By</label>
+							<div class="col-sm-3 col-lg-2" style="display: none;">
+
+								<select data-placeholder="Get By" class="form-control chosen"
+									tabindex="6" id="getBy" name="getBy">
+
+									<option value="1">Taxable Amt</option>
+									<option value="2" selected="selected">Grand Total</option>
+								</select>
+							</div>
+							<label class="col-sm-3 col-lg-1 control-label"
+								style="display: none;">GRN/CRN</label>
+							<div class="col-sm-3 col-lg-2" style="display: none;">
+
+								<select data-placeholder="GRN/CRN" class="form-control chosen"
+									tabindex="6" id="type" name="type">
+
+									<option value="1">GRN</option>
+									<option value="2" selected="selected">CRN</option>
+								</select>
+							</div>
+
+							<div class="col-md-12" style="text-align: center;">
+								<br>
+								<button class="btn btn-info" onclick="searchReport()">Search
+									Report</button>
+								<!-- <button class="btn search_btn"  onclick="showChart()">Graph</button> -->
+
+
+								<button class="btn btn-primary" value="PDF" id="PDFButton"
+									onclick="genPdf()">PDF</button>
+							</div>
+
+
+						</div>
 
 					</div>
-					
-					<div class="col-md-6" style="text-align: center;">
-					<button class="btn btn-info" onclick="searchReport()">Search
-							Report</button>
-						<!-- <button class="btn search_btn"  onclick="showChart()">Graph</button> -->
 
-
-						<button class="btn btn-primary" value="PDF" id="PDFButton"
-							onclick="genPdf()">PDF</button>
-				</div>
-				
-				</div>
 				</div>
 
+				<br>
 
-					<div align="center" id="loader" style="display: none">
 
-						<span>
-							<h4>
-								<font color="#343690">Loading</font>
-							</h4>
-						</span> <span class="l-1"></span> <span class="l-2"></span> <span
-							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-						<span class="l-6"></span>
+				<div align="center" id="loader" style="display: none">
+
+					<span>
+						<h4>
+							<font color="#343690">Loading</font>
+						</h4>
+					</span> <span class="l-1"></span> <span class="l-2"></span> <span
+						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+					<span class="l-6"></span>
+				</div>
+
+
+
+
+
+				<div class="box">
+					<div class="box-title">
+						<h3>
+							<i class="fa fa-list-alt"></i>Product wise Report
+						</h3>
+
 					</div>
 
-			
-			</div>
+					<form id="submitBillForm"
+						action="${pageContext.request.contextPath}/submitNewBill"
+						method="post">
+						<div class=" box-content">
+							<div class="row">
+								<div class="col-md-12 table-responsive">
+									<table class="table table-bordered table-striped fill-head "
+										style="width: 100%" id="table_grid">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th>Sr.No.</th>
+												<th>Item Name</th>
+												<th>Sale Qty</th>
+												<th>Sale Value</th>
+												<th>GRN Qty</th>
+												<th>GRN Value</th>
+												<th>GVN Qty</th>
+												<th>GVN Value</th>
+												<th>Net Qty</th>
+												<th>Net Value</th>
+											</tr>
+										</thead>
+										<tbody>
 
+										</tbody>
+									</table>
+								</div>
+								<div class="form-group" style="display: none;" id="range">
 
-			<div class="box">
-				<div class="box-title">
-					<h3>
-						<i class="fa fa-list-alt"></i>Royalty Cons Report (r10)
-					</h3>
-
-				</div>
-
-				<form id="submitBillForm"
-					action="${pageContext.request.contextPath}/submitNewBill"
-					method="post">
-					<div class=" box-content">
-						<div class="row">
+									<div class="col-sm-3  controls">
+										<input type="button" id="expExcel" class="btn btn-primary"
+											value="EXPORT TO Excel" onclick="exportToExcel();"
+											disabled="disabled">
+									</div>
+								</div>
+							</div>
+							<br> <input type="button"
+								onclick="tableToExcel('table_grid1', 'name', 'RoyaltySummaryReport.xls')"
+								value="Export to Excel">
 							<div class="col-md-12 table-responsive">
-								<table class="table table-bordered table-striped fill-head "
-									style="width: 100%" id="table_grid">
+								<table style="width: 100%; border: 1px;" id="table_grid1"
+									border="1">
 									<thead style="background-color: #f95d64;">
 										<tr>
 											<th>Sr.No.</th>
@@ -255,8 +325,6 @@
 											<th>GVN Value</th>
 											<th>Net Qty</th>
 											<th>Net Value</th>
-											<th>Royalty %</th>
-											<th>Royalty Amt</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -264,55 +332,17 @@
 									</tbody>
 								</table>
 							</div>
-							<div class="form-group" style="display: none;" id="range">
-
-
-
-								<div class="col-sm-3  controls">
-									<input type="button" id="expExcel" class="btn btn-primary"
-										value="EXPORT TO Excel" onclick="exportToExcel();"
-										disabled="disabled">
-								</div>
-							</div>
 						</div>
-						<br> <input type="button"
-							onclick="tableToExcel('table_grid1', 'name', 'RoyaltySummaryReport.xls')"
-							value="Export to Excel">
-						<div class="col-md-12 table-responsive">
-							<table style="width: 100%; border: 1px;" id="table_grid1"
-								border="1">
-								<thead style="background-color: #f95d64;">
-									<tr>
-										<th>Sr.No.</th>
-										<th>Item Name</th>
-										<th>Sale Qty</th>
-										<th>Sale Value</th>
-										<th>GRN Qty</th>
-										<th>GRN Value</th>
-										<th>GVN Qty</th>
-										<th>GVN Value</th>
-										<th>Net Qty</th>
-										<th>Net Value</th>
-										<th>Royalty %</th>
-										<th>Royalty Amt</th>
-									</tr>
-								</thead>
-								<tbody>
 
-								</tbody>
-							</table>
-						</div>
-					</div>
+						<div id="chart_div"
+							style="width: 100%; height: 700px; background-color: white;"></div>
+						<div id="PieChart_div" style="width: 100%; height: 700px;"></div>
 
-					<div id="chart_div"
-						style="width: 100%; height: 700px; background-color: white;"></div>
-					<div id="PieChart_div" style="width: 100%; height: 700px;"></div>
-
-				</form>
+					</form>
+				</div>
 			</div>
+			<!-- END Main Content -->
 		</div>
-		<!-- END Main Content -->
-
 		<footer>
 			<p>2019 © MADHAVI.</p>
 		</footer>
@@ -321,14 +351,29 @@
 			class="fa fa-chevron-up"></i></a>
 
 
-		<script type="text/javascript">
+	</div>
+
+	<script type="text/javascript">
+			function billTypeSelection(val) {
+
+				if (val == 2) {
+					document.getElementById("cdcDiv").style.display = "none";
+				} else {
+					document.getElementById("cdcDiv").style.display = "block";
+				}
+
+			}
+		</script>
+
+
+	<script type="text/javascript">
 			function searchReport() {
-					var isValid = validate();
+					//var isValid = validate();
                    
 				//document.getElementById('chart').style.display = "block";
 				document.getElementById("PieChart_div").style = "display:none";
 				document.getElementById("chart_div").style = "display:none";
-                if(isValid==true){
+               // if(isValid==true){
 				var selectedFr = $("#selectFr").val();
 				var type_id = $("#type_id").val();
 				var routeId = $("#selectRoute").val();
@@ -340,6 +385,41 @@
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
               // alert(selectedCat);
+              
+				var billType = 1;
+				if (document.getElementById("rd1").checked == true) {
+					billType = 1;
+				} else {
+					billType = 2;
+				}
+
+				var isValid = 0;
+
+				if (selectedFr == null) {
+					alert("Please select franchisee");
+					isValid = 0;
+				} else if (selectedCat == "" || selectedCat == null) { 
+
+					alert("Please Select Category");
+					isValid = 0;
+			
+			    } else if (billType == 1) {
+					if (type_id == null) {
+						alert("Please select bill type options");
+						isValid = 0;
+					} else {
+						isValid = 1;
+					}
+				}  else {
+					isValid = 1;
+				}
+				
+				if(isValid==1){
+					
+					//getby-2 - grand total
+					//type -1-grn,2-crn
+              
+              
 				$('#loader').show();
 
 				$
@@ -356,6 +436,7 @@
 									getBy:getBy,
 									type:type,
 									type_id : JSON.stringify(type_id),
+									billType : billType,
 									ajax : 'true'
 
 								},
@@ -428,16 +509,7 @@
 																		'<td></td>')
 																		.html(
 																				""));
-														tr
-														.append($(
-																'<td></td>')
-																.html(
-																		""));
-														tr
-														.append($(
-																'<td></td>')
-																.html(
-																		""));
+														
 														$('#table_grid tbody')
 																.append(tr);
 
@@ -469,7 +541,7 @@
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tBillQty));
+																										report.tBillQty.toFixed(2)));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
@@ -480,7 +552,7 @@
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGrnQty));
+																										report.tGrnQty.toFixed(2)));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
@@ -490,7 +562,7 @@
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGvnQty));
+																										report.tGvnQty.toFixed(2)));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
@@ -517,11 +589,7 @@
 																								'<td  style="text-align:right;"></td>')
 																								.html(
 																										netValue));
-																				tr
-																				.append($(
-																						'<td></td>')
-																						.html(
-																								royPer));
+																			
 
 																		rAmt = netValue
 																				* royPer
@@ -529,11 +597,6 @@
 																		rAmt = rAmt
 																				.toFixed(2);
 
-																		tr
-																				.append($(
-																						'<td></td>')
-																						.html(
-																								rAmt));
 																				$(
 																						'#table_grid tbody')
 																						.append(
@@ -716,12 +779,75 @@
 											$('#table_grid1 tbody').append(tr);
 									})
 								});
-                }
+				}
+               // }
+			}
+		</script>
+		
+		
+		<script>
+			function setAllFrSelected(frId) {
+				//alert("frId" + frId);
+				//alert("hii")
+				if (frId == -1) {
+
+					$.getJSON('${getFrListofAllFr}', {
+
+						ajax : 'true'
+					}, function(data) {
+
+						var len = data.length;
+
+						//alert(len);
+
+						$('#selectFr').find('option').remove().end()
+						$("#selectFr").append(
+								$("<option value='-1'>All</option>"));
+						for (var i = 0; i < len; i++) {
+							$("#selectFr").append(
+									$("<option selected ></option>").attr(
+											"value", data[i].frId).text(
+											data[i].frName));
+						}
+						$("#selectFr").trigger("chosen:updated");
+					});
+				}
+			}
+		</script>
+		
+		
+		<script>
+			function setAllCategory(catId) {
+				
+				
+				if (catId == -1) {
+
+					$.getJSON('${getAllCategoryForReport}', {
+
+						ajax : 'true'
+					}, function(data) {
+
+						var len = data.length;
+
+						//alert(len);
+
+						$('#selectCat').find('option').remove().end()
+						$("#selectCat").append(
+								$("<option value='-1'>All</option>"));
+						for (var i = 0; i < len; i++) {
+							$("#selectCat").append(
+									$("<option selected ></option>").attr(
+											"value", data[i].catId).text(
+											data[i].catName));
+						}
+						$("#selectCat").trigger("chosen:updated");
+					});
+				}
 			}
 		</script>
 
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 			function showChart() {
 
 			
@@ -923,7 +1049,7 @@
 		</script>
 
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 	function validate() {
 
 		var selectedFr = $("#selectFr").val();
@@ -950,7 +1076,7 @@
 	</script>
 
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 			function updateTotal(orderId, rate) {
 
 				var newQty = $("#billQty" + orderId).val();
@@ -961,7 +1087,7 @@
 			}
 		</script>
 
-		<script>
+	<script>
 			$('.datepicker').datepicker({
 				format : {
 					/*
@@ -976,7 +1102,7 @@
 			});
 		</script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 			function disableFr() {
 
 				//alert("Inside Disable Fr ");
@@ -1000,7 +1126,7 @@
 		</script>
 
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 			function genPdf() {
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
@@ -1025,7 +1151,7 @@
 			
 			
 		</script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 function tableToExcel(table, name, filename) {
         let uri = 'data:application/vnd.ms-excel;base64,', 
         template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', 
@@ -1040,60 +1166,60 @@ function tableToExcel(table, name, filename) {
         link.click();
 }
 </script>
-		<!--basic scripts-->
-		<script
-			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script>
+	<!--basic scripts-->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script>
 			window.jQuery
 					|| document
 							.write('<script src="${pageContext.request.contextPath}/resources/assets/jquery/jquery-2.0.3.min.js"><\/script>')
 		</script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/assets/jquery-cookie/jquery.cookie.js"></script>
 
-		<!--page specific plugin scripts-->
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
+	<!--page specific plugin scripts-->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-duallistbox/duallistbox/bootstrap-duallistbox.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/dropzone/downloads/dropzone.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-switch/static/js/bootstrap-switch.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/assets/ckeditor/ckeditor.js"></script>
 
-		<!--flaty scripts-->
-		<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+	<!--flaty scripts-->
+	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
 </body>
 </html>

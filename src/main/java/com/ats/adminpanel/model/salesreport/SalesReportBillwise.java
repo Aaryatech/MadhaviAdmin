@@ -40,6 +40,27 @@ public class SalesReportBillwise {
 	
 	String month;
 	
+	private String custName;
+	private int custId;
+	
+	
+	
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public int getCustId() {
+		return custId;
+	}
+
+	public void setCustId(int custId) {
+		this.custId = custId;
+	}
 
 	public int getBillNo() {
 		return billNo;
@@ -185,13 +206,16 @@ public class SalesReportBillwise {
 		this.month = month;
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return "SalesReportBillwise [billNo=" + billNo + ", taxApplicable=" + taxApplicable + ", invoiceNo=" + invoiceNo
 				+ ", billDate=" + billDate + ", frName=" + frName + ", frId=" + frId + ", frCode=" + frCode
 				+ ", grandTotal=" + grandTotal + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", sgstSum="
 				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", roundOff=" + roundOff + ", frCity="
-				+ frCity + ", frGstNo=" + frGstNo + ", isSameState=" + isSameState + ", month=" + month + "]";
+				+ frCity + ", frGstNo=" + frGstNo + ", isSameState=" + isSameState + ", month=" + month + ", custName="
+				+ custName + ", custId=" + custId + "]";
 	}
 
 }
