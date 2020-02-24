@@ -170,21 +170,21 @@ public class SalesReportController2 {
 
 			saleList = responseEntity.getBody();
 
-	        ArrayList<Integer> newList = new ArrayList<Integer>(); 
+			ArrayList<Integer> newList = new ArrayList<Integer>();
 
 			ArrayList<Integer> frIdListFinal = new ArrayList<Integer>();
 			for (int j = 0; j < saleList.size(); j++) {
 				frIdListFinal.add(saleList.get(j).getFrId());
 			}
-			for (Integer element : frIdListFinal) { 
-				  
-	            // If this element is not present in newList 
-	            // then add it 
-	            if (!newList.contains(element)) { 
-	  
-	                newList.add(element); 
-	            } 
-	        } 
+			for (Integer element : frIdListFinal) {
+
+				// If this element is not present in newList
+				// then add it
+				if (!newList.contains(element)) {
+
+					newList.add(element);
+				}
+			}
 			for (int frId : newList) {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
 					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
@@ -258,17 +258,18 @@ public class SalesReportController2 {
 					if (saleList.get(i).getType().equals("INV")) {
 
 						drTotalAmt = drTotalAmt + saleList.get(i).getGrandTotal();
-						rowData.add("" +saleList.get(i).getGrandTotal());
+						rowData.add("" + saleList.get(i).getGrandTotal());
 					} else {
 						rowData.add("0");
 					}
 
 					if (saleList.get(i).getType().equals("RET")) {
 						crTotalAmt = crTotalAmt + saleList.get(i).getGrandTotal();
-						rowData.add("" +saleList.get(i).getGrandTotal());
-					}if (saleList.get(i).getType().equals("VER")) {
+						rowData.add("" + saleList.get(i).getGrandTotal());
+					}
+					if (saleList.get(i).getType().equals("VER")) {
 						crTotalAmt = crTotalAmt + saleList.get(i).getGrandTotal();
-						rowData.add("" +saleList.get(i).getGrandTotal());
+						rowData.add("" + saleList.get(i).getGrandTotal());
 					} else {
 						rowData.add("0");
 					}
@@ -339,21 +340,21 @@ public class SalesReportController2 {
 					Constants.url + "getSaleReportFrwiseSummery", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			saleList = responseEntity.getBody();
-	        ArrayList<Integer> newList = new ArrayList<Integer>(); 
+			ArrayList<Integer> newList = new ArrayList<Integer>();
 
 			ArrayList<Integer> frIdListFinal = new ArrayList<Integer>();
 			for (int j = 0; j < saleList.size(); j++) {
 				frIdListFinal.add(saleList.get(j).getFrId());
 			}
-			for (Integer element : frIdListFinal) { 
-				  
-	            // If this element is not present in newList 
-	            // then add it 
-	            if (!newList.contains(element)) { 
-	  
-	                newList.add(element); 
-	            } 
-	        } 
+			for (Integer element : frIdListFinal) {
+
+				// If this element is not present in newList
+				// then add it
+				if (!newList.contains(element)) {
+
+					newList.add(element);
+				}
+			}
 			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
 			for (int frId : newList) {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
@@ -669,13 +670,10 @@ public class SalesReportController2 {
 		List<AllFrIdName> frListFinal = new ArrayList<>();
 
 		try {
-  
-			  
-			 
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
 
-			  
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("frIdList", selectedFr);
@@ -784,16 +782,16 @@ public class SalesReportController2 {
 
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
- 
+
 		model = new ModelAndView("reports/sales/saleRepBySubCatOnly");
 		LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
 		lhm.put(-1, "All");
 		lhm.put(1, "Franchise Bill");
 		lhm.put(2, "Delivery Chalan");
 		lhm.put(3, "Company Outlet Bill");
-		
-		System.err.println("hii ttt"+lhm.get(1));
- 		model.addObject("lhm",lhm);
+
+		System.err.println("hii ttt" + lhm.get(1));
+		model.addObject("lhm", lhm);
 		try {
 			ZoneId z = ZoneId.of("Asia/Calcutta");
 
@@ -1089,12 +1087,22 @@ public class SalesReportController2 {
 
 		String fromDate = "";
 		String toDate = "";
+
+		int billType = 1;
+
 		try {
 			System.out.println("Inside get Sale Bill Wise");
 			String selectedFr = request.getParameter("fr_id_list");
 			String selectedSubCatIdList = request.getParameter("subCat_id_list");
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
+
+			billType = Integer.parseInt(request.getParameter("billType"));
+
+			String typeIdList = request.getParameter("typeId");
+
+			typeIdList = typeIdList.substring(1, typeIdList.length() - 1);
+			typeIdList = typeIdList.replaceAll("\"", "");
 
 			System.out.println("selectedFrBefore------------------" + selectedFr);
 
@@ -1103,8 +1111,6 @@ public class SalesReportController2 {
 
 			selectedSubCatIdList = selectedSubCatIdList.substring(1, selectedSubCatIdList.length() - 1);
 			selectedSubCatIdList = selectedSubCatIdList.replaceAll("\"", "");
-
-			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
@@ -1115,11 +1121,13 @@ public class SalesReportController2 {
 			map.add("toDate", toDate);
 			map.add("frIdList", selectedFr);
 			map.add("subCatIdList", selectedSubCatIdList);
+			map.add("billType", billType);
+			map.add("typeIdList", typeIdList);
 
 			ParameterizedTypeReference<List<SubCatItemReport>> typeRef = new ParameterizedTypeReference<List<SubCatItemReport>>() {
 			};
 			ResponseEntity<List<SubCatItemReport>> responseEntity = restTemplate.exchange(
-					Constants.url + "getSubCatFrItemReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+					Constants.url + "getAdminSubCatFrItemReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			subCatFrReportList = responseEntity.getBody();
 
@@ -1129,8 +1137,13 @@ public class SalesReportController2 {
 						- (subCatFrReportList.get(i).getVarQty() + subCatFrReportList.get(i).getRetQty());
 				float netAmt = subCatFrReportList.get(i).getSoldAmt()
 						- (subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt());
-				float retAmtPer = (((subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt())
-						* 100) / subCatFrReportList.get(i).getSoldAmt());
+
+				float retAmtPer = 0;
+
+				if (subCatFrReportList.get(i).getSoldAmt() > 0) {
+					retAmtPer = (((subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt()) * 100)
+							/ subCatFrReportList.get(i).getSoldAmt());
+				}
 
 				subCatFrReportList.get(i).setNetQty(netQty);
 				subCatFrReportList.get(i).setNetAmt(netAmt);
@@ -1158,7 +1171,7 @@ public class SalesReportController2 {
 					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
 						break;
-						
+
 					}
 				}
 			}
@@ -1192,29 +1205,29 @@ public class SalesReportController2 {
 
 			Collections.sort(subCatListFinal, new Comparator<SubCategory>() {
 				public int compare(SubCategory c1, SubCategory c2) {
-				if (c1.getCatId() > c2.getCatId())
-				return 1;
-				if (c1.getCatId() < c2.getCatId())
-				return -1;
-				return 0;
+					if (c1.getCatId() > c2.getCatId())
+						return 1;
+					if (c1.getCatId() < c2.getCatId())
+						return -1;
+					return 0;
 				}
-				});
-			//System.out.println("subCatListFinal------------------" + subCatListFinal);
-			
+			});
+			// System.out.println("subCatListFinal------------------" + subCatListFinal);
+
 			Collections.sort(frListFinal, new Comparator<AllFrIdName>() {
 				public int compare(AllFrIdName c1, AllFrIdName c2) {
-				return	c1.getFrName().compareTo(c2.getFrName());
+					return c1.getFrName().compareTo(c2.getFrName());
 				}
-				});
-			
+			});
+
 			Collections.sort(itemListFinal, new Comparator<Item>() {
 				public int compare(Item c1, Item c2) {
-				return	c1.getItemName().compareTo(c2.getItemName());
+					return c1.getItemName().compareTo(c2.getItemName());
 				}
-				});
-			
-			//System.out.println("frListFinal------------------" + frListFinal);
-			//System.out.println("itemListFinal------------------" + itemListFinal);
+			});
+
+			// System.out.println("frListFinal------------------" + frListFinal);
+			// System.out.println("itemListFinal------------------" + itemListFinal);
 			subCatFrReportListData.setSubCatList(subCatListFinal);
 
 			subCatFrReportListData.setFrList(frListFinal);
@@ -1230,191 +1243,135 @@ public class SalesReportController2 {
 
 		}
 
-		List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
-
-		ExportToExcel expoExcel = new ExportToExcel();
-		List<String> rowData = new ArrayList<String>();
-
-		rowData.add("Sr");
-		rowData.add("Item Name");
-		rowData.add("Sold Qty");
-		rowData.add("Sold Amt");
-		rowData.add("Var Qty");
-		rowData.add("Var Amt");
-		rowData.add("Ret Qty");
-		rowData.add("Ret Amt");
-		rowData.add("Net Qty");
-		rowData.add("Net Amt");
-		rowData.add("Ret Per Amt");
-
-		expoExcel.setRowData(rowData);
-		int srno = 1;
-		exportToExcelList.add(expoExcel);
-
-		for (int j = 0; j < frListFinal.size(); j++) {
-
-			float totalSoldQty = 0;
-			float totalSoldAmt = 0;
-			float totalVarQty = 0;
-			float totalVarAmt = 0;
-			float totalRetQty = 0;
-			float totalRetAmt = 0;
-			float totalNetQty = 0;
-			float totalNetAmt = 0;
-			float retAmtPer = 0;
-
-			expoExcel = new ExportToExcel();
-			rowData = new ArrayList<String>();
-
-			rowData.add("");
-			rowData.add("" + frListFinal.get(j).getFrName());
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-			rowData.add("");
-
-			expoExcel.setRowData(rowData);
-			exportToExcelList.add(expoExcel);
-
-			for (int k = 0; k < subCatListFinal.size(); k++) {
-
-				float SoldQty = 0;
-				float SoldAmt = 0;
-				float VarQty = 0;
-				float VarAmt = 0;
-				float RetQty = 0;
-				float RetAmt = 0;
-				float NetQty = 0;
-				float NetAmt = 0;
-				float AmtPer = 0;
-
-				expoExcel = new ExportToExcel();
-				rowData = new ArrayList<String>();
-
-				rowData.add("");
-				rowData.add("" + subCatListFinal.get(k).getSubCatName());
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-
-				expoExcel.setRowData(rowData);
-				exportToExcelList.add(expoExcel);
-
-				for (int i = 0; i < subCatFrReportList.size(); i++) {
-
-					if (subCatListFinal.get(k).getSubCatId() == subCatFrReportList.get(i).getSubCatId()) {
-
-						if (frListFinal.get(j).getFrId() == subCatFrReportList.get(i).getFrId()) {
-
-							expoExcel = new ExportToExcel();
-							rowData = new ArrayList<String>();
-
-							SoldQty = SoldQty + subCatFrReportList.get(i).getSoldQty();
-							SoldAmt = SoldAmt + subCatFrReportList.get(i).getSoldAmt();
-							VarQty = VarQty + subCatFrReportList.get(i).getVarQty();
-							VarAmt = VarAmt + subCatFrReportList.get(i).getVarAmt();
-							RetQty = RetQty + subCatFrReportList.get(i).getRetQty();
-							RetAmt = RetAmt + subCatFrReportList.get(i).getRetAmt();
-							NetQty = NetQty + subCatFrReportList.get(i).getNetQty();
-							NetAmt = NetAmt + subCatFrReportList.get(i).getNetAmt();
-							AmtPer = AmtPer + subCatFrReportList.get(i).getRetAmtPer();
-
-							totalSoldQty = totalSoldQty + subCatFrReportList.get(i).getSoldQty();
-							totalSoldAmt = totalSoldAmt + subCatFrReportList.get(i).getSoldAmt();
-							totalVarQty = totalVarQty + subCatFrReportList.get(i).getVarQty();
-							totalVarAmt = totalVarAmt + subCatFrReportList.get(i).getVarAmt();
-							totalRetQty = totalRetQty + subCatFrReportList.get(i).getRetQty();
-							totalRetAmt = totalRetAmt + subCatFrReportList.get(i).getRetAmt();
-							totalNetQty = totalNetQty + subCatFrReportList.get(i).getNetQty();
-							totalNetAmt = totalNetAmt + subCatFrReportList.get(i).getNetAmt();
-							retAmtPer = retAmtPer + subCatFrReportList.get(i).getRetAmtPer();
-
-							rowData.add("" + srno);
-							rowData.add(subCatFrReportList.get(i).getItemName());
-
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getSoldQty()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getSoldAmt()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getVarQty()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getVarAmt()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getRetQty()));
-
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getRetAmt()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getNetQty()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getNetAmt()));
-							rowData.add("" + roundUp(subCatFrReportList.get(i).getRetAmtPer()));
-
-							srno = srno + 1;
-
-							expoExcel.setRowData(rowData);
-							exportToExcelList.add(expoExcel);
-						}
-					}
-				}
-
-				expoExcel = new ExportToExcel();
-				rowData = new ArrayList<String>();
-				rowData.add(" ");
-				rowData.add("Total");
-
-				rowData.add("" + roundUp(SoldQty));
-				rowData.add("" + roundUp(SoldAmt));
-				rowData.add("" + roundUp(VarQty));
-				rowData.add("" + roundUp(VarAmt));
-				rowData.add("" + roundUp(RetQty));
-				rowData.add("" + roundUp(RetAmt));
-
-				rowData.add("" + roundUp(NetQty));
-				rowData.add("" + roundUp(NetAmt));
-				rowData.add("" + roundUp(AmtPer));
-
-				expoExcel.setRowData(rowData);
-				exportToExcelList.add(expoExcel);
-			}
-			expoExcel = new ExportToExcel();
-			rowData = new ArrayList<String>();
-			rowData.add(" ");
-			rowData.add("Total");
-
-			rowData.add("" + roundUp(totalSoldQty));
-			rowData.add("" + roundUp(totalSoldAmt));
-			rowData.add("" + roundUp(totalVarQty));
-			rowData.add("" + roundUp(totalVarAmt));
-			rowData.add("" + roundUp(totalRetQty));
-			rowData.add("" + roundUp(totalRetAmt));
-
-			rowData.add("" + roundUp(totalNetQty));
-			rowData.add("" + roundUp(totalNetAmt));
-			rowData.add("" + roundUp(retAmtPer));
-
-			expoExcel.setRowData(rowData);
-			exportToExcelList.add(expoExcel);
-		}
-
-		HttpSession session = request.getSession();
-		session.setAttribute("exportExcelListNew", exportToExcelList);
-		session.setAttribute("excelNameNew", "SaleBillWiseDate");
-		session.setAttribute("reportNameNew", "Bill-wise Report");
-		session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
-		session.setAttribute("mergeUpto1", "$A$1:$K$1");
-		session.setAttribute("mergeUpto2", "$A$2:$K$2");
+		/*
+		 * List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+		 * 
+		 * ExportToExcel expoExcel = new ExportToExcel(); List<String> rowData = new
+		 * ArrayList<String>();
+		 * 
+		 * rowData.add("Sr"); rowData.add("Item Name"); rowData.add("Sold Qty");
+		 * rowData.add("Sold Amt"); rowData.add("Var Qty"); rowData.add("Var Amt");
+		 * rowData.add("Ret Qty"); rowData.add("Ret Amt"); rowData.add("Net Qty");
+		 * rowData.add("Net Amt"); rowData.add("Ret Per Amt");
+		 * 
+		 * expoExcel.setRowData(rowData); int srno = 1;
+		 * exportToExcelList.add(expoExcel);
+		 * 
+		 * for (int j = 0; j < frListFinal.size(); j++) {
+		 * 
+		 * float totalSoldQty = 0; float totalSoldAmt = 0; float totalVarQty = 0; float
+		 * totalVarAmt = 0; float totalRetQty = 0; float totalRetAmt = 0; float
+		 * totalNetQty = 0; float totalNetAmt = 0; float retAmtPer = 0;
+		 * 
+		 * expoExcel = new ExportToExcel(); rowData = new ArrayList<String>();
+		 * 
+		 * rowData.add(""); rowData.add("" + frListFinal.get(j).getFrName());
+		 * rowData.add(""); rowData.add(""); rowData.add(""); rowData.add("");
+		 * rowData.add(""); rowData.add(""); rowData.add(""); rowData.add("");
+		 * rowData.add("");
+		 * 
+		 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel);
+		 * 
+		 * for (int k = 0; k < subCatListFinal.size(); k++) {
+		 * 
+		 * float SoldQty = 0; float SoldAmt = 0; float VarQty = 0; float VarAmt = 0;
+		 * float RetQty = 0; float RetAmt = 0; float NetQty = 0; float NetAmt = 0; float
+		 * AmtPer = 0;
+		 * 
+		 * expoExcel = new ExportToExcel(); rowData = new ArrayList<String>();
+		 * 
+		 * rowData.add(""); rowData.add("" + subCatListFinal.get(k).getSubCatName());
+		 * rowData.add(""); rowData.add(""); rowData.add(""); rowData.add("");
+		 * rowData.add(""); rowData.add(""); rowData.add(""); rowData.add("");
+		 * rowData.add("");
+		 * 
+		 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel);
+		 * 
+		 * for (int i = 0; i < subCatFrReportList.size(); i++) {
+		 * 
+		 * if (subCatListFinal.get(k).getSubCatId() ==
+		 * subCatFrReportList.get(i).getSubCatId()) {
+		 * 
+		 * if (frListFinal.get(j).getFrId() == subCatFrReportList.get(i).getFrId()) {
+		 * 
+		 * expoExcel = new ExportToExcel(); rowData = new ArrayList<String>();
+		 * 
+		 * SoldQty = SoldQty + subCatFrReportList.get(i).getSoldQty(); SoldAmt = SoldAmt
+		 * + subCatFrReportList.get(i).getSoldAmt(); VarQty = VarQty +
+		 * subCatFrReportList.get(i).getVarQty(); VarAmt = VarAmt +
+		 * subCatFrReportList.get(i).getVarAmt(); RetQty = RetQty +
+		 * subCatFrReportList.get(i).getRetQty(); RetAmt = RetAmt +
+		 * subCatFrReportList.get(i).getRetAmt(); NetQty = NetQty +
+		 * subCatFrReportList.get(i).getNetQty(); NetAmt = NetAmt +
+		 * subCatFrReportList.get(i).getNetAmt(); AmtPer = AmtPer +
+		 * subCatFrReportList.get(i).getRetAmtPer();
+		 * 
+		 * totalSoldQty = totalSoldQty + subCatFrReportList.get(i).getSoldQty();
+		 * totalSoldAmt = totalSoldAmt + subCatFrReportList.get(i).getSoldAmt();
+		 * totalVarQty = totalVarQty + subCatFrReportList.get(i).getVarQty();
+		 * totalVarAmt = totalVarAmt + subCatFrReportList.get(i).getVarAmt();
+		 * totalRetQty = totalRetQty + subCatFrReportList.get(i).getRetQty();
+		 * totalRetAmt = totalRetAmt + subCatFrReportList.get(i).getRetAmt();
+		 * totalNetQty = totalNetQty + subCatFrReportList.get(i).getNetQty();
+		 * totalNetAmt = totalNetAmt + subCatFrReportList.get(i).getNetAmt(); retAmtPer
+		 * = retAmtPer + subCatFrReportList.get(i).getRetAmtPer();
+		 * 
+		 * rowData.add("" + srno); rowData.add(subCatFrReportList.get(i).getItemName());
+		 * 
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getSoldQty()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getSoldAmt()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getVarQty()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getVarAmt()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getRetQty()));
+		 * 
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getRetAmt()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getNetQty()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getNetAmt()));
+		 * rowData.add("" + roundUp(subCatFrReportList.get(i).getRetAmtPer()));
+		 * 
+		 * srno = srno + 1;
+		 * 
+		 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel); } } }
+		 * 
+		 * expoExcel = new ExportToExcel(); rowData = new ArrayList<String>();
+		 * rowData.add(" "); rowData.add("Total");
+		 * 
+		 * rowData.add("" + roundUp(SoldQty)); rowData.add("" + roundUp(SoldAmt));
+		 * rowData.add("" + roundUp(VarQty)); rowData.add("" + roundUp(VarAmt));
+		 * rowData.add("" + roundUp(RetQty)); rowData.add("" + roundUp(RetAmt));
+		 * 
+		 * rowData.add("" + roundUp(NetQty)); rowData.add("" + roundUp(NetAmt));
+		 * rowData.add("" + roundUp(AmtPer));
+		 * 
+		 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel); } expoExcel
+		 * = new ExportToExcel(); rowData = new ArrayList<String>(); rowData.add(" ");
+		 * rowData.add("Total");
+		 * 
+		 * rowData.add("" + roundUp(totalSoldQty)); rowData.add("" +
+		 * roundUp(totalSoldAmt)); rowData.add("" + roundUp(totalVarQty));
+		 * rowData.add("" + roundUp(totalVarAmt)); rowData.add("" +
+		 * roundUp(totalRetQty)); rowData.add("" + roundUp(totalRetAmt));
+		 * 
+		 * rowData.add("" + roundUp(totalNetQty)); rowData.add("" +
+		 * roundUp(totalNetAmt)); rowData.add("" + roundUp(retAmtPer));
+		 * 
+		 * expoExcel.setRowData(rowData); exportToExcelList.add(expoExcel); }
+		 * 
+		 * HttpSession session = request.getSession();
+		 * session.setAttribute("exportExcelListNew", exportToExcelList);
+		 * session.setAttribute("excelNameNew", "SaleBillWiseDate");
+		 * session.setAttribute("reportNameNew", "Bill-wise Report");
+		 * session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: "
+		 * + toDate + " "); session.setAttribute("mergeUpto1", "$A$1:$K$1");
+		 * session.setAttribute("mergeUpto2", "$A$2:$K$2");
+		 */
 
 		return subCatFrReportListData;
 	}
 
-	@RequestMapping(value = "pdf/showSummeryFrAndSubCatItemPdf/{fromDate}/{toDate}/{selectedFr}/{selectedSubCatIdList} ", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSummeryFrAndSubCatItemPdf/{fromDate}/{toDate}/{selectedFr}/{selectedSubCatIdList}/{billType}/{typeId} ", method = RequestMethod.GET)
 	public ModelAndView showSummeryFrAndSubCatItemPdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String selectedSubCatIdList, HttpServletRequest request,
+			@PathVariable String selectedFr, @PathVariable String selectedSubCatIdList, @PathVariable int billType, @PathVariable String typeId , HttpServletRequest request,
 			HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/saleRepBySubCatItemPdf");
 
@@ -1438,11 +1395,13 @@ public class SalesReportController2 {
 			map.add("toDate", toDate);
 			map.add("frIdList", selectedFr);
 			map.add("subCatIdList", selectedSubCatIdList);
+			map.add("typeIdList", typeId);
+			map.add("billType", billType);
 
 			ParameterizedTypeReference<List<SubCatItemReport>> typeRef = new ParameterizedTypeReference<List<SubCatItemReport>>() {
 			};
 			ResponseEntity<List<SubCatItemReport>> responseEntity = restTemplate.exchange(
-					Constants.url + "getSubCatFrItemReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+					Constants.url + "getAdminSubCatFrItemReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			subCatFrReportList = responseEntity.getBody();
 
@@ -1452,8 +1411,12 @@ public class SalesReportController2 {
 						- (subCatFrReportList.get(i).getVarQty() + subCatFrReportList.get(i).getRetQty());
 				float netAmt = subCatFrReportList.get(i).getSoldAmt()
 						- (subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt());
-				float retAmtPer = (((subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt())
-						* 100) / subCatFrReportList.get(i).getSoldAmt());
+				float retAmtPer =0;
+				
+				if(subCatFrReportList.get(i).getSoldAmt()>0) {
+					retAmtPer = (((subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt())
+							* 100) / subCatFrReportList.get(i).getSoldAmt());
+				}
 
 				subCatFrReportList.get(i).setNetQty(netQty);
 				subCatFrReportList.get(i).setNetAmt(netAmt);
@@ -1515,27 +1478,27 @@ public class SalesReportController2 {
 
 			Collections.sort(subCatListFinal, new Comparator<SubCategory>() {
 				public int compare(SubCategory c1, SubCategory c2) {
-				if (c1.getCatId() > c2.getCatId())
-				return 1;
-				if (c1.getCatId() < c2.getCatId())
-				return -1;
-				return 0;
+					if (c1.getCatId() > c2.getCatId())
+						return 1;
+					if (c1.getCatId() < c2.getCatId())
+						return -1;
+					return 0;
 				}
-				});
-			//System.out.println("subCatListFinal------------------" + subCatListFinal);
-			
+			});
+			// System.out.println("subCatListFinal------------------" + subCatListFinal);
+
 			Collections.sort(frListFinal, new Comparator<AllFrIdName>() {
 				public int compare(AllFrIdName c1, AllFrIdName c2) {
-				return	c1.getFrName().compareTo(c2.getFrName());
+					return c1.getFrName().compareTo(c2.getFrName());
 				}
-				});
-			
+			});
+
 			Collections.sort(itemListFinal, new Comparator<Item>() {
 				public int compare(Item c1, Item c2) {
-				return	c1.getItemName().compareTo(c2.getItemName());
+					return c1.getItemName().compareTo(c2.getItemName());
 				}
-				});
-			
+			});
+
 			subCatFrReportListData.setSubCatList(subCatListFinal);
 
 			subCatFrReportListData.setFrList(frListFinal);
@@ -1550,7 +1513,8 @@ public class SalesReportController2 {
 			model.addObject("FACTORYADDRESS", Constants.FACTORYADDRESS);
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
-
+			model.addObject("billType", billType);
+			
 		} catch (Exception e) {
 			System.out.println("get sale Report Bill Wise " + e.getMessage());
 			e.printStackTrace();

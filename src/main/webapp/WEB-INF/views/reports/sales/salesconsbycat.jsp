@@ -15,7 +15,7 @@
 	<c:url var="getBillList" value="/getSaleReportRoyConsoByCat"></c:url>
 	<c:url var="getAllCategoryForReport" value="/getAllCategoryForReport"></c:url>
 	<c:url var="getFrListofAllFr" value="/getFrListForDatewiseReport"></c:url>
-	
+
 
 	<!-- BEGIN Sidebar -->
 	<div id="sidebar" class="navbar-collapse collapse">
@@ -118,7 +118,8 @@
 
 							<select data-placeholder="Choose Franchisee"
 								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectFr" name="selectFr" onchange="setAllFrSelected(this.value)" >
+								id="selectFr" name="selectFr"
+								onchange="setAllFrSelected(this.value)">
 
 								<option value="-1"><c:out value="All" /></option>
 
@@ -163,7 +164,8 @@
 
 							<select data-placeholder="Choose Category"
 								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectCat" name="selectCat" onchange="setAllCategory(this.value)">
+								id="selectCat" name="selectCat"
+								onchange="setAllCategory(this.value)">
 
 								<option value="-1"><c:out value="All" /></option>
 
@@ -281,16 +283,16 @@
 										style="width: 100%" id="table_grid">
 										<thead style="background-color: #f95d64;">
 											<tr>
-												<th>Sr.No.</th>
-												<th>Item Name</th>
-												<th>Sale Qty</th>
-												<th>Sale Value</th>
-												<th>GRN Qty</th>
-												<th>GRN Value</th>
-												<th>GVN Qty</th>
-												<th>GVN Value</th>
-												<th>Net Qty</th>
-												<th>Net Value</th>
+												<th style="text-align: center;">Sr.No.</th>
+												<th style="text-align: center;">Item Name</th>
+												<th style="text-align: center;">Sale Qty</th>
+												<th style="text-align: center;">Sale Value</th>
+												<th id="thGrnQty" style="text-align: center;">GRN Qty</th>
+												<th id="thGrnVal" style="text-align: center;">GRN Value</th>
+												<th id="thGvnQty" style="text-align: center;">GVN Qty</th>
+												<th id="thGvnVal" style="text-align: center;">GVN Value</th>
+												<th style="text-align: center;">Net Qty</th>
+												<th style="text-align: center;">Net Value</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -307,31 +309,69 @@
 									</div>
 								</div>
 							</div>
-							<br> <input type="button"
-								onclick="tableToExcel('table_grid1', 'name', 'RoyaltySummaryReport.xls')"
-								value="Export to Excel">
-							<div class="col-md-12 table-responsive">
-								<table style="width: 100%; border: 1px;" id="table_grid1"
-									border="1">
-									<thead style="background-color: #f95d64;">
-										<tr>
-											<th>Sr.No.</th>
-											<th>Item Name</th>
-											<th>Sale Qty</th>
-											<th>Sale Value</th>
-											<th>GRN Qty</th>
-											<th>GRN Value</th>
-											<th>GVN Qty</th>
-											<th>GVN Value</th>
-											<th>Net Qty</th>
-											<th>Net Value</th>
-										</tr>
-									</thead>
-									<tbody>
+							<br>
 
-									</tbody>
-								</table>
+
+
+							<div id="grn" style="display: none;">
+								<input type="button"
+									onclick="tableToExcel('table_grid1', 'name', 'ProductWiseReport.xls')"
+									value="Export to Excel">
+								<div class="col-md-12 table-responsive">
+									<table style="width: 100%; border: 1px;" id="table_grid1"
+										border="1">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th style="text-align: center;">Sr.No.</th>
+												<th style="text-align: center;">Item Name</th>
+												<th style="text-align: center;">Sale Qty</th>
+												<th style="text-align: center;">Sale Value</th>
+												<th id="thGrnQty2" style="text-align: center;">GRN Qty</th>
+												<th id="thGrnVal2" style="text-align: center;">GRN
+													Value</th>
+												<th id="thGvnQty2" style="text-align: center;">GVN Qty</th>
+												<th id="thGvnVal2" style="text-align: center;">GVN
+													Value</th>
+												<th style="text-align: center;">Net Qty</th>
+												<th style="text-align: center;">Net Value</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+									</table>
+								</div>
 							</div>
+
+
+							<div id="crn" style="display: none;">
+								<input type="button"
+									onclick="tableToExcel('table_grid2', 'name', 'ProductWiseReport.xls')"
+									value="Export to Excel">
+								<div class="col-md-12 table-responsive">
+									<table style="width: 100%; border: 1px;" id="table_grid2"
+										border="1">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th style="text-align: center;">Sr.No.</th>
+												<th style="text-align: center;">Item Name</th>
+												<th style="text-align: center;">Sale Qty</th>
+												<th style="text-align: center;">Sale Value</th>
+												<th id="thGrnQty2" style="text-align: center;">CRN Qty</th>
+												<th id="thGrnVal2" style="text-align: center;">CRN
+													Value</th>
+												<th style="text-align: center;">Net Qty</th>
+												<th style="text-align: center;">Net Value</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+
 						</div>
 
 						<div id="chart_div"
@@ -441,6 +481,38 @@
 
 								},
 								function(data) {
+									
+									
+								if(billType==2){
+									
+									document.getElementById("thGrnQty").innerHTML ="CRN QTY";
+									document.getElementById("thGrnVal").innerHTML ="CRN VALUE";
+									
+									document.getElementById("thGrnQty2").innerHTML ="Crn Qty";
+									document.getElementById("thGrnVal2").innerHTML ="Crn Value";
+									
+									$('#thGvnQty').hide();
+									$('#thGvnVal').hide();
+									
+									$('#thGvnQty2').hide();
+									$('#thGvnVal2').hide();
+									
+								}else{
+
+									document.getElementById("thGrnQty").innerHTML ="GRN QTY";
+									document.getElementById("thGrnVal").innerHTML ="GRN VALUE";
+									
+									document.getElementById("thGrnQty2").innerHTML ="Grn Qty";
+									document.getElementById("thGrnVal2").innerHTML ="Grn Value";
+
+									$('#thGvnQty').show();
+									$('#thGvnVal').show();
+									
+									$('#thGvnQty2').show();
+									$('#thGvnVal2').show();
+
+								}	
+									
 
 									$('#table_grid td').remove();
 									$('#table_grid1 td').remove();
@@ -451,10 +523,13 @@
 										  document.getElementById("expExcel").disabled=true;
 
 									}
+									
 
 									$.each(data.categoryList,function(key, cat) {
 											document.getElementById("expExcel").disabled=false;
 											document.getElementById('range').style.display = 'block';
+											
+											
 
 														var tr = $('<tr></tr>');
 														tr
@@ -462,7 +537,9 @@
 																		'<td></td>')
 																		.html(
 																				cat.catName));
-														//tr.append($('<td></td>').html(key+1));
+													
+														if(billType==1){
+														
 														tr
 																.append($(
 																		'<td></td>')
@@ -473,6 +550,9 @@
 																		'<td></td>')
 																		.html(
 																				""));
+														
+														}
+														
 														tr
 																.append($(
 																		'<td></td>')
@@ -529,7 +609,7 @@
 																				//tr.append($('<td></td>').html(cat.catName));
 																				tr
 																						.append($(
-																								'<td></td>')
+																								'<td style="text-align:center;"></td>')
 																								.html(
 																										srNo));
 																				tr
@@ -541,33 +621,38 @@
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tBillQty.toFixed(2)));
+																										addCommas(report.tBillQty.toFixed(2))));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										(report.tBillTaxableAmt).toFixed(2)));
+																										addCommas((report.tBillTaxableAmt).toFixed(2))));
 
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGrnQty.toFixed(2)));
+																										addCommas(report.tGrnQty.toFixed(2))));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGrnTaxableAmt.toFixed(2)));
+																										addCommas(report.tGrnTaxableAmt.toFixed(2))));
+																				
+																				
+																				if(billType==1){
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGvnQty.toFixed(2)));
+																										addCommas(report.tGvnQty.toFixed(2))));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGvnTaxableAmt.toFixed(2)));
+																										addCommas(report.tGvnTaxableAmt.toFixed(2))));
+																				}
+																				
 
 																				var netQty = report.tBillQty
 																						- (report.tGrnQty + report.tGvnQty);
@@ -583,12 +668,12 @@
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										netQty));
+																										addCommas(netQty)));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										netValue));
+																										addCommas(netValue)));
 																			
 
 																		rAmt = netValue
@@ -605,15 +690,26 @@
 																			}//end of if
 
 																		})
-													})
+													});
+									
+						
+													
+													
+													
+								if(billType==1){
+									
+									
+									
+									$('#grn').show();
+									$('#crn').hide();
+
+									
 									$.each(data.categoryList,function(key, cat) {
 										var netQtySum=0.0;var netValueSum=0.0;var rAmtSum=0.0;var billQtySum=0.0;var billTaxableAmtSum=0.0;var grnQtySum=0.0;var gvnQtySum=0.0;var gvnTaxableAmtSum=0.0;var grnTaxableAmtSum=0.0;
 											var tr = $('<tr style="background-color:pink;"></tr>');tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(cat.catName));
-											tr.append($('<td></td>').html(""));
-											tr.append($('<td></td>').html(""));
-											tr.append($('<td></td>').html(""));
-											tr.append($('<td></td>').html(""));
+												tr.append($('<td></td>').html(""));
+												tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
@@ -624,18 +720,15 @@
 											$.each(cat.subCategoryList,function(key, subcat) {
 												var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td  style="text-align:right;"></td>').html(""));
 												tr.append($('<td></td>').html(subcat.subCatName));
+													tr.append($('<td  style="text-align:right;"></td>').html(""));
+													tr.append($('<td  style="text-align:right;"></td>').html(("")));
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
-												tr.append($('<td  style="text-align:right;"></td>').html(("")));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
 
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
-												tr.append($('<td  style="text-align:right;"></td>').html(""));
-												tr.append($('<td  style="text-align:right;"></td>').html(""));
-
-												tr.append($('<td  style="text-align:right;"></td>').html(""));
-												tr.append($('<td  style="text-align:right;"></td>').html(""));
-												tr.append($('<td></td>').html(""));
-												tr.append($('<td></td>').html(""));
 												$('#table_grid1 tbody').append(tr);
 											var netQtyTotal=0.0;var netValueTotal=0.0;var rAmtTotal=0.0;var billQtyTotal=0.0;var billTaxableAmtTotal=0.0;var grnQtyTotal=0.0;var gvnQtyTotal=0.0;var gvnTaxableAmtTotal=0.0;var grnTaxableAmtTotal=0.0;
 											$.each(data.salesReportRoyalty,function(key,report) {
@@ -667,7 +760,7 @@
 																				//tr.append($('<td></td>').html(cat.catName));
 																				 tr
 																						.append($(
-																								'<td></td>')
+																								'<td style="text-align:center;"></td>')
 																								.html(
 																										srNo)); 
 																				tr
@@ -679,52 +772,47 @@
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tBillQty.toFixed(2)));
+																										addCommas(report.tBillQty.toFixed(2))));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										(report.tBillTaxableAmt).toFixed(2)));
+																										addCommas((report.tBillTaxableAmt).toFixed(2))));
 
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGrnQty.toFixed(2)));
+																										addCommas(report.tGrnQty.toFixed(2))));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGrnTaxableAmt.toFixed(2)));
+																										addCommas(report.tGrnTaxableAmt.toFixed(2))));
+																				
+																				
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGvnQty.toFixed(2)));
+																										addCommas(report.tGvnQty.toFixed(2))));
 																				tr
 																						.append($(
 																								'<td  style="text-align:right;"></td>')
 																								.html(
-																										report.tGvnTaxableAmt.toFixed(2)));
+																										addCommas(report.tGvnTaxableAmt.toFixed(2))));
+																				
 																				tr
 																				.append($(
 																						'<td  style="text-align:right;"></td>')
 																						.html(
-																								netQty));
+																								addCommas(netQty.toFixed(2))));
 																		tr
 																				.append($(
 																						'<td  style="text-align:right;"></td>')
 																						.html(
-																								netValue.toFixed(2)));
-																		tr
-																		.append($(
-																				'<td style="text-align:right;"></td>')
-																				.html(royPer));		
-																		tr
-																		.append($(
-																				'<td style="text-align:right;"></td>')
-																				.html(
-																						rAmt.toFixed(2)));
+																								addCommas(netValue.toFixed(2))));
+																		
 																		$(
 																				'#table_grid1 tbody')
 																				.append(
@@ -747,45 +835,206 @@
 											
 											var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td></td>').html(" "));
 											tr.append($('<td></td>').html(subcat.subCatName+" Total"));
-											tr.append($('<td  style="text-align:right;"></td>').html(billQtyTotal.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html((billTaxableAmtTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(billQtyTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(billTaxableAmtTotal.toFixed(2)))));
 
-											tr.append($('<td  style="text-align:right;"></td>').html(grnQtyTotal.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(grnTaxableAmtTotal.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(gvnQtyTotal.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(gvnTaxableAmtTotal.toFixed(2)));
-
-											tr.append($('<td  style="text-align:right;"></td>').html(netQtyTotal.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(netValueTotal.toFixed(2)));
-											tr.append($('<td style="text-align:right;"></td>').html(royPer.toFixed(2)));
-											tr.append($('<td style="text-align:right;"></td>').html(rAmtTotal.toFixed(2)));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnQtyTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnTaxableAmtTotal.toFixed(2))));
+											
+												tr.append($('<td  style="text-align:right;"></td>').html(addCommas(gvnQtyTotal.toFixed(2))));
+												tr.append($('<td  style="text-align:right;"></td>').html(addCommas(gvnTaxableAmtTotal.toFixed(2))));
+											
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtyTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueTotal.toFixed(2))));
 											$('#table_grid1 tbody').append(tr);
 											
 						})
 						var tr = $('<tr style="background-color:lightgrey; font-weight:bold;"></tr>');tr.append($('<td></td>').html(" "));
 											tr.append($('<td></td>').html("Total"));
-											tr.append($('<td  style="text-align:right;"></td>').html(billQtySum.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html((billTaxableAmtSum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(billQtySum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(billTaxableAmtSum.toFixed(2)))));
 
-											tr.append($('<td  style="text-align:right;"></td>').html(grnQtySum.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(grnTaxableAmtSum.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(gvnQtySum.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(gvnTaxableAmtSum.toFixed(2)));
-
-											tr.append($('<td  style="text-align:right;"></td>').html(netQtySum.toFixed(2)));
-											tr.append($('<td  style="text-align:right;"></td>').html(netValueSum.toFixed(2)));
-											tr.append($('<td style="text-align:right;"></td>').html(royPer.toFixed(2)));
-											tr.append($('<td style="text-align:right;"></td>').html(rAmtSum.toFixed(2)));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnQtySum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnTaxableAmtSum.toFixed(2))));
+											
+												tr.append($('<td  style="text-align:right;"></td>').html(addCommas(gvnQtySum.toFixed(2))));
+												tr.append($('<td  style="text-align:right;"></td>').html(addCommas(gvnTaxableAmtSum.toFixed(2))));
+											
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtySum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueSum.toFixed(2))));
 											$('#table_grid1 tbody').append(tr);
 									})
+									
+								}else{
+									
+									
+									$('#crn').show();
+									$('#grn').hide();
+									
+									$.each(data.categoryList,function(key, cat) {
+										var netQtySum=0.0;var netValueSum=0.0;var rAmtSum=0.0;var billQtySum=0.0;var billTaxableAmtSum=0.0;var grnQtySum=0.0;var gvnQtySum=0.0;var gvnTaxableAmtSum=0.0;var grnTaxableAmtSum=0.0;
+											var tr = $('<tr style="background-color:pink;"></tr>');tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(cat.catName));
+											
+											tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
+											$('#table_grid2 tbody').append(tr);	var srNo = 0;												
+											$.each(cat.subCategoryList,function(key, subcat) {
+												var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td></td>').html(subcat.subCatName));
+												
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												$('#table_grid2 tbody').append(tr);
+											var netQtyTotal=0.0;var netValueTotal=0.0;var rAmtTotal=0.0;var billQtyTotal=0.0;var billTaxableAmtTotal=0.0;var grnQtyTotal=0.0;var gvnQtyTotal=0.0;var gvnTaxableAmtTotal=0.0;var grnTaxableAmtTotal=0.0;
+											$.each(data.salesReportRoyalty,function(key,report) {
+
+																			if (subcat.subCatId == report.subCatId) {
+																				
+																				srNo = srNo + 1;
+																				
+																		billQtyTotal=billQtyTotal+report.tBillQty;
+																		billTaxableAmtTotal=billTaxableAmtTotal+report.tBillTaxableAmt;
+																				
+																		grnQtyTotal=grnQtyTotal+report.tGrnQty;
+																		gvnQtyTotal=gvnQtyTotal+report.tGvnQty;
+																	
+																		grnTaxableAmtTotal=grnTaxableAmtTotal+report.tGrnTaxableAmt;
+																		gvnTaxableAmtTotal=gvnTaxableAmtTotal+report.tGvnTaxableAmt;
+																	    var netQty = report.tBillQty- (report.tGrnQty + report.tGvnQty);
+																		netQtyTotal=netQtyTotal+netQty;
+																				   
+																		var netValue = report.tBillTaxableAmt-(report.tGrnTaxableAmt + report.tGvnTaxableAmt);
+																		netValueTotal =netValueTotal+ netValue;
+																		rAmt = netValue* royPer/ 100;
+																		rAmtTotal = rAmtTotal+rAmt;
+																		
+																		
+																		
+																		
+																				var tr = $('<tr></tr>');
+																				//tr.append($('<td></td>').html(cat.catName));
+																				 tr
+																						.append($(
+																								'<td style="text-align:center;"></td>')
+																								.html(
+																										srNo)); 
+																				tr
+																						.append($(
+																								'<td></td>')
+																								.html(
+																										report.item_name));
+																				tr
+																						.append($(
+																								'<td  style="text-align:right;"></td>')
+																								.html(
+																										addCommas(report.tBillQty.toFixed(2))));
+																				tr
+																						.append($(
+																								'<td  style="text-align:right;"></td>')
+																								.html(
+																										addCommas((report.tBillTaxableAmt).toFixed(2))));
+
+																				tr
+																						.append($(
+																								'<td  style="text-align:right;"></td>')
+																								.html(
+																										addCommas(report.tGrnQty.toFixed(2))));
+																				tr
+																						.append($(
+																								'<td  style="text-align:right;"></td>')
+																								.html(
+																										addCommas(report.tGrnTaxableAmt.toFixed(2))));
+																				
+																				
+																				tr
+																				.append($(
+																						'<td  style="text-align:right;"></td>')
+																						.html(
+																								addCommas(netQty.toFixed(2))));
+																		tr
+																				.append($(
+																						'<td  style="text-align:right;"></td>')
+																						.html(
+																								addCommas(netValue.toFixed(2))));
+																		
+																		$(
+																				'#table_grid2 tbody')
+																				.append(
+																						tr);
+																		
+																		
+
+																			}//end of if
+
+																		})	
+											netQtySum=netQtySum+netQtyTotal;
+																		netValueSum=netValueSum+netValueTotal;
+																		rAmtSum=rAmtSum+rAmtTotal;
+																		billQtySum=billQtySum+billQtyTotal;
+																		billTaxableAmtSum=billTaxableAmtSum+billTaxableAmtTotal;
+																		grnQtySum=grnQtySum+grnQtyTotal;
+																		gvnQtySum=gvnQtySum+gvnQtyTotal;
+																		gvnTaxableAmtSum=gvnTaxableAmtSum+gvnTaxableAmtTotal;
+																		grnTaxableAmtSum=grnTaxableAmtSum+grnTaxableAmtTotal;
+											
+											var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td></td>').html(" "));
+											tr.append($('<td></td>').html(subcat.subCatName+" Total"));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(billQtyTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(billTaxableAmtTotal.toFixed(2)))));
+
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnQtyTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnTaxableAmtTotal.toFixed(2))));
+											
+											
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtyTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueTotal.toFixed(2))));
+											$('#table_grid2 tbody').append(tr);
+											
+						})
+						var tr = $('<tr style="background-color:lightgrey; font-weight:bold;"></tr>');tr.append($('<td></td>').html(" "));
+											tr.append($('<td></td>').html("Total"));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(billQtySum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(billTaxableAmtSum.toFixed(2)))));
+
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnQtySum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnTaxableAmtSum.toFixed(2))));
+											
+											
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtySum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueSum.toFixed(2))));
+											$('#table_grid2 tbody').append(tr);
+									})
+									
+								}					
+													
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 								});
 				}
                // }
 			}
 		</script>
-		
-		
-		<script>
+
+
+	<script>
 			function setAllFrSelected(frId) {
 				//alert("frId" + frId);
 				//alert("hii")
@@ -814,9 +1063,9 @@
 				}
 			}
 		</script>
-		
-		
-		<script>
+
+
+	<script>
 			function setAllCategory(catId) {
 				
 				
@@ -1047,6 +1296,25 @@
 
 			}
 		</script>
+		
+		<script type="text/javascript">
+		
+		function addCommas(x){
+
+			x=String(x).toString();
+			 var afterPoint = '';
+			 if(x.indexOf('.') > 0)
+			    afterPoint = x.substring(x.indexOf('.'),x.length);
+			 x = Math.floor(x);
+			 x=x.toString();
+			 var lastThree = x.substring(x.length-3);
+			 var otherNumbers = x.substring(0,x.length-3);
+			 if(otherNumbers != '')
+			     lastThree = ',' + lastThree;
+			 return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+			} 
+		
+		</script>
 
 
 	<script type="text/javascript">
@@ -1137,9 +1405,16 @@
 				var getBy= $("#getBy").val();
 				var type= $("#type").val();
 				var typeId = $("#type_id").val();
+				
+				var billType = 1;
+				if (document.getElementById("rd1").checked == true) {
+					billType = 1;
+				} else {
+					billType = 2;
+				}
 
 				window.open('pdfForReport?url=pdf/getSaleReportRoyConsoByCatPdf/'
-						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type+'/'+typeId);
+						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type+'/'+typeId+'/'+billType);
 
 			}
 			function exportToExcel()
@@ -1165,6 +1440,7 @@ function tableToExcel(table, name, filename) {
         link.href = uri + base64(format(template, ctx));
         link.click();
 }
+
 </script>
 	<!--basic scripts-->
 	<script

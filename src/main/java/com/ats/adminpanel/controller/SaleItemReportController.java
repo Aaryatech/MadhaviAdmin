@@ -60,16 +60,32 @@ public class SaleItemReportController {
 			model.addObject("catList", categoryList);
 			String year = request.getParameter("year");
 			String catId = request.getParameter("selectCat");
-			String subCatId = request.getParameter("item_grp2");
-			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
-			lhm.put(-1, "All");
-			lhm.put(1, "Franchise Bill");
-			lhm.put(2, "Delivery Chalan");
-			lhm.put(3, "Company Outlet Bill");
-			
-			System.err.println("hii ttt"+lhm.get(1));
-			List<Integer> idList=new ArrayList<>();
-			model.addObject("lhm",lhm);
+			// String subCatId = request.getParameter("item_grp2");
+
+			String subCatIds[] = request.getParameterValues("item_grp2");
+
+			List<Integer> subIdList = new ArrayList<>();
+			StringBuilder sb1 = new StringBuilder();
+
+			for (int i = 0; i < subCatIds.length; i++) {
+				sb1 = sb1.append(subCatIds[i] + ",");
+				subIdList.add(Integer.parseInt(subCatIds[i]));
+			}
+			String subCatId = sb1.toString();
+			subCatId = subCatId.substring(0, subCatId.length() - 1);
+
+			System.err.println("SUB CAT ---- " + subCatId);
+			System.err.println("CAT ---- " + catId);
+
+			int billType = 1;
+
+			try {
+				billType = Integer.parseInt(request.getParameter("rd"));
+				System.err.println("BILL TYPE - " + billType);
+			} catch (Exception e) {
+			}
+
+			List<Integer> idList = new ArrayList<>();
 			String[] typeIds = request.getParameterValues("type_id");
 
 			System.out.println("mId" + typeIds);
@@ -83,6 +99,8 @@ public class SaleItemReportController {
 			String instruments = sb.toString();
 			instruments = instruments.substring(0, instruments.length() - 1);
 
+			System.err.println("TYPE ---- " + instruments);
+
 			model.addObject("idList", idList);
 			System.out.println("catIdcatId" + catId);
 
@@ -95,25 +113,31 @@ public class SaleItemReportController {
 				subCatList = restTemplate.postForObject(Constants.url + "getSubCateListByCatId", map1, List.class);
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
-				MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
-
 				map.add("subCatId", subCatId);
 				map.add("typeIdList", instruments);
+				map.add("billType", billType);
 
 				SalesReturnItemDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
-						Constants.url + "getSalesReturnValueItemReport", map, SalesReturnItemDaoList[].class);
+						Constants.url + "getAdminSalesValueItemReport", map, SalesReturnItemDaoList[].class);
 
 				List<SalesReturnItemDaoList> salesReturnValueReportList = new ArrayList<SalesReturnItemDaoList>(
 						Arrays.asList(salesReturnValueReportListRes));
 
-				map = new LinkedMultiValueMap<String, String>();
+				map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("subCatId", subCatId);
 
-				allItemsListResponse = restTemplate.postForObject(Constants.url + "getItemBySubCatId", map,
+				if (billType == 1) {
+					map.add("type", 1);
+				} else {
+					map.add("type", 2);
+				}
+
+				allItemsListResponse = restTemplate.postForObject(Constants.url + "getItemBySubCatIds", map,
 						GetItemByCatIdList.class);
 
 				List<GetItemByCatId> itemsList = new ArrayList<GetItemByCatId>();
@@ -143,7 +167,17 @@ public class SaleItemReportController {
 				model.addObject("itemsList", itemsList);
 				model.addObject("subCatList", subCatList);
 				model.addObject("subCatId", subCatId);
-				model.addObject("catId",catId);
+				model.addObject("catId", catId);
+
+				String bTypeIds = "";
+				if (instruments.equalsIgnoreCase("1,2") || instruments.equalsIgnoreCase("2,1")) {
+					bTypeIds = "0";
+				} else {
+					bTypeIds = instruments;
+				}
+
+				model.addObject("billTypeOpt", bTypeIds);
+				model.addObject("billType", billType);
 
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -154,13 +188,27 @@ public class SaleItemReportController {
 				rowData.add("Item Name");
 				for (int i = 0; i < salesReturnValueReport.size(); i++) {
 					rowData.add(salesReturnValueReport.get(i).getMonth() + " Gross Sale");
-					rowData.add(salesReturnValueReport.get(i).getMonth() + " GVN Value");
-					rowData.add(salesReturnValueReport.get(i).getMonth() + " GRN Value");
+
+					if (billType == 1) {
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " GRN Value");
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " GVN Value");
+
+					} else {
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " CRN Value");
+
+					}
+
 					rowData.add(salesReturnValueReport.get(i).getMonth() + " Total");
 				}
 				rowData.add("Total Gross Sale");
-				rowData.add("Total GRN Value");
-				rowData.add("Total GVN Value");
+
+				if (billType == 1) {
+					rowData.add("Total GRN Value");
+					rowData.add("Total GVN Value");
+				} else {
+					rowData.add("Total CRN Value");
+				}
+
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				float totBillAmt = 0.0f;
@@ -183,10 +231,15 @@ public class SaleItemReportController {
 									.getItemId() == itemsList.get(k).getId()) {
 								rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnValueItemDao()
 										.get(j).getGrandTotal()));
-								rowData.add("" + roundUp(
-										salesReturnValueReport.get(i).getSalesReturnValueItemDao().get(j).getGvnQty()));
+
 								rowData.add("" + roundUp(
 										salesReturnValueReport.get(i).getSalesReturnValueItemDao().get(j).getGrnQty()));
+
+								if (billType == 1) {
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnValueItemDao()
+											.get(j).getGvnQty()));
+								}
+
 								rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnValueItemDao()
 										.get(j).getGrandTotal()
 										- (salesReturnValueReport.get(i).getSalesReturnValueItemDao().get(j).getGvnQty()
@@ -204,7 +257,10 @@ public class SaleItemReportController {
 					}
 					rowData.add("" + roundUp(grandTotal));
 					rowData.add("" + roundUp(grnQty));
-					rowData.add("" + roundUp(gvnQty));
+
+					if (billType == 1) {
+						rowData.add("" + roundUp(gvnQty));
+					}
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
@@ -220,8 +276,13 @@ public class SaleItemReportController {
 				rowData.add("Total");
 				for (int i = 0; i < salesReturnValueReport.size(); i++) {
 					rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotBillAmt()));
-					rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGvnQty()));
+
 					rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGrnQty()));
+
+					if (billType == 1) {
+						rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGvnQty()));
+					}
+
 					rowData.add(roundUp((salesReturnValueReport.get(i).getTotBillAmt()
 							- (salesReturnValueReport.get(i).getTotGvnQty()
 									+ salesReturnValueReport.get(i).getTotGrnQty())))
@@ -229,7 +290,10 @@ public class SaleItemReportController {
 				}
 				rowData.add("" + totBillAmt);
 				rowData.add("" + totGrnAmt);
-				rowData.add("" + totGvnAmt);
+				if (billType == 1) {
+					rowData.add("" + totGvnAmt);
+				}
+
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				System.err.println("exportToExcelList" + exportToExcelList.toString());

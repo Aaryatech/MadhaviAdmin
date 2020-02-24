@@ -20,52 +20,66 @@
 
 
 <style type="text/css">
- table {
+table {
 	border-collapse: collapse;
 	font-size: 10;
-	width:100%;
-page-break-inside: auto !important 
+	width: 100%;
+	page-break-inside: auto !important
+}
 
-} 
-p  {
-    color: black;
-    font-family: arial;
-    font-size: 60%;
+p {
+	color: black;
+	font-family: arial;
+	font-size: 60%;
 	margin-top: 0;
 	padding: 0;
-
 }
-h6  {
-    color: black;
-    font-family: arial;
-    font-size: 80%;
+
+h6 {
+	color: black;
+	font-family: arial;
+	font-size: 80%;
 }
 
 th {
-	background-color: #EA3291;
+	background-color: #f95d64;
 	color: white;
-	
 }
 </style>
 </head>
 <body onload="myFunction()">
-<h3 align="center">${FACTORYNAME}</h3>
-<p align="center">${FACTORYADDRESS}</p>
-<div align="center"> <h5>Royalty Consolidated Report (Category/Item wise) &nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate}  &nbsp;To &nbsp; ${toDate}</h5></div>
-<table  align="center" border="1" cellspacing="0" cellpadding="1" 
+	<h3 align="center">${FACTORYNAME}</h3>
+	<p align="center">${FACTORYADDRESS}</p>
+	<div align="center">
+		<h5>Product Wise Report (Category/Item wise)
+			&nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate} &nbsp;To &nbsp;
+			${toDate}</h5>
+	</div>
+	<table align="center" border="1" cellspacing="0" cellpadding="1"
 		id="table_grid" class="table table-bordered">
 		<thead>
 			<tr class="bgpink">
-				<th height="25">Sr.No.</th>
-				<th>Item Name</th>
-				<th>Sale Qty</th>
-				<th>Sale Value</th>
-				<th>GRN Qty</th>
-				<th>GRN Value</th>
-				<th>GVN Qty</th>
-				<th>GVN Value</th>
-				<th>Net Qty</th>
-				<th>Net Value</th>
+				<th style="text-align: center;">Sr.No.</th>
+				<th style="text-align: center;">Item Name</th>
+				<th style="text-align: center;">Sale Qty</th>
+				<th style="text-align: center;">Sale Value</th>
+
+				<c:choose>
+					<c:when test="${billType==1}">
+						<th style="text-align: center;">GRN Qty</th>
+						<th style="text-align: center;">GRN Value</th>
+						<th style="text-align: center;">GVN Qty</th>
+						<th style="text-align: center;">GVN Value</th>
+					</c:when>
+					<c:otherwise>
+						<th style="text-align: center;">CRN Qty</th>
+						<th style="text-align: center;">CRN Value</th>
+					</c:otherwise>
+				</c:choose>
+
+
+				<th style="text-align: center;">Net Qty</th>
+				<th style="text-align: center;">Net Value</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -79,14 +93,17 @@ th {
 			<c:set var="sumNetValue" value="${0}" />
 
 
-			<c:forEach items="${royaltyList.categoryList}" var="report" varStatus="count">
+			<c:forEach items="${royaltyList.categoryList}" var="report"
+				varStatus="count">
 				<tr>
 
-					<td ><b>${report.catName}</b></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
+					<td><b>${report.catName}</b></td>
+
+					<c:if test="${billType==1}">
+						<td><c:out value="" /></td>
+						<td><c:out value="" /></td>
+					</c:if>
+
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>
@@ -101,69 +118,83 @@ th {
 								maxFractionDigits="2" value="${total}" /></td> --%>
 				</tr>
 				<c:set var="srNo" value="1"></c:set>
-				<c:forEach items="${royaltyList.salesReportRoyalty}" var="royalty" varStatus="count">
+				<c:forEach items="${royaltyList.salesReportRoyalty}" var="royalty"
+					varStatus="count">
 
 					<c:choose>
 						<c:when test="${royalty.catId==report.catId}">
 
 							<tr>
-								<td width="100" ><c:out value="${srNo}" /></td>
+								<td  style="text-align: center;"><c:out value="${srNo}" /></td>
 								<c:set var="srNo" value="${srNo+1}"></c:set>
-								<td width="250" ><c:out value="${royalty.item_name}" /></td>
-								<td width="100" align="right"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td  style="text-align: left;"><c:out value="${royalty.item_name}" /></td>
+								<td align="right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tBillQty}" /></td>
 								<%-- <td><c:out value="${royalty.tBillTaxableAmt}" /></td> --%>
-								
-								
 
-								<td width="100" align="right"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+
+
+								<td  align="right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tBillTaxableAmt}" /></td>
 
-								<td width="100" align="right"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td align="right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tGrnQty}" /></td>
 
-								<%-- 								<td><c:out value="${royalty.tGrnTaxableAmt}" /></td>
- --%>
-								<td width="100" align="right"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td  align="right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tGrnTaxableAmt}" /></td>
 
-								<td width="100" align="right"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${royalty.tGvnQty}" /></td>
+								<c:if test="${billType==1}">
 
-								<%-- 								<td><c:out value="${royalty.tGvnTaxableAmt}" /></td>
- --%>
-								<td width="100" align="right"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${royalty.tGvnTaxableAmt}" /></td>
+									<td  align="right"><fmt:formatNumber
+											type="number" maxFractionDigits="2" minFractionDigits="2"
+											value="${royalty.tGvnQty}" /></td>
+
+
+									<td  align="right"><fmt:formatNumber
+											type="number" maxFractionDigits="2" minFractionDigits="2"
+											value="${royalty.tGvnTaxableAmt}" /></td>
+
+								</c:if>
+
 								<c:set var="netQty"
 									value="${royalty.tBillQty -(royalty.tGrnQty+royalty.tGvnQty)}"></c:set>
 
 								<c:set var="netValue"
 									value="${royalty.tBillTaxableAmt -(royalty.tGrnTaxableAmt+royalty.tGvnTaxableAmt)}"></c:set>
 
-								<td width="100" align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2" value="${netQty}" /></td>
+								<td  align="right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${netQty}" /></td>
 
-								<td width="100" align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2" value="${netValue}" />		</td>	
-										
-										
-										
-										<c:set var="sumSaleQty" value="${royalty.tBillQty+sumSaleQty}"></c:set>
-								<c:set var="sumSaleValue" value="${royalty.tBillTaxableAmt+sumSaleValue}"></c:set>
+								<td  align="right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${netValue}" /></td>
+
+
+
+								<c:set var="sumSaleQty" value="${royalty.tBillQty+sumSaleQty}"></c:set>
+								<c:set var="sumSaleValue"
+									value="${royalty.tBillTaxableAmt+sumSaleValue}"></c:set>
 
 								<c:set var="sumGrnQty" value="${royalty.tGrnQty+sumGrnQty}"></c:set>
 
-								<c:set var="sumGrnValue" value="${royalty.tGrnTaxableAmt+sumGrnValue}"></c:set>
+								<c:set var="sumGrnValue"
+									value="${royalty.tGrnTaxableAmt+sumGrnValue}"></c:set>
 
 								<c:set var="sumGvnQty" value="${royalty.tGvnQty+sumGvnQty}"></c:set>
 
-								<c:set var="sumGvnValue" value="${royalty.tGvnTaxableAmt+sumGvnValue}"></c:set>
+								<c:set var="sumGvnValue"
+									value="${royalty.tGvnTaxableAmt+sumGvnValue}"></c:set>
 
 								<c:set var="sumNetQty" value="${sumNetQty+netQty}"></c:set>
 
 
 								<c:set var="sumNetValue" value="${netValue+sumNetValue}"></c:set>
-											
+
 							</tr>
 						</c:when>
 					</c:choose>
@@ -176,35 +207,37 @@ th {
 			<tr>
 
 				<td colspan='2'><b>Total</b></td>
-				<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumSaleQty}" /></b></td>
-				<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumSaleValue}" /></b></td>
-				<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumGrnQty}" /></b></td>
-				<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumGrnValue}" /></b></td>
-							
-							
-							<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumGvnQty}" /></b></td>
-							
-							<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumGvnValue}" /></b></td>
-							
-							
-							<td width="100" align="right"> <b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumNetQty}" /></b></td>
-							
-							
-							<td width="100" align="right"><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${sumNetValue}" /></b></td>
-							
-							
-				<%-- <td></td>
-				<td><b><fmt:formatNumber type="number"
-							maxFractionDigits="2" value="${sumNetValue}" /></b></td> --%>
-				<!--  <td><b>Total</b></td> -->
+				<td  align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${sumSaleQty}" /></b></td>
+				<td  align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${sumSaleValue}" /></b></td>
+				<td  align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${sumGrnQty}" /></b></td>
+				<td  align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${sumGrnValue}" /></b></td>
+
+				<c:if test="${billType==1}">
+					<td  align="right"><b><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${sumGvnQty}" /></b></td>
+
+					<td  align="right"><b><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${sumGvnValue}" /></b></td>
+				</c:if>
+
+				<td  align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${sumNetQty}" /></b></td>
+
+				<td  align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${sumNetValue}" /></b></td>
+
 			</tr>
 		</tbody>
 	</table>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="billTypeSelection(${billType})">
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
@@ -62,50 +62,85 @@
 
 						<div class="form-group">
 							<label class="col-sm-3 col-lg-1 control-label">Year</label>
-							<div class="col-sm-6 col-lg-2 controls date_select">
+							<div class="col-sm-6 col-lg-3 controls date_select">
 								<select id="year" name="year" class="form-control">
 
 									<option value="2019-2020">2019-2020</option>
 								</select>
 							</div>
 
-							<label class="col-sm-3 col-lg-1 control-label">Select
-						</label>
-					<div class="col-sm-6 col-lg-3">
+							<div class="col-sm-6 col-lg-2"></div>
 
-						<select data-placeholder="Choose " class="form-control chosen"
-								multiple="multiple" tabindex="6" id="type_id" name="type_id">
 
-								<c:forEach items="${lhm}" var="lhm">
-									<c:set var="flag" value="0"></c:set>
-									<c:forEach items="${idList}" var="idList">
-										<c:choose>
-											<c:when test="${lhm.key==idList}">
-												<c:set var="flag" value="1"></c:set>
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<input type="radio" id="rd1" name="rd" value="1"
+									${billType==1 ? 'checked' : ''} checked="checked"
+									onchange="billTypeSelection(this.value)">&nbsp;Fr And
+								CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+									id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
+									onchange="billTypeSelection(this.value)">&nbsp;Company
+								Outlet Bills
+
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-group">
+
+							<div id="cdcDiv">
+
+								<label class="col-sm-3 col-lg-2 control-label"></label>
+								<div class="col-sm-6 col-lg-4"></div>
+								
+								<label class="col-sm-3 col-lg-2 control-label">Select
+									Bill Type Option</label>
+								<div class="col-sm-6 col-lg-4">
+
+									<select data-placeholder="Choose " class="form-control chosen"
+										multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
+										 <c:choose>
+
+											<c:when test="${typeIds == '1'}">
+												<option value="1" selected="selected">Franchise
+													Bill</option>
+												<option value="2">Delivery Challan</option>
+											</c:when>
+											<c:when test="${typeIds == '2'}">
+												<option value="1">Franchise Bill</option>
+												<option value="2" selected="selected">Delivery
+													Challan</option>
 											</c:when>
 
-										</c:choose>
-									</c:forEach>
-									<c:if test="${flag==1}">
-										<option selected value="${lhm.key}">${lhm.value}</option>
 
-									</c:if>
-									<c:if test="${flag==0}">
-										<option value="${lhm.key}">${lhm.value}</option>
+											<c:otherwise>
+												<option value="1" selected="selected">Franchise
+													Bill</option>
+												<option value="2" selected="selected">Delivery
+													Challan</option>
+											</c:otherwise>
 
-									</c:if>
-
-								</c:forEach>
+										</c:choose> 
 
 
-							</select>
+									</select>
 
+								</div>
+							</div>
+
+						</div>
 					</div>
-					 
+
+					<div class="row">
+						<div class="form-group" style="text-align: center;">
 							<input type="submit" id="submit" class="btn btn-primary"
 								value="Search">
-
-
 						</div>
 					</div>
 
@@ -140,147 +175,313 @@
 					<div class="row">
 						<div class="col-md-12 table-responsive"
 							style="overflow: scroll; overflow: auto;">
-							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%; overflow: scroll; overflow: auto;"
-								id="table_grid">
-								<thead style="background-color: #f95d64;">
-									<tr>
-										<th rowspan="2">Sr.</th>
-										<th rowspan="2">Group Name</th>
-										<c:forEach var="report" items="${salesReturnQtyReport}"
-											varStatus="cnt">
-											<th colspan="4" style="text-align: center;">${report.value.month}</th>
-										</c:forEach>
-										<th colspan="4">Total II HALF</th>
-									</tr>
-									<tr>
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+							<c:choose>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+								<c:when test="${billType==1}">
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+									<table class="table table-bordered table-striped fill-head "
+										style="width: 100%; overflow: scroll; overflow: auto;"
+										id="table_grid">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th rowspan="2">Sr.</th>
+												<th rowspan="2">Group Name</th>
+												<c:forEach var="report" items="${salesReturnQtyReport}"
+													varStatus="cnt">
+													<th colspan="4" style="text-align: center;">${report.value.month}</th>
+												</c:forEach>
+												<th colspan="4">Total II HALF</th>
+											</tr>
+											<tr>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Qty</th>
-										<th>GRN Qty</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GRN Qty</th>
-										<th>GVN Qty</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:set var="finalBillQty" value="0.0" />
-									<c:set var="finalGrnQty" value="0.0" />
-									<c:set var="finalGvnQty" value="0.0" />
-									<c:forEach items="${subCatList}" var="subCatList"
-										varStatus="count">
-										<c:set var="billQty" value="0.0" />
-										<c:set var="grnQty" value="0.0" />
-										<c:set var="gvnQty" value="0.0" />
-										<tr>
-											<td>${count.index+1}</td>
-											<td>${subCatList.subCatName}</td>
-											<c:forEach var="report" items="${salesReturnQtyReport}"
-												varStatus="cnt">
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-												<c:forEach var="rep"
-													items="${report.value.salesReturnQtyDaoList}"
-													varStatus="cnt1">
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-													<c:choose>
-														<c:when test="${rep.subCatId==subCatList.subCatId}">
-															<td style="text-align: right;">${rep.billQty}</td>
-															<td style="text-align: right;">${rep.gvnQty}</td>
-															<td style="text-align: right;">${rep.grnQty}</td>
-															<td style="text-align: right;">${rep.billQty-(rep.gvnQty+rep.grnQty)}</td>
-															<c:set var="billQty" value="${billQty+rep.billQty}" />
-															<c:set var="grnQty" value="${rep.grnQty+grnQty}" />
-															<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
-														</c:when>
-														<c:otherwise>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
 
-														</c:otherwise>
-													</c:choose>
+												<th>Gross Sale</th>
+												<th>GVN Qty</th>
+												<th>GRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>GRN Qty</th>
+												<th>GVN Qty</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:set var="finalBillQty" value="0.0" />
+											<c:set var="finalGrnQty" value="0.0" />
+											<c:set var="finalGvnQty" value="0.0" />
+											<c:forEach items="${subCatList}" var="subCatList"
+												varStatus="count">
+												<c:set var="billQty" value="0.0" />
+												<c:set var="grnQty" value="0.0" />
+												<c:set var="gvnQty" value="0.0" />
+												<tr>
+													<td>${count.index+1}</td>
+													<td>${subCatList.subCatName}</td>
+													<c:forEach var="report" items="${salesReturnQtyReport}"
+														varStatus="cnt">
+
+														<c:forEach var="rep"
+															items="${report.value.salesReturnQtyDaoList}"
+															varStatus="cnt1">
+
+															<c:choose>
+																<c:when test="${rep.subCatId==subCatList.subCatId}">
+																	<td style="text-align: right;">${rep.billQty}</td>
+																	<td style="text-align: right;">${rep.gvnQty}</td>
+																	<td style="text-align: right;">${rep.grnQty}</td>
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2"
+																			value="${rep.billQty-(rep.gvnQty+rep.grnQty)}" /></td>
+																	<c:set var="billQty" value="${billQty+rep.billQty}" />
+																	<c:set var="grnQty" value="${rep.grnQty+grnQty}" />
+																	<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
+																</c:when>
+																<c:otherwise>
+
+																</c:otherwise>
+															</c:choose>
+
+														</c:forEach>
+													</c:forEach>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${billQty}" /></td>
+													<td style="text-align: right;">${grnQty}</td>
+													<td style="text-align: right;">${gvnQty}</td>
+													<c:set var="finalBillQty" value="${finalBillQty+billQty}" />
+													<c:set var="finalGrnQty" value="${grnQty+finalGrnQty}" />
+													<c:set var="finalGvnQty" value="${gvnQty+finalGvnQty}" />
+												</tr>
+											</c:forEach>
+											<tr>
+												<th rowspan="2"></th>
+												<th rowspan="2">Total</th>
+												<c:forEach var="report" items="${salesReturnQtyReport}"
+													varStatus="cnt">
+													<th style="text-align: right;">${report.value.totBillQty}</th>
+
+													<th style="text-align: right;">${report.value.totGvnQty}</th>
+													<th style="text-align: right;">${report.value.totGrnQty}</th>
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${report.value.totBillQty-(report.value.totGrnQty+report.value.totGvnQty)}" />
+													</th>
 
 												</c:forEach>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
+														value="${finalBillQty}" /></th>
+												<th style="text-align: right;">${finalGrnQty}</th>
+												<th style="text-align: right;">${finalGvnQty}</th>
+											</tr>
+										</tbody>
+									</table>
+
+								</c:when>
+								<c:otherwise>
+
+									<table class="table table-bordered table-striped fill-head "
+										style="width: 100%; overflow: scroll; overflow: auto;"
+										id="table_grid">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th rowspan="2">Sr.</th>
+												<th rowspan="2">Group Name</th>
+												<c:forEach var="report" items="${salesReturnQtyReport}"
+													varStatus="cnt">
+													<th colspan="3" style="text-align: center;">${report.value.month}</th>
+												</c:forEach>
+												<th colspan="2">Total II HALF</th>
+											</tr>
+											<tr>
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Qty</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:set var="finalBillQty" value="0.0" />
+											<c:set var="finalGrnQty" value="0.0" />
+											<c:set var="finalGvnQty" value="0.0" />
+											<c:forEach items="${subCatList}" var="subCatList"
+												varStatus="count">
+												<c:set var="billQty" value="0.0" />
+												<c:set var="grnQty" value="0.0" />
+												<c:set var="gvnQty" value="0.0" />
+												<tr>
+													<td>${count.index+1}</td>
+													<td>${subCatList.subCatName}</td>
+													<c:forEach var="report" items="${salesReturnQtyReport}"
+														varStatus="cnt">
+
+														<c:forEach var="rep"
+															items="${report.value.salesReturnQtyDaoList}"
+															varStatus="cnt1">
+
+															<c:choose>
+																<c:when test="${rep.subCatId==subCatList.subCatId}">
+																	<td style="text-align: right;">${rep.billQty}</td>
+																	<td style="text-align: right;">${rep.grnQty}</td>
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2"
+																			value="${rep.billQty-(rep.gvnQty+rep.grnQty)}" /></td>
+																	<c:set var="billQty" value="${billQty+rep.billQty}" />
+																	<c:set var="grnQty" value="${rep.grnQty+grnQty}" />
+																	<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
+																</c:when>
+																<c:otherwise>
+
+																</c:otherwise>
+															</c:choose>
+
+														</c:forEach>
+													</c:forEach>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${billQty}" /></td>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${grnQty}" /></td>
+													<c:set var="finalBillQty" value="${finalBillQty+billQty}" />
+													<c:set var="finalGrnQty" value="${grnQty+finalGrnQty}" />
+													<c:set var="finalGvnQty" value="${gvnQty+finalGvnQty}" />
+												</tr>
 											</c:forEach>
-											<td style="text-align: right;">${billQty}</td>
-											<td style="text-align: right;">${grnQty}</td>
-											<td style="text-align: right;">${gvnQty}</td>
-											<c:set var="finalBillQty" value="${finalBillQty+billQty}" />
-											<c:set var="finalGrnQty" value="${grnQty+finalGrnQty}" />
-											<c:set var="finalGvnQty" value="${gvnQty+finalGvnQty}" />
-										</tr>
-									</c:forEach>
-									<tr>
-										<th rowspan="2"></th>
-										<th rowspan="2">Total</th>
-										<c:forEach var="report" items="${salesReturnQtyReport}"
-											varStatus="cnt">
-											<th style="text-align: right;">${report.value.totBillQty}</th>
+											<tr>
+												<th rowspan="2"></th>
+												<th rowspan="2">Total</th>
+												<c:forEach var="report" items="${salesReturnQtyReport}"
+													varStatus="cnt">
+													<th style="text-align: right;">${report.value.totBillQty}</th>
 
-											<th style="text-align: right;">${report.value.totGvnQty}</th>
-											<th style="text-align: right;">${report.value.totGrnQty}</th>
-											<th style="text-align: right;">${report.value.totBillQty-(report.value.totGrnQty+report.value.totGvnQty)}</th>
+													<th style="text-align: right;">${report.value.totGrnQty}</th>
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${report.value.totBillQty-(report.value.totGrnQty+report.value.totGvnQty)}" />
+													</th>
 
-										</c:forEach>
-										<th style="text-align: right;">${finalBillQty}</th>
-										<th style="text-align: right;">${finalGrnQty}</th>
-										<th style="text-align: right;">${finalGvnQty}</th>
-									</tr>
-								</tbody>
-							</table>
+												</c:forEach>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
+														value="${finalBillQty}" /></th>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
+														value="${finalGrnQty}" /></th>
+											</tr>
+										</tbody>
+									</table>
+
+
+								</c:otherwise>
+
+							</c:choose>
+
+
+
 						</div>
 						<div class="form-group" id="range">
 
@@ -304,6 +505,20 @@
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>
+
+	<script type="text/javascript">
+		function billTypeSelection(val) {
+
+			if (val == 2) {
+				document.getElementById("cdcDiv").style.display = "none";
+			} else {
+				document.getElementById("cdcDiv").style.display = "block";
+			}
+
+		}
+	</script>
+	
+
 
 	<script type="text/javascript">
 		function setCatOptions(catId) {
@@ -336,6 +551,18 @@
 
 			var year = $("#year").val();
 			alert(year);
+
+			var typeId = $("#type_id").val();
+
+			var dairyMartType = $("#dairy_id").val();
+
+			var billType = 1;
+			if (document.getElementById("rd1").checked == true) {
+				billType = 1;
+
+			} else {
+				billType = 2;
+			}
 
 			$('#loader').show();
 
