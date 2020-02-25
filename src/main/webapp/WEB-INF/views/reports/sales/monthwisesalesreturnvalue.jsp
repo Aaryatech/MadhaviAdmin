@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="billTypeSelection(${billType})">
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
@@ -54,58 +54,100 @@
 					</h3>
 				</div>
 				<div class="box-content">
+
 					<div class="row">
 						<div class="form-group">
-							<label class="col-sm-3 col-lg-2	 control-label">Year</label>
-							<div class="col-sm-6 col-lg-2 controls date_select">
+							<label class="col-sm-3 col-lg-1	 control-label">Year</label>
+							<div class="col-sm-6 col-lg-3 controls date_select">
 								<select id="year" name="year" class="form-control">
 
 									<option value="2019-2020">2019-2020</option>
 									<option value="2020-2021">2020-2021</option>
 								</select>
 							</div>
-							
-							
-							<label class="col-sm-3 col-lg-1 control-label">Select
-						</label>
-					<div class="col-sm-6 col-lg-3">
 
-						<select data-placeholder="Choose " class="form-control chosen"
-								multiple="multiple" tabindex="6" id="type_id" name="type_id">
-
-								<c:forEach items="${lhm}" var="lhm">
-									<c:set var="flag" value="0"></c:set>
-									<c:forEach items="${idList}" var="idList">
-										<c:choose>
-											<c:when test="${lhm.key==idList}">
-												<c:set var="flag" value="1"></c:set>
-											</c:when>
-
-										</c:choose>
-									</c:forEach>
-									<c:if test="${flag==1}">
-										<option selected value="${lhm.key}">${lhm.value}</option>
-
-									</c:if>
-									<c:if test="${flag==0}">
-										<option value="${lhm.key}">${lhm.value}</option>
-
-									</c:if>
-
-								</c:forEach>
+							<div class="col-sm-6 col-lg-2"></div>
 
 
-							</select>
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<input type="radio" id="rd1" name="rd" value="1"
+									${billType==1 ? 'checked' : ''} checked="checked"
+									onchange="billTypeSelection(this.value)">&nbsp;Fr And
+								CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+									id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
+									onchange="billTypeSelection(this.value)">&nbsp;Company
+								Outlet Bills
+
+							</div>
+
+
+
+
+						</div>
+
+
 
 					</div>
-					 
-					 
+
+
+
+					<div class="row">
+						<div class="form-group">
+
+							<div id="cdcDiv">
+
+								<label class="col-sm-3 col-lg-2 control-label"></label>
+								<div class="col-sm-6 col-lg-4"></div>
+
+								<label class="col-sm-3 col-lg-2 control-label">Select
+									Bill Type Option</label>
+								<div class="col-sm-6 col-lg-4">
+
+									<select data-placeholder="Choose " class="form-control chosen"
+										multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
+										<c:choose>
+
+											<c:when test="${typeIds == '1'}">
+												<option value="1" selected="selected">Franchise
+													Bill</option>
+												<option value="2">Delivery Challan</option>
+											</c:when>
+											<c:when test="${typeIds == '2'}">
+												<option value="1">Franchise Bill</option>
+												<option value="2" selected="selected">Delivery
+													Challan</option>
+											</c:when>
+
+
+											<c:otherwise>
+												<option value="1" selected="selected">Franchise
+													Bill</option>
+												<option value="2" selected="selected">Delivery
+													Challan</option>
+											</c:otherwise>
+
+										</c:choose>
+
+
+									</select>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group" style="text-align: center;">
+
 							<input type="submit" id="submit" class="btn btn-primary"
 								value="Search">
+
 						</div>
-						
-						
-						
 					</div>
 
 				</div>
@@ -133,192 +175,349 @@
 					<div class="row">
 						<div class="col-md-12 table-responsive"
 							style="overflow: scroll; overflow: auto;">
-							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%;" id="table_grid">
-								<thead style="background-color: #f95d64;">
-									<tr>
-										<th rowspan="2">Sr.</th>
-										<th rowspan="2">Group Name</th>
-										<c:forEach var="report" items="${salesReturnValueReport}"
-											varStatus="cnt">
-											<th colspan="4" style="text-align: center;">${report.value.month}</th>
-										</c:forEach>
-										<th colspan="4" style="text-align: center;">Total II HALF</th>
-									</tr>
-									<tr>
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+							<c:choose>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+								<c:when test="${billType==1}">
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+									<table class="table table-bordered table-striped fill-head "
+										style="width: 100%;" id="table_grid">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th rowspan="2">Sr.</th>
+												<th rowspan="2">Group Name</th>
+												<c:forEach var="report" items="${salesReturnValueReport}"
+													varStatus="cnt">
+													<th colspan="4" style="text-align: center;">${report.value.month}</th>
+												</c:forEach>
+												<th colspan="4" style="text-align: center;">Total II
+													HALF</th>
+											</tr>
+											<tr>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GVN Value</th>
-										<th>GRN Value</th>
-										<th>Total</th>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-										<th>Gross Sale</th>
-										<th>GRN Value</th>
-										<th>GVN Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									<%--  <c:set var="finalTotal" value="0.0"/>
-								  <c:forEach items="${subCatList}" var="subCatList" varStatus="count">
-								  <c:forEach var="report" items="${salesReturnValueReport}" varStatus="cnt">
-								             <c:forEach var="rep" items="${report.value.salesReturnQtyValueList}" varStatus="cnt1">
-								              <c:choose>
-												<c:when test="${rep.subCatId==subCatList.subCatId}">
-											<c:set var="finalTotal" value="${finalTotal+rep.grandTotal}"/>
-										
-												</c:when>
-											 </c:choose>
-								             </c:forEach>
-								   </c:forEach>
-								  </c:forEach>
-								   <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"  groupingUsed="false"  value="${finalTotal}" />
-							 --%>
-									<c:set var="finalBillAmt" value="0.0" />
-									<c:set var="finalGrnValue" value="0.0" />
-									<c:set var="finalGvnValue" value="0.0" />
-									<c:forEach items="${subCatList}" var="subCatList"
-										varStatus="count">
-										<c:set var="grandTotal" value="0.0" />
-										<c:set var="grnQty" value="0.0" />
-										<c:set var="gvnQty" value="0.0" />
-										<tr>
-											<td>${count.index+1}</td>
-											<td>${subCatList.subCatName}</td>
-											<c:forEach var="report" items="${salesReturnValueReport}"
-												varStatus="cnt">
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-												<c:forEach var="rep"
-													items="${report.value.salesReturnQtyValueList}"
-													varStatus="cnt1">
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-													<c:choose>
-														<c:when test="${rep.subCatId==subCatList.subCatId}">
-															<td style="text-align: right;"><fmt:formatNumber
-																	type="number" minFractionDigits="2"
-																	maxFractionDigits="2" value="${rep.grandTotal}" /></td>
-															<td style="text-align: right;"><fmt:formatNumber
-																	type="number" minFractionDigits="2"
-																	maxFractionDigits="2" value="${rep.gvnQty}" /></td>
-															<td style="text-align: right;"><fmt:formatNumber
-																	type="number" minFractionDigits="2"
-																	maxFractionDigits="2" value="${rep.grnQty}" /></td>
-															<td style="text-align: right;"><fmt:formatNumber
-																	type="number" minFractionDigits="2"
-																	maxFractionDigits="2"
-																	value="${rep.grandTotal-(rep.gvnQty+rep.grnQty)}" /></td>
-															<c:set var="grandTotal"
-																value="${grandTotal+rep.grandTotal}" />
-															<c:set var="grnQty" value="${rep.grnQty+grnQty}" />
-															<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
-														</c:when>
-														<c:otherwise>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
 
-														</c:otherwise>
-													</c:choose>
+												<th>Gross Sale</th>
+												<th>GVN Value</th>
+												<th>GRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>GRN Value</th>
+												<th>GVN Value</th>
+											</tr>
+										</thead>
+										<tbody>
+
+											<c:set var="finalBillAmt" value="0.0" />
+											<c:set var="finalGrnValue" value="0.0" />
+											<c:set var="finalGvnValue" value="0.0" />
+											<c:forEach items="${subCatList}" var="subCatList"
+												varStatus="count">
+												<c:set var="grandTotal" value="0.0" />
+												<c:set var="grnQty" value="0.0" />
+												<c:set var="gvnQty" value="0.0" />
+												<tr>
+													<td>${count.index+1}</td>
+													<td>${subCatList.subCatName}</td>
+													<c:forEach var="report" items="${salesReturnValueReport}"
+														varStatus="cnt">
+
+														<c:forEach var="rep"
+															items="${report.value.salesReturnQtyValueList}"
+															varStatus="cnt1">
+
+															<c:choose>
+																<c:when test="${rep.subCatId==subCatList.subCatId}">
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2" value="${rep.grandTotal}" /></td>
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2" value="${rep.gvnQty}" /></td>
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2" value="${rep.grnQty}" /></td>
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2"
+																			value="${rep.grandTotal-(rep.gvnQty+rep.grnQty)}" /></td>
+																	<c:set var="grandTotal"
+																		value="${grandTotal+rep.grandTotal}" />
+																	<c:set var="grnQty" value="${rep.grnQty+grnQty}" />
+																	<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
+																</c:when>
+																<c:otherwise>
+
+																</c:otherwise>
+															</c:choose>
+
+														</c:forEach>
+													</c:forEach>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${grandTotal}" /></td>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${grnQty}" /></td>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${gvnQty}" /></td>
+													<c:set var="finalBillAmt"
+														value="${finalBillAmt+grandTotal}" />
+													<c:set var="finalGrnValue" value="${grnQty+finalGrnValue}" />
+													<c:set var="finalGvnValue" value="${gvnQty+finalGvnValue}" />
+												</tr>
+											</c:forEach>
+											<tr>
+												<th rowspan="2"></th>
+												<th rowspan="2">Total</th>
+												<c:forEach var="report" items="${salesReturnValueReport}"
+													varStatus="cnt">
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="${report.value.totBillAmt}" /></th>
+
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="${report.value.totGvnQty}" /></th>
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="${report.value.totGrnQty}" /></th>
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false"
+															value="${report.value.totBillAmt-(report.value.totGrnQty+report.value.totGvnQty)}" /></th>
 
 												</c:forEach>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														groupingUsed="false" value="${finalBillAmt}" /></th>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														groupingUsed="false" value="${finalGrnValue}" /></th>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														groupingUsed="false" value="${finalGvnValue}" /></th>
+											</tr>
+										</tbody>
+									</table>
+
+								</c:when>
+
+								<c:otherwise>
+
+									<table class="table table-bordered table-striped fill-head "
+										style="width: 100%;" id="table_grid">
+										<thead style="background-color: #f95d64;">
+											<tr>
+												<th rowspan="2">Sr.</th>
+												<th rowspan="2">Group Name</th>
+												<c:forEach var="report" items="${salesReturnValueReport}"
+													varStatus="cnt">
+													<th colspan="3" style="text-align: center;">${report.value.month}</th>
+												</c:forEach>
+												<th colspan="2" style="text-align: center;">Total II
+													HALF</th>
+											</tr>
+											<tr>
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+												<th>Total</th>
+
+												<th>Gross Sale</th>
+												<th>CRN Value</th>
+											</tr>
+										</thead>
+										<tbody>
+
+											<c:set var="finalBillAmt" value="0.0" />
+											<c:set var="finalGrnValue" value="0.0" />
+											<c:set var="finalGvnValue" value="0.0" />
+											<c:forEach items="${subCatList}" var="subCatList"
+												varStatus="count">
+												<c:set var="grandTotal" value="0.0" />
+												<c:set var="grnQty" value="0.0" />
+												<c:set var="gvnQty" value="0.0" />
+												<tr>
+													<td>${count.index+1}</td>
+													<td>${subCatList.subCatName}</td>
+													<c:forEach var="report" items="${salesReturnValueReport}"
+														varStatus="cnt">
+
+														<c:forEach var="rep"
+															items="${report.value.salesReturnQtyValueList}"
+															varStatus="cnt1">
+
+															<c:choose>
+																<c:when test="${rep.subCatId==subCatList.subCatId}">
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2" value="${rep.grandTotal}" /></td>
+																	
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2" value="${rep.grnQty}" /></td>
+																	<td style="text-align: right;"><fmt:formatNumber
+																			type="number" minFractionDigits="2"
+																			maxFractionDigits="2"
+																			value="${rep.grandTotal-(rep.gvnQty+rep.grnQty)}" /></td>
+																	<c:set var="grandTotal"
+																		value="${grandTotal+rep.grandTotal}" />
+																	<c:set var="grnQty" value="${rep.grnQty+grnQty}" />
+																	<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
+																</c:when>
+																<c:otherwise>
+
+																</c:otherwise>
+															</c:choose>
+
+														</c:forEach>
+													</c:forEach>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${grandTotal}" /></td>
+													<td style="text-align: right;"><fmt:formatNumber
+															type="number" minFractionDigits="2" maxFractionDigits="2"
+															value="${grnQty}" /></td>
+													
+													<c:set var="finalBillAmt"
+														value="${finalBillAmt+grandTotal}" />
+													<c:set var="finalGrnValue" value="${grnQty+finalGrnValue}" />
+													<c:set var="finalGvnValue" value="${gvnQty+finalGvnValue}" />
+												</tr>
 											</c:forEach>
-											<td style="text-align: right;"><fmt:formatNumber
-													type="number" minFractionDigits="2" maxFractionDigits="2"
-													value="${grandTotal}" /></td>
-											<td style="text-align: right;"><fmt:formatNumber
-													type="number" minFractionDigits="2" maxFractionDigits="2"
-													value="${grnQty}" /></td>
-											<td style="text-align: right;"><fmt:formatNumber
-													type="number" minFractionDigits="2" maxFractionDigits="2"
-													value="${gvnQty}" /></td>
-											<c:set var="finalBillAmt" value="${finalBillAmt+grandTotal}" />
-											<c:set var="finalGrnValue" value="${grnQty+finalGrnValue}" />
-											<c:set var="finalGvnValue" value="${gvnQty+finalGvnValue}" />
-										</tr>
-									</c:forEach>
-									<tr>
-										<th rowspan="2"></th>
-										<th rowspan="2">Total</th>
-										<c:forEach var="report" items="${salesReturnValueReport}"
-											varStatus="cnt">
-											<th style="text-align: right;"><fmt:formatNumber
-													type="number" maxFractionDigits="2" minFractionDigits="2"
-													groupingUsed="false" value="${report.value.totBillAmt}" /></th>
+											<tr>
+												<th rowspan="2"></th>
+												<th rowspan="2">Total</th>
+												<c:forEach var="report" items="${salesReturnValueReport}"
+													varStatus="cnt">
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="${report.value.totBillAmt}" /></th>
 
-											<th style="text-align: right;"><fmt:formatNumber
-													type="number" maxFractionDigits="2" minFractionDigits="2"
-													groupingUsed="false" value="${report.value.totGvnQty}" /></th>
-											<th style="text-align: right;"><fmt:formatNumber
-													type="number" maxFractionDigits="2" minFractionDigits="2"
-													groupingUsed="false" value="${report.value.totGrnQty}" /></th>
-											<th style="text-align: right;"><fmt:formatNumber
-													type="number" maxFractionDigits="2" minFractionDigits="2"
-													groupingUsed="false"
-													value="${report.value.totBillAmt-(report.value.totGrnQty+report.value.totGvnQty)}" /></th>
+													
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="${report.value.totGrnQty}" /></th>
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false"
+															value="${report.value.totBillAmt-(report.value.totGrnQty+report.value.totGvnQty)}" /></th>
 
-										</c:forEach>
-										<th style="text-align: right;"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
-												groupingUsed="false" value="${finalBillAmt}" /></th>
-										<th style="text-align: right;"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
-												groupingUsed="false" value="${finalGrnValue}" /></th>
-										<th style="text-align: right;"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
-												groupingUsed="false" value="${finalGvnValue}" /></th>
-									</tr>
-								</tbody>
-							</table>
+												</c:forEach>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														groupingUsed="false" value="${finalBillAmt}" /></th>
+												<th style="text-align: right;"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														groupingUsed="false" value="${finalGrnValue}" /></th>
+												
+											</tr>
+										</tbody>
+									</table>
+
+								</c:otherwise>
+
+							</c:choose>
+
 						</div>
 						<div class="form-group" id="range">
 							<div class="col-sm-3  controls">
@@ -344,7 +543,17 @@
 
 
 
+	<script type="text/javascript">
+		function billTypeSelection(val) {
 
+			if (val == 2) {
+				document.getElementById("cdcDiv").style.display = "none";
+			} else {
+				document.getElementById("cdcDiv").style.display = "block";
+			}
+
+		}
+	</script>
 
 	<script>
 		$('.datepicker').datepicker({

@@ -59,7 +59,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Product Wise Report
+					<i class="fa fa-bars"></i>Product wise Sale Report
 				</h3>
 
 			</div>
@@ -268,7 +268,7 @@
 				<div class="box">
 					<div class="box-title">
 						<h3>
-							<i class="fa fa-list-alt"></i>Product wise Report
+							<i class="fa fa-list-alt"></i>Product wise Sale Report
 						</h3>
 
 					</div>

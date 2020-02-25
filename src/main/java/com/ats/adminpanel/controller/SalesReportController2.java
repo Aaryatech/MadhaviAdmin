@@ -821,6 +821,7 @@ public class SalesReportController2 {
 
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
+			int billType = Integer.parseInt(request.getParameter("billType"));
 			String selectedType = request.getParameter("typeId");
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
@@ -831,11 +832,12 @@ public class SalesReportController2 {
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("typeIdList", selectedType);
+			map.add("billType", billType);
 
 			ParameterizedTypeReference<List<SubCatReport>> typeRef = new ParameterizedTypeReference<List<SubCatReport>>() {
 			};
-			ResponseEntity<List<SubCatReport>> responseEntity = restTemplate
-					.exchange(Constants.url + "getSubCatReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			ResponseEntity<List<SubCatReport>> responseEntity = restTemplate.exchange(
+					Constants.url + "getAdminSubCatReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			saleList = responseEntity.getBody();
 
@@ -859,21 +861,36 @@ public class SalesReportController2 {
 			ExportToExcel expoExcel = new ExportToExcel();
 			List<String> rowData = new ArrayList<String>();
 
-			rowData.add("Sr");
-			rowData.add("Sub Category Name");
-			rowData.add("Sold Qty");
-			rowData.add("Sold Amt");
+			if (billType == 1) {
 
-			rowData.add("Var Qty");
-			rowData.add("Var Amt");
+				rowData.add("Sr");
+				rowData.add("Sub Category Name");
+				rowData.add("Sold Qty");
+				rowData.add("Sold Amt");
 
-			rowData.add("Ret Qty");
-			rowData.add("Ret Amt");
+				rowData.add("Var Qty");
+				rowData.add("Var Amt");
 
-			rowData.add("Net Qty");
-			rowData.add("Net Amt");
+				rowData.add("Ret Qty");
+				rowData.add("Ret Amt");
 
-			rowData.add("Ret Per Amt");
+				rowData.add("Net Qty");
+				rowData.add("Net Amt");
+
+				rowData.add("Ret Per Amt");
+			} else {
+				rowData.add("Sr");
+				rowData.add("Sub Category Name");
+				rowData.add("Sold Qty");
+				rowData.add("Sold Amt");
+
+				rowData.add("CRN Qty");
+				rowData.add("CRN Amt");
+
+				rowData.add("Net Qty");
+				rowData.add("Net Amt");
+
+			}
 
 			expoExcel.setRowData(rowData);
 			int srno = 1;
@@ -904,19 +921,32 @@ public class SalesReportController2 {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 
-				rowData.add("" + srno);
-				rowData.add(saleList.get(i).getSubCatName());
+				if (billType == 1) {
+					rowData.add("" + srno);
+					rowData.add(saleList.get(i).getSubCatName());
 
-				rowData.add("" + roundUp(saleList.get(i).getSoldQty()));
-				rowData.add("" + roundUp(saleList.get(i).getSoldAmt()));
-				rowData.add("" + roundUp(saleList.get(i).getVarQty()));
-				rowData.add("" + roundUp(saleList.get(i).getVarAmt()));
-				rowData.add("" + roundUp(saleList.get(i).getRetQty()));
+					rowData.add("" + roundUp(saleList.get(i).getSoldQty()));
+					rowData.add("" + roundUp(saleList.get(i).getSoldAmt()));
+					rowData.add("" + roundUp(saleList.get(i).getVarQty()));
+					rowData.add("" + roundUp(saleList.get(i).getVarAmt()));
+					rowData.add("" + roundUp(saleList.get(i).getRetQty()));
 
-				rowData.add("" + roundUp(saleList.get(i).getRetAmt()));
-				rowData.add("" + roundUp(saleList.get(i).getNetQty()));
-				rowData.add("" + roundUp(saleList.get(i).getNetAmt()));
-				rowData.add("" + roundUp(saleList.get(i).getRetAmtPer()));
+					rowData.add("" + roundUp(saleList.get(i).getRetAmt()));
+					rowData.add("" + roundUp(saleList.get(i).getNetQty()));
+					rowData.add("" + roundUp(saleList.get(i).getNetAmt()));
+					rowData.add("" + roundUp(saleList.get(i).getRetAmtPer()));
+				} else {
+					rowData.add("" + srno);
+					rowData.add(saleList.get(i).getSubCatName());
+
+					rowData.add("" + roundUp(saleList.get(i).getSoldQty()));
+					rowData.add("" + roundUp(saleList.get(i).getSoldAmt()));
+					rowData.add("" + roundUp(saleList.get(i).getRetQty()));
+
+					rowData.add("" + roundUp(saleList.get(i).getRetAmt()));
+					rowData.add("" + roundUp(saleList.get(i).getNetQty()));
+					rowData.add("" + roundUp(saleList.get(i).getNetAmt()));
+				}
 
 				srno = srno + 1;
 
@@ -929,16 +959,27 @@ public class SalesReportController2 {
 			rowData.add(" ");
 			rowData.add("Total");
 
-			rowData.add("" + roundUp(totalSoldQty));
-			rowData.add("" + roundUp(totalSoldAmt));
-			rowData.add("" + roundUp(totalVarQty));
-			rowData.add("" + roundUp(totalVarAmt));
-			rowData.add("" + roundUp(totalRetQty));
-			rowData.add("" + roundUp(totalRetAmt));
+			if (billType == 1) {
+				rowData.add("" + roundUp(totalSoldQty));
+				rowData.add("" + roundUp(totalSoldAmt));
+				rowData.add("" + roundUp(totalVarQty));
+				rowData.add("" + roundUp(totalVarAmt));
+				rowData.add("" + roundUp(totalRetQty));
+				rowData.add("" + roundUp(totalRetAmt));
 
-			rowData.add("" + roundUp(totalNetQty));
-			rowData.add("" + roundUp(totalNetAmt));
-			rowData.add("" + roundUp(retAmtPer));
+				rowData.add("" + roundUp(totalNetQty));
+				rowData.add("" + roundUp(totalNetAmt));
+				rowData.add("" + roundUp(retAmtPer));
+			} else {
+				rowData.add("" + roundUp(totalSoldQty));
+				rowData.add("" + roundUp(totalSoldAmt));
+				rowData.add("" + roundUp(totalRetQty));
+				rowData.add("" + roundUp(totalRetAmt));
+				rowData.add("" + roundUp(totalNetQty));
+				rowData.add("" + roundUp(totalNetAmt));
+			}
+
+			
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -957,8 +998,9 @@ public class SalesReportController2 {
 		return saleList;
 	}
 
-	@RequestMapping(value = "pdf/showSaleReportBySubCatPdf/{fromDate}/{toDate}  ", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleReportBySubCatPdf/{fromDate}/{toDate}/{typeId}/{billType}  ", method = RequestMethod.GET)
 	public ModelAndView showSaleReportBySubCatPdf(@PathVariable String fromDate, @PathVariable String toDate,
+			@PathVariable String typeId,@PathVariable int billType,
 			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/saleRepBySubCatOnlyPdf");
 
@@ -971,11 +1013,13 @@ public class SalesReportController2 {
 
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("typeIdList", typeId);
+			map.add("billType", billType);
 
 			ParameterizedTypeReference<List<SubCatReport>> typeRef = new ParameterizedTypeReference<List<SubCatReport>>() {
 			};
 			ResponseEntity<List<SubCatReport>> responseEntity = restTemplate
-					.exchange(Constants.url + "getSubCatReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+					.exchange(Constants.url + "getAdminSubCatReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			subCatReportList = responseEntity.getBody();
 
@@ -998,6 +1042,7 @@ public class SalesReportController2 {
 			model.addObject("FACTORYADDRESS", Constants.FACTORYADDRESS);
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
+			model.addObject("billType", billType);
 
 		} catch (
 
@@ -1371,8 +1416,8 @@ public class SalesReportController2 {
 
 	@RequestMapping(value = "pdf/showSummeryFrAndSubCatItemPdf/{fromDate}/{toDate}/{selectedFr}/{selectedSubCatIdList}/{billType}/{typeId} ", method = RequestMethod.GET)
 	public ModelAndView showSummeryFrAndSubCatItemPdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String selectedSubCatIdList, @PathVariable int billType, @PathVariable String typeId , HttpServletRequest request,
-			HttpServletResponse response) {
+			@PathVariable String selectedFr, @PathVariable String selectedSubCatIdList, @PathVariable int billType,
+			@PathVariable String typeId, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/saleRepBySubCatItemPdf");
 
 		SubCatFrRepItemList subCatFrReportListData = new SubCatFrRepItemList();
@@ -1411,11 +1456,11 @@ public class SalesReportController2 {
 						- (subCatFrReportList.get(i).getVarQty() + subCatFrReportList.get(i).getRetQty());
 				float netAmt = subCatFrReportList.get(i).getSoldAmt()
 						- (subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt());
-				float retAmtPer =0;
-				
-				if(subCatFrReportList.get(i).getSoldAmt()>0) {
-					retAmtPer = (((subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt())
-							* 100) / subCatFrReportList.get(i).getSoldAmt());
+				float retAmtPer = 0;
+
+				if (subCatFrReportList.get(i).getSoldAmt() > 0) {
+					retAmtPer = (((subCatFrReportList.get(i).getVarAmt() + subCatFrReportList.get(i).getRetAmt()) * 100)
+							/ subCatFrReportList.get(i).getSoldAmt());
 				}
 
 				subCatFrReportList.get(i).setNetQty(netQty);
@@ -1514,7 +1559,7 @@ public class SalesReportController2 {
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
 			model.addObject("billType", billType);
-			
+
 		} catch (Exception e) {
 			System.out.println("get sale Report Bill Wise " + e.getMessage());
 			e.printStackTrace();

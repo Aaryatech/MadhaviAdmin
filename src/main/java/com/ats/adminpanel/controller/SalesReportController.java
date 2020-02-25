@@ -6669,15 +6669,16 @@ public class SalesReportController {
 
 		try {
 			String year = request.getParameter("year");
-			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
-			lhm.put(-1, "All");
-			lhm.put(1, "Franchise Bill");
-			lhm.put(2, "Delivery Chalan");
-			lhm.put(3, "Company Outlet Bill");
+			
+			int billType = 1;
+			try {
+				billType = Integer.parseInt(request.getParameter("rd"));
+			} catch (Exception e) {
+				billType = 1;
+			}
 
-			System.err.println("hii ttt" + lhm.get(1));
+			
 			List<Integer> idList = new ArrayList<>();
-			model.addObject("lhm", lhm);
 
 			String[] typeIds = request.getParameterValues("type_id");
 
@@ -6700,14 +6701,16 @@ public class SalesReportController {
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
-				MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
 				map.add("typeIdList", instruments);
+				map.add("billType", billType);
+
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
-						Constants.url + "getSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
+						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
 
 				List<SalesReturnValueDaoList> salesReturnValueReportList = new ArrayList<SalesReturnValueDaoList>(
 						Arrays.asList(salesReturnValueReportListRes));
@@ -6741,6 +6744,8 @@ public class SalesReportController {
 
 				model.addObject("salesReturnValueReport", salesReturnValueReport);
 				model.addObject("subCatList", subCatList);
+				model.addObject("typeIds", instruments);
+				model.addObject("billType", billType);
 
 				// exportToExcel
 
@@ -6802,6 +6807,9 @@ public class SalesReportController {
 					rowData.add("0.00");
 				}
 
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				
 				System.err.println("exportToExcelList" + exportToExcelList.toString());
 				HttpSession session = request.getSession();
 				session.setAttribute("exportExcelList", exportToExcelList);
@@ -6820,32 +6828,21 @@ public class SalesReportController {
 	public ModelAndView showMonthlySalesValueWiseReport(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = null;
-		/*
-		 * HttpSession session = request.getSession();
-		 * 
-		 * List<ModuleJson> newModuleList = (List<ModuleJson>)
-		 * session.getAttribute("newModuleList"); Info view =
-		 * AccessControll.checkAccess("showSaleReportByDate", "showSaleReportByDate",
-		 * "1", "0", "0", "0", newModuleList); if (view.getError() == true) { model =
-		 * new ModelAndView("accessDenied");
-		 * 
-		 * } else {
-		 */
+
 		model = new ModelAndView("reports/sales/monthwisesalesreturnvalue");
 		RestTemplate restTemplate = new RestTemplate();
 
 		try {
 			String year = request.getParameter("year");
 
-			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
-			lhm.put(-1, "All");
-			lhm.put(1, "Franchise Bill");
-			lhm.put(2, "Delivery Chalan");
-			lhm.put(3, "Company Outlet Bill");
+			int billType = 1;
+			try {
+				billType = Integer.parseInt(request.getParameter("rd"));
+			} catch (Exception e) {
+				billType = 1;
+			}
 
-			System.err.println("hii ttt" + lhm.get(1));
 			List<Integer> idList = new ArrayList<>();
-			model.addObject("lhm", lhm);
 
 			String[] typeIds = request.getParameterValues("type_id");
 
@@ -6869,14 +6866,15 @@ public class SalesReportController {
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
-				MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("fromYear", yrs[0]);
 				map.add("toYear", yrs[1]);
 				map.add("typeIdList", instruments);
+				map.add("billType", billType);
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
-						Constants.url + "getSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
+						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
 
 				List<SalesReturnValueDaoList> salesReturnValueReportList = new ArrayList<SalesReturnValueDaoList>(
 						Arrays.asList(salesReturnValueReportListRes));
@@ -6909,6 +6907,9 @@ public class SalesReportController {
 				model.addObject("salesReturnValueReport", salesReturnValueReport);
 				model.addObject("subCatList", subCatList);
 
+				model.addObject("typeIds", instruments);
+				model.addObject("billType", billType);
+
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -6917,14 +6918,30 @@ public class SalesReportController {
 				rowData.add("Sr.");
 				rowData.add("Group Name");
 				for (int i = 0; i < salesReturnValueReport.size(); i++) {
-					rowData.add(salesReturnValueReport.get(i).getMonth() + " Gross Sale");
-					rowData.add(salesReturnValueReport.get(i).getMonth() + " GVN Value");
-					rowData.add(salesReturnValueReport.get(i).getMonth() + " GRN Value");
-					rowData.add(salesReturnValueReport.get(i).getMonth() + " Total");
+
+					if (billType == 1) {
+
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " Gross Sale");
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " GVN Value");
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " GRN Value");
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " Total");
+					} else {
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " Gross Sale");
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " CRN Value");
+						rowData.add(salesReturnValueReport.get(i).getMonth() + " Total");
+
+					}
 				}
-				rowData.add("Total Gross Sale");
-				rowData.add("Total GRN Value");
-				rowData.add("Total GVN Value");
+
+				if (billType == 1) {
+					rowData.add("Total Gross Sale");
+					rowData.add("Total GRN Value");
+					rowData.add("Total GVN Value");
+				} else {
+					rowData.add("Total Gross Sale");
+					rowData.add("Total CRN Value");
+				}
+
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				float totBillAmt = 0.0f;
@@ -6945,30 +6962,60 @@ public class SalesReportController {
 
 							if (salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
 									.getSubCatId() == subCatList.get(k).getSubCatId()) {
-								rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
-										.get(j).getGrandTotal()));
-								rowData.add("" + roundUp(
-										salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j).getGvnQty()));
-								rowData.add("" + roundUp(
-										salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j).getGrnQty()));
-								rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
-										.get(j).getGrandTotal()
-										- (salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j).getGvnQty()
-												+ salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
-														.getGrnQty())));
-								grandTotal = grandTotal + salesReturnValueReport.get(i).getSalesReturnQtyValueList()
-										.get(j).getGrandTotal();
-								grnQty = grnQty
-										+ salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j).getGrnQty();
-								gvnQty = gvnQty
-										+ salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j).getGvnQty();
+
+								if (billType == 1) {
+
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrandTotal()));
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGvnQty()));
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrnQty()));
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrandTotal()
+											- (salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+													.getGvnQty()
+													+ salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+															.getGrnQty())));
+									grandTotal = grandTotal + salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrandTotal();
+									grnQty = grnQty + salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+											.getGrnQty();
+									gvnQty = gvnQty + salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+											.getGvnQty();
+
+								} else {
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrandTotal()));
+
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrnQty()));
+									rowData.add("" + roundUp(salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrandTotal()
+											- (salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+													.getGvnQty()
+													+ salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+															.getGrnQty())));
+									grandTotal = grandTotal + salesReturnValueReport.get(i).getSalesReturnQtyValueList()
+											.get(j).getGrandTotal();
+									grnQty = grnQty + salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+											.getGrnQty();
+									gvnQty = gvnQty + salesReturnValueReport.get(i).getSalesReturnQtyValueList().get(j)
+											.getGvnQty();
+								}
 							}
 
 						}
 					}
-					rowData.add("" + roundUp(grandTotal));
-					rowData.add("" + roundUp(grnQty));
-					rowData.add("" + roundUp(gvnQty));
+
+					if (billType == 1) {
+						rowData.add("" + roundUp(grandTotal));
+						rowData.add("" + roundUp(grnQty));
+						rowData.add("" + roundUp(gvnQty));
+					} else {
+						rowData.add("" + roundUp(grandTotal));
+						rowData.add("" + roundUp(grnQty));
+					}
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
@@ -6983,17 +7030,34 @@ public class SalesReportController {
 				rowData.add("");
 				rowData.add("Total");
 				for (int i = 0; i < salesReturnValueReport.size(); i++) {
-					rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotBillAmt()));
-					rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGvnQty()));
-					rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGrnQty()));
-					rowData.add(roundUp((salesReturnValueReport.get(i).getTotBillAmt()
-							- (salesReturnValueReport.get(i).getTotGvnQty()
-									+ salesReturnValueReport.get(i).getTotGrnQty())))
-							+ "");
+
+					if (billType == 1) {
+						rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotBillAmt()));
+						rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGvnQty()));
+						rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGrnQty()));
+						rowData.add(roundUp((salesReturnValueReport.get(i).getTotBillAmt()
+								- (salesReturnValueReport.get(i).getTotGvnQty()
+										+ salesReturnValueReport.get(i).getTotGrnQty())))
+								+ "");
+
+					} else {
+						rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotBillAmt()));
+						rowData.add("" + roundUp(salesReturnValueReport.get(i).getTotGrnQty()));
+						rowData.add(roundUp((salesReturnValueReport.get(i).getTotBillAmt()
+								- (salesReturnValueReport.get(i).getTotGvnQty()
+										+ salesReturnValueReport.get(i).getTotGrnQty())))
+								+ "");
+					}
 				}
-				rowData.add("" + totBillAmt);
-				rowData.add("" + totGrnAmt);
-				rowData.add("" + totGvnAmt);
+
+				if (billType == 1) {
+					rowData.add("" + totBillAmt);
+					rowData.add("" + totGrnAmt);
+					rowData.add("" + totGvnAmt);
+				} else {
+					rowData.add("" + totBillAmt);
+					rowData.add("" + totGrnAmt);
+				}
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				System.err.println("exportToExcelList" + exportToExcelList.toString());

@@ -33,32 +33,18 @@
 	<!-- BEGIN Content -->
 	<div id="main-content">
 		<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
-			<div>
-				<h1>
-					<i class="fa fa-file-o"></i>Billwise Report Grp By Date
-				</h1>
-				<h4></h4>
-			</div>
-		</div> -->
+		
 		<!-- END Page Title -->
 
 		<!-- BEGIN Breadcrumb -->
-		<%-- 	<div id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li><i class="fa fa-home"></i> <a
-					href="${pageContext.request.contextPath}/home">Home</a> <span
-					class="divider"><i class="fa fa-angle-right"></i></span></li>
-				<li class="active">Bill Report</li>
-			</ul>
-		</div> --%>
+		
 		<!-- END Breadcrumb -->
 
 		<!-- BEGIN Main Content -->
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>View Billwise Sale Grp By Date
+					<i class="fa fa-bars"></i>Date wise Sale Report
 				</h3>
 
 			</div>
@@ -241,7 +227,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-list-alt"></i>Bill Report
+					<i class="fa fa-list-alt"></i>Date wise Sale Report
 				</h3>
 
 			</div>

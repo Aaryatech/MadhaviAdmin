@@ -58,7 +58,7 @@
 		<div class="box">
 			<div class="box-title">
 				<h3>
-					<i class="fa fa-bars"></i>Month Wise Report
+					<i class="fa fa-bars"></i>Month wise Sale Report
 				</h3>
 
 			</div>

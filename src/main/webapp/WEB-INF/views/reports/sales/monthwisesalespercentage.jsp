@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body>
+<body onload="billTypeSelection(${billType})">
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
@@ -56,50 +56,88 @@
 				<div class="box-content">
 					<div class="row">
 						<div class="form-group">
-							<label class="col-sm-3 col-lg-2	 control-label">Year</label>
-							<div class="col-sm-6 col-lg-2 controls date_select">
+							<label class="col-sm-3 col-lg-1	 control-label">Year</label>
+							<div class="col-sm-6 col-lg-3 controls date_select">
 								<select id="year" name="year" class="form-control">
 
 									<option value="2019-2020">2019-2020</option>
-								    <option value="2020-2021">2020-2021</option>
+									<option value="2020-2021">2020-2021</option>
 								</select>
 							</div>
-							
-							
-							<label class="col-sm-3 col-lg-1 control-label">Select
-						</label>
-					<div class="col-sm-6 col-lg-3">
 
-						<select data-placeholder="Choose " class="form-control chosen"
-								multiple="multiple" tabindex="6" id="type_id" name="type_id">
+							<div class="col-sm-6 col-lg-2"></div>
 
-								<c:forEach items="${lhm}" var="lhm">
-									<c:set var="flag" value="0"></c:set>
-									<c:forEach items="${idList}" var="idList">
+
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<input type="radio" id="rd1" name="rd" value="1"
+									${billType==1 ? 'checked' : ''} checked="checked"
+									onchange="billTypeSelection(this.value)">&nbsp;Fr And
+								CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+									id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
+									onchange="billTypeSelection(this.value)">&nbsp;Company
+								Outlet Bills
+
+							</div>
+
+
+
+
+
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
+
+							<div id="cdcDiv">
+
+								<label class="col-sm-3 col-lg-2 control-label"></label>
+								<div class="col-sm-6 col-lg-4"></div>
+
+								<label class="col-sm-3 col-lg-2 control-label">Select
+									Bill Type Option</label>
+								<div class="col-sm-6 col-lg-4">
+
+									<select data-placeholder="Choose " class="form-control chosen"
+										multiple="multiple" tabindex="6" id="type_id" name="type_id">
+
 										<c:choose>
-											<c:when test="${lhm.key==idList}">
-												<c:set var="flag" value="1"></c:set>
+
+											<c:when test="${typeIds == '1'}">
+												<option value="1" selected="selected">Franchise
+													Bill</option>
+												<option value="2">Delivery Challan</option>
+											</c:when>
+											<c:when test="${typeIds == '2'}">
+												<option value="1">Franchise Bill</option>
+												<option value="2" selected="selected">Delivery
+													Challan</option>
 											</c:when>
 
+
+											<c:otherwise>
+												<option value="1" selected="selected">Franchise
+													Bill</option>
+												<option value="2" selected="selected">Delivery
+													Challan</option>
+											</c:otherwise>
+
 										</c:choose>
-									</c:forEach>
-									<c:if test="${flag==1}">
-										<option selected value="${lhm.key}">${lhm.value}</option>
-
-									</c:if>
-									<c:if test="${flag==0}">
-										<option value="${lhm.key}">${lhm.value}</option>
-
-									</c:if>
-
-								</c:forEach>
 
 
-							</select>
+									</select>
 
+								</div>
+							</div>
+						</div>
 					</div>
-					 
-					 
+
+					<div class="row">
+						<div class="form-group" style="text-align: center;">
 							<input type="submit" id="submit" class="btn btn-primary"
 								value="Search">
 						</div>
@@ -122,13 +160,18 @@
 			<div class="box">
 				<div class="box-title">
 					<h3>
-						<i class="fa fa-list-alt"></i>Sub Category Wise Contribution Report
+						<i class="fa fa-list-alt"></i>Sub Category Wise Contribution
+						Report
 					</h3>
 				</div>
 				<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive"
 							style="overflow: scroll; overflow: auto;">
+
+
+
+
 							<table class="table table-bordered table-striped fill-head "
 								style="width: 100%;" id="table_grid">
 								<thead style="background-color: #f95d64;">
@@ -166,22 +209,21 @@
 														<c:when test="${rep.subCatId==subCatList.subCatId}">
 
 
-															<td style="text-align: right;"><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td style="text-align: right;"><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${rep.grandTotal-(rep.gvnQty+rep.grnQty)}" />
-															<td style="text-align: right;">
-															<c:choose>
-															<c:when test="${report.value.totBillAmt>0}">
-															<fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${(rep.grandTotal-(rep.gvnQty+rep.grnQty))*100/report.value.totBillAmt}" />
-															
-															</c:when>
-															<c:otherwise>
+															<td style="text-align: right;"><c:choose>
+																	<c:when test="${report.value.totBillAmt>0}">
+																		<fmt:formatNumber type="number" minFractionDigits="2"
+																			maxFractionDigits="2"
+																			value="${(rep.grandTotal-(rep.gvnQty+rep.grnQty))*100/report.value.totBillAmt}" />
+
+																	</c:when>
+																	<c:otherwise>
 															0.00
 															</c:otherwise>
-															</c:choose>
-															</td>
+																</c:choose></td>
 														</c:when>
 														<c:otherwise>
 
@@ -193,18 +235,27 @@
 
 										</tr>
 									</c:forEach>
-									 <tr>
-                                        <th rowspan="2"></th>
+									<tr>
+										<th rowspan="2"></th>
 										<th rowspan="2">Total</th>
-										<c:forEach var="report" items="${salesReturnValueReport}" varStatus="cnt">
-										<th style="text-align: right;"> <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"  groupingUsed="false"  value="${report.value.totBillAmt}" /></th>
-										
-										<th style="text-align: right;"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"  groupingUsed="false"  value="0.00" /></th>
-												
+										<c:forEach var="report" items="${salesReturnValueReport}"
+											varStatus="cnt">
+											<th style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													groupingUsed="false" value="${report.value.totBillAmt}" /></th>
+
+											<th style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													groupingUsed="false" value="0.00" /></th>
+
 										</c:forEach>
 									</tr>
 								</tbody>
 							</table>
+
+
+
+
 						</div>
 						<div class="form-group" id="range">
 							<div class="col-sm-3  controls">
@@ -229,6 +280,17 @@
 		class="fa fa-chevron-up"></i></a>
 
 
+	<script type="text/javascript">
+		function billTypeSelection(val) {
+
+			if (val == 2) {
+				document.getElementById("cdcDiv").style.display = "none";
+			} else {
+				document.getElementById("cdcDiv").style.display = "block";
+			}
+
+		}
+	</script>
 
 
 
@@ -330,5 +392,6 @@
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
+
 </body>
 </html>
