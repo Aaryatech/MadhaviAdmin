@@ -44,64 +44,75 @@
 
 			<div class="box-content">
 				<form action="${pageContext.request.contextPath}/showTaxReport"
-					class="form-horizontal" method="get" id="validation-form">
+					method="get" id="validation-form" onsubmit="return validateForm()">
+
 					<div class="row">
-
-
 						<div class="form-group">
 							<label class="col-sm-3 col-lg-2	 control-label">From Date</label>
-							<div class="col-sm-6 col-lg-2 controls date_select">
+							<div class="col-sm-6 col-lg-4 controls date_select">
 								<input class="form-control date-picker" id="fromDate"
-									name="fromDate" size="30" type="text" value="${fromDate}" />
+									name="fromDate" size="30" type="text" value="${fromDate}"
+									autocomplete="off" />
 							</div>
-
-							<!-- </div>
-
-					<div class="form-group  "> -->
 
 							<label class="col-sm-3 col-lg-2	 control-label">To Date</label>
-							<div class="col-sm-6 col-lg-2 controls date_select">
+							<div class="col-sm-6 col-lg-4 controls date_select">
 								<input class="form-control date-picker" id="toDate"
-									name="toDate" size="30" type="text" value="${toDate}" />
+									autocomplete="off" name="toDate" size="30" type="text"
+									value="${toDate}" />
 							</div>
-							<!-- </div>
 
-				</div>
+						</div>
+					</div>
 
+					<br>
+					<div class="row">
+						<div class="form-group">
 
-				<div class="row">
-					<div class="col-md-12" style="text-align: center;"> -->
+							<label class="col-sm-3 col-lg-2 control-label"><b></b>Select Bill Type
+							</label>
+							<div class="col-sm-6 col-lg-4">
 
+								<select data-placeholder="Select Bill Type "
+									class="form-control chosen" tabindex="6" id="type_id"
+									name="type_id">
 
-							<label class="col-sm-3 col-lg-1	 control-label">Select</label>
-							<div class="col-sm-2 col-lg-2">
-								<select data-placeholder="Choose " class="form-control chosen"
-									multiple="multiple" tabindex="6" id="type_id" name="type_id">
+									<c:choose>
 
-									<c:forEach items="${lhm}" var="lhm">
-										<c:set var="flag" value="0"></c:set>
-										<c:forEach items="${idList}" var="idList">
-											<c:choose>
-												<c:when test="${lhm.key==idList}">
-													<c:set var="flag" value="1"></c:set>
-												</c:when>
+										<c:when test="${typeId==1}">
+											<option value="0">Select Bill Type</option>
+											<option value="1" selected="selected">Franchise Bill</option>
+											<option value="3">Company Outlet Bill</option>
+										</c:when>
+										<c:when test="${typeId==3}">
+											<option value="0">Select Bill Type</option>
+											<option value="1">Franchise Bill</option>
+											<option value="3" selected="selected">Company Outlet
+												Bill</option>
+										</c:when>
+										<c:otherwise>
+											<option value="0">Select Bill Type</option>
+											<option value="1">Franchise Bill</option>
+											<option value="3">Company Outlet Bill</option>
+										</c:otherwise>
 
-											</c:choose>
-										</c:forEach>
-										<c:if test="${flag==1}">
-											<option selected value="${lhm.key}">${lhm.value}</option>
-
-										</c:if>
-										<c:if test="${flag==0}">
-											<option value="${lhm.key}">${lhm.value}</option>
-
-										</c:if>
-
-									</c:forEach>
-
+									</c:choose>
 
 								</select>
 
+							</div>
+
+
+							<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
+								Bill Type Option </label>
+							<div class="col-sm-6 col-lg-4">
+
+								<input type="radio" id="rd1" name="rd" value="1"
+									${bType==1 ? 'checked' : ''} checked="checked"
+									onchange="billTypeSelection(this.value)">&nbsp;B2B
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="rd2"
+									${bType==2 ? 'checked' : ''} name="rd" value="2"
+									onchange="billTypeSelection(this.value)">&nbsp;B2C
 
 							</div>
 
@@ -109,18 +120,11 @@
 						</div>
 					</div>
 
+					<br>
 					<div class="row">
-						<div class="form-group"></div>
-						<div class="form-group">
-							<label class="col-sm-3 col-lg-2	 control-label"> </label>
-							<div class="col-sm-6 col-lg-4">
-								<input type="submit" class="btn btn-info" value="Search" />
-							</div>
+						<div class="form-group" style="text-align: center;">
+							<input type="submit" class="btn btn-info" value="Search" />
 						</div>
-
-
-
-
 					</div>
 
 				</form>
@@ -147,109 +151,420 @@
 			<div class=" box-content">
 				<div class="row">
 					<div class="col-md-12 table-responsive">
-						<table class="table table-bordered table-striped fill-head "
-							style="width: 100%" id="table_grid">
-							<thead style="background-color: #f3b5db;">
-								<tr>
-									<th>Sr.No.</th>
-									<th>Invoice No</th>
-									<th>Bill No.</th>
-									<th>Bill Date</th>
-									<th>Franchise</th>
-									<th>GSTIN</th>
-									<th>CGST %</th>
-									<th>SGST %</th>
-									<th>CGST Amt</th>
-									<th>SGST Amt</th>
-									<th>Taxable Amt</th>
-									<th>Total Tax</th>
-									<th>Grand Total</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<c:set var="totalCgstAmt" value="0" />
-								<c:set var="totalIgstAmt" value="0" />
-								<c:set var="totalTaxableAmt" value="0" />
-								<c:set var="totalTax" value="0" />
-								<c:set var="totalGrandTotal" value="0" />
-								<c:forEach items="${taxReportList}" var="taxList"
-									varStatus="count">
-									<tr>
-										<c:set var="totalCgstAmt"
-											value="${totalCgstAmt+taxList.cgstAmt}" />
-										<c:set var="totalIgstAmt"
-											value="${totalIgstAmt+taxList.sgstAmt}" />
-										<c:set var="totalTaxableAmt"
-											value="${totalTaxableAmt+taxList.taxableAmt}" />
-										<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
-										<c:set var="totalGrandTotal"
-											value="${totalGrandTotal+taxList.grandTotal}" />
 
 
-										<td><c:out value="${count.index+1}" /></td>
-										<td><c:out value="${taxList.invoiceNo}" /></td>
-										<td><c:out value="${taxList.billNo}" /></td>
-										<td><c:out value="${taxList.billDate}" /></td>
-										<td><c:out value="${taxList.frName}" /></td>
 
-										<td><c:out value="${taxList.frGstNo}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.cgstPer}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.sgstPer}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.cgstAmt}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.sgstAmt}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.taxableAmt}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.totalTax}" /></td>
-										<td style="text-align: right;"><c:out
-												value="${taxList.grandTotal}" /></td>
+						<c:choose>
+							<c:when test="${typeId==1 && bType==1}">
 
-									</tr>
-								</c:forEach>
+								<table class="table table-bordered table-striped fill-head "
+									style="width: 100%" id="table_grid">
+									<thead style="background-color: #f95d64;">
+										<tr>
+											<th style="text-align: center;">Sr.No.</th>
+											<th style="text-align: center;">Bill Date</th>
+											<th style="text-align: center;">Invoice No</th>
+											<th style="text-align: center;">Franchise</th>
+											<th style="text-align: center;">Party Name</th>
+											<th style="text-align: center;">Party GST</th>
+											<th style="text-align: center;">CGST %</th>
+											<th style="text-align: center;">SGST %</th>
+											<th style="text-align: center;">CGST Amt</th>
+											<th style="text-align: center;">SGST Amt</th>
+											<th style="text-align: center;">Taxable Amt</th>
+											<th style="text-align: center;">Total Tax</th>
+											<th style="text-align: center;">Grand Total</th>
 
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-
-									<td style="text-align: left;">Total</td>
-
-
-									<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${totalCgstAmt}" /></td>
-									<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${totalIgstAmt}" /></td>
-
-									<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${totalTaxableAmt}" /></td>
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="totalCgstAmt" value="0" />
+										<c:set var="totalIgstAmt" value="0" />
+										<c:set var="totalTaxableAmt" value="0" />
+										<c:set var="totalTax" value="0" />
+										<c:set var="totalGrandTotal" value="0" />
+										<c:forEach items="${taxReportList}" var="taxList"
+											varStatus="count">
+											<tr>
+												<c:set var="totalCgstAmt"
+													value="${totalCgstAmt+taxList.cgstAmt}" />
+												<c:set var="totalIgstAmt"
+													value="${totalIgstAmt+taxList.sgstAmt}" />
+												<c:set var="totalTaxableAmt"
+													value="${totalTaxableAmt+taxList.taxableAmt}" />
+												<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
+												<c:set var="totalGrandTotal"
+													value="${totalGrandTotal+taxList.grandTotal}" />
 
 
-									<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${totalTax}" /></td>
+												<td><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${taxList.billDate}" /></td>
+												<td><c:out value="${taxList.invoiceNo}" /></td>
+												<td><c:out value="${taxList.shipToName}" /></td>
+												<td><c:out value="${taxList.billToName}" /></td>
+												<td><c:out value="${taxList.billToGst}" /></td>
+
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.taxableAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.totalTax}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.grandTotal}" /></td>
+
+											</tr>
+										</c:forEach>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+
+											<td style="text-align: left;">Total</td>
 
 
-									<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${totalGrandTotal}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalCgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalIgstAmt}" /></td>
 
-								</tr>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTaxableAmt}" /></td>
 
 
-							</tbody>
-						</table>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTax}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalGrandTotal}" /></td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</c:when>
+
+							<c:when test="${typeId==1 && bType==2}">
+
+								<table class="table table-bordered table-striped fill-head "
+									style="width: 100%" id="table_grid">
+									<thead style="background-color: #f95d64;">
+										<tr>
+											<th style="text-align: center;">Sr.No.</th>
+											<th style="text-align: center;">CGST %</th>
+											<th style="text-align: center;">SGST %</th>
+											<th style="text-align: center;">CGST Amt</th>
+											<th style="text-align: center;">SGST Amt</th>
+											<th style="text-align: center;">Taxable Amt</th>
+											<th style="text-align: center;">Total Tax</th>
+											<th style="text-align: center;">Grand Total</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="totalCgstAmt" value="0" />
+										<c:set var="totalIgstAmt" value="0" />
+										<c:set var="totalTaxableAmt" value="0" />
+										<c:set var="totalTax" value="0" />
+										<c:set var="totalGrandTotal" value="0" />
+										<c:forEach items="${taxReportList}" var="taxList"
+											varStatus="count">
+											<tr>
+												<c:set var="totalCgstAmt"
+													value="${totalCgstAmt+taxList.cgstAmt}" />
+												<c:set var="totalIgstAmt"
+													value="${totalIgstAmt+taxList.sgstAmt}" />
+												<c:set var="totalTaxableAmt"
+													value="${totalTaxableAmt+taxList.taxableAmt}" />
+												<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
+												<c:set var="totalGrandTotal"
+													value="${totalGrandTotal+taxList.grandTotal}" />
+
+
+												<td><c:out value="${count.index+1}" /></td>
+
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.taxableAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.totalTax}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.grandTotal}" /></td>
+
+											</tr>
+										</c:forEach>
+
+										<tr>
+											<td></td>
+											<td></td>
+
+											<td style="text-align: left;">Total</td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalCgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalIgstAmt}" /></td>
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTaxableAmt}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTax}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalGrandTotal}" /></td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</c:when>
+
+							<c:when test="${typeId==3 && bType==1}">
+
+								<table class="table table-bordered table-striped fill-head "
+									style="width: 100%" id="table_grid">
+									<thead style="background-color: #f95d64;">
+										<tr>
+											<th style="text-align: center;">Sr.No.</th>
+											<th style="text-align: center;">Bill Date</th>
+											<th style="text-align: center;">Invoice No</th>
+											<th style="text-align: center;">Franchise</th>
+											<th style="text-align: center;">Party Name</th>
+											<th style="text-align: center;">Party GST</th>
+											<th style="text-align: center;">CGST %</th>
+											<th style="text-align: center;">SGST %</th>
+											<th style="text-align: center;">CGST Amt</th>
+											<th style="text-align: center;">SGST Amt</th>
+											<th style="text-align: center;">Taxable Amt</th>
+											<th style="text-align: center;">Total Tax</th>
+											<th style="text-align: center;">Grand Total</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="totalCgstAmt" value="0" />
+										<c:set var="totalIgstAmt" value="0" />
+										<c:set var="totalTaxableAmt" value="0" />
+										<c:set var="totalTax" value="0" />
+										<c:set var="totalGrandTotal" value="0" />
+										<c:forEach items="${taxReportList}" var="taxList"
+											varStatus="count">
+											<tr>
+												<c:set var="totalCgstAmt"
+													value="${totalCgstAmt+taxList.cgstAmt}" />
+												<c:set var="totalIgstAmt"
+													value="${totalIgstAmt+taxList.sgstAmt}" />
+												<c:set var="totalTaxableAmt"
+													value="${totalTaxableAmt+taxList.taxableAmt}" />
+												<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
+												<c:set var="totalGrandTotal"
+													value="${totalGrandTotal+taxList.grandTotal}" />
+
+
+												<td><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${taxList.billDate}" /></td>
+												<td><c:out value="${taxList.invoiceNo}" /></td>
+												<td><c:out value="${taxList.frName}" /></td>
+												<td><c:out value="${taxList.billToName}" /></td>
+												<td><c:out value="${taxList.billToGst}" /></td>
+
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.taxableAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.totalTax}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.grandTotal}" /></td>
+
+											</tr>
+										</c:forEach>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+
+											<td style="text-align: left;">Total</td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalCgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalIgstAmt}" /></td>
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTaxableAmt}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTax}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalGrandTotal}" /></td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</c:when>
+
+							<c:when test="${typeId==3 && bType==2}">
+
+								<table class="table table-bordered table-striped fill-head "
+									style="width: 100%" id="table_grid">
+									<thead style="background-color: #f95d64;">
+										<tr>
+											<th style="text-align: center;">Sr.No.</th>
+											<th style="text-align: center;">Franchise</th>
+											<th style="text-align: center;">CGST %</th>
+											<th style="text-align: center;">SGST %</th>
+											<th style="text-align: center;">CGST Amt</th>
+											<th style="text-align: center;">SGST Amt</th>
+											<th style="text-align: center;">Taxable Amt</th>
+											<th style="text-align: center;">Total Tax</th>
+											<th style="text-align: center;">Grand Total</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="totalCgstAmt" value="0" />
+										<c:set var="totalIgstAmt" value="0" />
+										<c:set var="totalTaxableAmt" value="0" />
+										<c:set var="totalTax" value="0" />
+										<c:set var="totalGrandTotal" value="0" />
+										<c:forEach items="${taxReportList}" var="taxList"
+											varStatus="count">
+											<tr>
+												<c:set var="totalCgstAmt"
+													value="${totalCgstAmt+taxList.cgstAmt}" />
+												<c:set var="totalIgstAmt"
+													value="${totalIgstAmt+taxList.sgstAmt}" />
+												<c:set var="totalTaxableAmt"
+													value="${totalTaxableAmt+taxList.taxableAmt}" />
+												<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
+												<c:set var="totalGrandTotal"
+													value="${totalGrandTotal+taxList.grandTotal}" />
+
+
+												<td><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${taxList.frName}" /></td>
+
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.taxableAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.totalTax}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.grandTotal}" /></td>
+
+											</tr>
+										</c:forEach>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+
+
+											<td style="text-align: left;">Total</td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalCgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalIgstAmt}" /></td>
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTaxableAmt}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTax}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalGrandTotal}" /></td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</c:when>
+
+
+						</c:choose>
+
+
 					</div>
 					<div class="form-group" id="range">
 
@@ -282,145 +597,26 @@
 		class="fa fa-chevron-up"></i></a>
 
 
-	<!-- 	<script type="text/javascript">
-		function searchReport() {
-		//	var isValid = validate();
+	<script type="text/javascript">
+		function validateForm() {
 
-				var selectedFr = $("#selectFr").val();
-				var routeId=$("#selectRoute").val();
-				
-				var from_date = $("#fromDate").val();
-				var to_date = $("#toDate").val();
-
-				$('#loader').show();
-
-				$
-						.getJSON(
-								'${getBillList}',
-
-								{
-									fr_id_list : JSON.stringify(selectedFr),
-									fromDate : from_date,
-									toDate : to_date,
-									route_id:routeId,
-									ajax : 'true'
-
-								},
-								function(data) {
-									
-								
-									$('#table_grid td').remove();
-									$('#loader').hide();
-
-									if (data == "") {
-										alert("No records found !!");
-										  document.getElementById("expExcel").disabled=true;
-									}
-
-									$
-											.each(
-													data,
-													function(key, report) {
-														
-														  document.getElementById("expExcel").disabled=false;
-															document.getElementById('range').style.display = 'block';
-														var index = key + 1;
-														//var tr = "<tr>";
-														
-														
-														var tr = $('<tr></tr>');
-
-													  	tr.append($('<td></td>').html(key+1));
-
-													  	tr.append($('<td></td>').html(report.invoiceNo));
-
-													  	tr.append($('<td></td>').html(report.billDate));
-
-													  	tr.append($('<td></td>').html(report.frName));
-													  	
-													  	
-													  	tr.append($('<td></td>').html(report.frCity));
-
-													  	tr.append($('<td></td>').html(report.frGstNo));
-
-													  	tr.append($('<td></td>').html(report.taxableAmt));
-													  	
-													  	if(report.isSameState==1){
-														  	tr.append($('<td></td>').html(report.cgstSum));
-														  	tr.append($('<td></td>').html(report.sgstSum));
-														  	tr.append($('<td></td>').html(0));
-														}
-														else{
-															tr.append($('<td></td>').html(0));
-														  	tr.append($('<td></td>').html(0));
-														  	tr.append($('<td></td>').html(report.igstSum));
-														}
-														tr.append($('<td></td>').html(report.roundOff));
-														var total;
-														
-														if(report.isSameState==1){
-															 total=parseFloat(report.taxableAmt)+parseFloat(report.cgstSum+report.sgstSum);
-														}
-														else{
-															
-															 total=report.taxableAmt+report.igstSum;
-														}
-
-													  	tr.append($('<td></td>').html(total));
-
-														$('#table_grid tbody')
-																.append(
-																		tr);
-														
-
-													})
-
-								});
-
+			var fromDt = document.getElementById("fromDate").value;
+			var toDt = document.getElementById("toDate").value;
+			var a = document.getElementById("type_id").value;
 			
-		}
-	</script> -->
-
-	<!-- 	<script type="text/javascript">
-		function validate() {
-
-			var selectedFr = $("#selectFr").val();
-			var selectedMenu = $("#selectMenu").val();
-			var selectedRoute = $("#selectRoute").val();
-
-
-			var isValid = true;
-
-			if (selectedFr == "" || selectedFr == null  ) {
- 
-				if(selectedRoute=="" || selectedRoute ==null ) {
-					alert("Please Select atleast one ");
-					isValid = false;
-				}
-				//alert("Please select Franchise/Route");
- 
-			} else if (selectedMenu == "" || selectedMenu == null) {
-
-				isValid = false;
-				alert("Please select Menu");
-
+			if (fromDt == "") {
+				alert("Please Select From Date");
+				return false;
+			} else if (toDt == "") {
+				alert("Please Select To Date");
+				return false;
+			} else if (a == 0) {
+				alert("Please Select Bill Type");
+				return false;
 			}
-			return isValid;
 
 		}
-	</script> -->
-
-	<!-- <script type="text/javascript">
-		function updateTotal(orderId, rate) {
-			
-			var newQty = $("#billQty" + orderId).val();
-
-			var total = parseFloat(newQty) * parseFloat(rate);
-
-
-			 $('#billTotal'+orderId).html(total);
-		}
-	</script> -->
+	</script>
 
 	<script>
 		$('.datepicker').datepicker({
@@ -435,44 +631,9 @@
 				startDate : '-3d'
 			}
 		});
-
-		/* function genPdf()
-		 {
-		 var from_date = $("#fromDate").val();
-		 var to_date = $("#toDate").val();
-		 var selectedFr = $("#selectFr").val();
-		 var routeId=$("#selectRoute").val();
-
-		 window.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'+from_date+'/'+to_date+'/'+selectedFr+'/'+routeId+'/');
-
-		 //window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
-		
-		 } */
 	</script>
 
 	<script type="text/javascript">
-		/* 
-		 function disableFr(){
-
-		 //alert("Inside Disable Fr ");
-		 document.getElementById("selectFr").disabled = true;
-
-		 }
-
-		 function disableRoute(){
-
-		 //alert("Inside Disable route ");
-		 var x=document.getElementById("selectRoute")
-		 //alert(x.options.length);
-		 var i;
-		 for(i=0;i<x;i++){
-		 document.getElementById("selectRoute").options[i].disabled;
-		 //document.getElementById("pets").options[2].disabled = true;
-		 }
-		 //document.getElementById("selectRoute").disabled = true;
-
-		 } */
-
 		function exportToExcel() {
 
 			window.open("${pageContext.request.contextPath}/exportToExcelNew");

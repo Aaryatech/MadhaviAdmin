@@ -45,6 +45,19 @@ public class GetCreditNoteHeaders {
 	
 	String exVarchar2; //to get Eway Bill no Sachin 11-Dec-2019 
 	
+	String invoiceDate;
+	
+	
+	
+	
+	public String getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(String invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
 	public String getGrnGvnSrNoList() {
 		return grnGvnSrNoList;
 	}
@@ -208,6 +221,8 @@ public class GetCreditNoteHeaders {
 	public void setExVarchar2(String exVarchar2) {
 		this.exVarchar2 = exVarchar2;
 	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -217,7 +232,7 @@ public class GetCreditNoteHeaders {
 				+ isTallySync + ", isDeposited=" + isDeposited + ", frName=" + frName + ", frAddress=" + frAddress
 				+ ", frGstNo=" + frGstNo + ", isSameState=" + isSameState + ", isGrn=" + isGrn + ", exInt1=" + exInt1
 				+ ", exVarchar1=" + exVarchar1 + ", grnGvnSrNoList=" + grnGvnSrNoList + ", exVarchar2=" + exVarchar2
-				+ "]";
+				+ ", invoiceDate=" + invoiceDate + "]";
 	}
 
 	

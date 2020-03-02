@@ -185,10 +185,41 @@ table {
 
 											<!-- 	<div class="col-sm-5 col-lg-3 controls"> -->
 
-											<input type="button" value="PDF" class="btn btn-primary"
-												onclick="genPdf()" />
+
 											<!-- 	</div> -->
 										</div>
+
+										<div class="form-group">
+
+
+											<label class="col-sm-3 col-lg-2 control-label">Select
+												Sub Categories</label>
+											<div class="col-sm-6 col-lg-8">
+
+												<select data-placeholder="Choose "
+													class="form-control chosen" multiple="multiple"
+													tabindex="6" id="type_id" name="type_id">
+
+													<c:forEach items="${subCatList}" var="subCat"
+														varStatus="count">
+
+														<option value="${subCat.subCatId}" selected="selected">${subCat.subCatName}</option>
+
+													</c:forEach>
+
+
+
+												</select>
+
+											</div>
+
+											<input type="button" value="PDF" class="btn btn-primary"
+												onclick="genPdf()" />
+
+
+										</div>
+
+
 										<div class="clearfix"></div>
 										<div id="table-scroll" class="table-scroll">
 
@@ -780,7 +811,17 @@ table {
 	<script type="text/javascript">
 
 function genPdf(){
-	window.open('${pageContext.request.contextPath}/showProdByOrderPdf/');
+	
+	var subCatIds = $("#type_id").val();
+	//alert(subCatIds);
+	
+	if(subCatIds==null){
+		alert("Please Select Sub Category to generate PDF");
+	}else{
+		window.open('${pageContext.request.contextPath}/showProdByOrderPdf/'+subCatIds);
+	}
+	
+	//window.open('${pageContext.request.contextPath}/showProdByOrderPdf/');
 }
 
 </script>

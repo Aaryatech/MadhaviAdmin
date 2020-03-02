@@ -1516,8 +1516,10 @@ public class CreditNoteController {
 			// Getting crn Headers
 
 			map.add("crnIdList", crnIdList);
-			headerResponse = restTemplate.postForObject(Constants.url + "getCreditNoteHeadersByCrnIds", map,
+			headerResponse = restTemplate.postForObject(Constants.url + "getAdminCreditNoteHeadersByCrnIds", map,
 					GetCreditNoteHeadersList.class);
+			
+			System.err.println("OUTPUT " + headerResponse.getCreditNoteHeaders());
 
 			creditHeaderList = headerResponse.getCreditNoteHeaders();
 			System.err.println("Crn Id List " + crnIdList);
@@ -1597,6 +1599,7 @@ public class CreditNoteController {
 				cNoteHeaderPrint.setFrGstNo(creditHeaderList.get(i).getFrGstNo());
 				cNoteHeaderPrint.setIsGrn(creditHeaderList.get(i).getIsGrn());
 				cNoteHeaderPrint.setExVarchar2(creditHeaderList.get(i).getExVarchar2());
+				cNoteHeaderPrint.setInvoiceDate(creditHeaderList.get(i).getInvoiceDate());
 
 				List<GetCrnDetails> crnPrintDetailList = new ArrayList<>();
 

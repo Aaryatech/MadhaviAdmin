@@ -83,54 +83,44 @@
 
 				</div>
 				<br>
-				 
-				
-				
-				<div class="row">
-					<label class="col-sm-3 col-lg-2	 control-label">Select
-							Type</label>
-						<div class="col-sm-10 col-lg-4  controls">
 
-							<select data-placeholder="Select Type"
-								class="form-control chosen" id="type" name="type" required>
-								<option value="">Select Type</option>
-								<option value="1">Bill wise</option>
-								<option value="2">Credit Note Wise</option>
-								<option value="3">Consolidated</option>
-							</select>
-						</div>
-						
-					<label class="col-sm-3 col-lg-2 control-label">Select
-						</label>
+ 
+
+				<div class="row">
+					<label class="col-sm-3 col-lg-2	 control-label">Select Type</label>
+					<div class="col-sm-10 col-lg-4  controls">
+
+						<select data-placeholder="Select Type" class="form-control chosen"
+							id="type" name="type" required>
+							<option value="1">Bill wise</option>
+							<option value="2">Credit Note Wise</option>
+							<option value="3">Consolidated</option>
+						</select>
+					</div>
+
+					<label class="col-sm-3 col-lg-2 control-label">Select Bill
+						Type </label>
 					<div class="col-sm-6 col-lg-4">
 
-						<select data-placeholder="Choose "
-							class="form-control chosen" multiple="multiple" tabindex="6"
-							id="typeNew" name="typeNew">
-							<option value="-1"><c:out value="All" /></option>
-							<option value="1">Franchise Bill</option>
-							<option value="2">Delivery Chalan</option>
+						<select data-placeholder="Choose " class="form-control chosen"
+							tabindex="6" id="type_id" name="type_id">
+							<option value="1" selected="selected">Franchise Bill</option>
 							<option value="3">Company Outlet Bill</option>
 						</select>
 
 					</div>
 
 				</div>
-<br>
-				<br>
-
-	<br>
-	
- 
+				<br> 
 				<div class="row">
-				 
-						<div class="col-md-8" style="text-align: center;">
-							<button class="btn btn-info" onclick="searchReport()">Search
-								Report</button>
-							<button class="btn btn-primary" value="PDF" id="PDFButton"
-								onclick="genPdf()">PDF</button>
-						</div>
-						 
+
+					<div class="col-md-12" style="text-align: center;">
+						<button class="btn btn-info" onclick="searchReport()">Search
+							Report</button>
+						<button class="btn btn-primary" value="PDF" id="PDFButton" style="display: none;"
+							onclick="genPdf()">PDF</button>
+					</div>
+
 				</div>
 
 				<div align="center" id="loader" style="display: none">
@@ -162,24 +152,25 @@
 				<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive">
-						<input 
-  type="button" onclick="tableToExcel('table_grid', 'name', 'HsnReport.xls')" value="Export to Excel" >
+							<input type="button"  style="display: none;"
+								onclick="tableToExcel('table_grid', 'name', 'HsnReport.xls')"
+								value="Export to Excel">
 							<table class="table table-bordered table-striped fill-head "
 								style="width: 100%" id="table_grid">
-								<thead style="background-color: #f3b5db;">
+								<thead style="background-color: #f95d64;">
 									<tr>
-										<th>Sr.No.</th>
-										<th>HSN</th>
-										<th>TAX %</th>
-										<th>MANUF</th>
-										<th>RET</th>
-										<th>TOTAL</th>
-										<th>TAXABLE AMT</th>
-										<th>CGST</th>
-										<th>CGST AMT</th>
-										<th>SGST</th>
-										<th>SGST AMT</th>
-										<th>Total</th>
+										<th style="text-align: center;">Sr.No.</th>
+										<th style="text-align: center;">HSN</th>
+										<th style="text-align: center;">TAX %</th>
+										<th style="text-align: center;">MANUF</th>
+										<th style="text-align: center;">RET</th>
+										<th style="text-align: center;">TOTAL</th>
+										<th style="text-align: center;">TAXABLE AMT</th>
+										<th style="text-align: center;">CGST</th>
+										<th style="text-align: center;">CGST AMT</th>
+										<th style="text-align: center;">SGST</th>
+										<th style="text-align: center;">SGST AMT</th>
+										<th style="text-align: center;">Total</th>
 
 									</tr>
 								</thead>
@@ -221,7 +212,7 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 			var type = $("#type").val();
-			var typeNew = $("#typeNew").val();
+			var bTypeId = $("#type_id").val();
 
 			$('#loader').show();
 
@@ -232,7 +223,7 @@
 				fromDate : from_date,
 				toDate : to_date,
 				type : type,
-				typeNew :JSON.stringify(typeNew),
+				bTypeId : bTypeId,
 				ajax : 'true'
 
 			}, function(data) {
@@ -259,7 +250,7 @@
 
 					var tr = $('<tr></tr>');
 
-					tr.append($('<td></td>').html(key + 1));
+					tr.append($('<td  style="text-align: center;"></td>').html(key + 1));
 
 					tr.append($('<td></td>').html(report.itemHsncd));
 
@@ -385,7 +376,6 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 
-			
 			/* 	window
 						.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'
 								+ from_date + '/' + to_date);
@@ -424,21 +414,30 @@
 			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
-<script type="text/javascript">
-function tableToExcel(table, name, filename) {
-        let uri = 'data:application/vnd.ms-excel;base64,', 
-        template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', 
-        base64 = function(s) { return window.btoa(decodeURIComponent(encodeURIComponent(s))) },         format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; })}
-        
-        if (!table.nodeType) table = document.getElementById(table)
-        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+	<script type="text/javascript">
+		function tableToExcel(table, name, filename) {
+			let uri = 'data:application/vnd.ms-excel;base64,', template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', base64 = function(
+					s) {
+				return window.btoa(decodeURIComponent(encodeURIComponent(s)))
+			}, format = function(s, c) {
+				return s.replace(/{(\w+)}/g, function(m, p) {
+					return c[p];
+				})
+			}
 
-        var link = document.createElement('a');
-        link.download = filename;
-        link.href = uri + base64(format(template, ctx));
-        link.click();
-}
-</script>
+			if (!table.nodeType)
+				table = document.getElementById(table)
+			var ctx = {
+				worksheet : name || 'Worksheet',
+				table : table.innerHTML
+			}
+
+			var link = document.createElement('a');
+			link.download = filename;
+			link.href = uri + base64(format(template, ctx));
+			link.click();
+		}
+	</script>
 	<!--basic scripts-->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>

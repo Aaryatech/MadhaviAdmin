@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+
 public class Tax1Report implements Serializable{
 	
 	private int billDetailNo;
@@ -33,6 +34,47 @@ public class Tax1Report implements Serializable{
 	private float totalTax;
 	
 	private float grandTotal;
+	
+	private String billToName;
+	private String billToGst;
+	private String shipToName;
+	private String shipToGst;
+
+	
+	
+	public String getBillToName() {
+		return billToName;
+	}
+
+	public void setBillToName(String billToName) {
+		this.billToName = billToName;
+	}
+
+
+
+	public String getBillToGst() {
+		return billToGst;
+	}
+
+	public void setBillToGst(String billToGst) {
+		this.billToGst = billToGst;
+	}
+
+	public String getShipToName() {
+		return shipToName;
+	}
+
+	public void setShipToName(String shipToName) {
+		this.shipToName = shipToName;
+	}
+
+	public String getShipToGst() {
+		return shipToGst;
+	}
+
+	public void setShipToGst(String shipToGst) {
+		this.shipToGst = shipToGst;
+	}
 
 	public int getBillDetailNo() {
 		return billDetailNo;
@@ -145,13 +187,17 @@ public class Tax1Report implements Serializable{
 	public void setGrandTotal(float grandTotal) {
 		this.grandTotal = grandTotal;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "Tax1Report [billDetailNo=" + billDetailNo + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate
 				+ ", frName=" + frName + ", frGstNo=" + frGstNo + ", billNo=" + billNo + ", cgstPer=" + cgstPer
 				+ ", sgstPer=" + sgstPer + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt + ", cgstAmt=" + cgstAmt
-				+ ", sgstAmt=" + sgstAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + "]";
+				+ ", sgstAmt=" + sgstAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + ", billToName="
+				+ billToName + ", billToGst=" + billToGst + ", shipToName=" + shipToName + ", shipToGst=" + shipToGst
+				+ "]";
 	}
 	
 	

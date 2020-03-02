@@ -1521,7 +1521,7 @@ public class SalesReportController3 {
 			session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
 			session.setAttribute("mergeUpto1", "$A$1:$J$1");
 			session.setAttribute("mergeUpto2", "$A$2:$J$2");
-			session.setAttribute("mergeUpto2", "$A$2:$J$2");
+			session.setAttribute("mergeUpto2", "$A$3:$J$3");
 
 		} catch (Exception e) {
 			System.err.println("--------------EXC - ");

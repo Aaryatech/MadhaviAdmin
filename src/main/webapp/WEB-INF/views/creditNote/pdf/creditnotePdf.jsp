@@ -15,7 +15,10 @@
 
 </head>
 <body>
+
+
 	<c:forEach items="${crnPrint}" var="headerH" varStatus="count">
+	
 		<%-- 	<h4 align="center">Credit Note</h4>
     <h4 style="color:#000; font-size:16px; text-align:center; margin:0px;">${FACTORYNAME}</h4>
    <p style="color:#000; font-size:10px; text-align:center;margin:0px;">${FACTORYADDRESS}</p>
@@ -43,7 +46,7 @@
 			<tr>
 				<td width="30%" colspan="3" align="left"
 					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">&nbsp;GSTIN
-					Number&nbsp;&nbsp;&nbsp;: ${Constants.FACTORYGSTIN}</td>
+					&nbsp;&nbsp;&nbsp;: ${Constants.FACTORYGSTIN}</td>
 				<td width="70%" colspan="6" align="left"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">Eway Bill No: ${headerH.creditHeader.exVarchar2}</td>
 
@@ -54,7 +57,8 @@
 					Note No.&nbsp;&nbsp;&nbsp;: ${headerH.creditHeader.crnNo}</td>
 				<td width="70%" colspan="6" align="left"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">&nbsp;Invoice
-					No.&nbsp;&nbsp;&nbsp;: ${headerH.creditHeader.exVarchar1}</td>
+					No.&nbsp;&nbsp;&nbsp;: ${headerH.creditHeader.exVarchar1} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invoice
+					Date&nbsp;&nbsp;&nbsp;: ${headerH.creditHeader.invoiceDate}</td>
 
 			</tr>
 			<tr>
@@ -70,30 +74,37 @@
 				<td width="30%" colspan="3" align="left"
 					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">&nbsp;Details
 					Of Receiver</td>
-				<td width="70%" colspan="6" align="left"
+					
+					<td width="70%" colspan="6" align="left"
+					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">&nbsp;</td>
+					
+<!-- 				<td width="70%" colspan="6" align="left"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">&nbsp;Details
-					Of Returns of Goods</td>
+					Of Returns of Goods</td> -->
 
 			</tr>
 			<tr>
 				<td width="30%" colspan="3" align="left"
 					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;"><b>${headerH.creditHeader.frName}</b>&nbsp;${headerH.creditHeader.frAddress}</td>
-				<td width="70%" colspan="6" align="left"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;"><b>${headerH.creditHeader.frName}</b>&nbsp;${headerH.creditHeader.frAddress}</td>
+					<td width="70%" colspan="6" align="left"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">GSTIIN:
+					&nbsp;<b>${headerH.creditHeader.frGstNo}</b></td>
+				<%-- <td width="70%" colspan="6" align="left"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;"><b>${headerH.creditHeader.frName}</b>&nbsp;${headerH.creditHeader.frAddress}</td> --%>
 
 			</tr>
 
-			<tr>
+		<%-- 	<tr>
 				<td width="30%" colspan="3" align="left"
 					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">${Constants.CITY}
 					Gr. ${Constants.STATE} 1</td>
-				<td width="70%" colspan="6" align="left"
+				 <td width="70%" colspan="6" align="left"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">${Constants.CITY}
-					Gr. ${Constants.STATE} 1</td>
+					Gr. ${Constants.STATE} 1</td> 
 
-			</tr>
+			</tr> --%>
 
-			<tr>
+			<%-- <tr>
 				<td width="30%" colspan="3" align="left"
 					style="border-top: 1px solid #313131; padding: 4px; font-size: 10px; font-weight: bold;">GSTIIN:
 					&nbsp;<b>${headerH.creditHeader.frGstNo}</b>
@@ -104,7 +115,9 @@
 					&nbsp;<b>${Constants.STATE}</b>
 				</td>
 
-			</tr>
+			</tr> --%>
+			
+			
 			<%--   <tr>
     <td  colspan="3" width="30%" style="border-top:1px solid #313131;padding:8px;color:#FFF; font-size:14px;">
        <p style="color:#000; font-size:13px; text-align:left;margin:0px;">To, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${headerH.creditHeader.frName}</b>&nbsp;${headerH.creditHeader.frAddress}</p>
@@ -188,7 +201,7 @@
 			<c:set var="totalSgst" value="0" />
 
 			<c:forEach items="${headerH.creditHeader.srNoDateList}" var="srNos">
-				<tr>
+				<tr style="display: none;">
 					<td
 						style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 0px;">-</td>
 
@@ -454,11 +467,11 @@
 				<td rowspan="2" width="10%"
 					style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px;">HSN</td>
 				<td align="left" width="20%" rowspan="2"
-					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 15px; color: #000; font-size: 10px; text-align: left">HSN
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 15px; color: #000; font-size: 10px; text-align: left; display: none;">HSN
 					Description</td>
 
 				<td align="center" width="5%" rowspan="2"
-					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Qty</td>
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;  display: none;">Qty</td>
 				<td align="center" width="10%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Taxable
 					Value</td>
@@ -498,11 +511,11 @@
 							value="${crnDetailsSummaryList.itemHsncd}"></c:out></td>
 
 					<td
-						style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 10px;"><c:out
+						style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 10px;  display: none;"><c:out
 							value="${crnDetailsSummaryList.itemHsncdesc}"></c:out></td>
 
 					<td align="right"
-						style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 10px;">${crnDetailsSummaryList.grnGvnQty}</td>
+						style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 10px;  display: none;">${crnDetailsSummaryList.grnGvnQty}</td>
 					<c:set var="hsnQty"
 						value="${hsnQty+crnDetailsSummaryList.grnGvnQty}" />
 					<td align="right"
@@ -547,10 +560,10 @@
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 0px;">-</td>
 
 				<td
-					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 0px;">-</td>
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 0px;  display: none;">-</td>
 
 				<td align="right"
-					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 10px;"><b><fmt:formatNumber
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 10px;  display: none;"><b><fmt:formatNumber
 							type="number" groupingUsed="false" maxFractionDigits="2"
 							minFractionDigits="2" value="${hsnQty}" /></b></td>
 				<td align="right"
@@ -612,7 +625,7 @@
 					<p
 						style="color: #000; font-size: 11px; text-align: left; margin: 0px;">
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Subject
-							to Pune Jurisdiction</b>
+							to Palanpur Jurisdiction</b>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Receiver's
 							Signature</b>
 					</p>

@@ -49,6 +49,8 @@ public class CreditNoteHeaderPrint {
 	
 	private String exVarchar2;
 	
+	private String invoiceDate;
+	
 	List<GetCrnDetails> crnDetails;
 	
 	List<String> srNoList;
@@ -302,6 +304,18 @@ public class CreditNoteHeaderPrint {
 	public void setExVarchar2(String exVarchar2) {
 		this.exVarchar2 = exVarchar2;
 	}
+	
+	
+
+	public String getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(String invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -311,8 +325,9 @@ public class CreditNoteHeaderPrint {
 				+ isTallySync + ", isDeposited=" + isDeposited + ", frName=" + frName + ", frAddress=" + frAddress
 				+ ", fromDate=" + fromDate + ", toDate=" + toDate + ", frGstNo=" + frGstNo + ", isSameState="
 				+ isSameState + ", isGrn=" + isGrn + ", exInt1=" + exInt1 + ", exVarchar1=" + exVarchar1
-				+ ", exVarchar2=" + exVarchar2 + ", crnDetails=" + crnDetails + ", srNoList=" + srNoList
-				+ ", srNoDateList=" + srNoDateList + ", crnDetailsSummaryList=" + crnDetailsSummaryList + "]";
+				+ ", exVarchar2=" + exVarchar2 + ", invoiceDate=" + invoiceDate + ", crnDetails=" + crnDetails
+				+ ", srNoList=" + srNoList + ", srNoDateList=" + srNoDateList + ", crnDetailsSummaryList="
+				+ crnDetailsSummaryList + "]";
 	}
 
 	

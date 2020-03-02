@@ -35,6 +35,28 @@ private int crndId;
 	private float igstAmt;
 	
 	private float crnAmt;
+	
+	private String billToName;
+	private String billToGst;
+	
+	
+	
+
+	public String getBillToName() {
+		return billToName;
+	}
+
+	public void setBillToName(String billToName) {
+		this.billToName = billToName;
+	}
+
+	public String getBillToGst() {
+		return billToGst;
+	}
+
+	public void setBillToGst(String billToGst) {
+		this.billToGst = billToGst;
+	}
 
 	public String getHsnCode() {
 		return hsnCode;

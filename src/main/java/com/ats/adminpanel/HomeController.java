@@ -329,6 +329,8 @@ public class HomeController {
 					Constants.FACTORYNAME = company.getCompName();
 					Constants.FACTORYADDRESS = "Address:" + company.getFactAddress() + " ,Phone:"
 							+ company.getPhoneNo1();
+					
+					Constants.FACTORYGSTIN=company.getGstin();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

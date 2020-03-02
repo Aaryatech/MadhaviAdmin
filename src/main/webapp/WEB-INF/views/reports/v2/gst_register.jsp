@@ -88,6 +88,21 @@
  -->
 				<div class="row">
 					<div class="form-group">
+
+						<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
+						</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<select data-placeholder="Select Bill Type "
+								class="form-control chosen" tabindex="6" id="type_id"
+								name="type_id">
+								<option value="0">Select Bill Type</option>
+								<option value="1">Franchise Bill</option>
+								<option value="3">Company Outlet Bill</option>
+							</select>
+
+						</div>
+
 						<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
 							Franchise</label>
 						<div class="col-sm-6 col-lg-4">
@@ -105,28 +120,28 @@
 
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
-						</label>
-						<div class="col-sm-6 col-lg-4">
 
-							<select data-placeholder="Choose " class="form-control chosen"
-								multiple="multiple" tabindex="6" id="type_id" name="type_id">
-
-								<option value="-1"><c:out value="All" /></option>
-								<option value="1">Franchise Bill</option>
-								<option value="2">Delivery Chalan</option>
-								<option value="3">Company Outlet Bill</option>
-							</select>
-
-						</div>
 
 
 					</div>
 
 				</div>
+
 				<br>
 				<div class="row">
 					<div class="form-group">
+
+						<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
+							Bill Type Option </label>
+						<div class="col-sm-6 col-lg-4">
+
+							<input type="radio" id="rd1" name="rd" value="1"
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;B2B
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="rd2"
+								name="rd" value="2" onchange="billTypeSelection(this.value)">&nbsp;B2C
+
+						</div>
+
 						<div class="col-sm-6 col-lg-4">
 							<button class="btn btn-info" onclick="searchReport()">Search
 								Report</button>
@@ -137,12 +152,11 @@
 
 							<button class="btn btn-primary" value="PDF" id="PDFButton"
 								onclick="genPdf()" disabled="disabled">PDF</button>
-
-							<%-- <a href="${pageContext.request.contextPath}/pdfForReport?url=showSaleBillwiseByFrPdf"
-								target="_blank">PDF</a> --%>
 						</div>
+
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-md-12" style="text-align: center;"></div>
 
@@ -609,14 +623,11 @@
 			var fromdate = $("#fromDate").val();
 			var todate = $("#toDate").val();
 
-
 			var el = document.getElementById('type_id');
 			var text = el.options[el.selectedIndex].innerHTML;
 
-
-			
 			window.open('${pageContext.request.contextPath}/getGstRegisterPdf/'
-					+ fromdate + '/' + todate + '/'+ text + '/');
+					+ fromdate + '/' + todate + '/' + text + '/');
 
 		}
 		function exportToExcel() {

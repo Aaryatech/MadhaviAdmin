@@ -62,6 +62,7 @@ import org.zefer.pd4ml.PD4PageMark;
 import com.ats.adminpanel.commons.AccessControll;
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.AdminInvoiceIssued;
 import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.AllRoutesListResponse;
@@ -95,6 +96,7 @@ import com.ats.adminpanel.model.item.CategoryListResponse;
 import com.ats.adminpanel.model.item.FrItemStockConfigureList;
 import com.ats.adminpanel.model.item.Item;
 import com.ats.adminpanel.model.item.MCategoryList;
+import com.ats.adminpanel.model.reportv2.CrNoteRegItem;
 import com.ats.adminpanel.model.salesreport.AdminDateWiseCompOutletSale;
 import com.ats.adminpanel.model.salesreport.RoyaltyListBean;
 import com.ats.adminpanel.model.salesreport.SalesReportBillwise;
@@ -263,37 +265,28 @@ public class SalesReportController {
 
 		} else {
 			model = new ModelAndView("reports/tax/tax1Report");
-			// Constants.mainAct =2;
-			// Constants.subAct =20;
 			List<Tax1Report> taxReportList = null;
-			System.err.println("hii");
-			LinkedHashMap<Integer, String> lhm = new LinkedHashMap<Integer, String>();
-			lhm.put(-1, "All");
-			lhm.put(1, "Franchise Bill");
-			lhm.put(2, "Delivery Chalan");
-			lhm.put(3, "Company Outlet Bill");
 
-			System.err.println("hii ttt" + lhm.get(1));
 			List<Integer> idList = new ArrayList<>();
-			model.addObject("lhm", lhm);
+
 			try {
 
 				RestTemplate restTemplate = new RestTemplate();
 
 				fromDate = request.getParameter("fromDate");
 				toDate = request.getParameter("toDate");
-				String[] typeIds = request.getParameterValues("type_id");
-				String typeIdsTemp = request.getParameter("type_id");
 
-				StringBuilder sb = new StringBuilder();
-
-				for (int i = 0; i < typeIds.length; i++) {
-					sb = sb.append(typeIds[i] + ",");
-					idList.add(Integer.parseInt(typeIds[i]));
+				int typeId = 0;
+				int bType = 1;
+				try {
+					typeId = Integer.parseInt(request.getParameter("type_id"));
+				} catch (Exception e) {
 				}
-				String instruments = sb.toString();
-				instruments = instruments.substring(0, instruments.length() - 1);
-				model.addObject("idList", idList);
+
+				try {
+					bType = Integer.parseInt(request.getParameter("rd"));
+				} catch (Exception e) {
+				}
 
 				if (fromDate == null && toDate == null) {
 					Date date = new Date();
@@ -304,17 +297,27 @@ public class SalesReportController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
-				map.add("typeIdList", instruments);
+				map.add("typeId", typeId);
+				map.add("bType", bType);
+
+				System.err.println("fromDate - " + fromDate + "   toDate - " + toDate + "      TypeId - " + typeId
+						+ "        bType - " + bType);
 
 				ParameterizedTypeReference<List<Tax1Report>> typeRef = new ParameterizedTypeReference<List<Tax1Report>>() {
 				};
-				ResponseEntity<List<Tax1Report>> responseEntity = restTemplate.exchange(Constants.url + "getTax1Report",
-						HttpMethod.POST, new HttpEntity<>(map), typeRef);
+				ResponseEntity<List<Tax1Report>> responseEntity = restTemplate.exchange(
+						Constants.url + "getAdminTax1Report", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 				taxReportList = responseEntity.getBody();
+
+				System.err.println("REPORT - " + taxReportList);
+
 				model.addObject("taxReportList", taxReportList);
+
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
+				model.addObject("typeId", typeId);
+				model.addObject("bType", bType);
 
 				GrandTotalBillWise[] grandTotalBillWise = restTemplate
 						.postForObject(Constants.url + "getGrandTotalBillWise", map, GrandTotalBillWise[].class);
@@ -329,21 +332,71 @@ public class SalesReportController {
 
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
-				rowData.add("Sr.No.");
-				rowData.add("GSTIN/UIN of Recipient");
-				rowData.add("Receiver Name");
-				rowData.add("Invoice No");
-				rowData.add("Invoice date");
-				rowData.add("Invoice Value");
-				rowData.add("Place of Supply");
-				rowData.add("Reverse Charge");
 
-				rowData.add("Applicable % of Tax Rate");
-				rowData.add("Invoice Type");
-				rowData.add("E Commerce GSTIN");
-				rowData.add("Rate");
-				rowData.add("Taxable Value");
-				rowData.add("Cess Amount");
+				if (typeId == 1 && bType == 1) {
+
+					rowData.add("Sr.No.");
+					rowData.add("GSTIN/UIN of Recipient");
+					rowData.add("Receiver Name");
+					rowData.add("Invoice No");
+					rowData.add("Invoice date");
+					rowData.add("Invoice Value");
+					rowData.add("Place of Supply");
+					rowData.add("Reverse Charge");
+					rowData.add("Applicable % of Tax Rate");
+					rowData.add("Invoice Type");
+					rowData.add("E Commerce GSTIN");
+					rowData.add("Rate");
+					rowData.add("Taxable Value");
+					rowData.add("IGST");
+					rowData.add("CGST");
+					rowData.add("SGST");
+					rowData.add("Cess Amount");
+
+				} else if (typeId == 1 && bType == 2) {
+
+					rowData.add("Sr.No.");
+					rowData.add("Place of Supply");
+					rowData.add("GST Rate");
+					rowData.add("Taxable Value");
+					rowData.add("IGST");
+					rowData.add("CGST");
+					rowData.add("SGST");
+					rowData.add("Cess Amount");
+
+				} else if (typeId == 3 && bType == 1) {
+
+					rowData.add("Sr.No.");
+					rowData.add("GSTIN/UIN of Recipient");
+					rowData.add("Receiver Name");
+					rowData.add("Invoice No");
+					rowData.add("Invoice date");
+					rowData.add("Invoice Value");
+					rowData.add("Place of Supply");
+					rowData.add("Reverse Charge");
+					rowData.add("Applicable % of Tax Rate");
+					rowData.add("Invoice Type");
+					rowData.add("E Commerce GSTIN");
+					rowData.add("Rate");
+					rowData.add("Taxable Value");
+					rowData.add("IGST");
+					rowData.add("CGST");
+					rowData.add("SGST");
+					rowData.add("Cess Amount");
+
+				} else if (typeId == 3 && bType == 2) {
+
+					rowData.add("Sr.No.");
+					rowData.add("Party Name");
+					rowData.add("Place of Supply");
+					rowData.add("GST Rate");
+					rowData.add("Taxable Value");
+					rowData.add("IGST");
+					rowData.add("CGST");
+					rowData.add("SGST");
+					rowData.add("Cess Amount");
+
+				}
 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
@@ -375,49 +428,107 @@ public class SalesReportController {
 
 					expoExcel = new ExportToExcel();
 					rowData = new ArrayList<String>();
-					rowData.add((i + 1) + "");
-					rowData.add("" + taxReportList.get(i).getFrGstNo());
-					rowData.add("" + taxReportList.get(i).getFrName());
-					rowData.add("" + taxReportList.get(i).getInvoiceNo());
-					rowData.add("" + taxReportList.get(i).getBillDate());
 
-					rowData.add("" + finalTotal);
-					rowData.add("" + Constants.STATE);
-					rowData.add("N");
-					rowData.add(" ");
+					if (typeId == 1 && bType == 1) {
 
-					rowData.add("Regular");
-					rowData.add(" ");
+						rowData.add((i + 1) + "");
+						rowData.add("" + taxReportList.get(i).getBillToGst());
+						rowData.add("" + taxReportList.get(i).getBillToName());
+						rowData.add("" + taxReportList.get(i).getInvoiceNo());
+						rowData.add("" + taxReportList.get(i).getBillDate());
 
-					rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
-					rowData.add("" + taxReportList.get(i).getTaxableAmt());
-					rowData.add("0");
+						rowData.add("" + finalTotal);
+						rowData.add("" + Constants.STATE);
+						rowData.add("N");
+						rowData.add(" ");
+
+						rowData.add("Regular");
+						rowData.add(" ");
+
+						rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
+						rowData.add("" + taxReportList.get(i).getTaxableAmt());
+						rowData.add("0");
+						rowData.add("" + taxReportList.get(i).getCgstAmt());
+						rowData.add("" + taxReportList.get(i).getSgstAmt());
+						rowData.add("0");
+
+					} else if (typeId == 1 && bType == 2) {
+
+						rowData.add((i + 1) + "");
+						rowData.add("" + Constants.STATE);
+						rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
+						rowData.add("" + taxReportList.get(i).getTaxableAmt());
+						rowData.add("0");
+						rowData.add("" + taxReportList.get(i).getCgstAmt());
+						rowData.add("" + taxReportList.get(i).getSgstAmt());
+						rowData.add("0");
+
+					} else if (typeId == 3 && bType == 1) {
+
+						rowData.add((i + 1) + "");
+						rowData.add("" + taxReportList.get(i).getBillToGst());
+						rowData.add("" + taxReportList.get(i).getBillToName());
+						rowData.add("" + taxReportList.get(i).getInvoiceNo());
+						rowData.add("" + taxReportList.get(i).getBillDate());
+
+						rowData.add("" + finalTotal);
+						rowData.add("" + Constants.STATE);
+						rowData.add("N");
+						rowData.add(" ");
+
+						rowData.add("Regular");
+						rowData.add(" ");
+
+						rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
+						rowData.add("" + taxReportList.get(i).getTaxableAmt());
+						rowData.add("0");
+						rowData.add("" + taxReportList.get(i).getCgstAmt());
+						rowData.add("" + taxReportList.get(i).getSgstAmt());
+						rowData.add("0");
+
+					} else if (typeId == 3 && bType == 2) {
+
+						rowData.add((i + 1) + "");
+						rowData.add("" + taxReportList.get(i).getFrName());
+						rowData.add("" + Constants.STATE);
+						rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
+						rowData.add("" + taxReportList.get(i).getTaxableAmt());
+						rowData.add("0");
+						rowData.add("" + taxReportList.get(i).getCgstAmt());
+						rowData.add("" + taxReportList.get(i).getSgstAmt());
+						rowData.add("0");
+
+					}
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
 
 				}
 
-				expoExcel = new ExportToExcel();
-				rowData = new ArrayList<String>();
+				if (bType == 1) {
 
-				rowData.add("Total");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("" + roundUp(totalFinal));
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
-				rowData.add("");
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
 
-				expoExcel.setRowData(rowData);
-				exportToExcelList.add(expoExcel);
+					rowData.add("Total");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("" + roundUp(totalFinal));
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+					rowData.add("");
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+				}
 
 				session.setAttribute("exportExcelListNew", exportToExcelList);
 				session.setAttribute("excelNameNew", "Tax1Report");
@@ -990,7 +1101,9 @@ public class SalesReportController {
 			rowData.add("");
 		}
 
-		rowData.add("" + roundUp(taxableAmt));
+		rowData.add("" +
+
+				roundUp(taxableAmt));
 		rowData.add("" + roundUp(cgstSum));
 		rowData.add("" + roundUp(sgstSum));
 		rowData.add("" + roundUp(igstSum));
@@ -1410,7 +1523,9 @@ public class SalesReportController {
 
 		rowData.add("");
 		rowData.add("");
-		rowData.add("" + roundUp(taxableAmt));
+		rowData.add("" +
+
+				roundUp(taxableAmt));
 		rowData.add("" + roundUp(cgstSum));
 		rowData.add("" + roundUp(sgstSum));
 		rowData.add("" + roundUp(igstSum));
@@ -3592,7 +3707,9 @@ public class SalesReportController {
 		rowData.add("");
 		rowData.add("Total");
 		rowData.add("");
-		rowData.add("" + roundUp(saleValue));
+		rowData.add("" +
+
+				roundUp(saleValue));
 		rowData.add("" + roundUp(grnValue));
 		rowData.add("" + roundUp(gvnValue));
 		rowData.add("" + roundUp(netValueTotal));
@@ -6669,7 +6786,7 @@ public class SalesReportController {
 
 		try {
 			String year = request.getParameter("year");
-			
+
 			int billType = 1;
 			try {
 				billType = Integer.parseInt(request.getParameter("rd"));
@@ -6677,7 +6794,6 @@ public class SalesReportController {
 				billType = 1;
 			}
 
-			
 			List<Integer> idList = new ArrayList<>();
 
 			String[] typeIds = request.getParameterValues("type_id");
@@ -6707,7 +6823,6 @@ public class SalesReportController {
 				map.add("toYear", yrs[1]);
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
-
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -6809,7 +6924,7 @@ public class SalesReportController {
 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
-				
+
 				System.err.println("exportToExcelList" + exportToExcelList.toString());
 				HttpSession session = request.getSession();
 				session.setAttribute("exportExcelList", exportToExcelList);
@@ -7604,6 +7719,113 @@ public class SalesReportController {
 
 			pd4ml.render(urlstring, fos);
 		}
+	}
+
+	@RequestMapping(value = "/showInvoiceIssuedReport", method = RequestMethod.GET)
+	public ModelAndView showInvoiceIssuedReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		String fromDate = "";
+		String toDate = "";
+
+		model = new ModelAndView("reports/tax/invoiceIssued");
+
+		try {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			fromDate = formatter.format(date);
+			toDate = formatter.format(date);
+
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
+
+		} catch (Exception e) {
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = "/getInvoiceIssuedReportAjax", method = RequestMethod.GET)
+	public @ResponseBody List<AdminInvoiceIssued> getInvoiceIssuedReportAjax(HttpServletRequest request,
+			HttpServletResponse response) throws FileNotFoundException {
+
+		HttpSession session = request.getSession();
+		String fromDate = "";
+		String toDate = "";
+		List<AdminInvoiceIssued> result = null;
+		try {
+			fromDate = request.getParameter("fromDate");
+			toDate = request.getParameter("toDate");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate restTemplate = new RestTemplate();
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+
+			System.err.println("FROM - " + fromDate + "        To - " + toDate);
+
+			AdminInvoiceIssued[] invoices = restTemplate.postForObject(Constants.url + "getInvoiceIssued", map,
+					AdminInvoiceIssued[].class);
+			result = new ArrayList<AdminInvoiceIssued>(Arrays.asList(invoices));
+
+			// exportToExcel
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			
+
+			expoExcel = new ExportToExcel();
+			rowData = new ArrayList<String>();
+
+			expoExcel = new ExportToExcel();
+			rowData = new ArrayList<String>();
+			rowData.add("No.");
+			rowData.add("From Invoice");
+			rowData.add("To Invoice");
+			rowData.add("Total Number");
+			rowData.add("Cancelled Number");
+			rowData.add("Cancelled Invoices");
+			rowData.add("Net Issued");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+
+			for (int i = 0; i < result.size(); i++) {
+
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				
+				rowData.add((i + 1) + "");
+				rowData.add("" + result.get(i).getFromInvoice());
+				rowData.add("" + result.get(i).getToInvoice());
+				rowData.add("" + result.get(i).getTotalNumber());
+				rowData.add("" + result.get(i).getTotalDeleted());
+				rowData.add("" + result.get(i).getDeletedInvoice());
+				rowData.add("" + result.get(i).getNetIssued());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			session.setAttribute("exportExcelListNew", exportToExcelList);
+			session.setAttribute("excelNameNew", "TaxSummaryReport");
+			session.setAttribute("reportNameNew", "Tax Summary Report");
+			session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
+			//session.setAttribute("mergeUpto1", "$A$1:$R$1");
+			//session.setAttribute("mergeUpto2", "$A$2:$R$2");
+			
+			session.setAttribute("mergeUpto1", "$A$1:$G$1");
+			session.setAttribute("mergeUpto2", "$A$2:$G$2");
+			session.setAttribute("mergeUpto2", "$A$2:$G$2");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return result;
 	}
 
 }
