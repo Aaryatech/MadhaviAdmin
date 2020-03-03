@@ -692,73 +692,93 @@
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
 <script type="text/javascript">
-function searchData(){
-	
-	$('#loader').show();
-	 document.getElementById('daysalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('daygrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('daygvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('monthsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('monthgrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('monthgvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('yearsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('yeargrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	 document.getElementById('yeargvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+0;
-	
-	 var date = $("#date").val();
-			$.getJSON(
-					'${getDashboardData}',
-					{
-						date : date,
-						ajax : 'true'
+function 
+	searchData() {
 
-					},
-					function(data) {
-						$('#loader').hide();
+		$('#loader').show();
+		document.getElementById('daysalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('daygrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('daygvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('monthsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('monthgrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('monthgvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('yearsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('yeargrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
+		document.getElementById('yeargvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;' + 0;
 
-							 if (data == "") {
-									alert("No records found !!");
+		var date = $("#date").val();
+		$
+				.getJSON(
+						'${getDashboardData}',
+						{
+							date : date,
+							ajax : 'true'
 
-								}
-							 document.getElementById('daysaletext').innerHTML = 'Day Sales On '+date;
-							 document.getElementById('daygrntext').innerHTML = 'Day GRN On '+date;
-							 document.getElementById('daygvntext').innerHTML = 'Day GVN On '+date;
-							 document.getElementById('monthsaletext').innerHTML = ' Month to date Sales as on '+date;
-							 document.getElementById('monthgrntext').innerHTML = ' Month to date GRN as on '+date;
-							 document.getElementById('monthgvntext').innerHTML = ' Month to date GVN as on '+date;
-							 
-							 document.getElementById('yearsaletext').innerHTML = ' Year to month Sales as on '+date;
-							 document.getElementById('yeargrntext').innerHTML = ' Year to month GRN as on '+date;
-							 document.getElementById('yeargvntext').innerHTML = ' Year to month GVN as on '+date;
-                              if(data.daySale!=null){
-							 document.getElementById('daysalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.daySale.grandTotal;
-                              }
-                              if(data.dayGrn!=null){
-							 document.getElementById('daygrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.dayGrn.crnGrandTotal;
-                              }
-                              if(data.dayGvn!=null){
-							 document.getElementById('daygvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.dayGvn.crnGrandTotal;
-                              }
-                              if(data.monthSale!=null){
-							 document.getElementById('monthsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.monthSale.grandTotal;
-                              }
-                              if(data.monthGrn!=null){
-							 document.getElementById('monthgrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.monthGrn.crnGrandTotal;
-                              }
-                              if(data.monthGvn!=null){
-							 document.getElementById('monthgvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.monthGvn.crnGrandTotal;
-                              }
-                              if(data.yearSale!=null){
-							 document.getElementById('yearsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.yearSale.grandTotal;
-                              }
-                              if(data.yearGrn!=null){
-							 document.getElementById('yeargrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.yearGrn.crnGrandTotal;
-                              }
-                              if(data.yearGvn!=null){
-							 document.getElementById('yeargvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'+data.yearGvn.crnGrandTotal;
-                              }
-					});
-}
+						},
+						function(data) {
+							$('#loader').hide();
+
+							if (data == "") {
+								alert("No records found !!");
+
+							}
+							document.getElementById('daysaletext').innerHTML = 'Day Sales On '
+									+ date;
+							document.getElementById('daygrntext').innerHTML = 'Day GRN On '
+									+ date;
+							document.getElementById('daygvntext').innerHTML = 'Day GVN On '
+									+ date;
+							document.getElementById('monthsaletext').innerHTML = ' Month to date Sales as on '
+									+ date;
+							document.getElementById('monthgrntext').innerHTML = ' Month to date GRN as on '
+									+ date;
+							document.getElementById('monthgvntext').innerHTML = ' Month to date GVN as on '
+									+ date;
+
+							document.getElementById('yearsaletext').innerHTML = ' Year to month Sales as on '
+									+ date;
+							document.getElementById('yeargrntext').innerHTML = ' Year to month GRN as on '
+									+ date;
+							document.getElementById('yeargvntext').innerHTML = ' Year to month GVN as on '
+									+ date;
+							if (data.daySale != null) {
+								document.getElementById('daysalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.daySale.grandTotal;
+							}
+							if (data.dayGrn != null) {
+								document.getElementById('daygrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.dayGrn.crnGrandTotal;
+							}
+							if (data.dayGvn != null) {
+								document.getElementById('daygvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.dayGvn.crnGrandTotal;
+							}
+							if (data.monthSale != null) {
+								document.getElementById('monthsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.monthSale.grandTotal;
+							}
+							if (data.monthGrn != null) {
+								document.getElementById('monthgrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.monthGrn.crnGrandTotal;
+							}
+							if (data.monthGvn != null) {
+								document.getElementById('monthgvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.monthGvn.crnGrandTotal;
+							}
+							if (data.yearSale != null) {
+								document.getElementById('yearsalevalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.yearSale.grandTotal;
+							}
+							if (data.yearGrn != null) {
+								document.getElementById('yeargrnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.yearGrn.crnGrandTotal;
+							}
+							if (data.yearGvn != null) {
+								document.getElementById('yeargvnvalue').innerHTML = ' <i class="fa fa-rupee"></i>&nbsp;&nbsp;'
+										+ data.yearGvn.crnGrandTotal;
+							}
+						});
+	}
 </script>
 
 </body>

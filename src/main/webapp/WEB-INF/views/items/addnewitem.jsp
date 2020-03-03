@@ -426,7 +426,7 @@
 									<label class="col-sm-3 col-lg-2 control-label">Factory/Fr/Both</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isFactOrFr" id="radio3" value="1" checked>
+											name="isFactOrFr" id="radio3" value="1" >
 											Factory
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isFactOrFr" id="radio3" value="2"
@@ -434,7 +434,7 @@
 										</label> 
 										<label class="radio-inline"> <input type="radio"
 											name="isFactOrFr" id="radio3" value="3"
-											data-rule-required="false" />Both
+											data-rule-required="false" checked/>Both
 										</label> 
 									</div>
 								</div>
@@ -525,7 +525,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-				<p>2019 © MADHAVI.</p>
+				<p>2019 © MADHVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

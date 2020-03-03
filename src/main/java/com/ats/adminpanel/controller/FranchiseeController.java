@@ -109,7 +109,7 @@ public class FranchiseeController {
 
 		int maxFrIdLenth = String.valueOf(maxFrId).length();
 		maxFrIdLenth = 5 - maxFrIdLenth;
-		StringBuilder frCode = new StringBuilder(""+Constants.CODE);
+		StringBuilder frCode = new StringBuilder("" + Constants.CODE);
 
 		for (int i = 0; i < maxFrIdLenth; i++) {
 			String j = "0";
@@ -434,9 +434,9 @@ public class FranchiseeController {
 		ArrayList<Integer> configuredMenuList = new ArrayList<Integer>(Arrays.asList(configuredMenuId));
 
 		menuList = franchiseeAndMenuList.getAllMenu();
-		
-		System.err.println("configuredMenuList***"+configuredMenuList.toString());
-		System.err.println("menuList***"+menuList.toString());
+
+		System.err.println("configuredMenuList***" + configuredMenuList.toString());
+		System.err.println("menuList***" + menuList.toString());
 
 		for (Menu menu : menuList) {
 			int con = 0;
@@ -996,7 +996,7 @@ public class FranchiseeController {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("itemGrp1", catId);
 
-		Item[] item = restTemplate.postForObject(Constants.url + "getStockableItemsByCatId", map, Item[].class);	// getItemsByCatId
+		Item[] item = restTemplate.postForObject(Constants.url + "getStockableItemsByCatId", map, Item[].class); // getItemsByCatId
 		ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
 		logger.info("Filter Item List " + itemList.toString());
 
@@ -1136,25 +1136,25 @@ public class FranchiseeController {
 					model.addObject("remItems", tempAllSpCkList);
 					model.addObject("catId", menuList.get(i).getMainCatId());
 				} else {
-                           List<Item> getItemByMenuId=new ArrayList<>();
-											if(Integer.parseInt(menuList.get(i).getIsSameDayApplicable())!=3) {
-										    getItemByMenuId = itemById(menuList.get(i).getMainCatId());
-											}else
-											{
-												AllItemsListResponse	allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems", AllItemsListResponse.class);
-												for (Item items :  allItemsListResponse.getItems()) {
-													if(items.getIsStockable()==1) {
-														getItemByMenuId.add(items);
-													}
-												}
-											}
+					List<Item> getItemByMenuId = new ArrayList<>();
+					if (Integer.parseInt(menuList.get(i).getIsSameDayApplicable()) != 3) {
+						getItemByMenuId = itemById(menuList.get(i).getMainCatId());
+					} else {
+						AllItemsListResponse allItemsListResponse = restTemplate
+								.getForObject(Constants.url + "getAllItems", AllItemsListResponse.class);
+						for (Item items : allItemsListResponse.getItems()) {
+							if (items.getIsStockable() == 1) {
+								getItemByMenuId.add(items);
+							}
+						}
+					}
 					List<Item> tempAllItemsList = getItemByMenuId;
 					List<Item> selectedItems = new ArrayList<Item>();
 					String frPrevItems = franchiseeList.getItemShow();
 					logger.info("frItemList List: " + frPrevItems);
-					
+
 					List<String> frPrevItemsList = Arrays.asList(frPrevItems.split("\\s*,\\s*"));
-					logger.info("frPrevItemsList SiZe: " + frPrevItemsList.size());					
+					logger.info("frPrevItemsList SiZe: " + frPrevItemsList.size());
 					logger.info("getItemByMenuId SiZe: " + getItemByMenuId.size());
 
 					int countOuter = 0;
@@ -1532,50 +1532,51 @@ public class FranchiseeController {
 		List<Item> filterItemsList = new ArrayList<Item>();
 
 		List<CommonConf> commonConfList = new ArrayList<CommonConf>();
-		if(Integer.parseInt(frMenu.getIsSameDayApplicable())!=3) {
-		if (selectedCatId == 5) {
-			SpCakeResponse spCakeResponse = restTemplate.getForObject(Constants.url + "showSpecialCakeList",
-					SpCakeResponse.class);
-			logger.info("SpCake Controller SpCakeList Response " + spCakeResponse.toString());
+		if (Integer.parseInt(frMenu.getIsSameDayApplicable()) != 3) {
+			if (selectedCatId == 5) {
+				SpCakeResponse spCakeResponse = restTemplate.getForObject(Constants.url + "showSpecialCakeList",
+						SpCakeResponse.class);
+				logger.info("SpCake Controller SpCakeList Response " + spCakeResponse.toString());
 
-			specialCakeList = spCakeResponse.getSpecialCake();
+				specialCakeList = spCakeResponse.getSpecialCake();
 
-			for (SpecialCake specialCake : specialCakeList) {
-				CommonConf commonConf = new CommonConf();
-				commonConf.setId(specialCake.getSpId());
-				commonConf.setName(specialCake.getSpCode() + "-" + specialCake.getSpName());
-				commonConfList.add(commonConf);
-				logger.info("spCommonConf" + commonConf.toString());
+				for (SpecialCake specialCake : specialCakeList) {
+					CommonConf commonConf = new CommonConf();
+					commonConf.setId(specialCake.getSpId());
+					commonConf.setName(specialCake.getSpCode() + "-" + specialCake.getSpName());
+					commonConfList.add(commonConf);
+					logger.info("spCommonConf" + commonConf.toString());
+				}
+
+				logger.info("------------------------");
+			} else {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("itemGrp1", selectedCatId);
+
+				Item[] item = restTemplate.postForObject(Constants.url + "/getStockableItemsByCatId", map,
+						Item[].class); // getItemsByCatId
+				ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
+				logger.info("Filter Item List " + itemList.toString());
+
+				for (Item items : itemList) {
+					CommonConf commonConf = new CommonConf();
+					commonConf.setId(items.getId());
+					commonConf.setName(items.getItemName());
+					commonConfList.add(commonConf);
+					logger.info("itemCommonConf" + commonConf.toString());
+				}
+				logger.info("------------------------");
 			}
-
-			logger.info("------------------------");
 		} else {
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("itemGrp1", selectedCatId);
-
-			Item[] item = restTemplate.postForObject(Constants.url + "/getStockableItemsByCatId", map, Item[].class); //getItemsByCatId
-			ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
-			logger.info("Filter Item List " + itemList.toString());
-
-			for (Item items : itemList) {
-				CommonConf commonConf = new CommonConf();
-				commonConf.setId(items.getId());
-				commonConf.setName(items.getItemName());
-				commonConfList.add(commonConf);
-				logger.info("itemCommonConf" + commonConf.toString());
-			}
-			logger.info("------------------------");
-		}
-		}else
-		{
-			AllItemsListResponse	allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems", AllItemsListResponse.class);
-			for (Item items :  allItemsListResponse.getItems()) {
-				if(items.getIsStockable()==1) {
-				CommonConf commonConf = new CommonConf();
-				commonConf.setId(items.getId());
-				commonConf.setName(items.getItemName());
-				commonConfList.add(commonConf);
-				logger.info("itemCommonConf" + commonConf.toString());
+			AllItemsListResponse allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems",
+					AllItemsListResponse.class);
+			for (Item items : allItemsListResponse.getItems()) {
+				if (items.getIsStockable() == 1) {
+					CommonConf commonConf = new CommonConf();
+					commonConf.setId(items.getId());
+					commonConf.setName(items.getItemName());
+					commonConfList.add(commonConf);
+					logger.info("itemCommonConf" + commonConf.toString());
 				}
 			}
 		}
@@ -2057,7 +2058,7 @@ public class FranchiseeController {
 				}
 			}
 			int catId = 6;
-			//int menuId = frMenu.getMenuId();
+			// int menuId = frMenu.getMenuId();
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemGrp1", catId);
@@ -2087,8 +2088,8 @@ public class FranchiseeController {
 
 		try {
 			String menuId = request.getParameter("menuId");
-			
-			System.out.println("menuId"+menuId);
+
+			System.out.println("menuId" + menuId);
 			StringBuilder sb = new StringBuilder();
 
 			menuId = menuId.substring(1, menuId.length() - 1);
@@ -2594,14 +2595,24 @@ public class FranchiseeController {
 
 			int frequency = Integer.parseInt(request.getParameter("frequency"));
 
-			int noInRoute = Integer.parseInt(request.getParameter("no_in_route"));
+			int noInRoute = 0;
+			try {
+				noInRoute = Integer.parseInt(request.getParameter("no_in_route"));
+			} catch (Exception e) {
+				noInRoute = 0;
+			}
 
 			// String remainderDate=request.getParameter("remainder_date");
+			
+			String remainderDate="";
+			if(!pestControlDate.isEmpty()) {
+				Date pestCtrlDate = new SimpleDateFormat("dd-MM-yyyy").parse(pestControlDate);
+				Date newDate = addDays(pestCtrlDate, frequency);
+				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+				remainderDate = dateFormat.format(newDate);
+			}
 
-			Date pestCtrlDate = new SimpleDateFormat("dd-MM-yyyy").parse(pestControlDate);
-			Date newDate = addDays(pestCtrlDate, frequency);
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			String remainderDate = dateFormat.format(newDate);
+			
 
 			FranchiseSup frSup = new FranchiseSup();
 			frSup.setId(id);
@@ -2638,6 +2649,7 @@ public class FranchiseeController {
 		} catch (Exception e) {
 
 			logger.info("Exception In Add Fr Sup Process:" + e.getMessage());
+			e.printStackTrace();
 
 		}
 

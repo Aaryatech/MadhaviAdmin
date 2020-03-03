@@ -1516,6 +1516,12 @@ public class ManualOrderController {
 			int custType = Integer.parseInt(request.getParameter("custType"));
 			String ageRange = request.getParameter("ageRange");
 			int gender = Integer.parseInt(request.getParameter("gender"));
+			
+			float kms = Float.parseFloat(request.getParameter("kms"));
+			String pincode = request.getParameter("pincode");
+			String remark = request.getParameter("remark");
+			
+			String str = pincode + "-" + remark;
 
 			Customer save = new Customer();
 			save.setCustName(customerName);
@@ -1527,6 +1533,9 @@ public class ManualOrderController {
 			save.setGstNo(gstNo);
 			save.setDelStatus(0);
 			save.setCustId(custId);
+			save.setExVar1("" + kms);
+			save.setGender(gender);
+			save.setExVar2(str);
 			
 			save.setAgeGroup(ageRange);save.setExInt1(custType);save.setGender(gender);
 			Customer res = restTemplate.postForObject(Constants.url + "/saveCustomer", save, Customer.class);
@@ -1644,7 +1653,12 @@ public class ManualOrderController {
 				res = 0;// exists
 				System.out.println("0s" + res);
 			} else {
-				res = 1;
+				try {
+					res = Integer.parseInt(info.getMessage());
+				} catch (Exception e) {
+					res = 0;
+				}
+				//res = 1;
 				System.out.println("1888" + res);
 			}
 

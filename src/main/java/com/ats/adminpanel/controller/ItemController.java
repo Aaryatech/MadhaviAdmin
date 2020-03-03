@@ -48,6 +48,7 @@ import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.StockItem;
 import com.ats.adminpanel.model.TrayType;
+import com.ats.adminpanel.model.RawMaterial.ItemDetailList;
 import com.ats.adminpanel.model.RawMaterial.RawMaterialUom;
 import com.ats.adminpanel.model.accessright.ModuleJson;
 import com.ats.adminpanel.model.item.AllItemsListResponse;
@@ -1224,6 +1225,41 @@ public class ItemController {
 		}
 		return "redirect:/itemList";
 	}
+	
+	
+	@RequestMapping(value = "/activeItem/{idList}", method = RequestMethod.GET)
+	public String activeItem(@PathVariable String[] idList) {
+
+		// String id=request.getParameter("id");
+		try {
+			ModelAndView mav = new ModelAndView("items/itemList");
+
+			RestTemplate rest = new RestTemplate();
+
+			String strItemIds = new String();
+			for (int i = 0; i < idList.length; i++) {
+				strItemIds = strItemIds + "," + idList[i];
+			}
+			strItemIds = strItemIds.substring(1);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("id", strItemIds);
+
+			ErrorMessage errorResponse = rest.postForObject("" + Constants.url + "activateItems", map,
+					ErrorMessage.class);
+			System.out.println(errorResponse.toString());
+
+			if (errorResponse.getError()) {
+				return "redirect:/itemList";
+
+			} else {
+				return "redirect:/itemList";
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/itemList";
+	}
 
 	@RequestMapping(value = "/updateItem/{id}", method = RequestMethod.GET)
 	public ModelAndView updateMessage(@PathVariable int id) {
@@ -1711,5 +1747,92 @@ public class ItemController {
 		}
 		return info;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/showRecipeList")
+	public ModelAndView showRecipeList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = null;
+		HttpSession session = request.getSession();
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("itemList", "itemList", "1", "0", "0", "0", newModuleList);
+
+		if (view.getError() == true) {
+
+			mav = new ModelAndView("accessDenied");
+
+		} else {
+
+			mav = new ModelAndView("items/recipeList");
+			RestTemplate restTemplate = new RestTemplate();
+			
+			try {
+				
+				int typeId=1;
+				try {
+					typeId=Integer.parseInt(request.getParameter("typeId"));
+				}catch (Exception e) {
+					typeId=1;
+				}
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("type", typeId);
+
+				ItemDetailList itemDetailsList = restTemplate.postForObject(Constants.url + "rawMaterial/getRecipeListByItemAndType", map,
+						ItemDetailList.class);
+
+				mav.addObject("type", typeId);
+				mav.addObject("itemDetailsList", itemDetailsList.getItemDetailList());
+
+				// exportToExcel
+
+				
+
+			/*	List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				rowData.add("Sr. No.");
+				rowData.add("Item Name");
+				rowData.add("Raw Material");
+				rowData.add("RM Qty");
+				rowData.add("No of Pieces/Item");
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				List<TallyItem> excelItems = itemResponse.getItemList();
+				for (int i = 0; i < excelItems.size(); i++) {
+					
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					
+					rowData.add("" + (i + 1));
+					rowData.add("" + excelItems.get(i).getId());
+					rowData.add(excelItems.get(i).getItemCode());
+					rowData.add(excelItems.get(i).getItemName());
+					rowData.add(excelItems.get(i).getItemGroup());
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+				}
+
+				session = request.getSession();
+				session.setAttribute("exportExcelList", exportToExcelList);
+				session.setAttribute("excelName", "recipeList");*/
+
+			} catch (Exception e) {
+				System.out.println("exce in listing filtered group itme" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return mav;
+
+	}
+	
 
 }

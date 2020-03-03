@@ -133,8 +133,8 @@ public class HomeController {
 
 			map.add("prodDate", dateFormat.format(new Date()));
 			map.add("isBilled", -1);
-			GetAdvanceOrderList[] holListArray = restTemplate
-					.postForObject(Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map, GetAdvanceOrderList[].class);
+			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(
+					Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map, GetAdvanceOrderList[].class);
 
 			List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
 
@@ -145,12 +145,11 @@ public class HomeController {
 
 			}
 			mav.addObject("advList", advList);
-			
+
 			allFrIdNameList = new AllFrIdNameList();
 			try {
 
-				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
-						AllFrIdNameList.class);
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
 
 			} catch (Exception e) {
 				System.out.println("Exception in getAllFrIdName" + e.getMessage());
@@ -175,26 +174,26 @@ public class HomeController {
 			String date = request.getParameter("from_datepicker");
 			String submit1 = request.getParameter("submit1");
 
-			date=DateConvertor.convertToYMD(date);
-			
+			date = DateConvertor.convertToYMD(date);
+
 			String submit2 = request.getParameter("submit2");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("cDate", date);
 			mav.addObject("cDate1", DateConvertor.convertToDMY(date));
-			
+
 			OrderCountsResponse orderCountList = restTemplate.postForObject(Constants.url + "/showOrderCounts", map,
 					OrderCountsResponse.class);
 			List<OrderCount> orderCounts = new ArrayList<OrderCount>();
 			orderCounts = orderCountList.getOrderCount();
 			mav.addObject("orderCounts", orderCounts);
 			mav.addObject("cDate", date);
-			
-			int prodDateSearch=0;
+
+			int prodDateSearch = 0;
 
 			map = new LinkedMultiValueMap<>();
-			//String mappingName = "advanceOrderHistoryHeaderAdmin";
+			// String mappingName = "advanceOrderHistoryHeaderAdmin";
 			String mappingName = "advanceOrderHistoryHeaderAdminForAdminDash";
 			if (submit1 != null) {
 
@@ -206,21 +205,21 @@ public class HomeController {
 				map.add("fromDate", request.getParameter("from_date"));
 				map.add("toDate", request.getParameter("to_date"));
 				map.add("frId", request.getParameter("selectFr"));
-				mappingName= new String();
-				//mappingName = "advOrderHistoryHeaderAdminFdTdFrId";
+				mappingName = new String();
+				// mappingName = "advOrderHistoryHeaderAdminFdTdFrId";
 				mappingName = "advOrderHistoryHeaderAdminFdTdFrIdForAdminDash";
 			} else {
 				System.err.println("sub 1 null");
 				map.add("prodDate", date);
 				map.add("isBilled", -1);
-				
-				prodDateSearch=1;
+
+				prodDateSearch = 1;
 			}
-			
-			mav.addObject("prodDateSearch",prodDateSearch);
-			
-			System.err.println("MAP  " + map + " mappingName" +mappingName);
-			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url+"/"+mappingName,map,
+
+			mav.addObject("prodDateSearch", prodDateSearch);
+
+			System.err.println("MAP  " + map + " mappingName" + mappingName);
+			GetAdvanceOrderList[] holListArray = restTemplate.postForObject(Constants.url + "/" + mappingName, map,
 					GetAdvanceOrderList[].class);
 
 			List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
@@ -255,25 +254,27 @@ public class HomeController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 			map.add("headId", date);
-			
-			/*System.err.println("OUTPUT =========================>   "+restTemplate.postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin", map,
-					ItemOrderList.class));
-			*/
-			
+
+			/*
+			 * System.err.println("OUTPUT =========================>   "+restTemplate.
+			 * postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin", map,
+			 * ItemOrderList.class));
+			 */
+
 			itmList = restTemplate.postForObject(Constants.url + "/advanceOrderHistoryDetailForAdmin1", map,
 					List.class);
-			
-			
-		/*	ParameterizedTypeReference<ItemOrderList> typeRef = new ParameterizedTypeReference<ItemOrderList>() {
-			};
-			ResponseEntity<ItemOrderList> responseEntity = restTemplate.exchange(
-					Constants.url + "advanceOrderHistoryDetailForAdmin", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
-			ItemOrderList newModuleList = responseEntity.getBody();*/
-			
-			
+			/*
+			 * ParameterizedTypeReference<ItemOrderList> typeRef = new
+			 * ParameterizedTypeReference<ItemOrderList>() { };
+			 * ResponseEntity<ItemOrderList> responseEntity = restTemplate.exchange(
+			 * Constants.url + "advanceOrderHistoryDetailForAdmin", HttpMethod.POST, new
+			 * HttpEntity<>(map), typeRef);
+			 * 
+			 * ItemOrderList newModuleList = responseEntity.getBody();
+			 */
 
-			//itmList = itm.getItemOrderListt();
+			// itmList = itm.getItemOrderListt();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -299,27 +300,162 @@ public class HomeController {
 
 	public AllFrIdNameList allFrIdNameList = new AllFrIdNameList();
 
+	/*
+	 * @RequestMapping("/loginProcess") public ModelAndView
+	 * helloWorld(HttpServletRequest request, HttpServletResponse res) throws
+	 * IOException {
+	 * 
+	 * String name = request.getParameter("username"); String password =
+	 * request.getParameter("userpassword");
+	 * 
+	 * ModelAndView mav = new ModelAndView("login");
+	 * 
+	 * res.setContentType("text/html"); PrintWriter pw = res.getWriter();
+	 * HttpSession session = request.getSession();
+	 * 
+	 * 
+	 * 
+	 * 
+	 * try { System.out.println("Login Process " + name);
+	 * 
+	 * if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name ==
+	 * null || password == null) {
+	 * 
+	 * mav = new ModelAndView("login"); } else {
+	 * 
+	 * UserResponse userObj = restTemplate.getForObject( Constants.url +
+	 * "/login?username=" + name + "&password=" + password, UserResponse.class); try
+	 * { Company company = restTemplate.getForObject(Constants.url + "/getCompany",
+	 * Company.class); Constants.FACTORYNAME = company.getCompName();
+	 * Constants.FACTORYADDRESS = "Address:" + company.getFactAddress() + " ,Phone:"
+	 * + company.getPhoneNo1();
+	 * 
+	 * Constants.FACTORYGSTIN=company.getGstin(); } catch (Exception e) {
+	 * e.printStackTrace(); } session.setAttribute("UserDetail", userObj);
+	 * session.setAttribute("userId", userObj.getUser().getId()); UserResponse
+	 * userResponse = (UserResponse) session.getAttribute("UserDetail");
+	 * 
+	 * System.out.println("new Field Dept Id = " +
+	 * userResponse.getUser().getDeptId());
+	 * 
+	 * System.out.println("JSON Response Objet " + userObj.toString()); String
+	 * loginResponseMessage = "";
+	 * 
+	 * if (userObj.getErrorMessage().isError() == false) {
+	 * 
+	 * session.setAttribute("userName", name);
+	 * 
+	 * loginResponseMessage = "Login Successful";
+	 * mav.addObject("loginResponseMessage", loginResponseMessage);
+	 * 
+	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
+	 * Object>(); int userId = userObj.getUser().getId(); map.add("usrId", userId);
+	 * System.out.println("Before web service"); try {
+	 * ParameterizedTypeReference<List<ModuleJson>> typeRef = new
+	 * ParameterizedTypeReference<List<ModuleJson>>() { };
+	 * ResponseEntity<List<ModuleJson>> responseEntity = restTemplate.exchange(
+	 * Constants.url + "getRoleJson", HttpMethod.POST, new HttpEntity<>(map),
+	 * typeRef);
+	 * 
+	 * List<ModuleJson> newModuleList = responseEntity.getBody();
+	 * 
+	 * System.err.println("new Module List " + newModuleList.toString());
+	 * 
+	 * session.setAttribute("newModuleList", newModuleList);
+	 * session.setAttribute("sessionModuleId", 0);
+	 * session.setAttribute("sessionSubModuleId", 0);
+	 * 
+	 * // System.out.println("Role Json "+Commons.newModuleList.toString()); } catch
+	 * (Exception e) { e.printStackTrace(); System.out.println(e.getMessage()); }
+	 * 
+	 * mav = new ModelAndView("home"); map = new LinkedMultiValueMap<String,
+	 * Object>(); DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	 * 
+	 * map.add("cDate", dateFormat.format(new Date()));
+	 * 
+	 * SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy"); String
+	 * dt=sdf.format(new Date()); mav.addObject("cDate1", dt);
+	 * 
+	 * 
+	 * OrderCountsResponse orderCountList = restTemplate.postForObject(Constants.url
+	 * + "/showOrderCounts", map, OrderCountsResponse.class); List<OrderCount>
+	 * orderCounts = new ArrayList<OrderCount>(); orderCounts =
+	 * orderCountList.getOrderCount(); mav.addObject("orderCounts", orderCounts);
+	 * mav.addObject("cDate", dateFormat.format(new Date())); //
+	 * System.out.println("menu list ==" + orderCounts.toString()); //
+	 * System.out.println("order count tile -" + orderCounts.get(0).getMenuTitle());
+	 * // System.out.println("order count -" + orderCounts.get(0).getTotal());
+	 * 
+	 * map = new LinkedMultiValueMap<>();
+	 * 
+	 * map.add("prodDate", dateFormat.format(new Date())); map.add("isBilled", -1);
+	 * GetAdvanceOrderList[] holListArray = restTemplate.postForObject(
+	 * Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map,
+	 * GetAdvanceOrderList[].class);
+	 * 
+	 * List<GetAdvanceOrderList> advList = new
+	 * ArrayList<>(Arrays.asList(holListArray));
+	 * 
+	 * for (int i = 0; i < advList.size(); i++) {
+	 * advList.get(i).setDeliveryDate(DateConvertor.convertToDMY(advList.get(i).
+	 * getDeliveryDate()));
+	 * advList.get(i).setOrderDate(DateConvertor.convertToDMY(advList.get(i).
+	 * getOrderDate()));
+	 * advList.get(i).setProdDate(DateConvertor.convertToDMY(advList.get(i).
+	 * getProdDate()));
+	 * 
+	 * } mav.addObject("advList", advList);
+	 * 
+	 * allFrIdNameList = new AllFrIdNameList(); try {
+	 * 
+	 * allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
+	 * AllFrIdNameList.class);
+	 * 
+	 * } catch (Exception e) { System.out.println("Exception in getAllFrIdName" +
+	 * e.getMessage()); e.printStackTrace();
+	 * 
+	 * } mav.addObject("frList", allFrIdNameList.getFrIdNamesList());
+	 * System.err.println("frList " +
+	 * allFrIdNameList.getFrIdNamesList().toString());
+	 * 
+	 * } else {
+	 * 
+	 * mav = new ModelAndView("login");
+	 * 
+	 * loginResponseMessage = "Invalid Login Credentials";
+	 * mav.addObject("loginResponseMessage", loginResponseMessage);
+	 * 
+	 * System.out.println("Invalid login credentials");
+	 * 
+	 * }
+	 * 
+	 * } } catch (Exception e) { e.printStackTrace();
+	 * System.out.println("HomeController Login API Excep:  " + e.getMessage()); }
+	 * 
+	 * return mav;
+	 * 
+	 * }
+	 */
+
 	@RequestMapping("/loginProcess")
-	public ModelAndView helloWorld(HttpServletRequest request, HttpServletResponse res) throws IOException {
+	public String doLogin(HttpServletRequest request, HttpServletResponse res) throws IOException {
+
+		String output = "";
 
 		String name = request.getParameter("username");
 		String password = request.getParameter("userpassword");
 
-		ModelAndView mav = new ModelAndView("login");
-
 		res.setContentType("text/html");
 		PrintWriter pw = res.getWriter();
 		HttpSession session = request.getSession();
-		
-		
-		
 
 		try {
 			System.out.println("Login Process " + name);
 
 			if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
 
-				mav = new ModelAndView("login");
+				output = "redirect:/";
+
 			} else {
 
 				UserResponse userObj = restTemplate.getForObject(
@@ -329,26 +465,21 @@ public class HomeController {
 					Constants.FACTORYNAME = company.getCompName();
 					Constants.FACTORYADDRESS = "Address:" + company.getFactAddress() + " ,Phone:"
 							+ company.getPhoneNo1();
+
+					Constants.FACTORYGSTIN = company.getGstin();
+
+					session.setAttribute("UserDetail", userObj);
+					session.setAttribute("userId", userObj.getUser().getId());
 					
-					Constants.FACTORYGSTIN=company.getGstin();
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				session.setAttribute("UserDetail", userObj);
-				session.setAttribute("userId", userObj.getUser().getId());
-				UserResponse userResponse = (UserResponse) session.getAttribute("UserDetail");
-
-				System.out.println("new Field Dept Id = " + userResponse.getUser().getDeptId());
-
-				System.out.println("JSON Response Objet " + userObj.toString());
-				String loginResponseMessage = "";
+				
 
 				if (userObj.getErrorMessage().isError() == false) {
 
 					session.setAttribute("userName", name);
-
-					loginResponseMessage = "Login Successful";
-					mav.addObject("loginResponseMessage", loginResponseMessage);
 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 					int userId = userObj.getUser().getId();
@@ -374,33 +505,27 @@ public class HomeController {
 						System.out.println(e.getMessage());
 					}
 
-					mav = new ModelAndView("home");
-					map = new LinkedMultiValueMap<String, Object>();
+					output = "redirect:/home";
+
 					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 					map.add("cDate", dateFormat.format(new Date()));
-					
-					SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
-					String dt=sdf.format(new Date());
-					mav.addObject("cDate1", dt);
-					
-					
+
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+					String dt = sdf.format(new Date());
+
 					OrderCountsResponse orderCountList = restTemplate.postForObject(Constants.url + "/showOrderCounts",
 							map, OrderCountsResponse.class);
 					List<OrderCount> orderCounts = new ArrayList<OrderCount>();
 					orderCounts = orderCountList.getOrderCount();
-					mav.addObject("orderCounts", orderCounts);
-					mav.addObject("cDate", dateFormat.format(new Date()));
-					// System.out.println("menu list ==" + orderCounts.toString());
-					// System.out.println("order count tile -" + orderCounts.get(0).getMenuTitle());
-					// System.out.println("order count -" + orderCounts.get(0).getTotal());
 
 					map = new LinkedMultiValueMap<>();
 
 					map.add("prodDate", dateFormat.format(new Date()));
 					map.add("isBilled", -1);
 					GetAdvanceOrderList[] holListArray = restTemplate.postForObject(
-							Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map, GetAdvanceOrderList[].class);
+							Constants.url + "/advanceOrderHistoryHeaderAdminForAdminDash", map,
+							GetAdvanceOrderList[].class);
 
 					List<GetAdvanceOrderList> advList = new ArrayList<>(Arrays.asList(holListArray));
 
@@ -410,7 +535,6 @@ public class HomeController {
 						advList.get(i).setProdDate(DateConvertor.convertToDMY(advList.get(i).getProdDate()));
 
 					}
-					mav.addObject("advList", advList);
 
 					allFrIdNameList = new AllFrIdNameList();
 					try {
@@ -423,18 +547,10 @@ public class HomeController {
 						e.printStackTrace();
 
 					}
-					mav.addObject("frList", allFrIdNameList.getFrIdNamesList());
-					System.err.println("frList " + allFrIdNameList.getFrIdNamesList().toString());
-
 				} else {
 
-					mav = new ModelAndView("login");
-
-					loginResponseMessage = "Invalid Login Credentials";
-					mav.addObject("loginResponseMessage", loginResponseMessage);
-
+					output = "redirect:/";
 					System.out.println("Invalid login credentials");
-
 				}
 
 			}
@@ -443,8 +559,7 @@ public class HomeController {
 			System.out.println("HomeController Login API Excep:  " + e.getMessage());
 		}
 
-		return mav;
-
+		return output;
 	}
 
 	@ExceptionHandler(LoginFailException.class)

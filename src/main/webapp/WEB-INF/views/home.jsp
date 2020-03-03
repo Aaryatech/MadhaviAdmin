@@ -217,7 +217,10 @@
 
 											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Address</th>
-
+											<th style="background-color: #f3b5db; color: #fff"
+												class="col-md-1">Pincode</th>
+											<th style="background-color: #f3b5db; color: #fff"
+												class="col-md-1">Remark</th>
 											<th style="background-color: #f3b5db; color: #fff"
 												class="col-md-1">Kilometer</th>
 
@@ -252,6 +255,22 @@
 
 													<td class="col-md-1"><c:out value="${advList.address}" /></td>
 
+													<c:choose>
+
+														<c:when test="${advList.pincode eq 'null'}">
+															<td class="col-md-1"><c:out
+																	value="" /></td>
+														</c:when>
+
+														<c:otherwise>
+															<td class="col-md-1"><c:out
+																	value="${advList.pincode}" /></td>
+														</c:otherwise>
+
+													</c:choose>
+
+													<td class="col-md-1"><c:out value="${advList.remark}" /></td>
+
 													<td class="col-md-1"><c:out value="${advList.km}" /></td>
 
 													<td class="col-md-2"><c:out
@@ -273,15 +292,14 @@
 														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}')"
 														class="btn btn-default btn-rounded" data-toggle="modal"
 														data-target="#elegantModalForm"><abbr title='Edit'><i
-																class='fa fa-edit'></i></abbr></a> <c:if
-															test="${prodDateSearch==0}">
-															<c:if test="${advList.isBillGenerated==0}">
+																class='fa fa-edit'></i></abbr></a> <%-- <c:if test="${prodDateSearch==0}"> --%> <c:if test="${advList.isBillGenerated==0}">
 																<a href="#"
 																	onclick="DeleteOrder('${advList.advHeaderId}')"
 																	class="btn btn-default"><abbr title='Delete'><i
 																		class='fa fa-trash-o'></i></abbr></a>
 															</c:if>
-														</c:if></td>
+														<%-- </c:if> --%>
+														</td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -313,7 +331,7 @@
 
 
 			<footer>
-			<p>2019 © MADHAVI.</p>
+			<p>2019 © MADHVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -362,20 +380,15 @@
 							<div class="row">
 								<label class="col-sm-2 col-lg-2 control-label"
 									style="color: blue;">Amount :<span id="billAmt"></span>
-								</label>
-								<label class="col-sm-2 col-lg-2 control-label"
+								</label> <label class="col-sm-2 col-lg-2 control-label"
 									style="color: blue;">Delivery Date :<span id="devDate"></span>
-								</label> 
-								<label class="col-sm-1 col-lg-1 control-label"
-									style="color: #e20b31;"><span id="isMart1"></span> 
-								</label> 
-								<label class="col-sm-2 col-lg-3 control-label" style="color: blue;">Franchise
+								</label> <label class="col-sm-1 col-lg-1 control-label"
+									style="color: #e20b31;"><span id="isMart1"></span> </label> <label
+									class="col-sm-2 col-lg-3 control-label" style="color: blue;">Franchise
 									Name:<span id="frName"></span>
-								</label> 
-								<label class="col-sm-2 col-lg-2 control-label"
+								</label> <label class="col-sm-2 col-lg-2 control-label"
 									style="color: blue;">Customer Name :<span id="custName"></span>
-								</label>
-								<label class="col-sm-2 col-lg-2 control-label"
+								</label> <label class="col-sm-2 col-lg-2 control-label"
 									style="color: blue;">Mobile :<span id="mob"></span>
 								</label>
 							</div>
@@ -441,7 +454,7 @@
 										class="form-control small clockface-open">
 								</div>
 							</div>
-<br>
+							<br>
 							<div class="row">
 
 								<label class="col-sm-1 control-label" style="color: blue;">Delivery
@@ -710,9 +723,9 @@
 			$("#custName").css("color", "red");
 			$("#mob").css("color", "red");
 			$("#frName").css("color", "red");
-			
+
 			//alert(isMart);
-			
+
 			var x;
 			if (isMart == 1) {
 				x = "Adv Order";
@@ -755,7 +768,6 @@
 								document.getElementById("prod_date").value = prodDate;
 								document.getElementById("prod_date_hide").value = prodDate;
 
-								
 								$
 										.each(
 												data,

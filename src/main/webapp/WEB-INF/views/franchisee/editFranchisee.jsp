@@ -66,7 +66,7 @@
 										enctype="multipart/form-data" method="post">
 
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label" for="fr_code">Code</label>
+											<label class="col-sm-3 col-lg-2 control-label" for="fr_code">Code*</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="text" name="fr_code" id="fr_code"
 													value="${franchiseeList.frCode}" class="form-control"
@@ -88,7 +88,7 @@
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label" for="fr_name">Franchisee
-												Name</label>
+												Name*</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="text" name="fr_name"
 													value="${franchiseeList.frName}" id="fr_name"
@@ -98,12 +98,12 @@
 										
                                    <div class="form-group">
 	                             	<label class="col-sm-3 col-lg-2 control-label" for="fr_name">Franchisee
-												Address</label>
+												Address*</label>
 	                                 <div class="col-sm-6 col-lg-4 controls"><textarea rows="4" cols="25" name="fr_addr" id="fr_addr" placeholder="Address"	class="form-control" form="validation-form"required>${franchiseeList.frAddress}</textarea></div>
 	                                 </div>
 	                                 
-		                             <div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Franchise Target</label>
+		                             <div class="form-group" style="display: none;">
+											<label class="col-sm-3 col-lg-2 control-label">Franchise Target*</label>
 											<div class="col-sm-9 col-lg-4 controls">
 												<input type="text" name="fr_target" id="fr_target" placeholder="Franchisee Target"
 													class="form-control" data-rule-required="true"
@@ -235,7 +235,7 @@
 
 
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">City</label>
+											<label class="col-sm-3 col-lg-2 control-label">City*</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="fr_city" id="fr_city"
 													value="${franchiseeList.frCity}" placeholder="City"
@@ -282,7 +282,7 @@
 
 
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Pin Code
+											<label class="col-sm-3 col-lg-2 control-label">Pin Code*
 												</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="kg_2" id="kg_2" placeholder="Pin Code"
@@ -304,7 +304,7 @@
 										</div>
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label"
-												for="fr_password">Password</label>
+												for="fr_password">Password*</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="text" name="fr_password" id="fr_password"
 													value="${franchiseeList.frPassword}" class="form-control" data-rule-required="true"
@@ -314,7 +314,7 @@
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label"
-												for="fr_confirm_password">Confirm Password</label>
+												for="fr_confirm_password">Confirm Password*</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="password" name="fr_confirm_password"
 													id="fr_confirm_password" class="form-control"value="${franchiseeList.frPassword}"
@@ -325,7 +325,7 @@
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label" for="fr_email">Email
-												Address:</label>
+												Address:*</label>
 											<div class="col-sm-6 col-lg-4 controls">
 												<input type="email" name="fr_email" id="fr_email"
 													value="${franchiseeList.frEmail}" class="form-control"
@@ -335,7 +335,7 @@
 
 
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Mobile</label>
+											<label class="col-sm-3 col-lg-2 control-label">Mobile*</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="fr_mob" id="fr_mob"
 													placeholder="Mobile" class="form-control"
@@ -348,7 +348,7 @@
 
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Owner
-												Name</label>
+												Name*</label>
 											<div class="col-sm-9 col-lg-10 controls">
 												<input type="text" name="fr_owner" id="fr_owner"
 													value="${franchiseeList.frOwner }" placeholder="Owner"
@@ -364,7 +364,7 @@
 											</div>
 										</div>
                                           <div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">FDA License No</label>
+											<label class="col-sm-3 col-lg-2 control-label">FDA License No*</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control" id="fr_license_date" size="16"
 													type="text" name="fr_license_date"value="${franchiseeList.fbaLicenseDate}"
@@ -372,15 +372,15 @@
 											</div>
 										</div>
 										 <div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">Agreement Date</label>
+											<label class="col-sm-3 col-lg-2 control-label">FDA License Date</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker" id="fr_agreement_date" size="16"
 													type="text" name="fr_agreement_date"value="${franchiseeList.frAgreementDate}"
-													 placeholder="Agreement Date"/>
+													 placeholder="FDA License Date"/>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">GST Type</label>
+											<label class="col-sm-3 col-lg-2 control-label">GST Type*</label>
 											<div class="col-sm-9 col-lg-4 controls">
 												<select class="form-control input-sm" name="fr_gst_type"
 													id="fr_gst_type" data-rule-required="true" onChange="changetextbox();">
@@ -431,7 +431,7 @@
 										</div>
 										
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">GST NO.</label>
+											<label class="col-sm-3 col-lg-2 control-label">GST NO.*</label>
 											<div class="col-sm-9 col-lg-4 controls">
 												<input type="text" name="fr_gst_no" id="fr_gst_no" placeholder="GST Number"
 													class="form-control" data-rule-required="true"
@@ -609,7 +609,7 @@
 			<!-- END Main Content -->
 
 			<footer>
-				<p>2017 © MONGINIS.</p>
+				<p>2019 © MADHVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

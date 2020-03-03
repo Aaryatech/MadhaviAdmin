@@ -2,39 +2,36 @@ package com.ats.adminpanel.model.stock;
 
 public class PostFrItemStockDetail {
 
-	
 	private int openingStockDetailId;
-	
+
 	private int openingStockHeaderId;
 
-	private int 	itemId;
-	
-	private int regOpeningStock;
-	
-	private int spOpeningStock;
+	private int itemId;
 
-	
-	private int physicalStock;
-	
-	private int stockDifference;
-	
-	private int regTotalPurchase;
-	
-	private int spTotalPurchase;
+	private float regOpeningStock;
 
-	private int regTotalGrnGvn;
-	
-	private int regTotalSell;
-	
-	private int spTotalSell;
+	private float spOpeningStock;
 
-	
+	private float physicalStock;
+
+	private float stockDifference;
+
+	private float regTotalPurchase;
+
+	private float spTotalPurchase;
+
+	private float regTotalGrnGvn;
+
+	private float regTotalSell;
+
+	private float spTotalSell;
+
 	private String remark;
 
 	private String itemName;
-	
+
 	private String itemCode;
-	
+
 	public int getOpeningStockDetailId() {
 		return openingStockDetailId;
 	}
@@ -59,76 +56,75 @@ public class PostFrItemStockDetail {
 		this.itemId = itemId;
 	}
 
-
-	public int getPhysicalStock() {
-		return physicalStock;
-	}
-
-	public void setPhysicalStock(int physicalStock) {
-		this.physicalStock = physicalStock;
-	}
-
-	public int getStockDifference() {
-		return stockDifference;
-	}
-
-	public void setStockDifference(int stockDifference) {
-		this.stockDifference = stockDifference;
-	}
-
-	public int getRegOpeningStock() {
+	public float getRegOpeningStock() {
 		return regOpeningStock;
 	}
 
-	public void setRegOpeningStock(int regOpeningStock) {
+	public void setRegOpeningStock(float regOpeningStock) {
 		this.regOpeningStock = regOpeningStock;
 	}
 
-	public int getSpOpeningStock() {
+	public float getSpOpeningStock() {
 		return spOpeningStock;
 	}
 
-	public void setSpOpeningStock(int spOpeningStock) {
+	public void setSpOpeningStock(float spOpeningStock) {
 		this.spOpeningStock = spOpeningStock;
 	}
 
-	public int getRegTotalPurchase() {
+	public float getPhysicalStock() {
+		return physicalStock;
+	}
+
+	public void setPhysicalStock(float physicalStock) {
+		this.physicalStock = physicalStock;
+	}
+
+	public float getStockDifference() {
+		return stockDifference;
+	}
+
+	public void setStockDifference(float stockDifference) {
+		this.stockDifference = stockDifference;
+	}
+
+	public float getRegTotalPurchase() {
 		return regTotalPurchase;
 	}
 
-	public void setRegTotalPurchase(int regTotalPurchase) {
+	public void setRegTotalPurchase(float regTotalPurchase) {
 		this.regTotalPurchase = regTotalPurchase;
 	}
 
-	public int getSpTotalPurchase() {
+	public float getSpTotalPurchase() {
 		return spTotalPurchase;
 	}
 
-	public void setSpTotalPurchase(int spTotalPurchase) {
+	public void setSpTotalPurchase(float spTotalPurchase) {
 		this.spTotalPurchase = spTotalPurchase;
 	}
 
-	public int getRegTotalGrnGvn() {
+	public float getRegTotalGrnGvn() {
 		return regTotalGrnGvn;
 	}
 
-	public void setRegTotalGrnGvn(int regTotalGrnGvn) {
+	public void setRegTotalGrnGvn(float regTotalGrnGvn) {
 		this.regTotalGrnGvn = regTotalGrnGvn;
 	}
 
-	public int getRegTotalSell() {
+	public float getRegTotalSell() {
 		return regTotalSell;
 	}
 
-	public void setRegTotalSell(int regTotalSell) {
+	public void setRegTotalSell(float regTotalSell) {
 		this.regTotalSell = regTotalSell;
 	}
 
-	public int getSpTotalSell() {
+	public float getSpTotalSell() {
 		return spTotalSell;
 	}
 
-	public void setSpTotalSell(int spTotalSell) {
+	public void setSpTotalSell(float spTotalSell) {
 		this.spTotalSell = spTotalSell;
 	}
 
@@ -166,7 +162,4 @@ public class PostFrItemStockDetail {
 				+ spTotalSell + ", remark=" + remark + ", itemName=" + itemName + ", itemCode=" + itemCode + "]";
 	}
 
-	
-
-	
 }

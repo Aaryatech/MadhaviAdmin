@@ -292,6 +292,24 @@ type
 =
 "radio"
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :checked
 ,
 [
@@ -299,28 +317,186 @@ type
 =
 "radio"
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :not
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
 (
 :checked
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
 )
 {
 position
-:
- 
-absolute
-;
 
-	
-left
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
+absolute
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+left
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
 -9999
 px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;
-
-
 }
 [type="radio"]:checked+label, [type="radio"]:not (:checked ) +label {
 	position: relative;
@@ -622,6 +798,7 @@ px
 												</div>
 											</div>
 										</div>
+
 										<div class="form-group" id="custSelDiv" style="display: none;">
 
 											<label class="col-sm-3 col-lg-2 control-label">Bill
@@ -631,17 +808,25 @@ px
 													class="form-control chosen" id="cust"
 													onchange="onCustChange()">
 													<option value="0">Select Customer</option>
+
+													<c:set var="isDefaultCust" value="0"></c:set>
 													<c:forEach items="${customerList}" var="customerList">
 														<c:choose>
 															<c:when test="${customerList.custId==defaultCustomer}">
 																<option value="${customerList.custId}"
 																	style="text-align: left;" selected>${customerList.custName}
 																	- ${customerList.phoneNumber}</option>
+
+																<c:set var="isDefaultCust" value="1"></c:set>
+
 															</c:when>
 															<c:otherwise>
 																<option value="${customerList.custId}"
 																	style="text-align: left;">${customerList.custName}
 																	- ${customerList.phoneNumber}</option>
+
+																<c:set var="isDefaultCust" value="0"></c:set>
+
 															</c:otherwise>
 														</c:choose>
 
@@ -656,13 +841,17 @@ px
 													<i class="fa fa-plus" aria-hidden="true"></i>
 												</button>
 											</div>
+
+
+
 											<div class="customer_three">
 												<button class="plus_btn" type="button"
 													onclick="editCustomer()">
 													<i class="fa fa-pencil" aria-hidden="true"></i>
 												</button>
-
 											</div>
+
+
 										</div>
 										<div class="form-group">
 
@@ -729,8 +918,10 @@ px
 												Ship To Option</label>
 											<div class="col-sm-9 col-lg-2 controls">
 												<input type="radio" id="radioFr" name="radioShip"
-													checked="checked" onchange="dairyMartShipToOption()">Franchisee &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"
-													id="radioCust" name="radioShip" onchange="dairyMartShipToOption()">Customer
+													checked="checked" onchange="dairyMartShipToOption()">Franchisee
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"
+													id="radioCust" name="radioShip"
+													onchange="dairyMartShipToOption()">Customer
 											</div>
 
 										</div>
@@ -778,11 +969,11 @@ px
 											<input type="button" class="btn btn-primary" id="searchBtn"
 												value="Search" onclick="onSearch()">
 										</div>
-										
-										<input type="hidden" id="frNameHide">
-										<input type="hidden" id="gstinHide">
-										<input type="hidden" id="addressHide">
-										
+
+										<input type="hidden" id="frNameHide"> <input
+											type="hidden" id="gstinHide"> <input type="hidden"
+											id="addressHide">
+
 										<!-- 	<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Item</label>
 											<div class="col-sm-9 col-lg-5 controls">
@@ -938,6 +1129,35 @@ px
 									</div>
 									<div class="clr"></div>
 								</div>
+
+								<div class="add_frm_one">
+									<div class="add_customer_one">Address *</div>
+									<div class="add_input">
+										<input placeholder="Enter Address" name="custAdd" id="custAdd"
+											onchange="trim(this)" type="text" class="input_add" />
+									</div>
+									<div class="clr"></div>
+								</div>
+
+								<div class="add_frm_one">
+									<div class="add_customer_one">Pin Code</div>
+									<div class="add_input">
+
+										<input type="text" class="input_add"
+											placeholder="Enter Pin Code" name="pincode" id="pincode"
+											onchange="trim(this)" maxlength="6" pattern="[0-9]" />
+									</div>
+									<div class="clr"></div>
+								</div>
+								<div class="add_frm_one">
+									<div class="add_customer_one">Distance(In Kms)</div>
+									<div class="add_input">
+										<input placeholder="Enter distance in kms" name="kms" id="kms"
+											onchange="trim(this)" type="text" class="input_add" />
+									</div>
+									<div class="clr"></div>
+								</div>
+
 								<div class="add_frm_one">
 									<div class="add_customer_one">Mobile Number *</div>
 									<div class="add_input">
@@ -1048,16 +1268,21 @@ px
 										</div>
 										<div class="clr"></div>
 									</div>
-									<div class="add_frm_one">
-										<div class="add_customer_one">Address *</div>
-										<div class="add_input">
-											<input placeholder="Enter Address" name="custAdd"
-												id="custAdd" onchange="trim(this)" type="text"
-												class="input_add" />
-										</div>
-										<div class="clr"></div>
-									</div>
+
 								</div>
+
+
+								<div class="add_frm_one">
+									<div class="add_customer_one">Remark</div>
+									<div class="add_input">
+
+										<input type="text" class="input_add"
+											placeholder="Enter Remark" name="remark" id="remark"
+											onchange="trim(this)" />
+									</div>
+									<div class="clr"></div>
+								</div>
+
 							</div>
 
 							<div class="pop_btns">
@@ -1228,6 +1453,16 @@ $(function() {
 									document.getElementById("mobileNo").value = data.phoneNumber;
 									document.getElementById("custId").value = data.custId;
 									document.getElementById("dateOfBirth").value = data.custDob;
+									
+									document.getElementById("kms").value = data.exVar1;
+									
+									var str = data.exVar2;
+									var strArr = str.split('-');
+									document.getElementById("pincode").value = strArr[0];
+									document.getElementById("remark").value = strArr[1];
+									
+									document.getElementById("custAdd").value = data.address;
+									
 									if (data.gender == 1) {
 										document.getElementById("moption").checked = true;
 										}else{
@@ -1244,7 +1479,7 @@ $(function() {
 										document.getElementById("y-option").checked = true;
 										document.getElementById("companyName").value = data.companyName;
 										document.getElementById("gstNo").value = data.gstNo;
-										document.getElementById("custAdd").value = data.address;
+										
 									} else {
 										$("#isbuissnessdiv").hide();
 										document.getElementById("y-option").checked = false;
@@ -1288,6 +1523,14 @@ $(function() {
 			var custType = document.getElementById("custType").value;
 			var ageRange = document.getElementById("ageRange").value;
 			
+			var  kms= document.getElementById("kms").value;
+			var pincode = document.getElementById("pincode").value;
+			var remark = document.getElementById("remark").value;
+			
+			if(kms==""){
+				kms=0;
+			}
+			
 			/* if(custId!=0)
 				{
 				phNo="0000000000";
@@ -1299,6 +1542,8 @@ $(function() {
 			},
 
 			function(saveFlag) {
+				
+				//alert(saveFlag+"    "+custId);
 				
 				
 				document.getElementById("saveCust").style.display="block"; 
@@ -1331,10 +1576,14 @@ $(function() {
 			if (customerName == "") {
 				alert("Enter Customer Name");
 				flag = 1;
+			} else if (custAdd == "") {
+				alert("Enter Address");
+				flag = 1;
 			} else if (mobileNo == "" || !validateMobile(mobileNo)) {
 				alert("Enter Valid Mobile No");
 				flag = 1;
-			} /* else if (dateOfBirth == "") {
+			} 
+			/* else if (dateOfBirth == "") {
 				alert("Enter Date of Birth");
 				flag = 1;
 			} */
@@ -1359,10 +1608,11 @@ $(function() {
 					alert("Invalid GST No");
 					flag = 1;
 					
-				}else if (custAdd == "") {
+				}
+				/* else if (custAdd == "") {
 					alert("Enter Address");
 					flag = 1;
-				}
+				} */
 			}
 
 			if (flag == 0) {
@@ -1381,6 +1631,9 @@ $(function() {
 									custType:custType,
 									ageRange:ageRange,
 									gender:gender,
+									kms:kms,
+									pincode:pincode,
+									remark:remark,
 									ajax : 'true'
 								},
 								function(data) {
@@ -1420,6 +1673,11 @@ $(function() {
 										$("#cust").trigger("chosen:updated");
 										$('.chosen-select').trigger(
 												'chosen:updated');
+										
+										document.getElementById("pincode").value = "";
+										document.getElementById("remark").value = "";
+										document.getElementById("kms").value = "0";
+
 
 										document.getElementById("customerName").value = "";
 										document.getElementById("mobileNo").value = "";
@@ -1462,6 +1720,10 @@ $(function() {
 		}
 		
 		function clearAddCustomerpopup() {
+			
+			document.getElementById("pincode").value = "";
+			document.getElementById("remark").value = "";
+			document.getElementById("kms").value = "0";
 
 			document.getElementById("customerName").value = "";
 			document.getElementById("mobileNo").value = "";
@@ -2657,7 +2919,7 @@ function myFunction() {
 
 </script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 function dairyMartShipToOption(){
 	

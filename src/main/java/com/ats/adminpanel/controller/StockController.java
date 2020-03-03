@@ -224,7 +224,7 @@ public class StockController {
 			String stockQty = request.getParameter("stockQty" + detailList.get(i).getItemId());
 			System.out.println("new qty " + stockQty);
 
-			detailList.get(i).setRegOpeningStock(Integer.parseInt(stockQty));
+			detailList.get(i).setRegOpeningStock(Float.parseFloat(stockQty));
 
 		}
 

@@ -2,363 +2,329 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .buttonload {
-    background-color: transparent; /* Green background */
-    border: none;  /*Remove borders */
-    color: #ec268f; /* White text */
-  /*   padding: 12px 20px; /* Some padding */ */
-    font-size: 15px; /* Set a font-size */
-    display: none;
+	background-color: transparent; /* Green background */
+	border: none; /*Remove borders */
+	color: #ec268f; /* White text */
+	/*   padding: 12px 20px; /* Some padding */ */
+	font-size: 15px; /* Set a font-size */
+	display: none;
 }
 
 /* Add a right margin to each icon */
 .fa {
-    margin-left: 12px;
-    margin-right: 8px;
+	margin-left: 12px;
+	margin-right: 8px;
 }
 </style>
-	<body>
-		<c:url var="updateItemRateAndMrp" value="/updateItemRateAndMrp" />
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
+
+<body>
+	<c:url var="updateItemRateAndMrp" value="/updateItemRateAndMrp" />
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
-	<div class="container" id="main-container">
- 
-		<!-- BEGIN Sidebar -->
-		<div id="sidebar" class="navbar-collapse collapse">
 
-			<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
+	<!-- BEGIN Sidebar -->
+	<div id="sidebar" class="navbar-collapse collapse">
 
-			<div id="sidebar-collapse" class="visible-lg">
-				<i class="fa fa-angle-double-left"></i>
-			</div>
-			<!-- END Sidebar Collapse Button -->
+		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
+
+		<div id="sidebar-collapse" class="visible-lg">
+			<i class="fa fa-angle-double-left"></i>
 		</div>
-		<!-- END Sidebar -->
+		<!-- END Sidebar Collapse Button -->
+	</div>
+	<!-- END Sidebar -->
 
 
-		<!-- BEGIN Content -->
-		<div id="main-content">
-			<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
-				<div>
-					<h1>
-						<i class="fa fa-file-o"></i> Item Ledger
-					</h1>
-				</div>
-			</div> -->
-			<!-- END Page Title -->
-			
-			
-			<c:set var="isEdit" value="0">
-					</c:set>
-					<c:set var="isView" value="0">
-					</c:set>
-					<c:set var="isDelete" value="0">
-					</c:set>
 
-					<c:forEach items="${sessionScope.newModuleList}" var="modules">
-						<c:forEach items="${modules.subModuleJsonList}" var="subModule">
-
-							<c:choose>
-								<c:when test="${subModule.subModuleMapping eq 'itemList'}">
-
-									<c:choose>
-										<c:when test="${subModule.editReject=='visible'}">
-											<c:set var="isEdit" value="1">
-											</c:set>
-										</c:when>
-										<c:otherwise>
-											<c:set var="isEdit" value="0">
-											</c:set>
-										</c:otherwise>
-									</c:choose>
-									<c:choose>
-										<c:when test="${subModule.view=='visible'}">
-											<c:set var="isView" value="1">
-											</c:set>
-										</c:when>
-										<c:otherwise>
-											<c:set var="isView" value="0">
-											</c:set>
-										</c:otherwise>
-									</c:choose>
+	<!-- BEGIN Content -->
+	<div id="main-content">
 
 
-									<c:choose>
-										<c:when test="${subModule.deleteRejectApprove=='visible'}">
-											<c:set var="isDelete" value="1">
-											</c:set>
-										</c:when>
-										<c:otherwise>
-											<c:set var="isDelete" value="0">
-											</c:set>
-										</c:otherwise>
-									</c:choose>
-								</c:when>
-							</c:choose>
-						</c:forEach>
-					</c:forEach>
-			
 
-			<div class="row hidden-xs">
-				<div class="col-md-12">
-					<div class="box box-pink">
-						<div class="box-title">
-							<h3>
-								<i class="fa fa-bars"></i> Item Ledger
-							</h3>
-							<div class="box-tool">
-								<a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
+		<c:set var="isEdit" value="0">
+		</c:set>
+		<c:set var="isView" value="0">
+		</c:set>
+		<c:set var="isDelete" value="0">
+		</c:set>
+
+		<c:forEach items="${sessionScope.newModuleList}" var="modules">
+			<c:forEach items="${modules.subModuleJsonList}" var="subModule">
+
+				<c:choose>
+					<c:when test="${subModule.subModuleMapping eq 'itemList'}">
+
+						<c:choose>
+							<c:when test="${subModule.editReject=='visible'}">
+								<c:set var="isEdit" value="1">
+								</c:set>
+							</c:when>
+							<c:otherwise>
+								<c:set var="isEdit" value="0">
+								</c:set>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${subModule.view=='visible'}">
+								<c:set var="isView" value="1">
+								</c:set>
+							</c:when>
+							<c:otherwise>
+								<c:set var="isView" value="0">
+								</c:set>
+							</c:otherwise>
+						</c:choose>
+
+
+						<c:choose>
+							<c:when test="${subModule.deleteRejectApprove=='visible'}">
+								<c:set var="isDelete" value="1">
+								</c:set>
+							</c:when>
+							<c:otherwise>
+								<c:set var="isDelete" value="0">
+								</c:set>
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+		</c:forEach>
+
+
+		<div class="box">
+			<div class="box-title">
+				<h3>
+					<i class="fa fa-bars"></i> Item Ledger
+				</h3>
+
+			</div>
+			<div class="box-content">
+				<div class="row">
+					<form name="${pageContext.request.contextPath}/searchItem"
+						id="searchItem" method="post" action="searchItem">
+						<input type="hidden" name="mod_ser" id="mod_ser"
+							value="search_result">
+
+
+						<!-- BEGIN Right Side -->
+						<div class="form-group">
+
+							<label for="textfield2" class="col-md-2">Items</label>
+							<div class="col-md-4 controls">
+								<select class="form-control input-sm" name="catId" id="catId">
+
+
+									<c:forEach items="${mCategoryList}" var="mCategoryList">
+
+										<c:set var="mCatId" value="${mCategoryList.catId}" />
+										<c:set var="catId" value="${catId}" />
+										<c:choose>
+											<c:when test="${mCatId==catId}">
+												<option selected value="${mCategoryList.catId}"><c:out
+														value="${mCategoryList.catName}"></c:out></option>
+
+											</c:when>
+
+											<c:otherwise>
+
+												<option value="${mCategoryList.catId}"><c:out
+														value="${mCategoryList.catName}"></c:out></option>
+
+											</c:otherwise>
+										</c:choose>
+
+									</c:forEach>
+
+								</select>
 							</div>
+							<div class="col-md-6">
+								<button type="submit" class="btn btn-primary">Search</button>
+							</div>
+
 						</div>
-						<div class="box-content">
+						<!-- END Right Side -->
+					</form>
 
-							<form name="${pageContext.request.contextPath}/searchItem" id="searchItem" class="form-horizontal"
-								method="post" action="searchItem">
-								<input type="hidden" name="mod_ser" id="mod_ser"
-									value="search_result">
+				</div>
 
-								<div class="row">
+				<div class="row" style="display: none;">
 
-									<div class="col-md-6 ">
-										<!-- BEGIN Right Side -->
-										<div class="form-group">
+					<form action="${pageContext.request.contextPath}/uploadItemsByFile"
+						method="post" enctype="multipart/form-data">
+						<div class="form-group">
 
-											<label for="textfield2"
-												class="col-xs-3 col-lg-2 control-label">Items</label>
-											<div class="col-sm-9 col-lg-7 controls">
-												<select class="form-control input-sm" name="catId"
-													id="catId">
+							<label class="col-md-2">Select File</label>
+							<div class="col-md-4 controls">
+								<input type="file" name="file" required />
+							</div>
+							<div class="col-md-1">
+								<button type="submit" class="btn btn-primary">
+									 Save
+								</button>
 
+							</div>
+							<div class="col-md-5">
+								<!-- <input type="submit" class="btn btn-primary" value="Save"> -->
 
-													<c:forEach items="${mCategoryList}" var="mCategoryList">
-
-														<c:set var="mCatId" value="${mCategoryList.catId}" />
-														<c:set var="catId" value="${catId}" />
-														<c:choose>
-															<c:when test="${mCatId==catId}">
-																<option selected value="${mCategoryList.catId}"><c:out value="${mCategoryList.catName}"></c:out></option>
-
-															</c:when>
-
-															<c:otherwise>
-
-																<option value="${mCategoryList.catId}"><c:out value="${mCategoryList.catName}"></c:out></option>
-
-															</c:otherwise>
-														</c:choose>
+								<input type="button" id="expExcel1" class="btn btn-primary"
+									value="Excel Import Format" onclick="exportToExcel1();">
+							</div>
 
 
+						</div>
 
-
-
-														<%-- <option value="${mCategoryList.catId}"><c:out value="${mCategoryList.catName}"></c:out></option> --%>
-													</c:forEach>
-
-
-												</select>
-											</div>
-										<!-- </div>
-
-
-										<div class="form-group"> -->
-											<!-- <div
-												class="col-sm-9 col-sm-offset-3 col-lg-3 col-lg-offset-2">
-											 -->	<button type="submit" class="btn btn-primary">
-													<i class="fa fa-check"></i> Search
-												</button>
-											
-										</div>
-										<!-- END Right Side -->
-									</div>
-								</div>
-							</form>
-						
-						<form action="${pageContext.request.contextPath}/uploadItemsByFile" class="form-horizontal"
-							method="post" enctype="multipart/form-data">
-							<div class="form-group">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-2 col-lg-offset-5">	<input type="button" id="expExcel1" class="btn btn-primary" value="Excel Import Format" onclick="exportToExcel1();">
-						</div>		<label class="col-sm-1 col-lg-1 control-label">Select
-									File</label>
-								<div class="col-sm-3 col-lg-2 controls">
-									<input type="file"  name="file" required/>
-								</div>&nbsp;&nbsp;&nbsp;
-								<div class="col-sm-2 col-lg-1">
-									<input type="submit" class="btn btn-primary" value="Save">
-								</div>
-								</div>
-							
-							</form></div>
-					</div>
+					</form>
 				</div>
 			</div>
-			<!-- BEGIN Main Content -->
-			<div class="row">
-				<div class="col-md-12">
+		</div>
+		<!-- BEGIN Main Content -->
+		<div class="box">
 
-					<div class="box" >
-						<!-- <div class="box-title">
-							<h3>
-								<i class="fa fa-table"></i> Items List
-							</h3>
-							<div class="box-tool">
-								<a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
-								<a data-action="close" href="#"><i class="fa fa-times"></i></a>
-							</div>
-						</div>
- -->
-						<div class="box-content">
-<div class="col-md-9" ></div> 
-					<label for="search" class="col-md-3" id="search">
-    <i class="fa fa-search" style="font-size:20px"></i>
-									<input type="text"  id="myInput" onkeyup="myFunction()" style="border-radius: 25px;" placeholder="Search items by Name or Code" title="Type in a name">
-										</label>  
+			<div class="box-content">
+				<label for="search" class="col-md-3" id="search"> <i
+					class="fa fa-search" style="font-size: 20px"></i> <input
+					type="text" id="myInput" onkeyup="myFunction()"
+					style="border-radius: 25px;"
+					placeholder="Search items by Name or Code" title="Type in a name">
+				</label>
 
-							<div class="clearfix"></div>
-							
-								<div id="table-scroll" class="table-scroll">
-							 
-									<!-- <div id="faux-table" class="faux-table" aria="hidden">
-									<table id="table2" class="table table-advance">
-											<thead>
-												<tr class="bgpink">
-											<th class="col-md-1">SELECT</th>
-                                            <th class="col-md-1">Sr No</th>
-											<th class="col-md-2">Item Id</th>
-											<th class="col-md-3">Item Name</th>
-										<th class="col-md-2">Image</th>
-									     <th class="col-md-1">MRP</th>
-                                             <th class="col-md-1">Margin %</th>
-											<th class="col-md-1">Rate</th>
-											<th class="col-md-1">Status</th>
-											<th class="col-md-1">Station No</th>
-											<th class="col-md-1">Action</th>
-												</tr>
-												</thead>
-												</table>
-									
-									</div> -->
-									<div class="table-wrap">
-									
-										<table id="tab1" class="table table-advance" style="">
-											<thead>
-												<tr class="bgpink">
-												<th class="col-md-1">SELECT</th>
-												<th class="col-md-1">Sr No</th>
-											    <th class="col-md-2">Item Id</th>
-											    <th class="col-md-2">Item Name</th>
-<!-- 											<th class="col-md-2">Image</th>
- -->											<th class="col-md-1">MRP</th>
-                                                <th class="col-md-1">Margin %</th>
-                                                <th class="col-md-1">Rate</th>
-											    <th class="col-md-1">Status</th>
-												<th class="col-md-1">Station No</th>
-											    <th class="col-md-1">Action</th>
-												</tr>
-												</thead>
-												<tbody>
-											
-	                                          <c:forEach items="${itemsList}" var="itemsList" varStatus="count">
-	                                          <fmt:formatNumber var="marginPer"
-  value="${(itemsList.itemMrp1-itemsList.itemRate1)/(itemsList.itemMrp1/100)}"
-  maxFractionDigits="0" />
-											<tr>
-										       <td><input type="checkbox" class="chk" name="select_to_print" id="${itemsList.id}"	value="${itemsList.id}"/></td>
+				<div class="clearfix"></div>
 
-												<td><c:out value="${count.index+1}" /></td>
-												<td align="left"><c:out value="${itemsList.itemId}" /></td>
-												<td align="left"><c:out value="${itemsList.itemName}"/><button class="buttonload" id="loader">
-                                   <i class="fa fa-spinner fa-spin"></i>
-                                   </button></td>
-												
-											<%-- 	<td align="left">
+				<div class="row">
+					<div class="col-md-12 table-responsive">
+
+						<table id="tab1" class="table table-advance" style="">
+							<thead style="background-color: #f95d64;">
+								<tr class="bgpink">
+									<th class="col-md-1"><input type="checkbox">&nbsp;SELECT</th>
+									<th class="col-md-1">Sr No</th>
+									<th class="col-md-2">Item Id</th>
+									<th class="col-md-2">Item Name</th>
+									<th class="col-md-1">MRP</th>
+									<th class="col-md-1">Margin %</th>
+									<th class="col-md-1">Rate</th>
+									<th class="col-md-1">Status</th>
+									<th class="col-md-1">Station No</th>
+									<th class="col-md-1">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<c:forEach items="${itemsList}" var="itemsList"
+									varStatus="count">
+									<fmt:formatNumber var="marginPer"
+										value="${(itemsList.itemMrp1-itemsList.itemRate1)/(itemsList.itemMrp1/100)}"
+										maxFractionDigits="0" />
+									<tr>
+										<td><input type="checkbox" class="chk"
+											name="select_to_print" id="${itemsList.id}"
+											value="${itemsList.id}" /></td>
+
+										<td><c:out value="${count.index+1}" /></td>
+										<td align="left"><c:out value="${itemsList.itemId}" /></td>
+										<td align="left"><c:out value="${itemsList.itemName}" />
+											<button class="buttonload" id="loader">
+												<i class="fa fa-spinner fa-spin"></i>
+											</button></td>
+
+										<%-- 	<td align="left">
 												<img
 													src="${url}${itemsList.itemImage}" width="120" height="100"
 													onerror="this.src='${pageContext.request.contextPath}/resources/img/No_Image_Available.jpg';"/>
 													
 												</td> --%>
-												<td align="left" id="itemMrp${itemsList.id}" onchange="onMrpRateChange(${itemsList.id},1)"><c:out value="${itemsList.itemMrp1}" /></td>
-												<td align="left" id="marginPer${itemsList.id}"onchange="onMrpRateChange(${itemsList.id},3)"><c:out value="${marginPer}" /></td>
-												<td align="left" id="itemRate${itemsList.id}" onchange="onMrpRateChange(${itemsList.id},2)"><c:out value="${itemsList.itemRate1}" /></td>
-												<td align="left">
-												<c:choose>
+										<td align="left" id="itemMrp${itemsList.id}"
+											onchange="onMrpRateChange(${itemsList.id},1)"><c:out
+												value="${itemsList.itemMrp1}" /></td>
+										<td align="left" id="marginPer${itemsList.id}"
+											onchange="onMrpRateChange(${itemsList.id},3)"><c:out
+												value="${marginPer}" /></td>
+										<td align="left" id="itemRate${itemsList.id}"
+											onchange="onMrpRateChange(${itemsList.id},2)"><c:out
+												value="${itemsList.itemRate1}" /></td>
+										<td align="left"><c:choose>
 												<c:when test="${itemsList.itemIsUsed==1}">
 													<c:out value="Active" />
 												</c:when>
-												<c:when test="${itemsList.itemIsUsed==2}"><c:out value="Special Days"/></c:when>
-												<c:when test="${itemsList.itemIsUsed==3}"><c:out value="Sp Day Cake"/></c:when>
-												<c:when test="${itemsList.itemIsUsed==4}"><c:out value="InActive"/></c:when>
-												</c:choose>
-											
-												</td>
-												
-												<td align="left">${itemsList.itemMrp2}</td>
-												
-												
-												<c:choose>
-																	<c:when test="${isEdit==1 and isDelete==1}">
-																		<td align="left"><a href="updateItem/${itemsList.id}"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
-                                             <a href="showItemDetail/${itemsList.id}"><span
-														class="glyphicon glyphicon-list"></span></a>
-													&nbsp;&nbsp;
-													<a href="deleteItem/${itemsList.id}"
+												<c:when test="${itemsList.itemIsUsed==2}">
+													<c:out value="Special Days" />
+												</c:when>
+												<c:when test="${itemsList.itemIsUsed==3}">
+													<c:out value="Sp Day Cake" />
+												</c:when>
+												<c:when test="${itemsList.itemIsUsed==4}">
+													<c:out value="InActive" />
+												</c:when>
+											</c:choose></td>
+
+										<td align="left">${itemsList.itemMrp2}</td>
+
+
+										<c:choose>
+											<c:when test="${isEdit==1 and isDelete==1}">
+												<td align="left"><a href="updateItem/${itemsList.id}"><span
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+													href="showItemDetail/${itemsList.id}"><span
+														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
+													href="deleteItem/${itemsList.id}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
-														
-																	</c:when>
 
-																	<c:when test="${isEdit==1 and isDelete==0}">
-																		<td align="left"><a href="updateItem/${itemsList.id}"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
-                                             <a href="showItemDetail/${itemsList.id}"><span
-														class="glyphicon glyphicon-list"></span></a>
-													&nbsp;&nbsp;
-													<a href="deleteItem/${itemsList.id}" class="disableClick"
+											</c:when>
+
+											<c:when test="${isEdit==1 and isDelete==0}">
+												<td align="left"><a href="updateItem/${itemsList.id}"><span
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+													href="showItemDetail/${itemsList.id}"><span
+														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
+													href="deleteItem/${itemsList.id}" class="disableClick"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
-														
-																	</c:when>
 
-																	<c:when test="${isEdit==0 and isDelete==1}">
-																		<td align="left"><a href="updateItem/${itemsList.id}" class="disableClick"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
-                                             <a href="showItemDetail/${itemsList.id}"><span
-														class="glyphicon glyphicon-list"></span></a>
-													&nbsp;&nbsp;
-													<a href="deleteItem/${itemsList.id}"
+											</c:when>
+
+											<c:when test="${isEdit==0 and isDelete==1}">
+												<td align="left"><a href="updateItem/${itemsList.id}"
+													class="disableClick"><span
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+													href="showItemDetail/${itemsList.id}"><span
+														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
+													href="deleteItem/${itemsList.id}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
-														
-																	</c:when>
 
-																	<c:otherwise>
+											</c:when>
 
-																		<td align="left"><a href="updateItem/${itemsList.id}" class="disableClick"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
-                                             <a href="${pageContext.request.contextPath}/showItemDetail/${itemsList.id}"><span
-														class="glyphicon glyphicon-list"></span></a>
-													&nbsp;&nbsp;
-													<a href="${pageContext.request.contextPath}/deleteItem/${itemsList.id}" 
+											<c:otherwise>
+
+												<td align="left"><a href="updateItem/${itemsList.id}"
+													class="disableClick"><span
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+													href="${pageContext.request.contextPath}/showItemDetail/${itemsList.id}"><span
+														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
+													href="${pageContext.request.contextPath}/deleteItem/${itemsList.id}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
-														
 
-																	</c:otherwise>
-																</c:choose>
-												
-												
-												
-												
-												
-												<%-- <td align="left"><a href="updateItem/${itemsList.id}"><span
+
+											</c:otherwise>
+										</c:choose>
+
+
+
+
+
+										<%-- <td align="left"><a href="updateItem/${itemsList.id}"><span
 														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
                                              <a href="showItemDetail/${itemsList.id}"><span
 														class="glyphicon glyphicon-list"></span></a>
@@ -367,10 +333,10 @@
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 														 --%>
-														
-											</tr>
 
-										</c:forEach>
+									</tr>
+
+								</c:forEach>
 
 
 							</tbody>
@@ -378,37 +344,36 @@
 						</table>
 					</div>
 				</div>
-				
-						</div>
-						
-						
-						<div class="form-group"  id="range" style="background-color: white;">
-											
-								<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();">
-											
-								<input type="button" margin-right: 5px;" id="btn_delete"
-											class="btn btn-primary" onclick="deleteById()" 
-											value="Delete" />
-												<input type="button" margin-right: 5px;" id="btn_delete"
-											class="btn btn-primary" onclick="inactiveById()" 
-											value="InActive" /></div>
-							
-					</div>
-				</div>
+
 			</div>
 
 
+			<div class="form-group" id="range" style="background-color: white;">
 
-			<!-- END Main Content -->
-			<footer>
-			<p>2019 © MADHAVI.</p>
-			</footer>
+				<input type="button" id="expExcel" class="btn btn-primary"
+					value="EXPORT TO Excel" onclick="exportToExcel();"> <input
+					type="button" id="btn_delete" class="btn btn-primary"
+					onclick="deleteById()" value="Delete" /> <input type="button"
+					id="btn_delete" class="btn btn-primary" onclick="inactiveById()"
+					value="InActive" /> <input type="button" id="btn_delete"
+					class="btn btn-primary" onclick="activeById()" value="Active" />
 
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
+
+			</div>
+
 		</div>
-		<!-- END Content -->
+
+
+
+		<!-- END Main Content -->
+		<footer>
+			<p>2019 © MADHVI.</p>
+		</footer>
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
 	</div>
+	<!-- END Content -->
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -472,7 +437,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 </body>
 
- 
+
 <script>
 function myFunction() {
   var input, filter, table, tr, td,td1, i;
@@ -552,6 +517,30 @@ else
 	}
 
 }</script>
+
+
+<script type="text/javascript">
+function activeById()
+{
+
+var checkedVals = $('.chk:checkbox:checked').map(function() {
+    return this.value;
+}).get();
+checkedVals=checkedVals.join(",");
+
+if(checkedVals=="")
+	{
+	alert("Please Select Item")
+	}
+else
+	{
+	window.location.href='${pageContext.request.contextPath}/activeItem/'+checkedVals;
+
+	}
+
+}</script>
+
+
 <script type="text/javascript">
 
 function getStyle(el, cssprop) {

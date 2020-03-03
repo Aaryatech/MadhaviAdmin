@@ -180,12 +180,12 @@
 											data-rule-required="true" data-rule-number="true" value="${itemSupp.baseWeight}"/>
 									</div>
 							  </div>
-							   <div class="col2">
+							   <div class="col2" style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Short Name</label>
 									<div class="col-sm-9 col-lg-3 controls">
 										<input type="text" name="short_name" id="short_name"
 											placeholder="Short Name" class="form-control"
-											data-rule-required="true"  value="${itemSupp.shortName}"/>
+											 value="${itemSupp.shortName}"/>
 									</div>
 							  </div> 
 							 <!--  <div class="col2">
@@ -196,7 +196,7 @@
 											data-rule-required="true"  data-rule-number="true" value="1"/>
 									<!-- </div>
 							  </div> -->
-							    <div class="form-group">
+							    <div class="form-group"  style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Cut Section</label>
 									<div class="col-sm-9 col-lg-3 controls">
 										<select name="cut_section" id="cut_section" class="form-control"
@@ -382,7 +382,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2019 © MADHAVI.</p>
+			<p>2019 © MADHVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
