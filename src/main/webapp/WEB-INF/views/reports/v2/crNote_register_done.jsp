@@ -76,15 +76,9 @@
 								name="type_id">
 
 
-
-
-
-
-								<option value="0">Select Bill Type</option>
+								<option value="0">All</option>
 								<option value="1">Franchise Bill</option>
 								<option value="3">Company Outlet Bill</option>
-
-
 
 
 							</select>
@@ -339,8 +333,318 @@
 									document.getElementById("PDFButton").disabled = true;
 									document.getElementById("expExcelTally").disabled = true;
 								}
+								
+								
+								
+								if (typeId == 0 && bType == 1) {
 
-								if (typeId == 1 && bType == 1) {
+									$('#table_grid').show();
+									$('#table_grid2').hide();
+									$('#table_grid3').hide();
+									$('#table_grid4').hide();
+
+									var crnQty = 0;
+									var crnTaxable = 0;
+									var cgstAmt = 0;
+									var sgstAmt = 0;
+									var crnAmt = 0;
+									$
+											.each(
+													data,
+													function(key, report) {
+
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById("PDFButton").disabled = false;
+														document
+																.getElementById("expExcelTally").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+
+														var index = key + 1;
+														//var tr = "<tr>";
+														var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td style="text-align:center;"></td>')
+																		.html(
+																				""
+																						+ index));
+														tr
+																.append($(
+																		'<td style="text-align:center;"></td>')
+																		.html(
+																				report.frCode));
+														tr
+																.append($(
+																		'<td style="text-align:center;"></td>')
+																		.html(
+																				report.crnDate));
+														tr
+																.append($(
+																		'<td style="text-align:center;"></td>')
+																		.html(
+																				report.invoiceNo));
+														tr
+																.append($(
+																		'<td style="text-align:center;"></td>')
+																		.html(
+																				report.billDate));
+														tr
+																.append($(
+																		'<td style="text-align:left;"></td>')
+																		.html(
+																				report.frName));
+														tr
+																.append($(
+																		'<td style="text-align:left;"></td>')
+																		.html(
+																				report.billToName));
+														tr
+																.append($(
+																		'<td style="text-align:left;"></td>')
+																		.html(
+																				report.billToGst));
+														crnQty = crnQty
+																+ report.crnQty;
+														crnTaxable = crnTaxable
+																+ report.crnTaxable;
+														cgstAmt = cgstAmt
+																+ report.cgstAmt;
+														sgstAmt = sgstAmt
+																+ report.sgstAmt;
+														crnAmt = crnAmt
+																+ report.crnAmt;
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.cgstPer + report.sgstPer)
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.crnQty)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.crnTaxable
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.cgstAmt
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.sgstAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.crnAmt
+																						.toFixed(2)));
+
+														$('#table_grid tbody')
+																.append(tr);
+
+													})
+									var tr = $('<tr></tr>');
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+									tr.append($('<td></td>').html(""));
+
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(""));
+									tr.append($('<td></td>').html("Total"));
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ crnQty
+																			.toFixed(2)));
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ crnTaxable
+																			.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ cgstAmt
+																			.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ sgstAmt
+																			.toFixed(2)));
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ crnAmt
+																			.toFixed(0)));
+									$('#table_grid tbody').append(tr);
+
+								}else if (typeId == 0 && bType == 2) {
+
+									$('#table_grid').hide();
+									$('#table_grid2').show();
+									$('#table_grid3').hide();
+									$('#table_grid4').hide();
+
+									var crnQty = 0;
+									var crnTaxable = 0;
+									var cgstAmt = 0;
+									var sgstAmt = 0;
+									var crnAmt = 0;
+									$
+											.each(
+													data,
+													function(key, report) {
+
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById("PDFButton").disabled = false;
+														document
+																.getElementById("expExcelTally").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+
+														var index = key + 1;
+														//var tr = "<tr>";
+														var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				""
+																						+ index));
+														crnQty = crnQty
+																+ report.crnQty;
+														crnTaxable = crnTaxable
+																+ report.crnTaxable;
+														cgstAmt = cgstAmt
+																+ report.cgstAmt;
+														sgstAmt = sgstAmt
+																+ report.sgstAmt;
+														crnAmt = crnAmt
+																+ report.crnAmt;
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.cgstPer + report.sgstPer)
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.crnQty)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.crnTaxable
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.cgstAmt
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.sgstAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.crnAmt
+																						.toFixed(2)));
+
+														$('#table_grid2 tbody')
+																.append(tr);
+
+													})
+									var tr = $('<tr></tr>');
+
+									tr
+											.append($(
+													'<td style="font-weight:12px;"></td>')
+													.html(""));
+									tr.append($('<td></td>').html("Total"));
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ crnQty
+																			.toFixed(2)));
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ crnTaxable
+																			.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ cgstAmt
+																			.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ sgstAmt
+																			.toFixed(2)));
+									tr
+											.append($(
+													'<td style="font-weight:12px;text-align:right;"></td>')
+													.html(
+															""
+																	+ crnAmt
+																			.toFixed(0)));
+									$('#table_grid2 tbody').append(tr);
+
+								}else if (typeId == 1 && bType == 1) {
 
 									$('#table_grid').show();
 									$('#table_grid2').hide();

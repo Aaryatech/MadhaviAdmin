@@ -69,8 +69,8 @@
 					<div class="row">
 						<div class="form-group">
 
-							<label class="col-sm-3 col-lg-2 control-label"><b></b>Select Bill Type
-							</label>
+							<label class="col-sm-3 col-lg-2 control-label"><b></b>Select
+								Bill Type </label>
 							<div class="col-sm-6 col-lg-4">
 
 								<select data-placeholder="Select Bill Type "
@@ -79,19 +79,24 @@
 
 									<c:choose>
 
+										<c:when test="${typeId==0}">
+											<option value="0" selected="selected">All</option>
+											<option value="1" >Franchise Bill</option>
+											<option value="3">Company Outlet Bill</option>
+										</c:when>
 										<c:when test="${typeId==1}">
-											<option value="0">Select Bill Type</option>
+											<option value="0">All</option>
 											<option value="1" selected="selected">Franchise Bill</option>
 											<option value="3">Company Outlet Bill</option>
 										</c:when>
 										<c:when test="${typeId==3}">
-											<option value="0">Select Bill Type</option>
+											<option value="0">All</option>
 											<option value="1">Franchise Bill</option>
 											<option value="3" selected="selected">Company Outlet
 												Bill</option>
 										</c:when>
 										<c:otherwise>
-											<option value="0">Select Bill Type</option>
+											<option value="0">All</option>
 											<option value="1">Franchise Bill</option>
 											<option value="3">Company Outlet Bill</option>
 										</c:otherwise>
@@ -155,6 +160,215 @@
 
 
 						<c:choose>
+						
+						<c:when test="${typeId==0 && bType==1}">
+
+								<table class="table table-bordered table-striped fill-head "
+									style="width: 100%" id="table_grid">
+									<thead style="background-color: #f95d64;">
+										<tr>
+											<th style="text-align: center;">Sr.No.</th>
+											<th style="text-align: center;">Bill Date</th>
+											<th style="text-align: center;">Invoice No</th>
+											<th style="text-align: center;">Franchise</th>
+											<th style="text-align: center;">Party Name</th>
+											<th style="text-align: center;">Party GST</th>
+											<th style="text-align: center;">CGST %</th>
+											<th style="text-align: center;">SGST %</th>
+											<th style="text-align: center;">CGST Amt</th>
+											<th style="text-align: center;">SGST Amt</th>
+											<th style="text-align: center;">Taxable Amt</th>
+											<th style="text-align: center;">Total Tax</th>
+											<th style="text-align: center;">Grand Total</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="totalCgstAmt" value="0" />
+										<c:set var="totalIgstAmt" value="0" />
+										<c:set var="totalTaxableAmt" value="0" />
+										<c:set var="totalTax" value="0" />
+										<c:set var="totalGrandTotal" value="0" />
+										<c:forEach items="${taxReportList}" var="taxList"
+											varStatus="count">
+											<tr>
+												<c:set var="totalCgstAmt"
+													value="${totalCgstAmt+taxList.cgstAmt}" />
+												<c:set var="totalIgstAmt"
+													value="${totalIgstAmt+taxList.sgstAmt}" />
+												<c:set var="totalTaxableAmt"
+													value="${totalTaxableAmt+taxList.taxableAmt}" />
+												<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
+												<c:set var="totalGrandTotal"
+													value="${totalGrandTotal+taxList.grandTotal}" />
+
+
+												<td><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${taxList.billDate}" /></td>
+												<td><c:out value="${taxList.invoiceNo}" /></td>
+												<td><c:out value="${taxList.shipToName}" /></td>
+												<td><c:out value="${taxList.billToName}" /></td>
+												<td><c:out value="${taxList.billToGst}" /></td>
+
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.taxableAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.totalTax}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.grandTotal}" /></td>
+
+											</tr>
+										</c:forEach>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+
+											<td style="text-align: left;">Total</td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalCgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalIgstAmt}" /></td>
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTaxableAmt}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTax}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalGrandTotal}" /></td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</c:when>
+							
+							
+							<c:when test="${typeId==0 && bType==2}">
+
+								<table class="table table-bordered table-striped fill-head "
+									style="width: 100%" id="table_grid">
+									<thead style="background-color: #f95d64;">
+										<tr>
+											<th style="text-align: center;">Sr.No.</th>
+											<th style="text-align: center;">Franchise</th>
+											<th style="text-align: center;">CGST %</th>
+											<th style="text-align: center;">SGST %</th>
+											<th style="text-align: center;">CGST Amt</th>
+											<th style="text-align: center;">SGST Amt</th>
+											<th style="text-align: center;">Taxable Amt</th>
+											<th style="text-align: center;">Total Tax</th>
+											<th style="text-align: center;">Grand Total</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="totalCgstAmt" value="0" />
+										<c:set var="totalIgstAmt" value="0" />
+										<c:set var="totalTaxableAmt" value="0" />
+										<c:set var="totalTax" value="0" />
+										<c:set var="totalGrandTotal" value="0" />
+										<c:forEach items="${taxReportList}" var="taxList"
+											varStatus="count">
+											<tr>
+												<c:set var="totalCgstAmt"
+													value="${totalCgstAmt+taxList.cgstAmt}" />
+												<c:set var="totalIgstAmt"
+													value="${totalIgstAmt+taxList.sgstAmt}" />
+												<c:set var="totalTaxableAmt"
+													value="${totalTaxableAmt+taxList.taxableAmt}" />
+												<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
+												<c:set var="totalGrandTotal"
+													value="${totalGrandTotal+taxList.grandTotal}" />
+
+
+												<td><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${taxList.frName}" /></td>
+
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstPer}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.cgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.sgstAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.taxableAmt}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.totalTax}" /></td>
+												<td style="text-align: right;"><c:out
+														value="${taxList.grandTotal}" /></td>
+
+											</tr>
+										</c:forEach>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+
+
+											<td style="text-align: left;">Total</td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalCgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalIgstAmt}" /></td>
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTaxableAmt}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalTax}" /></td>
+
+
+											<td style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													value="${totalGrandTotal}" /></td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</c:when>
+						
+						
+						
 							<c:when test="${typeId==1 && bType==1}">
 
 								<table class="table table-bordered table-striped fill-head "
@@ -603,17 +817,18 @@
 			var fromDt = document.getElementById("fromDate").value;
 			var toDt = document.getElementById("toDate").value;
 			var a = document.getElementById("type_id").value;
-			
+
 			if (fromDt == "") {
 				alert("Please Select From Date");
 				return false;
 			} else if (toDt == "") {
 				alert("Please Select To Date");
 				return false;
-			} else if (a == 0) {
+			} 
+			/* else if (a == 0) {
 				alert("Please Select Bill Type");
 				return false;
-			}
+			} */
 
 		}
 	</script>

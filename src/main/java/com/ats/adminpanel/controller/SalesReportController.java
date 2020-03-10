@@ -333,7 +333,38 @@ public class SalesReportController {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 
-				if (typeId == 1 && bType == 1) {
+				if (typeId == 0 && bType == 1) {
+
+					rowData.add("Sr.No.");
+					rowData.add("GSTIN/UIN of Recipient");
+					rowData.add("Receiver Name");
+					rowData.add("Invoice No");
+					rowData.add("Invoice date");
+					rowData.add("Invoice Value");
+					rowData.add("Place of Supply");
+					rowData.add("Reverse Charge");
+					rowData.add("Applicable % of Tax Rate");
+					rowData.add("Invoice Type");
+					rowData.add("E Commerce GSTIN");
+					rowData.add("Rate");
+					rowData.add("Taxable Value");
+					rowData.add("IGST");
+					rowData.add("CGST");
+					rowData.add("SGST");
+					rowData.add("Cess Amount");
+
+				} else if (typeId == 0 && bType == 2) {
+
+					rowData.add("Sr.No.");
+					rowData.add("Place of Supply");
+					rowData.add("GST Rate");
+					rowData.add("Taxable Value");
+					rowData.add("IGST");
+					rowData.add("CGST");
+					rowData.add("SGST");
+					rowData.add("Cess Amount");
+
+				} else if (typeId == 1 && bType == 1) {
 
 					rowData.add("Sr.No.");
 					rowData.add("GSTIN/UIN of Recipient");
@@ -429,7 +460,41 @@ public class SalesReportController {
 					expoExcel = new ExportToExcel();
 					rowData = new ArrayList<String>();
 
-					if (typeId == 1 && bType == 1) {
+					if (typeId == 0 && bType == 1) {
+
+						rowData.add((i + 1) + "");
+						rowData.add("" + taxReportList.get(i).getBillToGst());
+						rowData.add("" + taxReportList.get(i).getBillToName());
+						rowData.add("" + taxReportList.get(i).getInvoiceNo());
+						rowData.add("" + taxReportList.get(i).getBillDate());
+
+						rowData.add("" + finalTotal);
+						rowData.add("" + Constants.STATE);
+						rowData.add("N");
+						rowData.add(" ");
+
+						rowData.add("Regular");
+						rowData.add(" ");
+
+						rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
+						rowData.add("" + taxReportList.get(i).getTaxableAmt());
+						rowData.add("0");
+						rowData.add("" + taxReportList.get(i).getCgstAmt());
+						rowData.add("" + taxReportList.get(i).getSgstAmt());
+						rowData.add("0");
+
+					} else if (typeId == 0 && bType == 2) {
+
+						rowData.add((i + 1) + "");
+						rowData.add("" + Constants.STATE);
+						rowData.add("" + (taxReportList.get(i).getCgstPer() + taxReportList.get(i).getSgstPer()));
+						rowData.add("" + taxReportList.get(i).getTaxableAmt());
+						rowData.add("0");
+						rowData.add("" + taxReportList.get(i).getCgstAmt());
+						rowData.add("" + taxReportList.get(i).getSgstAmt());
+						rowData.add("0");
+
+					} else if (typeId == 1 && bType == 1) {
 
 						rowData.add((i + 1) + "");
 						rowData.add("" + taxReportList.get(i).getBillToGst());

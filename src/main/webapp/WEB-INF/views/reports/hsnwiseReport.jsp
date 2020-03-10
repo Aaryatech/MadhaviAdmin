@@ -90,11 +90,15 @@
 					<label class="col-sm-3 col-lg-2	 control-label">Select Type</label>
 					<div class="col-sm-10 col-lg-4  controls">
 
-						<select data-placeholder="Select Type" class="form-control chosen"
+						<!-- <select data-placeholder="Select Type" class="form-control chosen"
 							id="type" name="type" required>
 							<option value="1">Bill wise</option>
 							<option value="2">Credit Note Wise</option>
 							<option value="3">Consolidated</option>
+						</select> -->
+						<select data-placeholder="Select Type" class="form-control chosen"
+							id="type" name="type" required>
+							<option value="3" selected="selected">Consolidated</option>
 						</select>
 					</div>
 
@@ -104,7 +108,8 @@
 
 						<select data-placeholder="Choose " class="form-control chosen"
 							tabindex="6" id="type_id" name="type_id">
-							<option value="1" selected="selected">Franchise Bill</option>
+							<option value="0" selected="selected">All</option>
+							<option value="1">Franchise Bill</option>
 							<option value="3">Company Outlet Bill</option>
 						</select>
 

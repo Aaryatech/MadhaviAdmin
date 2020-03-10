@@ -206,7 +206,40 @@ public class ReportController {
 			ExportToExcel expoExcel = new ExportToExcel();
 			List<String> rowData = new ArrayList<String>();
 
-			if (typeId == 1 && bType == 1) {
+			if (typeId == 0 && bType == 1) {
+
+				rowData.add("Sr. No.");
+				rowData.add("GSTIN/UIN of Recipient");
+				rowData.add("Receiver Name");
+				rowData.add("Invoice/Advance Receipt Number");
+				rowData.add("Invoice/Advance Receipt date");
+				rowData.add("Note/Refund Voucher Number");
+				rowData.add("Note/Refund Voucher date");
+				rowData.add("Document Type");
+				rowData.add("Place Of Supply");
+				rowData.add("Note/Refund Voucher Value");
+				rowData.add("Applicable % of Tax Rate");
+				rowData.add("Rate");
+				rowData.add("Taxable Value");
+				rowData.add("IGST");
+				rowData.add("CGST");
+				rowData.add("SGST");
+				rowData.add("Cess Amount");
+
+			} else if (typeId == 0 && bType == 2) {
+
+				rowData.add("Sr. No.");
+				rowData.add("Place Of Supply");
+				rowData.add("Note/Refund Voucher Value");
+				rowData.add("Applicable % of Tax Rate");
+				rowData.add("Rate");
+				rowData.add("Taxable Value");
+				rowData.add("IGST");
+				rowData.add("CGST");
+				rowData.add("SGST");
+				rowData.add("Cess Amount");
+
+			}else if (typeId == 1 && bType == 1) {
 
 				rowData.add("Sr. No.");
 				rowData.add("GSTIN/UIN of Recipient");
@@ -294,7 +327,40 @@ public class ReportController {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 
-				if (typeId == 1 && bType == 1) {
+				if (typeId == 0 && bType == 1) {
+
+					rowData.add("" + (i + 1));
+					rowData.add("" + crNoteRegItemList.get(i).getBillToGst());
+					rowData.add("" + crNoteRegItemList.get(i).getBillToName());
+					rowData.add("" + crNoteRegItemList.get(i).getInvoiceNo());
+					rowData.add("" + crNoteRegItemList.get(i).getBillDate());
+					rowData.add("" + crNoteRegItemList.get(i).getFrCode());
+					rowData.add("" + crNoteRegItemList.get(i).getCrnDate());
+					rowData.add(" ");
+					rowData.add("" + Constants.STATE);
+					rowData.add("" + roundUp(crnTotal));
+					rowData.add(" ");
+					rowData.add("" + (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getCrnTaxable()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getIgstAmt()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getCgstAmt()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getSgstAmt()));
+					rowData.add("0");
+
+				} else if (typeId == 0 && bType == 2) {
+
+					rowData.add("" + (i + 1));
+					rowData.add("" + Constants.STATE);
+					rowData.add("" + roundUp(crnTotal));
+					rowData.add(" ");
+					rowData.add("" + (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getCrnTaxable()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getIgstAmt()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getCgstAmt()));
+					rowData.add("" + roundUp(crNoteRegItemList.get(i).getSgstAmt()));
+					rowData.add("0");
+
+				} else if (typeId == 1 && bType == 1) {
 
 					rowData.add("" + (i + 1));
 					rowData.add("" + crNoteRegItemList.get(i).getBillToGst());
@@ -928,6 +994,8 @@ public class ReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("bTypeId", bTypeId);
+			
+			System.err.println("TYPE = "+type+"                 BILL TYPE = "+bTypeId);
 
 			if (type == 1 || type == 3) {
 				ParameterizedTypeReference<List<HSNWiseReport>> typeRef = new ParameterizedTypeReference<List<HSNWiseReport>>() {
