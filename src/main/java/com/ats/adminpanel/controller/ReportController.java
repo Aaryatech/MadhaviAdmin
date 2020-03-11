@@ -63,6 +63,7 @@ import com.ats.adminpanel.model.item.CategoryListResponse;
 import com.ats.adminpanel.model.reportv2.CrNoteRegItem;
 import com.ats.adminpanel.model.reportv2.CrNoteRegSp;
 import com.ats.adminpanel.model.reportv2.CrNoteRegisterList;
+import com.ats.adminpanel.model.reportv2.HSNItemWiseReport;
 import com.ats.adminpanel.model.reportv2.HSNWiseReport;
 import com.ats.adminpanel.model.salesreport.SalesReportBillwise;
 import com.itextpdf.text.BaseColor;
@@ -239,7 +240,7 @@ public class ReportController {
 				rowData.add("SGST");
 				rowData.add("Cess Amount");
 
-			}else if (typeId == 1 && bType == 1) {
+			} else if (typeId == 1 && bType == 1) {
 
 				rowData.add("Sr. No.");
 				rowData.add("GSTIN/UIN of Recipient");
@@ -487,7 +488,7 @@ public class ReportController {
 				rowData.add("");
 
 			} else if (typeId == 3 && bType == 1) {
-				
+
 				rowData.add("Total");
 				rowData.add("");
 				rowData.add("");
@@ -509,7 +510,7 @@ public class ReportController {
 				rowData.add("");
 
 			} else if (typeId == 3 && bType == 2) {
-				
+
 				rowData.add("Total");
 				rowData.add("");
 				rowData.add("");
@@ -986,7 +987,6 @@ public class ReportController {
 			toDate = request.getParameter("toDate");
 			int type = Integer.parseInt(request.getParameter("type"));
 			int bTypeId = Integer.parseInt(request.getParameter("bTypeId"));
-			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
@@ -994,22 +994,22 @@ public class ReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("bTypeId", bTypeId);
-			
-			System.err.println("TYPE = "+type+"                 BILL TYPE = "+bTypeId);
+
+			System.err.println("TYPE = " + type + "                 BILL TYPE = " + bTypeId);
 
 			if (type == 1 || type == 3) {
 				ParameterizedTypeReference<List<HSNWiseReport>> typeRef = new ParameterizedTypeReference<List<HSNWiseReport>>() {
 				};
-				ResponseEntity<List<HSNWiseReport>> responseEntity = restTemplate
-						.exchange(Constants.url + "getAdminHsnBillReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+				ResponseEntity<List<HSNWiseReport>> responseEntity = restTemplate.exchange(
+						Constants.url + "getAdminHsnBillReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 				hsnListBill = responseEntity.getBody();
 			}
 			if (type == 2 || type == 3) {
 				ParameterizedTypeReference<List<HSNWiseReport>> typeRef1 = new ParameterizedTypeReference<List<HSNWiseReport>>() {
 				};
-				ResponseEntity<List<HSNWiseReport>> responseEntity1 = restTemplate
-						.exchange(Constants.url + "getAdminHsnReport", HttpMethod.POST, new HttpEntity<>(map), typeRef1);
+				ResponseEntity<List<HSNWiseReport>> responseEntity1 = restTemplate.exchange(
+						Constants.url + "getAdminHsnReport", HttpMethod.POST, new HttpEntity<>(map), typeRef1);
 
 				hsnList = responseEntity1.getBody();
 
@@ -1160,6 +1160,233 @@ public class ReportController {
 		session.setAttribute("excelName", "HSNWiseReport");
 
 		return hsnListBill;
+	}
+
+	// Anmol--11-03-2020---Item Wise HSN Summary Report---
+
+	@RequestMapping(value = "/showItemwiseHSNReportBetDate", method = RequestMethod.GET)
+	public ModelAndView showItemwiseHSNReportBetDate(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		/*
+		 * List<ModuleJson> newModuleList = (List<ModuleJson>)
+		 * session.getAttribute("newModuleList"); Info view =
+		 * AccessControll.checkAccess("showItemwiseHSNReportBetDate",
+		 * "showItemwiseHSNReportBetDate", "1", "0", "0", "0", newModuleList);
+		 * 
+		 * if (view.getError() == true) {
+		 * 
+		 * model = new ModelAndView("accessDenied"); // model = new
+		 * ModelAndView("reports/hsnwiseReport");
+		 * 
+		 * } else {
+		 */
+
+		model = new ModelAndView("reports/itemWiseHsnReport");
+
+		// Constants.mainAct =2;
+		// Constants.subAct =20;
+
+		try {
+			ZoneId z = ZoneId.of("Asia/Calcutta");
+
+			LocalDate date = LocalDate.now(z);
+			DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
+			todaysDate = date.format(formatters);
+			model.addObject("todaysDate", todaysDate);
+
+		} catch (Exception e) {
+
+			System.out.println("Exc in show   report hsn wise  " + e.getMessage());
+			e.printStackTrace();
+		}
+		// }
+		return model;
+
+	}
+
+	// Anmol--11-03-2020---Item Wise HSN Summary Report---AJAX
+
+	List<HSNItemWiseReport> hsnItemListBill = new ArrayList<>();
+
+	@RequestMapping(value = "/getReportHSNItemwise", method = RequestMethod.GET)
+	public @ResponseBody List<HSNItemWiseReport> getReportHSNItemwise(HttpServletRequest request,
+			HttpServletResponse response) {
+		String fromDate = "";
+		String toDate = "";
+		List<HSNItemWiseReport> hsnList = null;
+
+		try {
+			System.out.println("Inside get hsnList    ");
+			hsnItemListBill = new ArrayList<>();
+			hsnList = new ArrayList<>();
+			fromDate = request.getParameter("fromDate");
+			toDate = request.getParameter("toDate");
+			int type = Integer.parseInt(request.getParameter("type"));
+			int bTypeId = Integer.parseInt(request.getParameter("bTypeId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate restTemplate = new RestTemplate();
+
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("bTypeId", bTypeId);
+
+			System.err.println("TYPE = " + type + "                 BILL TYPE = " + bTypeId);
+
+			if (type == 1 || type == 3) {
+				ParameterizedTypeReference<List<HSNItemWiseReport>> typeRef = new ParameterizedTypeReference<List<HSNItemWiseReport>>() {
+				};
+				ResponseEntity<List<HSNItemWiseReport>> responseEntity = restTemplate.exchange(
+						Constants.url + "getAdminHsnItemWiseBillReport", HttpMethod.POST, new HttpEntity<>(map),
+						typeRef);
+
+				hsnItemListBill = responseEntity.getBody();
+			}
+			if (type == 2 || type == 3) {
+				ParameterizedTypeReference<List<HSNItemWiseReport>> typeRef1 = new ParameterizedTypeReference<List<HSNItemWiseReport>>() {
+				};
+				ResponseEntity<List<HSNItemWiseReport>> responseEntity1 = restTemplate.exchange(
+						Constants.url + "getAdminHsnItemReport", HttpMethod.POST, new HttpEntity<>(map), typeRef1);
+
+				hsnList = responseEntity1.getBody();
+
+				System.out.println("hsn List Bill Wise " + hsnList.toString());
+			}
+
+			if (hsnItemListBill.isEmpty() && hsnList.isEmpty()) {
+				hsnItemListBill = new ArrayList<>();
+			} else if (!hsnList.isEmpty()) {
+				for (int i = 0; i < hsnList.size(); i++) {
+					for (int j = 0; j < hsnItemListBill.size(); j++) {
+						if (hsnList.get(i).getItemId() == hsnItemListBill.get(j).getItemId()) {
+							hsnItemListBill.get(j).setTaxableAmt(
+									hsnItemListBill.get(j).getTaxableAmt() - hsnList.get(i).getTaxableAmt());
+							hsnItemListBill.get(j).setGrnGvnQty(hsnList.get(i).getBillQty());
+
+							hsnItemListBill.get(j)
+									.setCgstRs(hsnItemListBill.get(j).getCgstRs() - hsnList.get(i).getCgstRs());
+
+							hsnItemListBill.get(j)
+									.setSgstRs(hsnItemListBill.get(j).getSgstRs() - hsnList.get(i).getSgstRs());
+
+						}
+						// hsnListBill.get(j).setGrnGvnQty(0);
+					}
+				}
+			}
+
+			/*
+			 * if (type == 2) { hsnItemListBill.addAll(hsnList); }
+			 */
+			System.out.println(hsnItemListBill.toString());
+			System.out.println(hsnList.toString());
+
+		} catch (Exception e) {
+			System.out.println("get sale Report hsn Wise " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		// exportToExcel
+
+		if (!hsnItemListBill.isEmpty()) {
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr No");
+			rowData.add("HSN Code");
+			rowData.add("DESC");
+			rowData.add("UQC");
+			rowData.add("Total Qty");
+			rowData.add("Total Value");
+			rowData.add("Taxable Amount");
+			rowData.add("Integrated Tax Amount");
+			rowData.add("Central Tax Amount");
+			rowData.add("State/UT Tax Amount");
+			rowData.add("Cess Amount");
+
+			float taxableAmt = 0.0f;
+			float cgstSum = 0.0f;
+			float sgstSum = 0.0f;
+			float igstSum = 0.0f;
+			float totalTax = 0.0f;
+			float grandTotal = 0.0f;
+
+			expoExcel.setRowData(rowData);
+			int srno = 1;
+			exportToExcelList.add(expoExcel);
+			for (int i = 0; i < hsnItemListBill.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add("" + srno);
+				rowData.add(hsnItemListBill.get(i).getItemHsncd());
+				rowData.add(hsnItemListBill.get(i).getItemName());
+				rowData.add(hsnItemListBill.get(i).getItemUom());
+				rowData.add(" " + (hsnItemListBill.get(i).getBillQty() - hsnItemListBill.get(i).getGrnGvnQty()));
+				rowData.add(" " + roundUp(hsnItemListBill.get(i).getTaxableAmt() + hsnItemListBill.get(i).getCgstRs()
+						+ hsnItemListBill.get(i).getSgstRs()));
+
+				rowData.add("" + Long.toString((long) (hsnItemListBill.get(i).getTaxableAmt())));
+
+				rowData.add(" " + 0);
+				rowData.add("" + roundUp(hsnItemListBill.get(i).getCgstRs()));
+				rowData.add("" + roundUp(hsnItemListBill.get(i).getSgstRs()));
+				rowData.add(" " + 0);
+
+				totalTax = totalTax + roundUp(hsnItemListBill.get(i).getItemTax1())
+						+ roundUp(hsnItemListBill.get(i).getItemTax2());
+				taxableAmt = taxableAmt + roundUp(hsnItemListBill.get(i).getTaxableAmt());
+				cgstSum = cgstSum + roundUp(hsnItemListBill.get(i).getCgstRs());
+				sgstSum = sgstSum + roundUp(hsnItemListBill.get(i).getSgstRs());
+				grandTotal = grandTotal
+						+ roundUp(hsnItemListBill.get(i).getTaxableAmt() + hsnItemListBill.get(i).getCgstRs()
+								+ hsnItemListBill.get(i).getSgstRs());
+
+				srno = srno + 1;
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			expoExcel = new ExportToExcel();
+			rowData = new ArrayList<String>();
+
+			rowData.add("");
+			rowData.add("");
+			rowData.add("");
+			rowData.add("Total");
+			rowData.add("");
+			rowData.add("" + Long.toString((long) (grandTotal)));
+			rowData.add("" + Long.toString((long) (taxableAmt)));
+			rowData.add("" + roundUp(igstSum));
+			rowData.add("" + roundUp(cgstSum));
+			rowData.add("" + roundUp(sgstSum));
+			rowData.add("0.00");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelListNew", exportToExcelList);
+			session.setAttribute("excelNameNew", "HSNWiseReport");
+			session.setAttribute("reportNameNew", "View Item Wise Report");
+			session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
+			session.setAttribute("mergeUpto1", "$A$1:$L$1");
+			session.setAttribute("mergeUpto2", "$A$2:$L$2");
+
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "HSNWiseReport");
+
+		}
+
+		return hsnItemListBill;
 	}
 
 	// getCRN Reg Pdf
