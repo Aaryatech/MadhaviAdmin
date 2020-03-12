@@ -166,7 +166,7 @@
 									<th style="text-align: center;">HSN</th>
 									<th style="text-align: center;">UOM</th>
 									<th style="text-align: center;">TAX %</th>
-									<th style="text-align: center;">MANUF</th>
+									<th style="text-align: center;">QTY</th>
 									<th style="text-align: center;">RET</th>
 									<th style="text-align: center;">TOTAL</th>
 									<th style="text-align: center;">TAXABLE AMT</th>
