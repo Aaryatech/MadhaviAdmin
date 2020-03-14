@@ -310,6 +310,8 @@ type
 
 
 
+
+
 :checked
 ,
 [
@@ -317,6 +319,8 @@ type
 =
 "radio"
 ]
+
+
 
 
 
@@ -345,7 +349,9 @@ type
 
 
 
+
  
+
 
 
 
@@ -366,7 +372,9 @@ type
 
 
 
+
  
+
 
 
 
@@ -397,7 +405,10 @@ position
 
 
 
+
+
 :
+
 
 
 
@@ -417,7 +428,10 @@ position
 
 
 
+
 absolute
+
+
 
 
 
@@ -456,7 +470,10 @@ left
 
 
 
+
+
 :
+
 
 
 
@@ -476,8 +493,11 @@ left
 
 
 
+
 -9999
 px
+
+
 
 
 
@@ -677,7 +697,7 @@ px
 												<label class="col-sm-3 col-lg-2 control-label"> Is
 													Dairy Mart? </label> <label class="switch"> <input
 													type="checkbox" id="isDairyMart" name="isDairyMart"
-													onchange="onDairyMartCheck()"> <span
+													onchange="onDairyMartCheck()" > <span
 													class="slider round"></span>
 												</label>
 
@@ -2765,6 +2785,9 @@ function onCatIdChangeForManOrder(menuId) {
 
 	
 	if(parseInt(menuId)==42){
+		 $("#isDairyMart").prop('checked', true);
+		
+	
 		   document.getElementById("advOrderTotal").style = "visible";
 		   document.getElementById("custOrder").style = "visible";
 		    document.getElementById("custSelDiv").style = "visible";
@@ -2787,6 +2810,7 @@ function onCatIdChangeForManOrder(menuId) {
 		
 		   document.getElementById("advOrderTotal").style = "display:none";
 		    $("#isDairyMart").prop('checked', false);
+		    
    		  $('#limQtyCol').hide();
    		// alert('limQtyCol3');
    		  $('#table_grid td').remove();
@@ -2803,6 +2827,10 @@ function onCatIdChangeForManOrder(menuId) {
 			document.getElementById("delType").value="";
 			$("#delType").trigger("chosen:updated");
 		}
+	
+	
+	 onDairyMartCheck();
+	
 	 /* var isChecked = $('#isDairyMart').is(':checked');
   	 var isDairyMart=0;
      if(isChecked==true)
@@ -2845,6 +2873,8 @@ function onDairyMartCheck()
 	  
      var isDairyMart=0;
 	 var isChecked = $('#isDairyMart').is(':checked');
+	 
+	 
      if(isChecked==true)
      	{
      	isDairyMart=1;
