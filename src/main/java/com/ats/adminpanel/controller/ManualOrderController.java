@@ -88,27 +88,25 @@ public class ManualOrderController {
 						SectionMaster[].class);
 				List<SectionMaster> sectionList = new ArrayList<SectionMaster>(Arrays.asList(sectionMasterArray));
 				model.addObject("sectionList", sectionList);
-				
+
 				Customer[] customer = restTemplate.getForObject(Constants.url + "/getAllCustomers", Customer[].class);
 				List<Customer> customerList = new ArrayList<>(Arrays.asList(customer));
 				model.addObject("customerList", customerList);
-				
-				MultiValueMap<String, Object> mvm= new LinkedMultiValueMap<String, Object>();
+
+				MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
 				mvm.add("settingKey", "DEFLTCUST");
 				NewSetting settingValue = restTemplate.postForObject(Constants.url + "/findNewSettingByKey", mvm,
 						NewSetting.class);
-	           System.err.println(settingValue.toString());
+				System.err.println(settingValue.toString());
 				model.addObject("defaultCustomer", settingValue.getSettingValue1());
-				Customer defCust=new Customer();
-				for(int i=0;i<customerList.size();i++)
-				{
-					if(customerList.get(i).getCustId()==Integer.parseInt(settingValue.getSettingValue1()))
-					{
-						defCust=customerList.get(i);
+				Customer defCust = new Customer();
+				for (int i = 0; i < customerList.size(); i++) {
+					if (customerList.get(i).getCustId() == Integer.parseInt(settingValue.getSettingValue1())) {
+						defCust = customerList.get(i);
 						break;
 					}
 				}
-                model.addObject("defCust", defCust);
+				model.addObject("defCust", defCust);
 			} catch (Exception e) {
 				System.out.println("Franchisee Controller Exception " + e.getMessage());
 			}
@@ -410,7 +408,7 @@ public class ManualOrderController {
 			for (String fr : frId) {
 				int flagForItem = 0;
 				if (orderList.size() > 0) {
-					flagForItem = isItemPresent(Integer.parseInt(fr), item.getId(), (int)qty);
+					flagForItem = isItemPresent(Integer.parseInt(fr), item.getId(), (int) qty);
 				}
 
 				FranchiseeList franchiseeList = null;
@@ -633,23 +631,19 @@ public class ManualOrderController {
 		String partyAddress = "";
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
-		
-		
-		
 
 		int ordertype = Integer.parseInt(request.getParameter("ordertype"));
 		int menuId = Integer.parseInt(request.getParameter("menu"));
-		int delType= Integer.parseInt(request.getParameter("delType"));
-		int dm= Integer.parseInt(request.getParameter("dailyFlagMart"));
+		int delType = Integer.parseInt(request.getParameter("delType"));
+		int dm = Integer.parseInt(request.getParameter("dailyFlagMart"));
 
-		int isDairy=1;
-		
+		int isDairy = 1;
+
 		System.err.println("MENU ID:-----------------------------------------------------------" + menuId);
-		if(menuId==42) {
-			isDairy=2;
+		if (menuId == 42) {
+			isDairy = 2;
 		}
-		
-		
+
 		System.err.println("dm:" + dm);
 		System.err.println("button:" + submitorder + submitbill);
 
@@ -709,9 +703,10 @@ public class ManualOrderController {
 
 						for (int i = 0; i < orderList.size(); i++) {
 
-							float qty = Float.parseFloat(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
+							float qty = Float.parseFloat(
+									request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId1));
 							// if (submitorder == null) {
-						 System.err.println("qty"+qty);
+							System.err.println("qty" + qty);
 							float discPer = Float.parseFloat(
 									request.getParameter("discper" + orderList.get(i).getItemId() + "" + frId1));// new
 																													// on
@@ -767,165 +762,173 @@ public class ManualOrderController {
 								PostBillDetail billDetail = new PostBillDetail();
 
 								String billQty = "" + tempGenerateBillList.get(j).getOrderQty();
-								float discPer = tempGenerateBillList.get(j).getIsPositive();
 
-								// billQty = String.valueOf(gBill.getOrderQty());
-								Float orderRate = (float) gBill.getOrderRate();
-								Float tax1 = (float) gBill.getItemTax1();
-								Float tax2 = (float) gBill.getItemTax2();
-								Float tax3 = (float) gBill.getItemTax3();
-
-								Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-								baseRate = roundUp(baseRate);
-
-								Float taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
-
-								System.out.println("taxableAmt: " + taxableAmt);
-								taxableAmt = roundUp(taxableAmt);
-								//taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
-
-								float sgstRs = (taxableAmt * tax1) / 100;
-								float cgstRs = (taxableAmt * tax2) / 100;
-								float igstRs = (taxableAmt * tax3) / 100;
-								Float totalTax = sgstRs + cgstRs;
-								float discAmt = 0;
+								float tmpQty = 0;
 								if (billQty == null || billQty == "") {// new code to handle hidden records
-									billQty = "0";
+									tmpQty = 0;
+								} else {
+									tmpQty = Float.parseFloat(billQty);
 								}
 
-								if (gBill.getIsSameState() == 1) {
-									baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-									taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
-									// ----------------------------------------------------------
-									discAmt = ((taxableAmt * discPer) / 100); // new row added
-									System.out.println("discAmt: " + discAmt);// new row added
-									sumDiscAmt = sumDiscAmt + discAmt;
+								if (tmpQty > 0) {
 
-									taxableAmt = taxableAmt - discAmt; // new row added
-									// ----------------------------------------------------------
-									sgstRs = (taxableAmt * tax1) / 100;
-									cgstRs = (taxableAmt * tax2) / 100;
-									igstRs = 0;
-									totalTax = sgstRs + cgstRs;
+									float discPer = tempGenerateBillList.get(j).getIsPositive();
+
+									// billQty = String.valueOf(gBill.getOrderQty());
+									Float orderRate = (float) gBill.getOrderRate();
+									Float tax1 = (float) gBill.getItemTax1();
+									Float tax2 = (float) gBill.getItemTax2();
+									Float tax3 = (float) gBill.getItemTax3();
+
+									Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
+									baseRate = roundUp(baseRate);
+
+									Float taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
+
+									System.out.println("taxableAmt: " + taxableAmt);
+									taxableAmt = roundUp(taxableAmt);
+									// taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
+
+									float sgstRs = (taxableAmt * tax1) / 100;
+									float cgstRs = (taxableAmt * tax2) / 100;
+									float igstRs = (taxableAmt * tax3) / 100;
+									Float totalTax = sgstRs + cgstRs;
+									float discAmt = 0;
+									if (billQty == null || billQty == "") {// new code to handle hidden records
+										billQty = "0";
+									}
+
+									if (gBill.getIsSameState() == 1) {
+										baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
+										taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
+										// ----------------------------------------------------------
+										discAmt = ((taxableAmt * discPer) / 100); // new row added
+										System.out.println("discAmt: " + discAmt);// new row added
+										sumDiscAmt = sumDiscAmt + discAmt;
+
+										taxableAmt = taxableAmt - discAmt; // new row added
+										// ----------------------------------------------------------
+										sgstRs = (taxableAmt * tax1) / 100;
+										cgstRs = (taxableAmt * tax2) / 100;
+										igstRs = 0;
+										totalTax = sgstRs + cgstRs;
+
+									}
+
+									else {
+										baseRate = (orderRate * 100) / (100 + (tax3));
+										taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
+										// ----------------------------------------------------------
+										discAmt = ((taxableAmt * discPer) / 100); // new row added
+										System.out.println("discAmt: " + discAmt);// new row added
+										sumDiscAmt = sumDiscAmt + discAmt;
+
+										taxableAmt = taxableAmt - discAmt; // new row added
+										// ----------------------------------------------------------
+										sgstRs = 0;
+										cgstRs = 0;
+										igstRs = (taxableAmt * tax3) / 100;
+										totalTax = igstRs;
+									}
+
+									sgstRs = roundUp(sgstRs);
+									cgstRs = roundUp(cgstRs);
+									igstRs = roundUp(igstRs);
+
+									// sgstRs=Float.parseFloat(String.format("%.2f", sgstRs));
+									// cgstRs=Float.parseFloat(String.format("%.2f", cgstRs));
+									// igstRs=Float.parseFloat(String.format("%.2f", igstRs));
+
+									// header.setSgstSum(sumT1);
+									// header.setCgstSum(sumT2);
+									// header.setIgstSum(sumT3);
+
+									totalTax = roundUp(totalTax);
+									// totalTax=Float.parseFloat(String.format("%.2f", totalTax));
+
+									Float grandTotal = totalTax + taxableAmt;
+									grandTotal = roundUp(grandTotal);
+									// grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
+
+									sumTaxableAmt = sumTaxableAmt + taxableAmt;
+									sumTaxableAmt = roundUp(sumTaxableAmt);
+									// sumTaxableAmt=Float.parseFloat(String.format("%.2f", sumTaxableAmt));
+
+									sumTotalTax = sumTotalTax + totalTax;
+									sumTotalTax = roundUp(sumTotalTax);
+									// sumTotalTax=Float.parseFloat(String.format("%.2f", sumTotalTax));
+
+									sumGrandTotal = sumGrandTotal + grandTotal;
+									sumGrandTotal = roundUp(sumGrandTotal);
+									// sumGrandTotal=Float.parseFloat(String.format("%.2f", sumGrandTotal));
+
+									billDetail.setOrderId(tempGenerateBillList.get(j).getOrderId());
+									billDetail.setMenuId(gBill.getMenuId());
+									billDetail.setCatId(gBill.getCatId());
+									billDetail.setItemId(gBill.getItemId());
+									billDetail.setOrderQty(gBill.getOrderQty());
+									billDetail.setBillQty(Float.parseFloat(billQty));
+									billDetail.setMrp((float) gBill.getOrderMrp());
+									billDetail.setRateType(gBill.getRateType());
+									billDetail.setRate((float) gBill.getOrderRate());
+
+									// baseRate=Float.parseFloat(String.format("%.2f", baseRate));
+
+									billDetail.setBaseRate(baseRate);
+
+									// taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
+
+									billDetail.setTaxableAmt(taxableAmt);
+									billDetail.setDiscPer(discPer);// new
+									billDetail.setRemark("" + discAmt);// new
+									billDetail.setSgstPer(tax1);
+									billDetail.setSgstRs(sgstRs);
+									billDetail.setCgstPer(tax2);
+									billDetail.setCgstRs(cgstRs);
+									billDetail.setIgstPer(tax3);
+									billDetail.setIgstRs(igstRs);
+									billDetail.setTotalTax(totalTax);
+									billDetail.setGrandTotal(grandTotal);
+									billDetail.setDelStatus(0);
+									billDetail.setIsGrngvnApplied(0);
+									billDetail.setHsnCode(gBill.getHsnCode());// newly added
+									billDetail.setGrnType(gBill.getGrnType());// newly added
+
+									header.setSgstSum(header.getSgstSum() + billDetail.getSgstRs());
+									header.setCgstSum(header.getCgstSum() + billDetail.getCgstRs());
+									header.setIgstSum(header.getIgstSum() + billDetail.getIgstRs());
+
+									int itemShelfLife = gBill.getItemShelfLife();
+
+									String deliveryDate = gBill.getDeliveryDate();
+
+									String calculatedDate = incrementDate(deliveryDate, itemShelfLife);
+
+									// inc exp date if these menuId
+									if (gBill.getMenuId() == 67 || gBill.getMenuId() == 86 || gBill.getMenuId() == 90) {
+
+										calculatedDate = incrementDate(calculatedDate, 1);
+
+									}
+
+									DateFormat Df = new SimpleDateFormat("dd-MM-yyyy");
+
+									Date expiryDate = null;
+									try {
+										expiryDate = Df.parse(calculatedDate);
+									} catch (ParseException e) {
+
+										e.printStackTrace();
+									}
+
+									billDetail.setExpiryDate(expiryDate);
+									postBillDetailsList.add(billDetail);
+									header.setFrCode(gBill.getFrCode());
+
+									header.setRemark("");
+									header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
 
 								}
-
-								else {
-									baseRate = (orderRate * 100) / (100 + (tax3));
-									taxableAmt = (float) (baseRate * Float.parseFloat(billQty));
-									// ----------------------------------------------------------
-									discAmt = ((taxableAmt * discPer) / 100); // new row added
-									System.out.println("discAmt: " + discAmt);// new row added
-									sumDiscAmt = sumDiscAmt + discAmt;
-
-									taxableAmt = taxableAmt - discAmt; // new row added
-									// ----------------------------------------------------------
-									sgstRs = 0;
-									cgstRs = 0;
-									igstRs = (taxableAmt * tax3) / 100;
-									totalTax = igstRs;
-								}
-
-								sgstRs = roundUp(sgstRs);
-								cgstRs = roundUp(cgstRs);
-								igstRs = roundUp(igstRs);
-								
-								//sgstRs=Float.parseFloat(String.format("%.2f", sgstRs));
-								//cgstRs=Float.parseFloat(String.format("%.2f", cgstRs));
-								//igstRs=Float.parseFloat(String.format("%.2f", igstRs));
-								
-
-								// header.setSgstSum(sumT1);
-								// header.setCgstSum(sumT2);
-								// header.setIgstSum(sumT3);
-
-								totalTax = roundUp(totalTax);
-								//totalTax=Float.parseFloat(String.format("%.2f", totalTax));
-
-								Float grandTotal = totalTax + taxableAmt;
-								grandTotal = roundUp(grandTotal);
-								//grandTotal=Float.parseFloat(String.format("%.2f", grandTotal));
-
-								sumTaxableAmt = sumTaxableAmt + taxableAmt;
-								sumTaxableAmt = roundUp(sumTaxableAmt);
-								//sumTaxableAmt=Float.parseFloat(String.format("%.2f", sumTaxableAmt));
-
-								
-								sumTotalTax = sumTotalTax + totalTax;
-								sumTotalTax = roundUp(sumTotalTax);
-								//sumTotalTax=Float.parseFloat(String.format("%.2f", sumTotalTax));
-
-								sumGrandTotal = sumGrandTotal + grandTotal;
-								sumGrandTotal = roundUp(sumGrandTotal);
-								//sumGrandTotal=Float.parseFloat(String.format("%.2f", sumGrandTotal));
-
-								billDetail.setOrderId(tempGenerateBillList.get(j).getOrderId());
-								billDetail.setMenuId(gBill.getMenuId());
-								billDetail.setCatId(gBill.getCatId());
-								billDetail.setItemId(gBill.getItemId());
-								billDetail.setOrderQty(gBill.getOrderQty());
-								billDetail.setBillQty(Float.parseFloat(billQty));
-								billDetail.setMrp((float) gBill.getOrderMrp());
-								billDetail.setRateType(gBill.getRateType());
-								billDetail.setRate((float) gBill.getOrderRate());
-								
-								//baseRate=Float.parseFloat(String.format("%.2f", baseRate));
-								
-								billDetail.setBaseRate(baseRate);
-								
-								//taxableAmt=Float.parseFloat(String.format("%.2f", taxableAmt));
-								
-								billDetail.setTaxableAmt(taxableAmt);
-								billDetail.setDiscPer(discPer);// new
-								billDetail.setRemark("" + discAmt);// new
-								billDetail.setSgstPer(tax1);
-								billDetail.setSgstRs(sgstRs);
-								billDetail.setCgstPer(tax2);
-								billDetail.setCgstRs(cgstRs);
-								billDetail.setIgstPer(tax3);
-								billDetail.setIgstRs(igstRs);
-								billDetail.setTotalTax(totalTax);
-								billDetail.setGrandTotal(grandTotal);
-								billDetail.setDelStatus(0);
-								billDetail.setIsGrngvnApplied(0);
-								billDetail.setHsnCode(gBill.getHsnCode());// newly added
-								billDetail.setGrnType(gBill.getGrnType());// newly added
-
-								header.setSgstSum(header.getSgstSum() + billDetail.getSgstRs());
-								header.setCgstSum(header.getCgstSum() + billDetail.getCgstRs());
-								header.setIgstSum(header.getIgstSum() + billDetail.getIgstRs());
-
-								int itemShelfLife = gBill.getItemShelfLife();
-
-								String deliveryDate = gBill.getDeliveryDate();
-
-								String calculatedDate = incrementDate(deliveryDate, itemShelfLife);
-
-								// inc exp date if these menuId
-								if (gBill.getMenuId() == 67 || gBill.getMenuId() == 86 || gBill.getMenuId() == 90) {
-
-									calculatedDate = incrementDate(calculatedDate, 1);
-
-								}
-
-								DateFormat Df = new SimpleDateFormat("dd-MM-yyyy");
-
-								Date expiryDate = null;
-								try {
-									expiryDate = Df.parse(calculatedDate);
-								} catch (ParseException e) {
-
-									e.printStackTrace();
-								}
-								
-
-								billDetail.setExpiryDate(expiryDate);
-								postBillDetailsList.add(billDetail);
-								header.setFrCode(gBill.getFrCode());
-
-								header.setRemark("");
-								header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
-
 							}
 							header.setBillDate(new Date());// hardcoded curr Date
 							header.setTaxableAmt(sumTaxableAmt);
@@ -962,17 +965,17 @@ public class ManualOrderController {
 							header.setBillTime(sdf1.format(calender.getTime()));
 							header.setVehNo("-");
 							header.setExVarchar1(sectionId);
-							
-							if(franchiseeList.getFrKg1()==1) {
-								
+
+							if (franchiseeList.getFrKg1() == 1) {
+
 								header.setExVarchar2("1");
-								
-							}else {
-								
+
+							} else {
+
 								header.setExVarchar2("0");
-								
+
 							}
-							
+
 							header.setExVarchar3(partyName);
 							header.setExVarchar4(partyGstin);
 							header.setExVarchar5(partyAddress);
@@ -1004,12 +1007,15 @@ public class ManualOrderController {
 			partyName = request.getParameter("frName");
 			partyGstin = request.getParameter("gstin");
 			partyAddress = request.getParameter("address");
-		    String	billToName = request.getParameter("billToName");
-		    String  billToGstin = request.getParameter("billToGstin");
-		    String  billToAddress = request.getParameter("billToAddress");
-			int custId= Integer.parseInt(request.getParameter("cust"));
+			String billToName = request.getParameter("billToName");
+			String billToGstin = request.getParameter("billToGstin");
+			String billToAddress = request.getParameter("billToAddress");
+			int custId = Integer.parseInt(request.getParameter("cust"));
+			
+			String remark=request.getParameter("remark");
+			
 			System.err.println("  adv order");
-		    float advanceAmt=Float.parseFloat(request.getParameter("advanceAmt"));
+			float advanceAmt = Float.parseFloat(request.getParameter("advanceAmt"));
 			String devDate = request.getParameter("delDate");
 			String delTime = request.getParameter("delTime");
 			System.err.println("fr_id:" + Integer.parseInt(request.getParameter("fr_id")));
@@ -1017,12 +1023,13 @@ public class ManualOrderController {
 			// to get fr
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("frId", Integer.parseInt(request.getParameter("fr_id")));
- 			FranchiseeList franchiseeList = restTemplate.postForObject(Constants.url + "/getFranchiseeNew", map,
+			FranchiseeList franchiseeList = restTemplate.postForObject(Constants.url + "/getFranchiseeNew", map,
 					FranchiseeList.class);
-			 
- 			String frString=franchiseeList.getFrName()+"##"+franchiseeList.getFrAddress()+"##"+franchiseeList.getFrGstNo();
- 			DateFormat dateFormat1 = new SimpleDateFormat("hh:mm:ss a");
-		 
+
+			String frString = franchiseeList.getFrName() + "##" + franchiseeList.getFrAddress() + "##"
+					+ franchiseeList.getFrGstNo();
+			DateFormat dateFormat1 = new SimpleDateFormat("hh:mm:ss a");
+
 			DateFormat dfReg1 = new SimpleDateFormat("dd-MM-yyyy");
 			String todaysDate = dfReg1.format(date);
 			System.err.println("fr details" + franchiseeList.toString());
@@ -1040,13 +1047,13 @@ public class ManualOrderController {
 			advHeader.setExInt2(1);
 			advHeader.setExVar1(dateFormat1.format(date));
 			advHeader.setExVar2(delTime);
-			//advHeader.setIsDailyMart(dm+1);
+			// advHeader.setIsDailyMart(dm+1);
 			advHeader.setIsDailyMart(isDairy);
 
 			advHeader.setFrId(franchiseeList.getFrId());
 			advHeader.setOrderDate(todaysDate);
 			advHeader.setDeliveryDate(devDate);
-			System.err.println("devDate"+devDate);
+			System.err.println("devDate" + devDate);
 			Date date1 = new Date();
 			Date date2 = new Date();
 			try {
@@ -1064,7 +1071,7 @@ public class ManualOrderController {
 				x1 = incrementDate(devDate, -1);
 
 			}
-			System.err.println("x1-------------------------------------"+x1);
+			System.err.println("x1-------------------------------------" + x1);
 			advHeader.setProdDate(x1);
 
 			advHeader.setIsBillGenerated(0);
@@ -1072,19 +1079,20 @@ public class ManualOrderController {
 			float discAmt = 0.0f;
 			float totGrand = 0;
 			for (int i = 0; i < orderList.size(); i++) {
-				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId() );
+				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId());
 				float qty = 0;
 				String strQty = null;
 
 				try {
 
-					strQty = request.getParameter("qty" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id")));
+					strQty = request.getParameter("qty" + orderList.get(i).getItemId() + ""
+							+ Integer.parseInt(request.getParameter("fr_id")));
 					System.err.println("inside det" + qty);
-					 
+
 					qty = Float.parseFloat(strQty);
 
 				} catch (Exception e) {
-					
+
 					e.printStackTrace();
 					strQty = null;
 					qty = 0;
@@ -1102,40 +1110,39 @@ public class ManualOrderController {
 						det.setMrp(Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp())));
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp()))) * qty;
-						//float discountAmount = (calTotal * orderList.get(i).getIsPositive()) / 100;
-						float discPer1 = Float
-								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
+						// float discountAmount = (calTotal * orderList.get(i).getIsPositive()) / 100;
+						float discPer1 = Float.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId()
+								+ "" + Integer.parseInt(request.getParameter("fr_id"))));
 						float discountAmount = (calTotal * discPer1) / 100;
-						
-						
+
 						discAmt = discAmt + discountAmount;
 						float subTotal = calTotal - discountAmount;
-						
-						//subTotal=Float.parseFloat(String.format("%.2f",subTotal));
-						
+
+						// subTotal=Float.parseFloat(String.format("%.2f",subTotal));
+
 						det.setSubTotal(subTotal);
-						System.err.println("discPer1:"+discPer1);
+						System.err.println("discPer1:" + discPer1);
 						det.setDiscPer(discPer1);
 
 					} else {
-						System.err.println("  adv order without DM"); 
-						//det.setDiscPer(orderList.get(i).getOrderStatus());
-						System.err.println("adv order without DM"+orderList.get(i).toString());
+						System.err.println("  adv order without DM");
+						// det.setDiscPer(orderList.get(i).getOrderStatus());
+						System.err.println("adv order without DM" + orderList.get(i).toString());
 
 						det.setMrp(Float.parseFloat(String.valueOf(orderList.get(i).getOrderMrp())));
 						det.setRate((Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))));
 						float calTotal = (Float.parseFloat(String.valueOf(orderList.get(i).getOrderRate()))) * qty;
 
-						float discPer1 = Float
-								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId() + "" + Integer.parseInt(request.getParameter("fr_id"))));
+						float discPer1 = Float.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId()
+								+ "" + Integer.parseInt(request.getParameter("fr_id"))));
 						float discountAmount = (calTotal * discPer1) / 100;
 						float subTotal = calTotal - discountAmount;
 						discAmt = discAmt + discountAmount;
-						
-						//subTotal=Float.parseFloat(String.format("%.2f",subTotal));
-						
+
+						// subTotal=Float.parseFloat(String.format("%.2f",subTotal));
+
 						det.setSubTotal(subTotal);
-						System.err.println("discPer1:"+discPer1);
+						System.err.println("discPer1:" + discPer1);
 						det.setDiscPer(discPer1);
 
 					}
@@ -1145,7 +1152,7 @@ public class ManualOrderController {
 					det.setExFloat2(0);
 					det.setExInt1(0);
 					det.setExInt2(0);
-					det.setExVar1("NA");
+					det.setExVar1(remark);
 					det.setExVar2("NA");
 					det.setFrId(franchiseeList.getFrId());
 					int frGrnTwo = franchiseeList.getGrnTwo();
@@ -1173,7 +1180,7 @@ public class ManualOrderController {
 				}
 			}
 
-			advHeader.setRemainingAmt(totGrand-advanceAmt);
+			advHeader.setRemainingAmt(totGrand - advanceAmt);
 			advHeader.setTotal(totGrand);
 			advHeader.setDiscAmt(discAmt);
 
@@ -1184,15 +1191,14 @@ public class ManualOrderController {
 					GenerateBill[].class);
 
 			List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(Arrays.asList(orderListResponse1));
-			
-			
+
 			// to save bill
 			if (tempGenerateBillList != null) {
-				System.err.println("saving bill with Advance"+tempGenerateBillList.toString());
+				System.err.println("saving bill with Advance" + tempGenerateBillList.toString());
 
 				if (submitbill != null) {
 
-				System.out.println("submitbill" + submitbill);
+					System.out.println("submitbill" + submitbill);
 
 					PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
 					List<PostBillHeader> postBillHeaderList = new ArrayList<PostBillHeader>();
@@ -1236,7 +1242,7 @@ public class ManualOrderController {
 
 						System.out.println("taxableAmt: " + taxableAmt);
 						taxableAmt = roundUp(taxableAmt);
-						//taxableAmt = Float.parseFloat(String.format("%.2f",taxableAmt));
+						// taxableAmt = Float.parseFloat(String.format("%.2f",taxableAmt));
 
 						float sgstRs = (taxableAmt * tax1) / 100;
 						float cgstRs = (taxableAmt * tax2) / 100;
@@ -1280,37 +1286,36 @@ public class ManualOrderController {
 							totalTax = igstRs;
 						}
 
-						//sgstRs = roundUp(sgstRs);
-						//cgstRs = roundUp(cgstRs);
-						//igstRs = roundUp(igstRs);
-						
-						//sgstRs = Float.parseFloat(String.format("%.2f",sgstRs));
-						//cgstRs = Float.parseFloat(String.format("%.2f",cgstRs));
-						//igstRs = Float.parseFloat(String.format("%.2f",igstRs));
-						
+						// sgstRs = roundUp(sgstRs);
+						// cgstRs = roundUp(cgstRs);
+						// igstRs = roundUp(igstRs);
+
+						// sgstRs = Float.parseFloat(String.format("%.2f",sgstRs));
+						// cgstRs = Float.parseFloat(String.format("%.2f",cgstRs));
+						// igstRs = Float.parseFloat(String.format("%.2f",igstRs));
 
 						// header.setSgstSum(sumT1);
 						// header.setCgstSum(sumT2);
 						// header.setIgstSum(sumT3);
 
-						//totalTax = roundUp(totalTax);
-						//totalTax = Float.parseFloat(String.format("%.2f",totalTax));
+						// totalTax = roundUp(totalTax);
+						// totalTax = Float.parseFloat(String.format("%.2f",totalTax));
 
 						float grandTotal = totalTax + taxableAmt;
-						//grandTotal = roundUp(grandTotal);
-						//grandTotal = Float.parseFloat(String.format("%.2f",grandTotal));
+						// grandTotal = roundUp(grandTotal);
+						// grandTotal = Float.parseFloat(String.format("%.2f",grandTotal));
 
 						sumTaxableAmt = sumTaxableAmt + taxableAmt;
-						//sumTaxableAmt = roundUp(sumTaxableAmt);
-						//sumTaxableAmt = Float.parseFloat(String.format("%.2f",sumTaxableAmt));
+						// sumTaxableAmt = roundUp(sumTaxableAmt);
+						// sumTaxableAmt = Float.parseFloat(String.format("%.2f",sumTaxableAmt));
 
 						sumTotalTax = sumTotalTax + totalTax;
-						//sumTotalTax = roundUp(sumTotalTax);
-						//sumTotalTax = Float.parseFloat(String.format("%.2f",sumTotalTax));
+						// sumTotalTax = roundUp(sumTotalTax);
+						// sumTotalTax = Float.parseFloat(String.format("%.2f",sumTotalTax));
 
 						sumGrandTotal = sumGrandTotal + grandTotal;
-						//sumGrandTotal = roundUp(sumGrandTotal);
-						//sumGrandTotal = Float.parseFloat(String.format("%.2f",sumGrandTotal));
+						// sumGrandTotal = roundUp(sumGrandTotal);
+						// sumGrandTotal = Float.parseFloat(String.format("%.2f",sumGrandTotal));
 
 						billDetail.setOrderId(tempGenerateBillList.get(j).getOrderId());
 						billDetail.setMenuId(gBill.getMenuId());
@@ -1329,14 +1334,14 @@ public class ManualOrderController {
 
 						billDetail.setRateType(gBill.getRateType());
 
-						//baseRate = Float.parseFloat(String.format("%.2f",baseRate));
-						
+						// baseRate = Float.parseFloat(String.format("%.2f",baseRate));
+
 						billDetail.setBaseRate(baseRate);
-						
-						
-						System.err.println("TAXABLE ------------------- "+taxableAmt+"-------------R----------------- "+Float.parseFloat(String.format("%.2f",taxableAmt)));
-						
-						
+
+						System.err.println(
+								"TAXABLE ------------------- " + taxableAmt + "-------------R----------------- "
+										+ Float.parseFloat(String.format("%.2f", taxableAmt)));
+
 						billDetail.setTaxableAmt(taxableAmt);
 						billDetail.setDiscPer(discPer);// new
 						billDetail.setRemark("" + discAmt1);// new
@@ -1346,14 +1351,16 @@ public class ManualOrderController {
 						billDetail.setCgstRs(cgstRs);
 						billDetail.setIgstPer(tax3);
 						billDetail.setIgstRs(igstRs);
-						
-						System.err.println("TAX ------------------- "+totalTax+"-------------R----------------- "+Float.parseFloat(String.format("%.2f",totalTax)));
-						
+
+						System.err.println("TAX ------------------- " + totalTax + "-------------R----------------- "
+								+ Float.parseFloat(String.format("%.2f", totalTax)));
+
 						billDetail.setTotalTax(totalTax);
-						
-						System.err.println("GRAND ------------------- "+grandTotal+"-------------R----------------- "+Float.parseFloat(String.format("%.2f",grandTotal)));
-						
-						
+
+						System.err
+								.println("GRAND ------------------- " + grandTotal + "-------------R----------------- "
+										+ Float.parseFloat(String.format("%.2f", grandTotal)));
+
 						billDetail.setGrandTotal(grandTotal);
 						billDetail.setDelStatus(0);
 						billDetail.setIsGrngvnApplied(0);
@@ -1394,12 +1401,9 @@ public class ManualOrderController {
 
 						header.setRemark("");
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
-						
-						
-						
 
-					}//for end
-					
+					} // for end
+
 					header.setBillDate(new Date());// hardcoded curr Date
 					header.setTaxableAmt(sumTaxableAmt);
 					header.setGrandTotal(sumGrandTotal);
@@ -1434,21 +1438,19 @@ public class ManualOrderController {
 					header.setBillTime(sdf1.format(calender.getTime()));
 					header.setVehNo("-");
 					header.setExVarchar1("1");
-					
-					if(franchiseeList.getFrKg1()==1) {
-						header.setExVarchar2("1");	
-					}else {
+
+					if (franchiseeList.getFrKg1() == 1) {
+						header.setExVarchar2("1");
+					} else {
 						header.setExVarchar2("0");
 					}
-					
-					
-					
+
 					header.setExVarchar3(billToName);
 					header.setExVarchar4(billToGstin);
 					header.setExVarchar5(billToAddress);
-					
+
 					header.setIsDairyMart(isDairy);
-					
+
 					postBillHeaderList.add(header);
 
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
@@ -1472,8 +1474,6 @@ public class ManualOrderController {
 		return "redirect:/showManualOrder";
 	}
 
-	
-
 	public static float roundUp(float d) {
 		return BigDecimal.valueOf(d).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 	}
@@ -1495,7 +1495,7 @@ public class ManualOrderController {
 		return date;
 
 	}
-	
+
 	@RequestMapping(value = "/saveCustomerFromBill", method = RequestMethod.POST)
 	@ResponseBody
 	public AddCustemerResponse saveCustomerFromBill(HttpServletRequest request, HttpServletResponse responsel) {
@@ -1516,11 +1516,11 @@ public class ManualOrderController {
 			int custType = Integer.parseInt(request.getParameter("custType"));
 			String ageRange = request.getParameter("ageRange");
 			int gender = Integer.parseInt(request.getParameter("gender"));
-			
+
 			float kms = Float.parseFloat(request.getParameter("kms"));
 			String pincode = request.getParameter("pincode");
 			String remark = request.getParameter("remark");
-			
+
 			String str = pincode + "-" + remark;
 
 			Customer save = new Customer();
@@ -1536,8 +1536,10 @@ public class ManualOrderController {
 			save.setExVar1("" + kms);
 			save.setGender(gender);
 			save.setExVar2(str);
-			
-			save.setAgeGroup(ageRange);save.setExInt1(custType);save.setGender(gender);
+
+			save.setAgeGroup(ageRange);
+			save.setExInt1(custType);
+			save.setGender(gender);
 			Customer res = restTemplate.postForObject(Constants.url + "/saveCustomer", save, Customer.class);
 
 			Customer[] customer = restTemplate.getForObject(Constants.url + "/getAllCustomers", Customer[].class);
@@ -1558,6 +1560,7 @@ public class ManualOrderController {
 		}
 		return info;
 	}
+
 	Customer edit = new Customer();
 
 	@RequestMapping(value = "/editCustomerFromBill", method = RequestMethod.POST)
@@ -1632,6 +1635,7 @@ public class ManualOrderController {
 		}
 		return info;
 	}
+
 	@RequestMapping(value = "/checkEmailText", method = RequestMethod.GET)
 	@ResponseBody
 	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
@@ -1648,7 +1652,7 @@ public class ManualOrderController {
 			map.add("phoneNo", phoneNo);
 			RestTemplate restTemplate = new RestTemplate();
 			info = restTemplate.postForObject(Constants.url + "/checkCustPhone", map, Info.class);
-			System.out.println("Info" + info+"info.isError()"+info.getError());
+			System.out.println("Info" + info + "info.isError()" + info.getError());
 			if (info.getError() == false) {
 				res = 0;// exists
 				System.out.println("0s" + res);
@@ -1658,7 +1662,7 @@ public class ManualOrderController {
 				} catch (Exception e) {
 					res = 0;
 				}
-				//res = 1;
+				// res = 1;
 				System.out.println("1888" + res);
 			}
 

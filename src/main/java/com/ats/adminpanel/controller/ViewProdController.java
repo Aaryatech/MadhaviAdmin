@@ -16,8 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,12 +49,19 @@ import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.Info;
+import com.ats.adminpanel.model.ItemDepartment;
 import com.ats.adminpanel.model.RawMaterial.ItemDetailList;
 import com.ats.adminpanel.model.accessright.ModuleJson;
+import com.ats.adminpanel.model.billing.FrBillHeaderForPrint;
+import com.ats.adminpanel.model.billing.FrBillPrint;
+import com.ats.adminpanel.model.billing.GetBillDetailPrint;
+import com.ats.adminpanel.model.billing.SlabwiseBillList;
 import com.ats.adminpanel.model.franchisee.SubCategory;
 import com.ats.adminpanel.model.item.AllItemsListResponse;
+import com.ats.adminpanel.model.item.CategoryListResponse;
 import com.ats.adminpanel.model.item.FrItemStockConfigureList;
 import com.ats.adminpanel.model.item.Item;
+import com.ats.adminpanel.model.item.MCategoryList;
 import com.ats.adminpanel.model.itextpdf.FooterTable;
 import com.ats.adminpanel.model.modules.ErrorMessage;
 import com.ats.adminpanel.model.production.GetOrderItemQty;
@@ -62,6 +72,7 @@ import com.ats.adminpanel.model.production.GetProdPlanDetailList;
 import com.ats.adminpanel.model.production.GetProdPlanHeader;
 import com.ats.adminpanel.model.production.GetProdPlanHeaderList;
 import com.ats.adminpanel.model.production.PostProductionPlanDetail;
+import com.ats.adminpanel.model.production.ProdItemDeptWiseModel;
 import com.ats.adminpanel.model.production.mixing.temp.GetSFPlanDetailForMixing;
 import com.ats.adminpanel.model.production.mixing.temp.GetSFPlanDetailForMixingList;
 import com.ats.adminpanel.model.production.mixing.temp.GetTempMixItemDetail;
@@ -76,6 +87,8 @@ import com.ats.adminpanel.model.stock.FinishedGoodStock;
 import com.ats.adminpanel.model.stock.FinishedGoodStockDetail;
 import com.ats.adminpanel.model.stock.GetCurProdAndBillQty;
 import com.ats.adminpanel.model.stock.GetCurProdAndBillQtyList;
+import com.ats.adminpanel.model.tray.GetVehicleAvg;
+import com.ats.adminpanel.util.ItextPageEvent;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -2021,5 +2034,72 @@ public class ViewProdController {
 		return "redirect:/getMixingListByProduction";
 
 	}
+	
+	
+	//-----------------------------------------------------------------------------
+	
+	@RequestMapping(value = "/getDeptWiseItemListPdf/{headerIds}", method = RequestMethod.GET)
+	public ModelAndView getDeptWiseItemListPdf(@PathVariable String headerIds,HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("production/pdf/deptWiseItemForProdPdf");
+		
+		try {
+			System.err.println("HEADER IDS - "+headerIds);
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("headerIds", headerIds);
+			
+			ParameterizedTypeReference<List<ProdItemDeptWiseModel>> typeRef = new ParameterizedTypeReference<List<ProdItemDeptWiseModel>>() {
+			};
+			ResponseEntity<List<ProdItemDeptWiseModel>> responseEntity = restTemplate.exchange(
+					Constants.url + "getDeptWiseItemListForProduction", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			List<ProdItemDeptWiseModel> itemList = responseEntity.getBody();
+			System.err.println(" itemList - "+itemList);
+
+			model.addObject("itemList", itemList);
+			
+			List<String> dateList=new ArrayList<>();
+			List<Integer> deptIdList=new ArrayList<>();
+			
+			for(ProdItemDeptWiseModel model1 : itemList) {
+				dateList.add(model1.getProductionDate());
+				deptIdList.add(model1.getDeptId());
+			}
+			
+			Set<String> uniqueDate=new HashSet<>();
+			uniqueDate.addAll(dateList);
+			dateList.clear();
+			dateList.addAll(uniqueDate);
+			
+			Set<Integer> uniqueDeptIds=new HashSet<>();
+			uniqueDeptIds.addAll(deptIdList);
+			deptIdList.clear();
+			deptIdList.addAll(uniqueDeptIds);
+			
+			Collections.sort(dateList); 
+			model.addObject("dateList", dateList);
+			model.addObject("deptIdList", deptIdList);
+			
+			List<ItemDepartment> deptList = restTemplate.getForObject(Constants.url + "/getAllItemDepartment",
+					List.class);
+
+			model.addObject("allDept", deptList);
+			
+			model.addObject("company", Constants.FACTORYNAME);
+			model.addObject("address", Constants.FACTORYADDRESS);
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	
+
+
 
 }

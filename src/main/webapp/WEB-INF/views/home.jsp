@@ -289,7 +289,7 @@
 
 													<td class="col-md-2" style="white-space: nowrap;"><a
 														href=""
-														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}')"
+														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}','${advList.remark}')"
 														class="btn btn-default btn-rounded" data-toggle="modal"
 														data-target="#elegantModalForm"><abbr title='Edit'><i
 																class='fa fa-edit'></i></abbr></a> <%-- <c:if test="${prodDateSearch==0}"> --%> <c:if test="${advList.isBillGenerated==0}">
@@ -470,6 +470,16 @@
 									<input type="text" id="km" name="km"
 										oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 										class="form-control" style="width: 70%" value="0">
+								</div>
+
+							</div>
+							
+							<div class="row">
+
+								<label class="col-sm-1 control-label" style="color: blue;">Remark: </label>
+								<div class="col-sm-11">
+									<input type="text" id="remark" name="remark" class="form-control"
+										value="">
 								</div>
 
 							</div>
@@ -713,7 +723,7 @@
 	<script type="text/javascript">
 		function showDetailsForCp(headId, frName, custName, amount, isMart,
 				devDate, advanceAmt, prodDate, isBillGenerated, delivTime,
-				addr, km, phone) {
+				addr, km, phone,remark) {
 
 			//alert(" hiiiiiiiiiiiiiii "+phone);
 
@@ -751,6 +761,8 @@
 			document.getElementById("mob").innerHTML = phone;
 
 			document.getElementById("deliveryDate_hide").value = devDate;
+			
+			document.getElementById("remark").value = remark;
 
 			$
 					.post(
@@ -875,6 +887,10 @@
 																"#saveEditAdvOrderBtn")
 																.hide();
 													}
+													
+													
+													
+													
 												});
 
 							});

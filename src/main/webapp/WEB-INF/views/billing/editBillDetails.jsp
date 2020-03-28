@@ -2,11 +2,11 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	<body>
-	
+
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<body>
+
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
 
@@ -105,8 +105,10 @@
 
 									<div class="clearfix"></div>
 									<div class="table-responsive" style="border: 0">
-										<table width="100%" class="table table-bordered table-striped fill-head" id="table1"  border="1">
-											<thead style="background-color: #f3b5db; ">
+										<table width="100%"
+											class="table table-bordered table-striped fill-head"
+											id="table1" border="1">
+											<thead style="background-color: #f3b5db;">
 												<tr>
 
 													<th width="140" style="width: 30px" align="left">Sr No</th>
@@ -118,13 +120,13 @@
 													<th width="100" align="left">Rate</th>
 													<th width="105" align="left">SGST %</th>
 													<th width="105" align="left">CGST %</th>
-														<th width="105" align="left">Disc %</th>
-															<th width="105" align="left">Disc Amt</th>
+													<th width="105" align="left">Disc %</th>
+													<th width="105" align="left">Disc Amt</th>
 													<th width="130" align="left">Taxable Amt</th>
 													<th width="130" align="left">Tax Amt</th>
 													<th width="105" align="left">Grand Total</th>
-													 
-													<th width="159" align="left">Remark</th>
+
+													<th width="159" align="left" style="display: none;">Remark</th>
 
 												</tr>
 
@@ -136,65 +138,97 @@
 													varStatus="count">
 
 													<tr>
-													
-														<td><c:out value="${count.index+1}"/></td>
+
+														<td><c:out value="${count.index+1}" /></td>
 
 														<td align="left"><c:out
-																value="${billDetails.itemName}"/></td>
+																value="${billDetails.itemName}" /></td>
 
 
-														<td align="left"><c:out	value="${billDetails.catName}"/></td>
+														<td align="left"><c:out
+																value="${billDetails.catName}" /></td>
 
-														<td align="center"><c:out value="${billDetails.orderQty}"/></td>
+														<td align="center"><c:out
+																value="${billDetails.orderQty}" /></td>
 
-														<td align="left"><input type="text"class="form-control"
-															data-rule-number="true"
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="billQty${billDetails.billDetailNo}"
-															id="billQty${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.billQty}" onkeyup="changeValues(${billDetails.billDetailNo})"/></td>
+															id="billQty${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.billQty}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
 
-														<td align="left"><c:out value="${billDetails.mrp}"/></td>
+														<td align="left"><c:out value="${billDetails.mrp}" /></td>
 
-														<td align="left"><input type="text"class="form-control"
-															data-rule-number="true"
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="billRate${billDetails.billDetailNo}"
-															id="billRate${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.rate}" onkeyup="changeValues(${billDetails.billDetailNo})"/>
-
-											
-</td><input type="hidden"class="form-control"	name="discPer${billDetails.billDetailNo}"	id="discPer${billDetails.billDetailNo}" value="${billDetails.discPer}"/> 	
-														<td align="left" >
-														<input type="text"class="form-control"
-															data-rule-number="true"
+															id="billRate${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.rate}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
+														<input type="hidden" class="form-control"
+															name="discPer${billDetails.billDetailNo}"
+															id="discPer${billDetails.billDetailNo}"
+															value="${billDetails.discPer}" />
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="sgstPer${billDetails.billDetailNo}"
-															id="sgstPer${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.sgstPer}" onkeyup="changeValues(${billDetails.billDetailNo})"/></td>
-													 		
-														<td align="left" > 
-														<input type="text"class="form-control"
-															data-rule-number="true"
+															id="sgstPer${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.sgstPer}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
+
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="cgstPer${billDetails.billDetailNo}"
-															id="cgstPer${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.cgstPer}" onkeyup="changeValues(${billDetails.billDetailNo})"/></td>
+															id="cgstPer${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.cgstPer}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
 
-														<c:set var="billQty" value="${billDetails.billQty}"/>
-														<c:set var="rate" value="${billDetails.rate}"/>
- 															 <td align="center"  >
-															<c:out value="${billDetails.discPer}"/></td> 
-															 <td align="center" id="discAmt${billDetails.billDetailNo}"  >
-																			<c:out value="${billDetails.remark}"/></td> 
-														 <td align="center" id="taxableAmt${billDetails.billDetailNo}"  >
-															<c:out value="${billDetails.taxableAmt}"/></td> 
-																
-														<td align="left" id="totalTax${billDetails.billDetailNo}"  ><c:out
-																value="${billDetails.totalTax}"/></td>
-																
-														<td align="left" id="grandTotal${billDetails.billDetailNo}"><c:out value="${billDetails.grandTotal}"/></td>
+														<c:set var="billQty" value="${billDetails.billQty}" />
+														<c:set var="rate" value="${billDetails.rate}" />
 
-														<td align="left"><c:out value="${billDetails.remark}" /></td>
+														<td align="center"
+															id="discountPer${billDetails.billDetailNo}"
+															name="discountPer${billDetails.billDetailNo}"><c:out
+																value="${billDetails.discPer}" /></td>
+
+														<%-- <td align="center"><input type="text"
+															class="form-control" 
+															name="discountPer${billDetails.billDetailNo}"
+															id="discountPer${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.discPer}"
+															readonly="readonly" /></td>  --%>
+
+														<td align="center"><input type="text"
+															class="form-control"
+															name="discAmt${billDetails.billDetailNo}"
+															id="discAmt${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.remark}"
+															onchange="changeDiscountAmt(${billDetails.billDetailNo}"
+															onkeyup="changeDiscountAmt(${billDetails.billDetailNo})"
+															oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+
+
+														<%-- <td align="center" id="discAmt${billDetails.billDetailNo}">
+															<c:out value="${billDetails.remark}" />
+														</td> --%>
+
+
+														<td align="center"
+															id="taxableAmt${billDetails.billDetailNo}"><c:out
+																value="${billDetails.taxableAmt}" /></td>
+
+														<td align="left" id="totalTax${billDetails.billDetailNo}"><c:out
+																value="${billDetails.totalTax}" /></td>
+
+														<td align="left"
+															id="grandTotal${billDetails.billDetailNo}"><c:out
+																value="${billDetails.grandTotal}" /></td>
+
+														<td align="left"  style="display: none;"><c:out value="${billDetails.remark}" /></td>
 
 													</tr>
-													
+
 												</c:forEach>
 
 											</tbody>
@@ -220,7 +254,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2017 © MONGINIS.</p>
+				<p>2017 © MONGINIS.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -302,23 +336,203 @@
 			var billRate=parseFloat($("#billRate"+detailNo).val()); 
 			var sgstPer=parseFloat($("#sgstPer"+detailNo).val()); 
 			var cgstPer=parseFloat($("#cgstPer"+detailNo).val());  
-			var discPer=parseFloat($("#discPer"+detailNo).val());  
+			//var discPer=parseFloat($("#discPer"+detailNo).val());  
+			var discAmt=parseFloat($("#discAmt"+detailNo).val());
 			
 			var baseRate=((billRate*100)/(100+sgstPer+cgstPer)).toFixed(2); 
 			var taxableAmt=(billQty*baseRate).toFixed(2); 
 			
-			 var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
-          	  document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
+			if(discAmt>0 && discAmt<=taxableAmt){
+          		
+          		var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+          		$("#discountPer"+detailNo).html(discPer.toFixed(2));
+          		
+          		taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
+            	  
+    			var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
+    			var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
+    			var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+    			var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
+    			$("#taxableAmt"+detailNo).html(taxableAmt);
+    			$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
+    			$("#grandTotal"+detailNo).html(grandTotal.toFixed(2)); 
+    			
+			}else{
+				
+				$("#discountPer"+detailNo).html(0);
+				document.getElementById("discAmt" + detailNo).value=0;
+				
+				taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
+	          	  
+				var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
+				var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
+				var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
+				$("#taxableAmt"+detailNo).html(taxableAmt);
+				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2)); 
+			}
+			
+			// var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+          	  //document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
           	 
-          	  taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
-          	  
-			var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
-			var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
-			var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
-			var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
-			$("#taxableAmt"+detailNo).html(taxableAmt);
-			$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
-			$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));   
+            
+		}
+	</script>
+
+
+	<script>
+		function changeDiscountPer(detailNo) { 
+			
+			var billQty=parseFloat($("#billQty"+detailNo).val()); 
+			var billRate=parseFloat($("#billRate"+detailNo).val()); 
+			var sgstPer=parseFloat($("#sgstPer"+detailNo).val()); 
+			var cgstPer=parseFloat($("#cgstPer"+detailNo).val());  
+			var discPer=parseFloat($("#discPer"+detailNo).val());
+			//var discAmt=parseFloat($("#discAmt"+detailNo).val());
+			
+			var baseRate=((billRate*100)/(100+sgstPer+cgstPer)).toFixed(2); 
+			var taxableAmt=(billQty*baseRate).toFixed(2); 
+			
+			// var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+          	// document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
+          	alert(discPer);
+         /*  	if(discPer>0 && discPer<=100){
+          		
+          		
+			
+          		var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);
+          		document.getElementById("discAmt" + detailNo).value=discAmt.toFixed(2);
+          		
+          		taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
+	          	  
+				var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
+				var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
+				var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
+				
+				$("#taxableAmt"+detailNo).html(taxableAmt);
+				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));   
+				
+				
+			}else{
+				document.getElementById("discPer" + detailNo).value=0;
+				document.getElementById("discAmt" + detailNo).value=0;
+				
+				changeValuesForDiscount(detailNo);
+			} */
+          	
+          	 
+          
+			
+			
+		}
+	</script>
+
+
+	<script>
+		function changeDiscountAmt(detailNo) { 
+			
+			var billQty=parseFloat($("#billQty"+detailNo).val()); 
+			var billRate=parseFloat($("#billRate"+detailNo).val()); 
+			var sgstPer=parseFloat($("#sgstPer"+detailNo).val()); 
+			var cgstPer=parseFloat($("#cgstPer"+detailNo).val());  
+			//var discPer=parseFloat($("#discPer"+detailNo).val());
+			var discAmt=parseFloat($("#discAmt"+detailNo).val());
+			
+			var baseRate=((billRate*100)/(100+sgstPer+cgstPer)).toFixed(2); 
+			var taxableAmt=(billQty*baseRate).toFixed(2); 
+			
+			// var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+          	// document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
+          	
+          	if(discAmt>0 && discAmt<=taxableAmt){
+          		
+          		
+				
+          		var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+          		var id="discPer"+detailNo;
+          		//document.getElementById("discPer" + detailNo).innerHTML=discPer.toFixed(2);
+          		$("#discountPer"+detailNo).html(discPer.toFixed(2));
+          		
+          		//alert(discPer);
+          		
+          		taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
+	          	  
+				var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
+				var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
+				var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
+				
+				$("#taxableAmt"+detailNo).html(taxableAmt.toFixed(2));
+				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));   
+				
+				
+			}else{
+				document.getElementById("discAmt" + detailNo).value=0;
+				$("#discountPer"+detailNo).html(0);
+				
+				changeValuesForDiscount(detailNo);
+			}
+          	
+          	 
+          
+			
+			
+		}
+	</script>
+
+	<script>
+		function changeValuesForDiscount(detailNo) { 
+			
+			var billQty=parseFloat($("#billQty"+detailNo).val()); 
+			var billRate=parseFloat($("#billRate"+detailNo).val()); 
+			var sgstPer=parseFloat($("#sgstPer"+detailNo).val()); 
+			var cgstPer=parseFloat($("#cgstPer"+detailNo).val());  
+			var discPer=parseFloat($("#discPer"+detailNo).val());
+			var discAmt=parseFloat($("#discAmt"+detailNo).val());
+			
+			var baseRate=((billRate*100)/(100+sgstPer+cgstPer)).toFixed(2); 
+			var taxableAmt=(billQty*baseRate).toFixed(2); 
+			
+			// var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+          	// document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
+          	
+          	
+          	if(discAmt>0 && discAmt<=taxableAmt){
+			
+				var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+				
+				taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
+	          	  
+				var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
+				var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
+				var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
+				
+				$("#taxableAmt"+detailNo).html(taxableAmt);
+				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));   
+				
+			}else{
+				
+				var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
+				var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
+				var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt);
+				
+				$("#taxableAmt"+detailNo).html(taxableAmt);
+				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));   
+				
+			}
+          	
+          	 
+          
+			
+			
 		}
 	</script>
 

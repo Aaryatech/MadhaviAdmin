@@ -3,11 +3,11 @@
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body onload="calTotalGstOnLoad(${item.extInt1})">
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-	
-	
+
+
 	<c:url var="getGroup2ByCatId" value="/getGroup2ByCatId" />
 
 	<div class="container" id="main-container">
@@ -48,7 +48,8 @@
 								<i class="fa fa-bars"></i> Edit Item
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/itemList">Back to List</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/itemList">Back
+									to List</a> <a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 							<!-- <div class="box-tool">
@@ -60,8 +61,8 @@
 
 
 						<div class="box-content">
-							<form action="updateItemProcess" class="form-horizontal" id="validation-form"
-								 method="post" enctype="multipart/form-data">
+							<form action="updateItemProcess" class="form-horizontal"
+								id="validation-form" method="post" enctype="multipart/form-data">
 
 
 
@@ -74,18 +75,45 @@
 											name="itemId" value="${item.id}">
 									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label" for="item_name">Item
 										Name</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_name" id="item_name"
 											value="${item.itemName}" placeholder="Item Name"
-											class="form-control" data-rule-required="true"
-											/>
+											class="form-control" data-rule-required="true" />
 									</div>
 								</div>
 
+								<!-- <input type="hidden" name="item_grp3" id="item_grp3" value="1" /> -->
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Department</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<select data-placeholder="Select Department" name="item_grp3"
+											class="form-control chosen" tabindex="-1" id="item_grp3"
+											data-rule-required="true">
+
+
+											<c:forEach items="${deptList}" var="dept">
+												<c:choose>
+													<c:when test="${dept.deptId==item.itemGrp3}">
+														<option selected value="${item.itemGrp3}"><c:out
+																value="${dept.deptName}"></c:out>
+														</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${dept.deptId}"><c:out
+																value="${dept.deptName}"></c:out></option>
+													</c:otherwise>
+												</c:choose>
+
+
+											</c:forEach>
+
+										</select>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Group1</label>
@@ -98,10 +126,13 @@
 											<c:forEach items="${mCategoryList}" var="mCategoryList">
 												<c:choose>
 													<c:when test="${mCategoryList.catId==item.itemGrp1}">
-														<option selected value="${item.itemGrp1}"><c:out value="${mCategoryList.catName}"></c:out> </option>
+														<option selected value="${item.itemGrp1}"><c:out
+																value="${mCategoryList.catName}"></c:out>
+														</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${mCategoryList.catId}"><c:out value="${mCategoryList.catName}"></c:out></option>
+														<option value="${mCategoryList.catId}"><c:out
+																value="${mCategoryList.catName}"></c:out></option>
 													</c:otherwise>
 												</c:choose>
 
@@ -119,16 +150,18 @@
 										<select data-placeholder="Select Group" name="item_grp2"
 											class="form-control chosen-select" tabindex="-1"
 											id="item_grp2" data-rule-required="true">
-											<option selected value="${selectedItemId}"><c:out value="${selectedItem}"></c:out></option>
-											
-											 <c:forEach items="${subCategoryList}" var="subCategoryList">
-													
-													
-													<option value="${subCategoryList.subCatId}"><c:out value="${subCategoryList.subCatName}"></c:out></option>
-												</c:forEach>
+											<option selected value="${selectedItemId}"><c:out
+													value="${selectedItem}"></c:out></option>
+
+											<c:forEach items="${subCategoryList}" var="subCategoryList">
+
+
+												<option value="${subCategoryList.subCatId}"><c:out
+														value="${subCategoryList.subCatName}"></c:out></option>
+											</c:forEach>
 										</select>
 									</div>
-								</div><input type="hidden" name="item_grp3" id="item_grp3" value="1"/>
+								</div>
 								<%-- <div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Group3</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -161,28 +194,31 @@
 										</select>
 									</div>
 								</div> --%>
-                         <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Min Quantity</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Min
+										Quantity</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="min_qty" id="min_qty"
 											value="${item.minQty}" placeholder="Minimum Quantity"
-											class="form-control" data-rule-required="true" data-rule-number="true" />
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" />
 									</div>
 								</div>
 								<fmt:formatNumber var="marginPer"
-  value="${(item.itemMrp1-item.itemRate1)/(item.itemMrp1/100)}"
-  maxFractionDigits="0" />
-								
+									value="${(item.itemMrp1-item.itemRate1)/(item.itemMrp1/100)}"
+									maxFractionDigits="0" />
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Mrp</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp1" id="item_mrp1"
 											value="${item.itemMrp1}" placeholder="Item Mrp1"
-											class="form-control" data-rule-required="true" data-rule-number="true" onchange="calMrp()"/>
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" onchange="calMrp()" />
 									</div>
 								</div>
-							
-<%-- 
+
+								<%-- 
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Out Station
 										Mrp</label>
@@ -192,33 +228,37 @@
 											class="form-control" data-rule-required="true" data-rule-number="true" onchange="calMrp()"/>
 									</div>
 								</div> --%>
-                                <div class="form-group">
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Special
 										Mrp</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp3" id="item_mrp3"
 											value="${item.itemMrp3}" placeholder="Item Mrp3"
-											class="form-control" data-rule-required="true" data-rule-number="true" onchange="calMrp()"/>
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" onchange="calMrp()" />
 									</div>
 								</div>
-								 <div class="form-group">
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Margin %</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="margin" id="margin"
 											placeholder="Enter Margin %" class="form-control"
-											data-rule-required="true" data-rule-number="true" value="${marginPer}" onchange="calMrp()"/>
+											data-rule-required="true" data-rule-number="true"
+											value="${marginPer}" onchange="calMrp()" />
 									</div>
 								</div>
-                               <div class="form-group">
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Rate</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_rate1" id="item_rate1"
 											value="${item.itemRate1}" placeholder="Item Rate1"
-											class="form-control" data-rule-required="true" data-rule-number="true" />
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" />
 									</div>
-								</div><input type="hidden" name="item_rate2" id="item_rate2"
-											value="${item.itemRate2}"/>
-							<%-- 	<div class="form-group">
+								</div>
+								<input type="hidden" name="item_rate2" id="item_rate2"
+									value="${item.itemRate2}" />
+								<%-- 	<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Out Station
 										Rate</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -228,26 +268,30 @@
 									</div>
 								</div> --%>
 
-                                 <div class="form-group">
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Special
 										Rate</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_rate3" id="item_rate3"
 											value="${item.itemRate3}" placeholder="Item Rate3"
-											class="form-control" data-rule-required="true" data-rule-number="true" />
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" />
 									</div>
 								</div>
-<div> <input type="hidden" name="prevImage" value="${item.itemImage}"></div>
+								<div>
+									<input type="hidden" name="prevImage" value="${item.itemImage}">
+								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Product Image</label>
+									<label class="col-sm-3 col-lg-2 control-label">Product
+										Image</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<div class="fileupload fileupload-new"
 											data-provides="fileupload">
 											<div class="fileupload-new img-thumbnail"
 												style="width: 200px; height: 150px;">
-												<img
-													src="${url}${item.itemImage}"  onerror="this.src='${pageContext.request.contextPath}/resources/img/No_Image_Available.jpg';"/>
-													
+												<img src="${url}${item.itemImage}"
+													onerror="this.src='${pageContext.request.contextPath}/resources/img/No_Image_Available.jpg';" />
+
 
 											</div>
 											<div
@@ -258,8 +302,8 @@
 													class="fileupload-new">Select image</span> <span
 													class="fileupload-exists">Change</span> <input type="file"
 													class="file-input" name="item_image" id="item_image"
-													value="${item.itemImage}"/></span> <a
-													href="#" class="btn btn-default fileupload-exists"
+													value="${item.itemImage}" /></span> <a href="#"
+													class="btn btn-default fileupload-exists"
 													data-dismiss="fileupload">Remove</a>
 											</div>
 										</div>
@@ -271,7 +315,8 @@
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_tax3" id="item_tax3"
 											value="${item.itemTax3}" placeholder="IGST"
-											class="form-control" data-rule-required="true" data-rule-number="true"value="0.0"onchange="calTotalGst()"/>
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" value="0.0" onchange="calTotalGst()" />
 									</div>
 								</div>
 								<div class="form-group">
@@ -279,25 +324,28 @@
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_tax2" id="item_tax2"
 											value="${item.itemTax2}" placeholder="CGST"
-											class="form-control" data-rule-required="true" data-rule-number="true" value="0.0" onchange="calTotalGst()"/>
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" value="0.0" onchange="calTotalGst()" />
 									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">SGST %</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_tax1" id="item_tax1"
 											value="${item.itemTax1}" placeholder="SGST"
-											class="form-control" data-rule-required="true" data-rule-number="true" value="0.0" />
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" value="0.0" />
 									</div>
 								</div>
-								
-								 <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Total GST Applicable %</label>
+
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Total
+										GST Applicable %</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="total_gst_appli" id="total_gst_appli"
 											placeholder="Total GST Applicable" class="form-control"
-											data-rule-required="true" data-rule-number="true" disabled/>
+											data-rule-required="true" data-rule-number="true" disabled />
 									</div>
 								</div>
 								<div class="form-group">
@@ -305,133 +353,134 @@
 									<div class="col-sm-9 col-lg-10 controls">
 										<select class="form-control input-sm" tabindex="1"
 											name="is_used">
-                               <c:choose>
-                               <c:when test="${strIsUsed==1}">
-                                <option value="1" selected>Active</option>
-								<option value="4">Inactive</option>
-								<option value="11">Monday Active</option>
-								<option value="12">Tuesday Active</option>
-								<option value="13">Wednesday Active</option>
-								<option value="14">Thursday Active</option>
-								<option value="15">Friday Active</option>
-								<option value="16">Saturday Active</option>
-								<option value="17">Sunday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==4}">
-                                <option value="1" >Active</option>
-								<option value="4" selected>Inactive</option>
-								<option value="11">Monday Active</option>
-								<option value="12">Tuesday Active</option>
-								<option value="13">Wednesday Active</option>
-								<option value="14">Thursday Active</option>
-								<option value="15">Friday Active</option>
-								<option value="16">Saturday Active</option>
-								<option value="17">Sunday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==11}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11" selected>Sunday Active</option>
-								<option value="12" >Monday Active</option>
-								<option value="13" >Tuesday Active</option>
-								<option value="14" >Wednesday Active</option>
-								<option value="15" >Thursday Active</option>
-								<option value="16" >Friday Active</option>
-								<option value="17" >Saturday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==12}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12" selected>Monday Active</option>
-								<option value="13" >Tuesday Active</option>
-								<option value="14" >Wednesday Active</option>
-								<option value="15" >Thursday Active</option>
-								<option value="16" >Friday Active</option>
-								<option value="17" >Saturday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==13}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12">Monday Active</option>
-								<option value="13" selected>Tuesday Active</option>
-								<option value="14" >Wednesday Active</option>
-								<option value="15" >Thursday Active</option>
-								<option value="16" >Friday Active</option>
-								<option value="17" >Saturday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==14}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12">Monday Active</option>
-								<option value="13">Tuesday Active</option>
-								<option value="14" selected>Wednesday Active</option>
-								<option value="15" >Thursday Active</option>
-								<option value="16" >Friday Active</option>
-								<option value="17" >Saturday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==15}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12">Monday Active</option>
-								<option value="13">Tuesday Active</option>
-								<option value="14">Wednesday Active</option>
-								<option value="15" selected>Thursday Active</option>
-								<option value="16" >Friday Active</option>
-								<option value="17" >Saturday Active</option>
-                               </c:when>
-                                <c:when test="${strIsUsed==16}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12">Monday Active</option>
-								<option value="13">Tuesday Active</option>
-								<option value="14">Wednesday Active</option>
-								<option value="15">Thursday Active</option>
-								<option value="16" selected>Friday Active</option>
-								<option value="17" >Saturday Active</option>
-                               </c:when>
-                                  <c:when test="${strIsUsed==17}">
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12">Monday Active</option>
-								<option value="13">Tuesday Active</option>
-								<option value="14">Wednesday Active</option>
-								<option value="15">Thursday Active</option>
-								<option value="16">Friday Active</option>
-								<option value="17" selected>Saturday Active</option>
-                               </c:when>
-                               <c:otherwise>
-                                <option value="1" >Active</option>
-								<option value="4" >Inactive</option>
-								<option value="11">Sunday Active</option>
-								<option value="12">Monday Active</option>
-								<option value="13">Tuesday Active</option>
-								<option value="14">Wednesday Active</option>
-								<option value="15">Thursday Active</option>
-								<option value="16">Friday Active</option>
-								<option value="17">Saturday Active</option>
-                               </c:otherwise>
-							   </c:choose>			
-								
-								</select>
+											<c:choose>
+												<c:when test="${strIsUsed==1}">
+													<option value="1" selected>Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Monday Active</option>
+													<option value="12">Tuesday Active</option>
+													<option value="13">Wednesday Active</option>
+													<option value="14">Thursday Active</option>
+													<option value="15">Friday Active</option>
+													<option value="16">Saturday Active</option>
+													<option value="17">Sunday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==4}">
+													<option value="1">Active</option>
+													<option value="4" selected>Inactive</option>
+													<option value="11">Monday Active</option>
+													<option value="12">Tuesday Active</option>
+													<option value="13">Wednesday Active</option>
+													<option value="14">Thursday Active</option>
+													<option value="15">Friday Active</option>
+													<option value="16">Saturday Active</option>
+													<option value="17">Sunday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==11}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11" selected>Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==12}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12" selected>Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==13}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13" selected>Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==14}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14" selected>Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==15}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15" selected>Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==16}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16" selected>Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:when>
+												<c:when test="${strIsUsed==17}">
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17" selected>Saturday Active</option>
+												</c:when>
+												<c:otherwise>
+													<option value="1">Active</option>
+													<option value="4">Inactive</option>
+													<option value="11">Sunday Active</option>
+													<option value="12">Monday Active</option>
+													<option value="13">Tuesday Active</option>
+													<option value="14">Wednesday Active</option>
+													<option value="15">Thursday Active</option>
+													<option value="16">Friday Active</option>
+													<option value="17">Saturday Active</option>
+												</c:otherwise>
+											</c:choose>
+
+										</select>
 									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Item
 										SortId</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_sort_id" id="item_sort_id"
 											value="${item.itemSortId}" placeholder="Item Sort Id"
-											class="form-control" data-rule-required="true" data-rule-number="true"/>
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" />
 									</div>
 								</div>
-								
+
 								<%-- <div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">GRN 2
 										Applicable ?</label>
@@ -445,238 +494,242 @@
 										</label>
 									</div>
 								</div> --%>
-								
-								
-								
-								
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">GRN Type</label>
-											<div class="col-sm-9 col-lg-10 controls">
-											
-												<c:choose>
-													<c:when test="${strGrnAppl.equals('0')}">
 
-													
 
-														<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" checked
-															value="0" /> GRN1 (85% Refund)
-														</label>
-															<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" value="1" />
-															GRN2 (75% Refund)
-														</label>
-														
-														<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" value="2" />
-															GRN3 (100% Refund)
-														</label>
-														
-													</c:when>
-													
-													<c:when test="${strGrnAppl.equals('1')}">
 
-													
 
-														<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" 
-															value="0" /> GRN1
-														</label>
-															<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" value="1"checked />
-															GRN2
-														</label>
-														
-														<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" value="2" />
-															GRN3
-														</label>
-														
-													</c:when>
-													
-													
-													<c:when test="${strGrnAppl.equals('2')}">
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">GRN Type</label>
+									<div class="col-sm-9 col-lg-10 controls">
 
-													
+										<c:choose>
+											<c:when test="${strGrnAppl.equals('0')}">
 
-														<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" 
-															value="0" /> GRN1
-														</label>
-															<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" value="1" />
-															GRN2
-														</label>
-														
-														<label class="radio-inline"> <input type="radio"
-															name="grn_two" id="optionsRadios2" value="2" checked />
-															GRN3
-														</label>
-														
-													</c:when>
-													
 
-												</c:choose>
 
-											</div>
-										</div>
-										<c:set var="flag11" value=""></c:set><c:set var="flag12" value=""></c:set>
-										<c:set var="flag21" value=""></c:set>	<c:set var="flag22" value=""></c:set>
-										<c:set var="flag31" value=""></c:set>	<c:set var="flag32" value=""></c:set>
-										<c:set var="flag41" value=""></c:set>	<c:set var="flag42" value=""></c:set>
-										<c:set var="flag3" value=""></c:set>
-										<c:set var="flag4" value=""></c:set>
-										<c:set var="flag5" value=""></c:set>
-											<c:choose>
-													<c:when test="${item.isSaleable==0}">
-													<c:set var="flag11" value="checked"></c:set>
-													</c:when>
-													<c:when test="${item.isSaleable==1}">
-													<c:set var="flag12" value="checked"></c:set>
-													</c:when>
-												</c:choose>
-												<c:choose>
-													<c:when test="${item.isStockable==0}">
-													<c:set var="flag21" value="checked"></c:set>
-													</c:when>
-														<c:when test="${item.isStockable==1}">
-													<c:set var="flag22" value="checked"></c:set>
-													</c:when>
-													</c:choose>
-												<c:choose>
-													<c:when test="${item.isFactOrFr==1}">
-													<c:set var="flag3" value="checked"></c:set>
-													</c:when>
-														<c:when test="${item.isFactOrFr==2}">
-													<c:set var="flag4" value="checked"></c:set>
-													</c:when>
-														<c:when test="${item.isFactOrFr==3}">
-													<c:set var="flag5" value="checked"></c:set>
-													</c:when>
-											</c:choose>
-											<c:choose>
-													<c:when test="${item.extInt1==0}">
-													<c:set var="flag31" value="checked"></c:set>
-													</c:when>
-														<c:when test="${item.extInt1==1}">
-													<c:set var="flag32" value="checked"></c:set>
-													</c:when>
-													</c:choose>
-											<c:choose>
-													<c:when test="${item.extInt2==0}">
-													<c:set var="flag41" value="checked"></c:set>
-													</c:when>
-														<c:when test="${item.extInt2==1}">
-													<c:set var="flag42" value="checked"></c:set>
-													</c:when>
-													</c:choose>
-										<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Saleable?</label>
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" checked value="0" />
+													GRN1 (85% Refund)
+												</label>
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="1" /> GRN2 (75%
+													Refund)
+												</label>
+
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="2" /> GRN3 (100%
+													Refund)
+												</label>
+
+											</c:when>
+
+											<c:when test="${strGrnAppl.equals('1')}">
+
+
+
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="0" /> GRN1
+												</label>
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="1" checked />
+													GRN2
+												</label>
+
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="2" /> GRN3
+												</label>
+
+											</c:when>
+
+
+											<c:when test="${strGrnAppl.equals('2')}">
+
+
+
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="0" /> GRN1
+												</label>
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="1" /> GRN2
+												</label>
+
+												<label class="radio-inline"> <input type="radio"
+													name="grn_two" id="optionsRadios2" value="2" checked />
+													GRN3
+												</label>
+
+											</c:when>
+
+
+										</c:choose>
+
+									</div>
+								</div>
+								<c:set var="flag11" value=""></c:set>
+								<c:set var="flag12" value=""></c:set>
+								<c:set var="flag21" value=""></c:set>
+								<c:set var="flag22" value=""></c:set>
+								<c:set var="flag31" value=""></c:set>
+								<c:set var="flag32" value=""></c:set>
+								<c:set var="flag41" value=""></c:set>
+								<c:set var="flag42" value=""></c:set>
+								<c:set var="flag3" value=""></c:set>
+								<c:set var="flag4" value=""></c:set>
+								<c:set var="flag5" value=""></c:set>
+								<c:choose>
+									<c:when test="${item.isSaleable==0}">
+										<c:set var="flag11" value="checked"></c:set>
+									</c:when>
+									<c:when test="${item.isSaleable==1}">
+										<c:set var="flag12" value="checked"></c:set>
+									</c:when>
+								</c:choose>
+								<c:choose>
+									<c:when test="${item.isStockable==0}">
+										<c:set var="flag21" value="checked"></c:set>
+									</c:when>
+									<c:when test="${item.isStockable==1}">
+										<c:set var="flag22" value="checked"></c:set>
+									</c:when>
+								</c:choose>
+								<c:choose>
+									<c:when test="${item.isFactOrFr==1}">
+										<c:set var="flag3" value="checked"></c:set>
+									</c:when>
+									<c:when test="${item.isFactOrFr==2}">
+										<c:set var="flag4" value="checked"></c:set>
+									</c:when>
+									<c:when test="${item.isFactOrFr==3}">
+										<c:set var="flag5" value="checked"></c:set>
+									</c:when>
+								</c:choose>
+								<c:choose>
+									<c:when test="${item.extInt1==0}">
+										<c:set var="flag31" value="checked"></c:set>
+									</c:when>
+									<c:when test="${item.extInt1==1}">
+										<c:set var="flag32" value="checked"></c:set>
+									</c:when>
+								</c:choose>
+								<c:choose>
+									<c:when test="${item.extInt2==0}">
+										<c:set var="flag41" value="checked"></c:set>
+									</c:when>
+									<c:when test="${item.extInt2==1}">
+										<c:set var="flag42" value="checked"></c:set>
+									</c:when>
+								</c:choose>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Saleable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isSaleable" id="radio1" value="0"  ${flag11} />
-											No
+											name="isSaleable" id="radio1" value="0" ${flag11} /> No
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isSaleable" id="radio1" value="1"
 											data-rule-required="false" ${flag12} />Yes
-										</label> 
+										</label>
 									</div>
 								</div>
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Stockable?</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Stockable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isStockable" id="radio2" value="0" ${flag21} />
-											No
+											name="isStockable" id="radio2" value="0" ${flag21} /> No
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isStockable" id="radio2" value="1"
-											data-rule-required="false" ${flag22}  />Yes
-										</label> 
+											data-rule-required="false" ${flag22} />Yes
+										</label>
 									</div>
 								</div>
-									<div class="form-group">
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Factory/Fr/Both</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isFactOrFr" id="radio3" value="1" ${flag3} />
-											Factory
+											name="isFactOrFr" id="radio3" value="1" ${flag3} /> Factory
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isFactOrFr" id="radio3" value="2"
 											data-rule-required="false" ${flag4} />Franchise
-										</label> 
-										<label class="radio-inline"> <input type="radio"
+										</label> <label class="radio-inline"> <input type="radio"
 											name="isFactOrFr" id="radio3" value="3"
-											data-rule-required="false"  ${flag5} />Both
-										</label> 
+											data-rule-required="false" ${flag5} />Both
+										</label>
 									</div>
-								</div>	
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Billable?</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Billable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isBillable" id="radio2" value="0" ${flag31}  onclick="checkIsBillable(this.value)"  />
-											No
+											name="isBillable" id="radio2" value="0" ${flag31}
+											onclick="checkIsBillable(this.value)" /> No
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isBillable" id="radio2" value="1"
-											data-rule-required="false" ${flag32}  onclick="checkIsBillable(this.value)" />Yes
-										</label> 
+											data-rule-required="false" ${flag32}
+											onclick="checkIsBillable(this.value)" />Yes
+										</label>
 									</div>
 								</div>
 								<div class="form-group" id="divhide" style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Items</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<select data-placeholder="Select Items" name="billable_item"
-												class="form-control chosen" tabindex="-1" id="billable_item" 
-													multiple="multiple">
-                                           <c:forEach items="${itemList}" var="items">
-                                           <c:set var="flag" value="0"></c:set>
-                                           <c:if test="${!item.extVar1.equals('0.0')}">
-                                          <c:forTokens var="token" items="${item.extVar1}"  delims=",">
-                                          <c:if test="${token==items.id}">
-                                           <c:set var="flag" value="1"></c:set>
-                                           </c:if>
-											</c:forTokens> 
-											</c:if>
-											<c:if test="${flag==1}">
-												<option value="${items.id}" selected>${items.itemName}</option>
-											</c:if>
+											class="form-control chosen" tabindex="-1" id="billable_item"
+											multiple="multiple">
+											<c:forEach items="${itemList}" var="items">
+												<c:set var="flag" value="0"></c:set>
+												<c:if test="${!item.extVar1.equals('0.0')}">
+													<c:forTokens var="token" items="${item.extVar1}" delims=",">
+														<c:if test="${token==items.id}">
+															<c:set var="flag" value="1"></c:set>
+														</c:if>
+													</c:forTokens>
+												</c:if>
+												<c:if test="${flag==1}">
+													<option value="${items.id}" selected>${items.itemName}</option>
+												</c:if>
 												<c:if test="${flag==0}">
-												<option value="${items.id}" >${items.itemName}</option>
-											</c:if>
+													<option value="${items.id}">${items.itemName}</option>
+												</c:if>
 											</c:forEach>
-										
+
 										</select>
-												
-										</div>
-									</div>
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
-									<div class="col-sm-9 col-lg-10 controls">
-										<label class="radio-inline"> <input type="radio"
-											name="isDecimal" id="radio2" value="0" ${flag41} />
-											No
-										</label> <label class="radio-inline"> <input type="radio"
-											name="isDecimal" id="radio2" value="1"
-											data-rule-required="false" ${flag42}  />Yes
-										</label> 
+
 									</div>
 								</div>
-										 <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Item Shelf Life</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Decimal?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio2" value="0" ${flag41} /> No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isDecimal" id="radio2" value="1"
+											data-rule-required="false" ${flag42} />Yes
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Item
+										Shelf Life</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_shelf_life" id="item_shelf_life"
 											value="${item.shelfLife}" placeholder="Item Shelf Life"
-											class="form-control" data-rule-required="true" data-rule-number="true" />
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" />
 									</div>
 								</div>
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Dairy-Mart Limit</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Dairy-Mart
+										Limit</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp2" id="item_mrp2"
 											value="${item.itemMrp2}" placeholder="Item Mrp2"
-											class="form-control" data-rule-required="true" data-rule-number="true" />
+											class="form-control" data-rule-required="true"
+											data-rule-number="true" />
 									</div>
-								</div> 
+								</div>
 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
@@ -691,7 +744,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2019 © MADHAVI.</p>
+				<p>2019 © MADHAVI.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -797,7 +850,7 @@ function checkIsBillable(res) {
 } 
 </script>
 
-<script>
+	<script>
 function calTotalGst() {
 	 var igst=parseFloat($("#item_tax3").val());
 	  var cgst=parseFloat($("#item_tax2").val());
@@ -812,7 +865,7 @@ function calTotalGst() {
 }
 </script>
 
-<script>
+	<script>
 function calTotalGstOnLoad(isBillable) {
    
 	  var sgst=parseFloat($("#item_tax1").val());
@@ -824,7 +877,7 @@ function calTotalGstOnLoad(isBillable) {
 	  checkIsBillable(isBillable);
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function calMrp()
 {
 	var mrp1 = parseFloat($("#item_mrp1").val());

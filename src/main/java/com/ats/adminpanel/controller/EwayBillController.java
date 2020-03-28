@@ -152,7 +152,33 @@ public class EwayBillController {
 				billReq.setToAddr2("");
 				billReq.setToGstin(franchise.getFrGstNo());
 				
-				billReq.setToPincode(franchise.getFrKg2());
+				
+				String[] arr=bill.getPartyAddress().split("~~");
+				
+				System.err.println("ADDRESS - "+bill.getPartyAddress());
+
+				String pincode="";
+				int pin=0;
+				String km="";
+
+				if(arr.length==2) {
+					pincode=arr[1];
+					pin=Integer.parseInt(pincode);
+				}else if(arr.length==3) {
+					pincode=arr[1];
+					km=arr[2];
+					pin=Integer.parseInt(pincode);
+				}
+				
+				
+				System.err.println("PINCODE - "+pincode+"          KM - "+km);
+				
+				//billReq.setToPincode(franchise.getFrKg2());
+				//billReq.setTransDistance(""+franchise.getFrKg3());
+				
+				billReq.setToPincode(pin);
+				billReq.setTransDistance(km);
+				
 				billReq.setToPlace(" ");
 				billReq.setToStateCode(company.getStateCode());
 
@@ -163,7 +189,6 @@ public class EwayBillController {
 
 				billReq.setTransMode("1");// Road/Rail/Air/Ship
 
-				billReq.setTransDistance(""+franchise.getFrKg3());
 				billReq.setTransDocDate("");
 				billReq.setTransDocNo("");
 				billReq.setTransporterId("");
@@ -497,4 +522,6 @@ public class EwayBillController {
 		return errorBillList;
 
 	}
+	
+	
 }

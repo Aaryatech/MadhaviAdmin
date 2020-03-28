@@ -321,8 +321,8 @@
 				method="post"
 				onsubmit="submitBill.disabled = true; return confirm('Do you want to Generate Bill ?');">
 
-				<input type="hidden" name="sectionId" id="postSectionId" />
-				<input type="hidden" name="isDairy" id="isDairy" />
+				<input type="hidden" name="sectionId" id="postSectionId" /> <input
+					type="hidden" name="isDairy" id="isDairy" />
 				<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive">
@@ -396,29 +396,49 @@
 								</div>
 
 							</div>
-							<br> <label class="col-sm-3 col-lg-2 control-label">Ship
-								To</label>
-							<div class="col-sm-9 col-lg-2 controls">
-								<input type="text" name="shipToName" value="" id="shipToName"
-									class="form-control" />
+							<br>
 
+							<div class="row">
+								<label class="col-sm-3 col-lg-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;Ship
+									To</label>
+								<div class="col-sm-9 col-lg-2 controls">
+									<input type="text" name="shipToName" value="" id="shipToName"
+										class="form-control" />
+
+								</div>
+								<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
+								<div class="col-sm-9 col-lg-2 controls">
+									<input type="text" name="shipToGstin" value="" id="shipToGstin"
+										class="form-control" />
+								</div>
+								<label class="col-sm-3 col-lg-1 control-label">Address</label>
+								<div class="col-sm-9 col-lg-3 controls">
+									<input type="text" name="shipToAddress" value=""
+										id="shipToAddress" class="form-control" />
+								</div>
 							</div>
-							<label class="col-sm-3 col-lg-1 control-label">GSTIN</label>
-							<div class="col-sm-9 col-lg-2 controls">
-								<input type="text" name="shipToGstin" value="" id="shipToGstin"
-									class="form-control" />
+							<br>
+							<div class="row" id="pinAndKm" style="display: none;">
+								<label class="col-sm-3 col-lg-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;Ship
+									To Pin code</label>
+								<div class="col-sm-9 col-lg-2 controls">
+									<input type="text" name="shipToPincode" value=""
+										id="shipToPincode" class="form-control" />
+
+								</div>
+								<label class="col-sm-3 col-lg-1 control-label">Kilometer</label>
+								<div class="col-sm-9 col-lg-2 controls">
+									<input type="text" name="shipToKm" value="" id="shipToKm"
+										class="form-control" />
+								</div>
 							</div>
-							<label class="col-sm-3 col-lg-1 control-label">Address</label>
-							<div class="col-sm-9 col-lg-3 controls">
-								<input type="text" name="shipToAddress" value=""
-									id="shipToAddress" class="form-control" />
-							</div>
+
+
 						</div>
 					</div>
 
-					<input type="hidden" id="frName"> 
-					<input type="hidden"id="frGst"> 
-					<input type="hidden" id="frAddr">
+					<input type="hidden" id="frName"> <input type="hidden"
+						id="frGst"> <input type="hidden" id="frAddr">
 
 					<div class="form-group"></div>
 
@@ -583,6 +603,8 @@ var advOrdHeaderId=0;
 									$('#table_grid td').remove();
 									$('#loader').hide();
 									document.getElementById("submitBill").disabled = false;
+									
+									//alert(JSON.stringify(data));
 
 									if (data == "") {
 										alert("No records found !!");
@@ -692,7 +714,16 @@ var advOrdHeaderId=0;
 																var taxableAmt= baseRateAmt * bill.orderQty;
 																var disCalAmt=(taxableAmt * bill.isPositive) /100;//alert(discAmt+"discAmt");
 																disCalAmt=disCalAmt.toFixed(2);
-																var discAmt = "<td align=center  id=discAmt"+bill.catId+""+bill.orderId+">"+disCalAmt+"</td>"; //new
+																
+																 var discPer = "<td align=center><input type=text  style='width: 5em' class=form-control   onkeyup= updateTotal("
+																		+ bill.catId+","+bill.orderId + ","
+																		+ bill.orderRate + ","+ bill.orderMrp + ","+ bill.isOwnFr + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ","+ bill.orderMrp + ","+ bill.isOwnFr + ")  id=discPer"+ bill.catId+""+bill.orderId+ " name=discPer"+bill.catId+""+bill.orderId+" value ="+bill.isPositive+" ></td>"; 
+																
+																		var discAmt = "<td align=center><input type=text  style='width: 5em' class=form-control   onkeyup= updateTotalByDiscAmt("
+																			+ bill.catId+","+bill.orderId + ","
+																			+ bill.orderRate + ","+ bill.orderMrp + ","+ bill.isOwnFr + ") onchange= updateTotalByDiscAmt("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ","+ bill.orderMrp + ","+ bill.isOwnFr + ")  id=discAmt"+ bill.catId+""+bill.orderId+ " name=discAmt"+bill.catId+""+bill.orderId+" value =0 ></td>"; //new
+																
+																//var discAmt = "<td align=center  id=discAmt"+bill.catId+""+bill.orderId+">"+disCalAmt+"</td>"; //new
 																
 																taxableAmt=taxableAmt-disCalAmt;
 																taxableAmt=taxableAmt.toFixed(2);
@@ -914,9 +945,9 @@ var advOrdHeaderId=0;
     			}
 
 			var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
-			 if(discPer>0){
+			 if(discPer>0 && discPer<=100){
            	   var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
-           	  document.getElementById("discAmt" + catId+""+orderId).innerHTML=discAmt.toFixed(2);
+           	  document.getElementById("discAmt" + catId+""+orderId).value=discAmt.toFixed(2);
            	 
            	  taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
            	  var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);//alert(sgstRs+"sgstRs");
@@ -933,8 +964,9 @@ var advOrdHeaderId=0;
            	 }
            	 else
            		 {
+           		 document.getElementById("discPer" + catId+""+orderId).value=0;
            		  var discAmt=0.0;
-           		  document.getElementById("discAmt" + catId+""+orderId).innerHTML=discAmt;
+           		  document.getElementById("discAmt" + catId+""+orderId).value=discAmt;
            		 var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);
                  var cgstRs=((parseFloat(taxableAmt) * parseFloat(cgstPer))/100);
                  
@@ -951,6 +983,78 @@ var advOrdHeaderId=0;
 			
 		}
 	</script>
+
+
+	<script type="text/javascript">
+	
+	function updateTotalByDiscAmt(catId,orderId, rate,mrp,isOwnFr) {
+		
+		var baseRate=0;
+		var qty= parseFloat($("#billQty" +catId+""+orderId).val());//alert(qty+"qty");
+		var discAmt=parseFloat($("#discAmt" + catId+""+orderId).val());//alert(discPer+"discPer");
+		//var discPer=parseFloat($("#discPer" + catId+""+orderId).val());//alert(discPer+"discPer");
+		var sgstPer=parseFloat($("#sgstPer" + catId+""+orderId).val());// alert(sgstPer+"sgstPer");
+		var cgstPer=parseFloat($("#cgstPer" + catId+""+orderId).val());//alert(cgstPer+"cgstPer");
+		
+		//alert(discAmt);
+		
+		if(isOwnFr==1){
+		        baseRate = ((mrp * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
+		}else{
+			    baseRate = ((rate * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
+		}
+
+		var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
+		
+		if(discAmt>0 && discAmt<=taxableAmt){
+			
+			var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+			
+       	   //	var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+       	 	document.getElementById("discPer" + catId+""+orderId).value=discPer.toFixed(2);
+       	 	
+       	 	
+       	 	
+       	 taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
+   	  var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);//alert(sgstRs+"sgstRs");
+      var cgstRs=((parseFloat(taxableAmt) * parseFloat(cgstPer))/100);//alert(cgstRs+"cgstRs");
+ 	 var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));//alert(taxAmt+"taxAmt");
+ 	 
+   	  var total=parseFloat(taxableAmt) + parseFloat(taxAmt);//alert("total"+total);
+   	  
+		 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
+		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
+
+   	 $('#billTotal'+catId+""+orderId).html(total.toFixed(2));
+   	 $('#taxableAmount'+catId+""+orderId).html(taxableAmt.toFixed(2));
+   	 
+   	 
+       	 	
+       	// updateTotal(catId,orderId, rate,mrp,isOwnFr);
+       	 
+       	}else{
+
+	       	 	document.getElementById("discPer" + catId+""+orderId).value=0;
+	       	 document.getElementById("discAmt" + catId+""+orderId).value=0;
+	       	 	
+	       	 updateTotal(catId,orderId, rate,mrp,isOwnFr);
+       		
+       	}
+		
+		
+		
+		
+		
+
+		
+		
+		
+
+		
+	}
+	
+	</script>
+
 
 	<script>
 $('.datepicker').datepicker({
@@ -1257,6 +1361,13 @@ function getCustData(custId) {
 							    document.getElementById("billToName").value = data.custName;
 								document.getElementById("billToGstin").value = data.gstNo;
 								document.getElementById("billToAddress").value = data.address;
+								
+								 var res = data.exVar2.split("-", 1);
+								 if(res=='null'){
+									 res="";
+								 }
+								 document.getElementById("shipToPincode").value = res;
+								document.getElementById("shipToKm").value = data.exVar1;
 						});
 }
 }
@@ -1271,6 +1382,8 @@ function dairyMartShipToOption(){
 	
 	if(fr.checked==true){
 		
+		document.getElementById("pinAndKm").style.display = "none";
+		
 		var name=document.getElementById("frName").value;
 		var gst=document.getElementById("frGst").value;
 		var addr=document.getElementById("frAddr").value;
@@ -1280,6 +1393,8 @@ function dairyMartShipToOption(){
 		document.getElementById("shipToAddress").value = addr;
 		
 	}else{
+		
+		document.getElementById("pinAndKm").style.display = "block";
 		
 		var name=document.getElementById("billToName").value;
 		var gst=document.getElementById("billToGstin").value;

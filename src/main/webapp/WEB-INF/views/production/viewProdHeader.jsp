@@ -4,20 +4,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-  
- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
-  	<style>
- table{
-  width:100%;
- 
-  border:1px solid #ddd;
+
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
+<style>
+table {
+	width: 100%;
+	border: 1px solid #ddd;
 }
- </style>
+</style>
 <body>
 
 
- 
+
 
 
 	<div class="container" id="main-container">
@@ -37,7 +36,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
+			<!-- 	<div class="page-title">
 				<div>
 					<h1>
 						<i class="fa fa-file-o"></i>Production Header
@@ -70,12 +69,12 @@
 
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/showProdHeader" class="form-horizontal"
-								id="validation-form" method="get">
+							<form action="${pageContext.request.contextPath}/showProdHeader"
+								class="form-horizontal" id="validation-form" method="get">
 
 
 
-							<!-- 	<input type="hidden" name="mode_add" id="mode_add"
+								<!-- 	<input type="hidden" name="mode_add" id="mode_add"
 									value="add_att"> -->
 
 								<div class="form-group">
@@ -84,7 +83,7 @@
 									<div class="col-sm-5 col-lg-3 controls">
 										<input class="form-control date-picker" id="from_date"
 											size="16" type="text" name="from_date" value="${fromDate}"
-											required  />
+											required />
 									</div>
 									<!-- </div>
 
@@ -93,8 +92,7 @@
 									<label class="col-sm-3 col-lg-2 control-label">To Date</label>
 									<div class="col-sm-5 col-lg-3 controls">
 										<input class="form-control date-picker" id="to_date" size="16"
-											type="text"  name="to_date" required value="${toDate}"
-											/>
+											type="text" name="to_date" required value="${toDate}" />
 									</div>
 
 									<div
@@ -106,39 +104,41 @@
 
 
 								<div class="clearfix"></div>
-										<div id="table-scroll" class="table-scroll">
-							 
+								<div id="table-scroll" class="table-scroll">
+
 									<div id="faux-table" class="faux-table" aria="hidden">
-									<table id="table2"  class="table table-advance" border="1">
+										<table id="table2" class="table table-advance" border="1">
 											<thead>
 												<tr class="bgpink">
-												<th width="70" style="width: 10px">Sr.No</th>
-										<th width="180" style="width: 90px">Prod ID</th>
-												<th width="200" align="left">Production Date</th>
-												<th width="358" align="left">Category</th>
-												<th width="194" align="left">Status</th>
-												<th width="102" align="left">IsPlanned</th>
-												<th width="88" align="left">Action</th>
+													<th width="70" style="width: 10px">Sr.No <input
+														type="checkbox"></th>
+													<th width="180" style="width: 90px">Prod ID</th>
+													<th width="200" align="left">Production Date</th>
+													<th width="358" align="left">Category</th>
+													<th width="194" align="left">Status</th>
+													<th width="102" align="left">IsPlanned</th>
+													<th width="88" align="left">Action</th>
 												</tr>
-												</thead>
-												</table>
-									
+											</thead>
+										</table>
+
 									</div>
 									<div class="table-wrap">
-									
+
 										<table id="table1" class="table table-advance" border="1">
 											<thead>
 												<tr class="bgpink">
-												<th width="70" style="width: 10px">Sr.No</th>
-												<th width="180" style="width: 90px">Prod ID</th>
-												<th width="200" align="left">Production Date</th>
-												<th width="358" align="left">Category</th>
-												<th width="194" align="left">Status</th>
-												<th width="102" align="left">IsPlanned</th>
-												<th width="88" align="left">Action</th>
+													<th width="70" style="width: 10px">Sr.No <input
+														type="checkbox"></th>
+													<th width="180" style="width: 90px">Prod ID</th>
+													<th width="200" align="left">Production Date</th>
+													<th width="358" align="left">Category</th>
+													<th width="194" align="left">Status</th>
+													<th width="102" align="left">IsPlanned</th>
+													<th width="88" align="left">Action</th>
 												</tr>
-												</thead>
-							<!-- 	<div class="table-responsive" style="border: 0">
+											</thead>
+											<!-- 	<div class="table-responsive" style="border: 0">
 									<table width="100%" class="table table-advance" id="table1">
 										<thead>
 											<tr>
@@ -150,100 +150,142 @@
 												<th width="88" align="left">Action</th>
 											</tr>
 										</thead> -->
-										<tbody>
+											<tbody>
 
-											<c:forEach items="${planHeader}" var="planHeader" varStatus="count">
+												<c:forEach items="${planHeader}" var="planHeader"
+													varStatus="count">
 
-												<tr>
-	                        	<td><c:out value="${count.index+1}" /></td>
-													<td align="left"><c:out
-															value="${planHeader.productionHeaderId}" /></td>
-													<td align="left"><c:out
-															value="${planHeader.productionDate}" /></td>
-													<td align="left"><c:out value="${planHeader.catName}" /></td>
+													<tr>
+														<td style="text-align: center;"><c:out
+																value="${count.index+1}" /> <input type="checkbox"
+															id="chk" name="chk" class="chk" id="${planHeader.productionHeaderId}"	value="${planHeader.productionHeaderId}"></td>
+														<td align="left"><c:out
+																value="${planHeader.productionHeaderId}" /></td>
+														<td align="left"><c:out
+																value="${planHeader.productionDate}" /></td>
+														<td align="left"><c:out value="${planHeader.catName}" /></td>
 
-													<c:choose>
-														<c:when test="${planHeader.productionStatus==1}">
-															<td align="left"><c:out value="Planning"></c:out></td>
+														<c:choose>
+															<c:when test="${planHeader.productionStatus==1}">
+																<td align="left"><c:out value="Planning"></c:out></td>
 
-														</c:when>
-														<c:when test="${planHeader.productionStatus==2}">
-															<td align="left"><c:out value="Added From Order"></c:out></td>
+															</c:when>
+															<c:when test="${planHeader.productionStatus==2}">
+																<td align="left"><c:out value="Added From Order"></c:out></td>
 
-														</c:when>
-														<c:when test="${planHeader.productionStatus==3}">
-															<td align="left"><c:out value="Production Started"></c:out></td>
+															</c:when>
+															<c:when test="${planHeader.productionStatus==3}">
+																<td align="left"><c:out value="Production Started"></c:out></td>
 
-														</c:when>
-														<c:when test="${planHeader.productionStatus==4}">
-															<td align="left"><c:out value="Production Completed"></c:out></td>
+															</c:when>
+															<c:when test="${planHeader.productionStatus==4}">
+																<td align="left"><c:out
+																		value="Production Completed"></c:out></td>
 
-														</c:when>
-														<c:when test="${planHeader.productionStatus==5}">
-															<td align="left"><c:out value="Closed"></c:out></td>
+															</c:when>
+															<c:when test="${planHeader.productionStatus==5}">
+																<td align="left"><c:out value="Closed"></c:out></td>
 
-														</c:when>
-														<c:otherwise>
-															<td align="left"><c:out value=""></c:out></td>
+															</c:when>
+															<c:otherwise>
+																<td align="left"><c:out value=""></c:out></td>
 
-														</c:otherwise>
+															</c:otherwise>
 
-													</c:choose>
-
-
-													<c:choose>
-														<c:when test="${planHeader.isPlanned==1}">
-															<td align="left"><c:out value="Yes"></c:out></td>
-
-														</c:when>
-														<c:otherwise>
-															<td align="left"><c:out value="No"></c:out></td>
-
-														</c:otherwise>
-
-													</c:choose>
+														</c:choose>
 
 
-													<td align="left"><a
-														href="${pageContext.request.contextPath}/getProdDetail/${planHeader.productionHeaderId}"><span
-															class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                              <c:choose>
-														<c:when test="${planHeader.isPlanned==1 and planHeader.productionStatus!=4 and planHeader.productionStatus!=5}">
-											<a href="deletePlanHeader/${planHeader.productionHeaderId}/${fromDate}/${toDate}"
-											onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-                                                 </c:when>
-                                                 </c:choose>
-													</td>
-												</tr>
-											</c:forEach>
+														<c:choose>
+															<c:when test="${planHeader.isPlanned==1}">
+																<td align="left"><c:out value="Yes"></c:out></td>
 
-										</tbody>
-									</table>
+															</c:when>
+															<c:otherwise>
+																<td align="left"><c:out value="No"></c:out></td>
+
+															</c:otherwise>
+
+														</c:choose>
+
+
+														<td align="left"><a
+															href="${pageContext.request.contextPath}/getProdDetail/${planHeader.productionHeaderId}"><span
+																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+															<c:choose>
+																<c:when
+																	test="${planHeader.isPlanned==1 and planHeader.productionStatus!=4 and planHeader.productionStatus!=5}">
+																	<a
+																		href="deletePlanHeader/${planHeader.productionHeaderId}/${fromDate}/${toDate}"
+																		onClick="return confirm('Are you sure want to delete this record');"><span
+																		class="glyphicon glyphicon-remove"></span></a>
+																</c:when>
+															</c:choose></td>
+													</tr>
+												</c:forEach>
+
+											</tbody>
+										</table>
+
+										<input type="button" value="PDF" class="btn btn-primary"
+											onclick="genPdf()">
+
+									</div>
+
 								</div>
-
-							</div>
 							</form>
 						</div>
 					</div>
 
 				</div>
 
-	</div>
-	<!-- END Main Content -->
-	<footer>
-	<p>2019 © MADHAVI.</p>
-	</footer>
+			</div>
+			<!-- END Main Content -->
+			<footer>
+			<p>2019 © MADHAVI.</p>
+			</footer>
 
-	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-		class="fa fa-chevron-up"></i></a>
-	</div>
-	<!-- END Content -->
+			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+				class="fa fa-chevron-up"></i></a>
+		</div>
+		<!-- END Content -->
 	</div>
 	<!-- END Container -->
 
+
+
+
+	<script type="text/javascript">
+		function genPdf() {
+
+			var checkedVals = $('.chk:checkbox:checked').map(function() {
+				return this.value;
+			}).get();
+			checkedVals = checkedVals.join(",");
+
+			if (checkedVals == "") {
+				alert("Please Select Production")
+			} else {
+				
+				alert(checkedVals);
+				
+				 window.location.href = '${pageContext.request.contextPath}/getDeptWiseItemListPdf/'
+						+ checkedVals; 
+
+			}
+
+		}
+	</script>
+
+
+
+
+
+
+
+
+
 	<!--basic scripts-->
-	 <script
+	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script>
 		window.jQuery
@@ -295,23 +337,23 @@
 		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/clockface/js/clockface.js"></script>
-<script type="text/javascript"
+	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript"
+	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
-		<script type="text/javascript"
+	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
- <script type="text/javascript">
- $('.date-picker').datepicker({
-     format: "dd-mm-yyyy",
-     autoclose: true,
-}).on('changeDate', function (ev) {
-     $(this).datepicker('hide');
-});
-</script>
- </body>
+	<script type="text/javascript">
+		$('.date-picker').datepicker({
+			format : "dd-mm-yyyy",
+			autoclose : true,
+		}).on('changeDate', function(ev) {
+			$(this).datepicker('hide');
+		});
+	</script>
+</body>
 </html>

@@ -470,7 +470,8 @@ table {
 										</div>
 
 										<input type="button" id="btn_submit" class="btn btn-primary"
-											onclick="submitBill()" value="BillDetail" /> <input
+											onclick="submitBill()" value="BillDetail" />
+											 <input
 											type="button" id="btn_submit" class="btn btn-primary"
 											onclick="showVehNo()" value="E-way Bill" />
 										<div class="form-group"></div>

@@ -6,25 +6,24 @@
 
 <style>
 .alert {
-    padding: 20px;
-    background-color: red;
-    color: white;
-    
+	padding: 20px;
+	background-color: red;
+	color: white;
 }
 
 .closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
 }
 
 .closebtn:hover {
-    color: black;
+	color: black;
 }
 </style>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -33,7 +32,7 @@
 
 	<c:url var="getGroup2ByCatId" value="/getGroup2ByCatId" />
 
-<c:url var="getItemCode" value="/getItemCode" /> 
+	<c:url var="getItemCode" value="/getItemCode" />
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -56,15 +55,15 @@
 					<!-- <h1>
 						<i class="fa fa-file-o"></i> Items
 					</h1> -->
-	<c:choose>
-				<c:when test="${isError==true}">
-				<div class="alert">
-					<span class="closebtn"
-						onclick="this.parentElement.style.display='none';">&times;</span>
-					<strong>Failed !</strong>     Failed to Add New Item !!
-				</div>
-				</c:when>
-				</c:choose>
+					<c:choose>
+						<c:when test="${isError==true}">
+							<div class="alert">
+								<span class="closebtn"
+									onclick="this.parentElement.style.display='none';">&times;</span>
+								<strong>Failed !</strong> Failed to Add New Item !!
+							</div>
+						</c:when>
+					</c:choose>
 					<c:set var="isEdit" value="0">
 					</c:set>
 					<c:set var="isView" value="0">
@@ -144,12 +143,31 @@
 
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/addItemProcess" class="form-horizontal"
-								method="post" id="validation-form" enctype="multipart/form-data">
+							<form action="${pageContext.request.contextPath}/addItemProcess"
+								class="form-horizontal" method="post" id="validation-form"
+								enctype="multipart/form-data">
+
+								<!-- <input type="hidden" name="item_grp3" id="item_grp3" value="1" /> -->
+
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Department</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<select data-placeholder="Select Department"
+											class="form-control chosen" name="item_grp3" tabindex="-1"
+											id="item_grp3" data-rule-required="true">
+											<option selected>Select Department</option>
+
+											<c:forEach items="${deptList}" var="dept">
 
 
-								
+												<option value="${dept.deptId}"><c:out
+														value="${dept.deptName}"></c:out></option>
+											</c:forEach>
 
+
+										</select>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Category</label>
@@ -162,7 +180,8 @@
 											<c:forEach items="${mCategoryList}" var="mCategoryList">
 
 
-												<option value="${mCategoryList.catId}"><c:out value="${mCategoryList.catName}"></c:out></option>
+												<option value="${mCategoryList.catId}"><c:out
+														value="${mCategoryList.catName}"></c:out></option>
 											</c:forEach>
 
 
@@ -172,17 +191,21 @@
 
 
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Sub Category</label>
+									<label class="col-sm-3 col-lg-2 control-label">Sub
+										Category</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<select data-placeholder="Select Sub Category"
 											class="form-control chosen-select" name="item_grp2"
-											tabindex="-1" id="item_grp2" onchange="onSubCatChange(this.value)" data-rule-required="true">
+											tabindex="-1" id="item_grp2"
+											onchange="onSubCatChange(this.value)"
+											data-rule-required="true">
 
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Item Code</label>
+									<label class="col-sm-3 col-lg-2 control-label">Item
+										Code</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_id" id="item_id"
 											placeholder="Item Id" class="form-control"
@@ -197,8 +220,8 @@
 											placeholder="Item Name" class="form-control"
 											data-rule-required="true" />
 									</div>
-								</div><input type="hidden" name="item_grp3" id="item_grp3" value="1"/>
-							<!-- 	<div class="form-group">
+								</div>
+								<!-- 	<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Sub-Sub Category</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<select data-placeholder="Select Sub-Sub Category" name="item_grp3"
@@ -223,16 +246,17 @@
 											data-rule-required="true" data-rule-number="true" />
 									</div>
 								</div>
-							
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">MRP</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp1" id="item_mrp1"
 											placeholder="Item Mrp1" class="form-control"
-											data-rule-required="true" data-rule-number="true" value="0" onchange="calMrp()"/>
+											data-rule-required="true" data-rule-number="true" value="0"
+											onchange="calMrp()" />
 									</div>
 								</div>
-	
+
 								<!-- <div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Out
 										Station Mrp</label>
@@ -248,19 +272,21 @@
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp3" id="item_mrp3"
 											placeholder="Item Mrp3" class="form-control"
-											data-rule-required="true" data-rule-number="true" value="0" onchange="calMrp()"/>
+											data-rule-required="true" data-rule-number="true" value="0"
+											onchange="calMrp()" />
 									</div>
 								</div>
-								
-                              <div class="form-group">
+
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Margin %</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="margin" id="margin"
 											placeholder="Enter Margin %" class="form-control"
-											data-rule-required="true" data-rule-number="true" value="0" onchange="calMrp()"/>
+											data-rule-required="true" data-rule-number="true" value="0"
+											onchange="calMrp()" />
 									</div>
 								</div>
-                                	<div class="form-group">
+								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Rate</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_rate1" id="item_rate1"
@@ -268,8 +294,8 @@
 											data-rule-required="true" data-rule-number="true" value="0" />
 									</div>
 								</div>
-								<input type="hidden" name="item_rate2" id="item_rate2" value="0"/>
-							<!-- 	<div class="form-group">
+								<input type="hidden" name="item_rate2" id="item_rate2" value="0" />
+								<!-- 	<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Out
 										Station Rate</label>
 									<div class="col-sm-9 col-lg-10 controls">
@@ -278,7 +304,7 @@
 											data-rule-required="true" data-rule-number="true" value="0" readonly/>
 									</div>
 								</div> -->
-                         
+
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Special
 										Rate</label>
@@ -307,8 +333,8 @@
 												<span class="btn btn-default btn-file"><span
 													class="fileupload-new">Select image</span> <span
 													class="fileupload-exists">Change</span> <input type="file"
-													class="file-input" name="item_image" id="item_image" /></span>
-												<a href="#" class="btn btn-default fileupload-exists"
+													class="file-input" name="item_image" id="item_image" /></span> <a
+													href="#" class="btn btn-default fileupload-exists"
 													data-dismiss="fileupload">Remove</a>
 											</div>
 										</div>
@@ -359,7 +385,7 @@
 										<select class="form-control input-sm" tabindex="1"
 											name="is_used">
 											<option value="1">Active</option>
-										<!--<option value="2">Special Days</option>
+											<!--<option value="2">Special Days</option>
 											<option value="3">Sp Day Cake</option> -->
 											<option value="4">Inactive</option>
 											<option value="11">Sunday Active</option>
@@ -369,7 +395,7 @@
 											<option value="15">Thursday Active</option>
 											<option value="16">Friday Active</option>
 											<option value="17">Saturday Active</option>
-											
+
 										</select>
 									</div>
 								</div>
@@ -398,84 +424,84 @@
 										</label>
 									</div>
 								</div>
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Saleable?</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Saleable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isSaleable" id="radio1" value="0" checked>
-											No
+											name="isSaleable" id="radio1" value="0" checked> No
 										</label> <label class="radio-inline"> <input type="radio"
 											name="isSaleable" id="radio1" value="1"
 											data-rule-required="false" />Yes
-										</label> 
-									</div>
-								</div>
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Stockable?</label>
-									<div class="col-sm-9 col-lg-10 controls">
-										<label class="radio-inline"> <input type="radio"
-											name="isStockable" id="radio2" value="0" checked>
-											No
-										</label> <label class="radio-inline"> <input type="radio"
-											name="isStockable" id="radio2" value="1"
-											data-rule-required="false" />Yes
-										</label> 
-									</div>
-								</div>
-									<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Factory/Fr/Both</label>
-									<div class="col-sm-9 col-lg-10 controls">
-										<label class="radio-inline"> <input type="radio"
-											name="isFactOrFr" id="radio3" value="1" >
-											Factory
-										</label> <label class="radio-inline"> <input type="radio"
-											name="isFactOrFr" id="radio3" value="2"
-											data-rule-required="false" />Franchise
-										</label> 
-										<label class="radio-inline"> <input type="radio"
-											name="isFactOrFr" id="radio3" value="3"
-											data-rule-required="false" checked/>Both
-										</label> 
+										</label>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Billable?</label>
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Stockable?</label>
 									<div class="col-sm-9 col-lg-10 controls">
-										<label class="radio-inline"> <input type="radio" onclick="checkIsBillable(this.value)"
-											name="isBillable" id="radio4" value="0">
-											No
+										<label class="radio-inline"> <input type="radio"
+											name="isStockable" id="radio2" value="0" checked> No
 										</label> <label class="radio-inline"> <input type="radio"
-											name="isBillable" id="radio4" value="1" onclick="checkIsBillable(this.value)"
-											data-rule-required="false" checked/>Yes
-										</label> 
+											name="isStockable" id="radio2" value="1"
+											data-rule-required="false" />Yes
+										</label>
 									</div>
 								</div>
-								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Factory/Fr/Both</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="1"> Factory
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="2"
+											data-rule-required="false" />Franchise
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isFactOrFr" id="radio3" value="3"
+											data-rule-required="false" checked />Both
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Billable?</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<label class="radio-inline"> <input type="radio"
+											onclick="checkIsBillable(this.value)" name="isBillable"
+											id="radio4" value="0"> No
+										</label> <label class="radio-inline"> <input type="radio"
+											name="isBillable" id="radio4" value="1"
+											onclick="checkIsBillable(this.value)"
+											data-rule-required="false" checked />Yes
+										</label>
+									</div>
+								</div>
+
 								<div class="form-group" id="divhide" style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Items</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<select data-placeholder="Select Items" name="billable_item"
-												class="form-control chosen" tabindex="-1" id="billable_item" 
-													multiple="multiple">
-                                          <c:forEach items="${itemList}" var="items">
-											<option value="${items.id}">${items.itemName}</option>
-											
+											class="form-control chosen" tabindex="-1" id="billable_item"
+											multiple="multiple">
+											<c:forEach items="${itemList}" var="items">
+												<option value="${items.id}">${items.itemName}</option>
+
 											</c:forEach>
-										
+
 										</select>
-												
-										</div>
+
 									</div>
+								</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Is Decimal?</label>
+									<label class="col-sm-3 col-lg-2 control-label">Is
+										Decimal?</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
-											name="isDecimal" id="radio6" value="0">
-											No
+											name="isDecimal" id="radio6" value="0"> No
 										</label> <label class="radio-inline"> <input type="radio"
-											name="isDecimal" id="radio7" value="1" 
-											data-rule-required="false" checked/>Yes
-										</label> 
+											name="isDecimal" id="radio7" value="1"
+											data-rule-required="false" checked />Yes
+										</label>
 									</div>
 								</div>
 								<div class="form-group">
@@ -488,14 +514,15 @@
 									</div>
 								</div>
 
-                                <div class="form-group">
-									<label class="col-sm-3 col-lg-2 control-label">Dairy-Mart Limit</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Dairy-Mart
+										Limit</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="item_mrp2" id="item_mrp2"
 											placeholder="Item Mrp2" class="form-control"
 											data-rule-required="true" data-rule-number="true" value="0" />
 									</div>
-								</div> 
+								</div>
 
 
 								<div class="form-group">
@@ -504,7 +531,8 @@
 
 											<c:when test="${isAdd==1}">
 
-												<input type="submit" class="btn btn-primary" value="Save & Next">
+												<input type="submit" class="btn btn-primary"
+													value="Save & Next">
 
 											</c:when>
 
@@ -601,30 +629,28 @@
 
 
 	<script type="text/javascript">
+		function onSubCatChange(item_grp2) {
+			var item_grp1 = parseFloat($("#item_grp1").val());
+			$.getJSON('${getItemCode}', {
+				item_grp2 : item_grp2,
+				item_grp1 : item_grp1,
+				ajax : 'true'
+			}, function(data) {
+				$("#item_id").val(data.message + "");
 
-			function onSubCatChange(item_grp2) {
-				var item_grp1 = parseFloat($("#item_grp1").val());
-				$.getJSON('${getItemCode}', {
-					item_grp2 : item_grp2,
-					item_grp1:item_grp1,
-					ajax : 'true'
-				}, function(data) {
-			        $("#item_id").val(data.message+"");
+			});
+		}
 
+		function checkIsBillable(res) {
+			if (res == 0) {
+				document.getElementById("divhide").style = "visible"
 
-				});
+			} else if (res == 1) {
+				document.getElementById("divhide").style = "display:none"
+
 			}
-			
-function checkIsBillable(res) {
-	if (res == 0) {		
-		document.getElementById("divhide").style = "visible"
-		
-	} else if (res == 1) {
-		document.getElementById("divhide").style = "display:none"
-		
-	}
-} 
-</script>
+		}
+	</script>
 	<script type="text/javascript">
 		$(document)
 				.ready(
@@ -681,40 +707,41 @@ function checkIsBillable(res) {
 			var igst = parseFloat($("#item_tax3").val());
 			
 			
-           if(flag==3){
+		   if(flag==3){
 			var per=igst/2;
 			document.getElementById("item_tax1").setAttribute('value', per.toFixed(2));
 			document.getElementById("item_tax2").setAttribute('value', per.toFixed(2));
-           }else  if(flag==2){
-   			var cgst = parseFloat($("#item_tax2").val());
+		   }else  if(flag==2){
+			var cgst = parseFloat($("#item_tax2").val());
 
-        	   var sgst = parseFloat(igst - cgst);
-   			document.getElementById("item_tax1").setAttribute('value', sgst.toFixed(2));
-           } if(flag==1){
-        	   var sgst = parseFloat($("#item_tax1").val());
-        	   var cgst = parseFloat(igst - sgst);
-      			document.getElementById("item_tax2").setAttribute('value', cgst.toFixed(2));
-              }
- 			document.getElementById("total_gst_appli").setAttribute('value',igst.toFixed(2));
+			   var sgst = parseFloat(igst - cgst);
+			document.getElementById("item_tax1").setAttribute('value', sgst.toFixed(2));
+		   } if(flag==1){
+			   var sgst = parseFloat($("#item_tax1").val());
+			   var cgst = parseFloat(igst - sgst);
+				document.getElementById("item_tax2").setAttribute('value', cgst.toFixed(2));
+		      }
+			document.getElementById("total_gst_appli").setAttribute('value',igst.toFixed(2));
 
 		} */
 	</script>
-<script type="text/javascript">
-function calMrp()
-{
-	var mrp1 = parseFloat($("#item_mrp1").val());
-	var mrp2 = parseFloat($("#item_mrp2").val());
-	var mrp3 = parseFloat($("#item_mrp3").val());
-	var margin= parseFloat($("#margin").val());
-	
-	var calRate1=mrp1-((mrp1*margin)/100);      
-	var calRate2=mrp2-((mrp2*margin)/100);  
-	var calRate3=mrp3-((mrp3*margin)/100);  
-	document.getElementById("item_rate1").setAttribute('value', (calRate1).toFixed(2));
-	//document.getElementById("item_rate2").setAttribute('value', (calRate2).toFixed(2));
-	document.getElementById("item_rate3").setAttribute('value', (calRate3).toFixed(2));
-}
-</script>
+	<script type="text/javascript">
+		function calMrp() {
+			var mrp1 = parseFloat($("#item_mrp1").val());
+			var mrp2 = parseFloat($("#item_mrp2").val());
+			var mrp3 = parseFloat($("#item_mrp3").val());
+			var margin = parseFloat($("#margin").val());
+
+			var calRate1 = mrp1 - ((mrp1 * margin) / 100);
+			var calRate2 = mrp2 - ((mrp2 * margin) / 100);
+			var calRate3 = mrp3 - ((mrp3 * margin) / 100);
+			document.getElementById("item_rate1").setAttribute('value',
+					(calRate1).toFixed(2));
+			//document.getElementById("item_rate2").setAttribute('value', (calRate2).toFixed(2));
+			document.getElementById("item_rate3").setAttribute('value',
+					(calRate3).toFixed(2));
+		}
+	</script>
 
 </body>
 </html>

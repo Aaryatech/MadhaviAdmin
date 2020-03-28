@@ -85,15 +85,30 @@ table {
 							${frDetails.company.state} </span>
 					</p> <!--         <p style="color:#000; font-size:13px; text-align:left;margin:0px;"></p>
  -->
-					<p
+					
+					
+					
+					<c:if test="${isOwnFr==1}">
+						<p
+						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
+						Delivery Challan No: &nbsp;&nbsp;<b>${frDetails.invoiceNo}</b>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						Delivery Date: &nbsp;&nbsp;<b>${frDetails.billDate}</b>
+					</p>
+					</c:if>
+					<c:if test="${isOwnFr==0}">
+						<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
 						Invoice No: &nbsp;&nbsp;<b>${frDetails.invoiceNo}</b>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<!-- </p>
-					<p
-						style="color: #000; font-size: 13px; text-align: left; margin: 0px;"> -->
+						
 						Invoice Date: &nbsp;&nbsp;<b>${frDetails.billDate}</b>
 					</p>
+					</c:if>
+					
+					
+					
 					<p
 						style="color: #000; font-size: 13px; text-align: left; margin: 0px;">
 						E-Way Bill No: <b>${frDetails.ewayBillNo}</b>
@@ -747,7 +762,15 @@ table {
 			<tr>
 				<td colspan="8" width="60%"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 12px;"><p>
+						
+					
+					<c:if test="${isOwnFr==1}">
+						<b>Delivery Challan Value in Rs.</b> ${frDetails.amtInWords}
+					</c:if>
+					<c:if test="${isOwnFr==0}">
 						<b>Invoice Value in Rs.</b> ${frDetails.amtInWords}
+					</c:if>
+					
 					</p></td>
 				<td colspan="5" width="40%"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 8px; color: #000; font-size: 15px;">

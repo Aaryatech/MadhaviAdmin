@@ -165,6 +165,11 @@ public class AdvOrdController {
 					} catch (Exception e) {
 						discPer = det.getDiscPer();
 					}
+					
+					
+					String remark=request.getParameter("remark");
+					det.setExVar1(remark);
+					
 				} catch (Exception e) {
 					strQty = null;
 

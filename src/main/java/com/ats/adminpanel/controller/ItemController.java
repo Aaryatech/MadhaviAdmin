@@ -46,6 +46,7 @@ import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.VpsImageUpload;
 import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.Info;
+import com.ats.adminpanel.model.ItemDepartment;
 import com.ats.adminpanel.model.StockItem;
 import com.ats.adminpanel.model.TrayType;
 import com.ats.adminpanel.model.RawMaterial.ItemDetailList;
@@ -239,6 +240,9 @@ public class ItemController {
 
 				// model.addObject("itemId", maxId);
 				
+				List<ItemDepartment> deptList = restTemplate.getForObject(Constants.url + "/getAllItemDepartment",
+						List.class);
+				model.addObject("deptList", deptList);
 				
 				model.addObject("mCategoryList", mCategoryList);
 				model.addObject("isError", isError);
@@ -1276,6 +1280,9 @@ public class ItemController {
 		logger.info("itemList Found" + itemListRespList.toString());
 		mav.addObject("itemList", itemListRespList);
 		
+		List<ItemDepartment> deptList = restTemplate.getForObject(Constants.url + "/getAllItemDepartment",
+				List.class);
+		mav.addObject("deptList", deptList);
 		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("id", id);

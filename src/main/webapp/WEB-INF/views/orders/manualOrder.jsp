@@ -312,6 +312,8 @@ type
 
 
 
+
+
 :checked
 ,
 [
@@ -319,6 +321,8 @@ type
 =
 "radio"
 ]
+
+
 
 
 
@@ -350,7 +354,9 @@ type
 
 
 
+
  
+
 
 
 
@@ -373,7 +379,9 @@ type
 
 
 
+
  
+
 
 
 
@@ -407,7 +415,10 @@ position
 
 
 
+
+
 :
+
 
 
 
@@ -429,7 +440,10 @@ position
 
 
 
+
 absolute
+
+
 
 
 
@@ -472,7 +486,10 @@ left
 
 
 
+
+
 :
+
 
 
 
@@ -494,8 +511,11 @@ left
 
 
 
+
 -9999
 px
+
+
 
 
 
@@ -697,7 +717,7 @@ px
 												<label class="col-sm-3 col-lg-2 control-label"> Is
 													Dairy Mart? </label> <label class="switch"> <input
 													type="checkbox" id="isDairyMart" name="isDairyMart"
-													onchange="onDairyMartCheck()" > <span
+													onchange="onDairyMartCheck()"> <span
 													class="slider round"></span>
 												</label>
 
@@ -1081,7 +1101,7 @@ px
 														autocomplete="off" required size="20" value="0" />
 												</div>
 
-												<div class="col-md-2">Pending Amt:</div>
+												<div class="col-md-1">Pending Amt:</div>
 												<div class="col-md-1">
 
 													<input type="text" name="remainAmt" id="remainAmt2"
@@ -1090,16 +1110,22 @@ px
 												</div>
 
 
-												<div class="col-md-1">Total:</div>
-												<div class="col-md-1" id="calTotal2" style="color: red;">00
+												<div class="col-md-1" style="text-align: right;">Total:</div>
+												<div class="col-md-1" id="calTotal2" style="color: red; text-align: left;" >00
 												</div>
 
 												<input type="hidden" name="fintotal1" id="fintotal2"
 													value="0">
+
+												<div class="col-md-1">Remark :</div>
+												<div class="col-md-3" >
+
+													<textarea name="remark" id="remark" rows="4" style="width: 100%;"></textarea>
+												</div>
 											</div>
 
 
-											<div class="col-md-1">
+											<div class="col-md-2">
 												<input type="submit" class="btn btn-info" value="ORDER"
 													name="submitorder" id="submitorder" disabled> <input
 													type="submit" class="btn btn-info" value="ORDER_&_BILL"
