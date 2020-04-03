@@ -66,6 +66,7 @@ th {
 
 				<c:choose>
 					<c:when test="${billType==1}">
+						<th style="text-align: center;">Discount</th>
 						<th style="text-align: center;">GRN Qty</th>
 						<th style="text-align: center;">GRN Value</th>
 						<th style="text-align: center;">GVN Qty</th>
@@ -102,7 +103,10 @@ th {
 					<c:if test="${billType==1}">
 						<td><c:out value="" /></td>
 						<td><c:out value="" /></td>
+						<td><c:out value="" /></td>
 					</c:if>
+
+
 
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>
@@ -125,37 +129,46 @@ th {
 						<c:when test="${royalty.catId==report.catId}">
 
 							<tr>
-								<td  style="text-align: center;"><c:out value="${srNo}" /></td>
+								<td style="text-align: center;"><c:out value="${srNo}" /></td>
 								<c:set var="srNo" value="${srNo+1}"></c:set>
-								<td  style="text-align: left;"><c:out value="${royalty.item_name}" /></td>
-								<td align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td style="text-align: left;"><c:out
+										value="${royalty.item_name}" /></td>
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tBillQty}" /></td>
 								<%-- <td><c:out value="${royalty.tBillTaxableAmt}" /></td> --%>
 
 
 
-								<td  align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tBillTaxableAmt}" /></td>
 
-								<td align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2"
+								<c:if test="${billType==1}">
+
+									<td align="right"><fmt:formatNumber type="number"
+											maxFractionDigits="2" minFractionDigits="2"
+											value="${royalty.discAmt}" /></td>
+
+								</c:if>
+
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tGrnQty}" /></td>
 
-								<td  align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2"
 										value="${royalty.tGrnTaxableAmt}" /></td>
 
 								<c:if test="${billType==1}">
 
-									<td  align="right"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
+									<td align="right"><fmt:formatNumber type="number"
+											maxFractionDigits="2" minFractionDigits="2"
 											value="${royalty.tGvnQty}" /></td>
 
 
-									<td  align="right"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
+									<td align="right"><fmt:formatNumber type="number"
+											maxFractionDigits="2" minFractionDigits="2"
 											value="${royalty.tGvnTaxableAmt}" /></td>
 
 								</c:if>
@@ -166,12 +179,11 @@ th {
 								<c:set var="netValue"
 									value="${royalty.tBillTaxableAmt -(royalty.tGrnTaxableAmt+royalty.tGvnTaxableAmt)}"></c:set>
 
-								<td  align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${netQty}" /></td>
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2" value="${netQty}" /></td>
 
-								<td  align="right"><fmt:formatNumber
-										type="number" maxFractionDigits="2" minFractionDigits="2"
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2"
 										value="${netValue}" /></td>
 
 
@@ -207,35 +219,37 @@ th {
 			<tr>
 
 				<td colspan='2'><b>Total</b></td>
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${sumSaleQty}" /></b></td>
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${sumSaleQty}" /></b></td>
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
 							value="${sumSaleValue}" /></b></td>
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${sumGrnQty}" /></b></td>
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
+
+				<c:if test="${billType==1}">
+					<td align="right"></td>
+
+				</c:if>
+
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${sumGrnQty}" /></b></td>
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
 							value="${sumGrnValue}" /></b></td>
 
 				<c:if test="${billType==1}">
-					<td  align="right"><b><fmt:formatNumber
-								type="number" maxFractionDigits="2" minFractionDigits="2"
-								value="${sumGvnQty}" /></b></td>
+					<td align="right"><b><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2" value="${sumGvnQty}" /></b></td>
 
-					<td  align="right"><b><fmt:formatNumber
-								type="number" maxFractionDigits="2" minFractionDigits="2"
+					<td align="right"><b><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2"
 								value="${sumGvnValue}" /></b></td>
 				</c:if>
 
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${sumNetQty}" /></b></td>
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${sumNetQty}" /></b></td>
 
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
 							value="${sumNetValue}" /></b></td>
 
 			</tr>

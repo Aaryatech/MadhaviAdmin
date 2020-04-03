@@ -454,7 +454,7 @@ public class HomeController {
 
 			if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
 
-				output = "redirect:/";
+				output = "redirect:/login";
 
 			} else {
 
@@ -549,12 +549,13 @@ public class HomeController {
 					}
 				} else {
 
-					output = "redirect:/";
+					output = "redirect:/login";
 					System.out.println("Invalid login credentials");
 				}
 
 			}
 		} catch (Exception e) {
+			output = "redirect:/login";
 			e.printStackTrace();
 			System.out.println("HomeController Login API Excep:  " + e.getMessage());
 		}

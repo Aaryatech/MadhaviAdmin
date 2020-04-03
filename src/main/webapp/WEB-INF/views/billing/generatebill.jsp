@@ -945,8 +945,18 @@ var advOrdHeaderId=0;
     			}
 
 			var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
-			 if(discPer>0 && discPer<=100){
-				 var tot=parseFloat(qty) * parseFloat(mrp);
+			 
+			if(discPer>0 && discPer<=100){
+				 
+				 var tot=0;
+				if(isOwnFr==1){
+					tot=parseFloat(qty) * parseFloat(mrp);
+				}else
+	    		{
+					tot=parseFloat(qty) * parseFloat(rate);
+	    		}
+				 
+				 
            	   var discAmt=((parseFloat(tot) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
            	  document.getElementById("discAmt" + catId+""+orderId).value=discAmt.toFixed(2);
            	 

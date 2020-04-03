@@ -16,6 +16,7 @@ public class SalesReportRoyalty {
 	float tGrnTaxableAmt;
 	float tGvnQty;
 	float tGvnTaxableAmt;
+	float discAmt;
 	
 	
 	public String getUid() {
@@ -90,11 +91,22 @@ public class SalesReportRoyalty {
 	public void settGvnTaxableAmt(float tGvnTaxableAmt) {
 		this.tGvnTaxableAmt = tGvnTaxableAmt;
 	}
+	
+	
+	
+	public float getDiscAmt() {
+		return discAmt;
+	}
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "SalesReportRoyalty [uid=" + uid + ", id=" + id + ", catId=" + catId + ", subCatId=" + subCatId
 				+ ", item_name=" + item_name + ", cat_name=" + cat_name + ", tBillQty=" + tBillQty
 				+ ", tBillTaxableAmt=" + tBillTaxableAmt + ", tGrnQty=" + tGrnQty + ", tGrnTaxableAmt=" + tGrnTaxableAmt
-				+ ", tGvnQty=" + tGvnQty + ", tGvnTaxableAmt=" + tGvnTaxableAmt + "]";
+				+ ", tGvnQty=" + tGvnQty + ", tGvnTaxableAmt=" + tGvnTaxableAmt + ", discAmt=" + discAmt + "]";
 	}
 }

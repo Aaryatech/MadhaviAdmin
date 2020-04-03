@@ -6275,6 +6275,7 @@ public class SalesReportController {
 		RoyaltyListBean royaltyBean = new RoyaltyListBean();
 
 		int billType = 1;
+		int sort=0;
 
 		try {
 			System.out.println("Inside get Sale Bill Wise");
@@ -6285,6 +6286,13 @@ public class SalesReportController {
 			int type = Integer.parseInt(request.getParameter("type"));
 			int isGraph = Integer.parseInt(request.getParameter("is_graph"));
 			billType = Integer.parseInt(request.getParameter("billType"));
+			
+			try {
+				sort = Integer.parseInt(request.getParameter("sort"));
+			}catch(Exception e) {
+				sort=0;
+			}
+			
 
 			String selectedCat = request.getParameter("cat_id_list");
 
@@ -6313,6 +6321,7 @@ public class SalesReportController {
 			map.add("type", type);
 			map.add("typeIdList", selectedType);
 			map.add("billType", billType);
+			map.add("sort", sort);
 
 			if (isGraph == 0) {
 				ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
@@ -6381,6 +6390,7 @@ public class SalesReportController {
 		rowData.add("Sale Value");
 
 		if (billType == 1) {
+			rowData.add("Discount");
 			rowData.add("GRN Qty");
 			rowData.add("GRN Value");
 			rowData.add("GVN Qty");
@@ -6422,6 +6432,11 @@ public class SalesReportController {
 						roundUp(royaltyList.get(i).gettBillQty()));
 				rowData.add("" + roundUp(royaltyList.get(i).gettBillTaxableAmt()));
 
+				if (billType == 1) {
+					rowData.add("" + roundUp(royaltyList.get(i).getDiscAmt()));
+				}
+
+				
 				rowData.add("" + roundUp(royaltyList.get(i).gettGrnQty()));
 
 				rowData.add("" + roundUp(royaltyList.get(i).gettGrnTaxableAmt()));

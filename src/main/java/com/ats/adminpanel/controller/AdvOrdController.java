@@ -137,6 +137,11 @@ public class AdvOrdController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			
+			
+			
+			
 
 			float grandTotal = 0.0f;
 			for (int i = 0; i < itmList.size(); i++) {
@@ -277,12 +282,24 @@ public class AdvOrdController {
 
 				advHeader.setDetailList(itmList);
 				System.err.println("HIII");
+				
+				System.err.println("saveAdvanceOrderHeadAndDetail --------MODEL----- "+advHeader);
+				
 				if(advHeader.getIsBillGenerated()==0)
 				info = restTemplate.postForObject(Constants.url + "/saveAdvanceOrderHeadAndDetail", advHeader,
 						AdvanceOrderHeader.class);
 				
-				if(info!=null) {
-					if(info.getAdvHeaderId()>0) {
+				System.err.println("saveAdvanceOrderHeadAndDetail ------------- "+info);
+				
+				if(info==null) {
+					info = new AdvanceOrderHeader();
+					info.setAdvHeaderId(0);
+				}
+				
+				String pincode=request.getParameter("pin");
+				
+				//if(info!=null) {
+					//if(info.getAdvHeaderId()>0) {
 						
 						String address=request.getParameter("addr");
 						String km =request.getParameter("km");
@@ -291,15 +308,19 @@ public class AdvOrdController {
 
 						map1.add("address", address);
 						map1.add("km", km);
-						map1.add("custId", info.getCustId());
+						map1.add("pincode", pincode+"-remark");
+						map1.add("custId", advHeader.getCustId());
 						
-						Info res = restTemplate.postForObject(Constants.url + "/updateCustAddressAndKm", map1,
+//						Info res = restTemplate.postForObject(Constants.url + "/updateCustAddressAndKm", map1,
+//								Info.class);
+						
+						Info res = restTemplate.postForObject(Constants.url + "/updateCustAddressAndKmAndPincode", map1,
 								Info.class);
 						
 						System.err.println("CUST ADD AND KM UPDATE ------------- "+res);
 						
-					}
-				}
+					//}
+				//}
 				
 				
 				
