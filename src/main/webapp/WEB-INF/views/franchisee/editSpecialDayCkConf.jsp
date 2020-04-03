@@ -452,7 +452,7 @@ select {
 			<!-- END Main Content -->
 
 			<footer>
-				<p>2019 © MADHAVI.</p>
+				<p>2019 © MADHVI.</p>
 			</footer>
 <script
 	src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script> 

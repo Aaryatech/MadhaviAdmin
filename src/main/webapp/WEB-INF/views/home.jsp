@@ -289,7 +289,7 @@
 
 													<td class="col-md-2" style="white-space: nowrap;"><a
 														href=""
-														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}','${advList.remark}')"
+														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}','${advList.remark}','${advList.pincode}')"
 														class="btn btn-default btn-rounded" data-toggle="modal"
 														data-target="#elegantModalForm"><abbr title='Edit'><i
 																class='fa fa-edit'></i></abbr></a> <%-- <c:if test="${prodDateSearch==0}"> --%> <c:if test="${advList.isBillGenerated==0}">
@@ -459,9 +459,14 @@
 
 								<label class="col-sm-1 control-label" style="color: blue;">Delivery
 									Address: </label>
-								<div class="col-sm-8">
+								<div class="col-sm-5">
 									<input type="text" id="addr" name="addr" class="form-control"
 										value="">
+								</div>
+								
+								<label class="col-sm-1 control-label" style="color: blue;">Pincode</label>
+								<div class="col-sm-2 controls date_select">
+									<input class="form-control" id="pin" name="pin" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
 								</div>
 
 								<label class="col-sm-1 control-label" style="color: blue;">Kilometer:
@@ -723,7 +728,7 @@
 	<script type="text/javascript">
 		function showDetailsForCp(headId, frName, custName, amount, isMart,
 				devDate, advanceAmt, prodDate, isBillGenerated, delivTime,
-				addr, km, phone,remark) {
+				addr, km, phone,remark,pincode) {
 
 			//alert(" hiiiiiiiiiiiiiii "+phone);
 
@@ -763,6 +768,7 @@
 			document.getElementById("deliveryDate_hide").value = devDate;
 			
 			document.getElementById("remark").value = remark;
+			document.getElementById("pin").value = pincode;
 
 			$
 					.post(

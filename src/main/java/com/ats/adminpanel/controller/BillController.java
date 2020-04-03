@@ -580,12 +580,12 @@ public class BillController {
 
 			System.out.println("Test data : " + postBillDataCommon.toString());
 
-			PostBillHeader[] info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
-					PostBillHeader[].class);
-
-			 ArrayList<PostBillHeader> trayMgtDetailsList = new ArrayList<PostBillHeader>(Arrays.asList(info));
-
-			 System.out.println("trayMgtDetailsList" + trayMgtDetailsList.toString());
+//			PostBillHeader[] info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
+//					PostBillHeader[].class);
+//
+//			 ArrayList<PostBillHeader> trayMgtDetailsList = new ArrayList<PostBillHeader>(Arrays.asList(info));
+//
+//			 System.out.println("trayMgtDetailsList" + trayMgtDetailsList.toString());
 
 		} catch (Exception e) {
 			System.out.println("Exc in Inserting bill " + e.getMessage());

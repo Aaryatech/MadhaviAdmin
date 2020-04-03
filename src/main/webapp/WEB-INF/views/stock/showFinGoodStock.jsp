@@ -354,7 +354,7 @@ table {
 		<!-- END Main Content -->
 		<footer>
 			<center>
-				<p>2019 © MADHAVI.</p>
+				<p>2019 © MADHVI.</p>
 			</center>
 		</footer>
 

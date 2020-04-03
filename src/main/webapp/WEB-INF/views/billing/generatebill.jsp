@@ -470,7 +470,7 @@
 	<!-- END Main Content -->
 
 	<footer>
-		<p>2019 © MADHAVI.</p>
+		<p>2019 © MADHVI.</p>
 	</footer>
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -946,7 +946,8 @@ var advOrdHeaderId=0;
 
 			var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
 			 if(discPer>0 && discPer<=100){
-           	   var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+				 var tot=parseFloat(qty) * parseFloat(mrp);
+           	   var discAmt=((parseFloat(tot) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
            	  document.getElementById("discAmt" + catId+""+orderId).value=discAmt.toFixed(2);
            	 
            	  taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
@@ -1008,7 +1009,9 @@ var advOrdHeaderId=0;
 		
 		if(discAmt>0 && discAmt<=taxableAmt){
 			
-			var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+			var tot=parseFloat(qty) * parseFloat(mrp);
+			
+			var discPer=(parseFloat(discAmt)/parseFloat(tot))*100;
 			
        	   //	var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
        	 	document.getElementById("discPer" + catId+""+orderId).value=discPer.toFixed(2);
