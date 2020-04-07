@@ -3,9 +3,9 @@ package com.ats.adminpanel.commons;
 
 public class Constants {
 	
-	//public static final String url="http://localhost:8097/";
+	public static final String url="http://localhost:8097/";
 	
-	public static final String url="http://107.180.91.43:8080/madhviwebapi/";
+	//public static final String url="http://107.180.91.43:8080/madhviwebapi/";
 
 	
 	
@@ -18,7 +18,7 @@ public class Constants {
 	public static final String GVN_IMAGE_URL ="http://107.180.91.43:8080/uploads/GVN/";
 	public static  String FACTORYNAME = "Madhvi Dairy";
 	public static  String FACTORYADDRESS = "C-2, A/8, Plot No. 183/1, Phase - 1 ,GIDC Naroda, Ahmedabad - 382330";
-	public static final String FACTORYGSTIN = "-";
+	public static String FACTORYGSTIN = "-";
 	public static final String CITY = "Palanpur";
 	public static final String STATE = "GUJARAT";
 	public static final String CODE = "MF";

@@ -6,6 +6,10 @@
 <c:url var="chkDuplicateUsername" value="/chkDuplicateUsername" />
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
+	<c:url var="getUniqueEmail" value="/getUniqueEmail" />
+	<c:url var="getUniqueContact" value="/getUniqueContact" />	
+	<c:url var="getUniqueUser" value="/getUniqueUser" />
+	
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 	<div class="container" id="main-container">
 
@@ -139,6 +143,24 @@
 										</select>
 									</div>
 								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Email</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="email" name="email" id="email" onkeyup="sameEmail()" class="form-control"placeholder="Email"data-rule-required="true" />
+									<span style="opacity: 0.6;">Mail will be send on this email id.</span>
+									</div>
+									
+						</div>
+							<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Contact</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="contact" id="contact" onkeyup="sameContact();" maxlength="10" class="form-control"placeholder="Contact"data-rule-required="true" />
+									<span style="opacity: 0.6;">OTP will be send on this number.</span>
+									</div>
+									
+							</div>
+								
 
 								<div class="row">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
@@ -282,7 +304,120 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 
+<script>
+	
+	$("#uname").keypress(function(e) {
+		$("#error_sp_msg").remove();
+		var k 			= e.keyCode,
+				$return = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32  || (k >= 48 && k <= 57));
+	      if(!$return) {
+	      	$("<span/>",{
+	        	"id" : "error_sp_msg",
+	         /*  "html" 	: "Special characters not allowed !!!!!" */
+	        }).insertAfter($(this));
+	      	return false;
+	      }
+	      
+	})
+	
+	
+/* function validateEmail(email) {
+    
+	var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
+	if (eml.test($.trim(email)) == false) {
+
+
+	return false;
+
+	}
+
+	return true;
+
+}
+function  sameEmail(){
+	var valid = true
+		var email = $("#email").val();
+		//alert(email);
+		$(document)
+				.ready(
+						function() {
+							$
+									.getJSON(
+											'${getUniqueEmail}',
+											{
+												email : email,
+												ajax : 'true'
+											},
+											function(data) {
+												//alert(JSON.stringify(data))
+												if(data.error===false){
+													alert("Email Id Already Exist!")
+													document.getElementById("email").value="";
+												}
+
+											});
+
+						});
+
+	}
+
+function  sameContact(){
+	var valid = true
+		var contact = $("#contact").val();
+		//alert(contact);
+		$(document)
+				.ready(
+						function() {
+							$
+									.getJSON(
+											'${getUniqueContact}',
+											{
+												contact : contact,
+												ajax : 'true'
+											},
+											function(data) {
+												//alert(JSON.stringify(data))
+												if(data.error===false){
+													alert("Contact No Already Exist!")
+													document.getElementById("contact").value="";
+												}
+
+											});
+
+						});
+
+	}
+	
+	
+
+function  sameUser(){
+	var valid = true
+		var uname = $("#uname").val();
+		//alert(contact);
+		$(document)
+				.ready(
+						function() {
+							$
+									.getJSON(
+											'${getUniqueUser}',
+											{
+												uname : uname,
+												ajax : 'true'
+											},
+											function(data) {
+												//alert(JSON.stringify(data))
+												if(data.error===false){
+													alert("User Name Already Exist!")
+													document.getElementById("uname").value="";
+												}
+
+											});
+
+						});
+
+	} */
+</script>
 	<script>
 		function samePass() {
 

@@ -12,7 +12,7 @@ table {
 	border: 1px solid #ddd;
 }
 </style>
-<body onload="loadCat(${catId})">
+<body><!-- onload="loadCat(${catId})" -->
 	<script>
 		$(function() {
 			$("#datepicker").datepicker({
@@ -498,6 +498,7 @@ table {
 				//document.getElementById("callsearch").disabled=true;
 				var productionDate = document.getElementById("datepicker").value;
 				var selectedMenu = $("#selectMenu").val();
+				
 				$('#loader').show();
 
 				$
