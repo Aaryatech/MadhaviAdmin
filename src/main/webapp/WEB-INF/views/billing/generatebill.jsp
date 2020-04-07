@@ -678,26 +678,32 @@ var advOrdHeaderId=0;
 																//var billQty = "<td align=center><input name=newId id=newId value=21 type=number ></td>";
                                                    
 															var baseRateAmt	;
+															var discAmtPerItem=0;
+															var baseTotal=0;
+															var bTot=0;
+															
 															if(bill.isOwnFr==1){
-																if(bill.isSameState==1)	{
-																	 baseRateAmt=(bill.orderMrp*100)/(100+bill.itemTax1+bill.itemTax2);	
-																}
-																else{
-																	baseRateAmt=(bill.orderMrp*100)/(100+bill.itemTax3);	
-																}
+																bTot=(bill.orderMrp*bill.orderQty);
+																discAmtPerItem=(bill.orderMrp*bill.isPositive)/100;
+																baseTotal=bill.orderMrp-discAmtPerItem;
+															
 															}else{
-																	if(bill.isSameState==1)	{
-																		 baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax1+bill.itemTax2);	
-																	}
-																	else{
-																		baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax3);	
-																	}
+																bTot=(bill.orderRate*bill.orderQty);
+																discAmtPerItem=(bill.orderRate*bill.isPositive)/100;
+																baseTotal=bill.orderRate-discAmtPerItem;
 															}
-																
-														//var baseRateAmt=(bill.orderRate*100)/(100+bill.itemTax1+bill.itemTax2);
-														//alert("base Rate Amt ="+baseRateAmt);
-														baseRateAmt=baseRateAmt.toFixed(2);
-														var baseRate = "<td align=center>&nbsp;"
+															
+															var disCalAmt=0;
+															disCalAmt=(bTot*bill.isPositive)/100;
+															
+															if(bill.isSameState==1)	{
+																baseRateAmt=(baseTotal*100)/(100+bill.itemTax1+bill.itemTax2);
+															}else{
+																baseRateAmt=(baseTotal*100)/(100+bill.itemTax3);
+															}
+															
+															baseRateAmt=baseRateAmt.toFixed(3);
+														var baseRate = "<td align=center id=baseRate"+bill.catId+""+bill.orderId+">&nbsp;"
 															+ baseRateAmt+ "</td>";
 															
 															
@@ -712,8 +718,7 @@ var advOrdHeaderId=0;
 																//alert("taxes ="+t1+"-"+t2+"-"+t3);
 
 																var taxableAmt= baseRateAmt * bill.orderQty;
-																var disCalAmt=(taxableAmt * bill.isPositive) /100;//alert(discAmt+"discAmt");
-																disCalAmt=disCalAmt.toFixed(2);
+																taxableAmt=taxableAmt.toFixed(2);
 																
 																 var discPer = "<td align=center><input type=text  style='width: 5em' class=form-control   onkeyup= updateTotal("
 																		+ bill.catId+","+bill.orderId + ","
@@ -721,13 +726,10 @@ var advOrdHeaderId=0;
 																
 																		var discAmt = "<td align=center><input type=text  style='width: 5em' class=form-control   onkeyup= updateTotalByDiscAmt("
 																			+ bill.catId+","+bill.orderId + ","
-																			+ bill.orderRate + ","+ bill.orderMrp + ","+ bill.isOwnFr + ") onchange= updateTotalByDiscAmt("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ","+ bill.orderMrp + ","+ bill.isOwnFr + ")  id=discAmt"+ bill.catId+""+bill.orderId+ " name=discAmt"+bill.catId+""+bill.orderId+" value =0 ></td>"; //new
+																			+ bill.orderRate + ","+ bill.orderMrp + ","+ bill.isOwnFr + ") onchange= updateTotalByDiscAmt("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ","+ bill.orderMrp + ","+ bill.isOwnFr + ")  id=discAmt"+ bill.catId+""+bill.orderId+ " name=discAmt"+bill.catId+""+bill.orderId+" value ="+disCalAmt.toFixed(2)+" ></td>"; //new
 																
 																//var discAmt = "<td align=center  id=discAmt"+bill.catId+""+bill.orderId+">"+disCalAmt+"</td>"; //new
 																
-																taxableAmt=taxableAmt-disCalAmt;
-																taxableAmt=taxableAmt.toFixed(2);
-																//var taxableAmount = "<td align=center"+taxableAmt+">"+"</td>";
 																var taxableAmount ="<td align=center id=taxableAmount"+bill.catId+""+bill.orderId+">&nbsp;"
 																+ taxableAmt+ "</td>";
 																//alert("taxable amt "+taxableAmt);
@@ -937,14 +939,15 @@ var advOrdHeaderId=0;
 			var discPer=parseFloat($("#discPer" + catId+""+orderId).val());//alert(discPer+"discPer");
 			var sgstPer=parseFloat($("#sgstPer" + catId+""+orderId).val());// alert(sgstPer+"sgstPer");
 			var cgstPer=parseFloat($("#cgstPer" + catId+""+orderId).val());//alert(cgstPer+"cgstPer");
-    		if(isOwnFr==1){
+    		
+			/* if(isOwnFr==1){
 			        baseRate = ((mrp * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
     		}else
     			{
     			    baseRate = ((rate * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
-    			}
+    			} */
 
-			var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
+			var taxableAmt = 0;
 			 
 			if(discPer>0 && discPer<=100){
 				 
@@ -959,19 +962,47 @@ var advOrdHeaderId=0;
 				 
            	   var discAmt=((parseFloat(tot) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
            	  document.getElementById("discAmt" + catId+""+orderId).value=discAmt.toFixed(2);
-           	 
-           	  taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
-           	  var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);//alert(sgstRs+"sgstRs");
-              var cgstRs=((parseFloat(taxableAmt) * parseFloat(cgstPer))/100);//alert(cgstRs+"cgstRs");
-         	 var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));//alert(taxAmt+"taxAmt");
-         	 
-           	  var total=parseFloat(taxableAmt) + parseFloat(taxAmt);//alert("total"+total);
            	  
-      		 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
-     		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
+           	  var newTotal=parseFloat(tot)-parseFloat(discAmt);
+           	 
+           	  taxableAmt=(parseFloat(newTotal) *100)/(100+parseFloat(sgstPer)+parseFloat(cgstPer));
+           	 
+           	  var sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));//alert(sgstRs+"sgstRs");
+              var cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));//alert(cgstRs+"cgstRs");
+         	
+              var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));//alert(taxAmt+"taxAmt");
+         	     		 
+     		 var baseTotal=0;
+     		var discAmtPerItem=0;
+     		if(isOwnFr==1){
+     			discAmtPerItem=(parseFloat(mrp)*parseFloat(discPer))/100;
+     			baseTotal= parseFloat(mrp)-discAmtPerItem;
+     			
+			}else
+    		{
+				discAmtPerItem=(parseFloat(rate)*parseFloat(discPer))/100;
+				baseTotal= parseFloat(rate)-discAmtPerItem;
+    		}
+     		
+     		baseRate=(parseFloat(baseTotal)*100)/(100+parseFloat(sgstPer)+parseFloat(cgstPer));
+     		 
+		     /* baseRate = parseFloat(taxableAmt)/qty; */
+		     $('#baseRate'+catId+""+orderId).html(baseRate.toFixed(3));
+		     
+		     taxableAmt=parseFloat(baseRate.toFixed(3))*qty;
+     		 
+		     sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));
+             cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));
+		     taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));
+		     
+		     var total=parseFloat(taxableAmt.toFixed(2)) + parseFloat(taxAmt.toFixed(2));
 
            	 $('#billTotal'+catId+""+orderId).html(total.toFixed(2));
            	 $('#taxableAmount'+catId+""+orderId).html(taxableAmt.toFixed(2));
+           	 
+           	 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
+     		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
+           	 
            	 }
            	 else
            		 {
@@ -1017,29 +1048,49 @@ var advOrdHeaderId=0;
 
 		var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
 		
-		if(discAmt>0 && discAmt<=taxableAmt){
+		var tot=parseFloat(qty) * parseFloat(mrp);
+		
+		if(discAmt>0 && discAmt<=tot){
 			
-			var tot=parseFloat(qty) * parseFloat(mrp);
+			
 			
 			var discPer=(parseFloat(discAmt)/parseFloat(tot))*100;
 			
-       	   //	var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+       	   	//var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
        	 	document.getElementById("discPer" + catId+""+orderId).value=discPer.toFixed(2);
        	 	
+       	 	var newTotal=parseFloat(tot)-parseFloat(discAmt);
        	 	
-       	 	
-       	 taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
-   	  var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);//alert(sgstRs+"sgstRs");
-      var cgstRs=((parseFloat(taxableAmt) * parseFloat(cgstPer))/100);//alert(cgstRs+"cgstRs");
- 	 var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));//alert(taxAmt+"taxAmt");
- 	 
-   	  var total=parseFloat(taxableAmt) + parseFloat(taxAmt);//alert("total"+total);
-   	  
-		 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
-		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
+       	 var baseTotal=0;
+  		var discAmtPerItem=0;
+  		if(isOwnFr==1){
+  			discAmtPerItem=parseFloat(discAmt)/qty;
+  			baseTotal= parseFloat(mrp)-discAmtPerItem;
+  			
+			}else
+ 		{
+				discAmtPerItem=parseFloat(discAmt)/qty;
+				baseTotal= parseFloat(rate)-discAmtPerItem;
+ 		}
+  		
+  		baseRate=(parseFloat(baseTotal)*100)/(100+parseFloat(sgstPer)+parseFloat(cgstPer));
+  		 
+		     /* baseRate = parseFloat(taxableAmt)/qty; */
+		     $('#baseRate'+catId+""+orderId).html(baseRate.toFixed(3));
+		     
+		     taxableAmt=parseFloat(baseRate.toFixed(3))*qty;
+       	 
+		     sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));
+             cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));
+		     taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));
+		     
+		     var total=parseFloat(taxableAmt.toFixed(2)) + parseFloat(taxAmt.toFixed(2));
 
-   	 $('#billTotal'+catId+""+orderId).html(total.toFixed(2));
-   	 $('#taxableAmount'+catId+""+orderId).html(taxableAmt.toFixed(2));
+           	 $('#billTotal'+catId+""+orderId).html(total.toFixed(2));
+           	 $('#taxableAmount'+catId+""+orderId).html(taxableAmt.toFixed(2));
+           	 
+           	 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
+     		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
    	 
    	 
        	 	

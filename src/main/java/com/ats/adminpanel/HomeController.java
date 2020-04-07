@@ -547,7 +547,11 @@ public class HomeController {
 						e.printStackTrace();
 
 					}
+					
+					session.removeAttribute("loginError");
 				} else {
+					
+					session.setAttribute("loginError", "Invalid login credentials");
 
 					output = "redirect:/login";
 					System.out.println("Invalid login credentials");
@@ -558,6 +562,7 @@ public class HomeController {
 			output = "redirect:/login";
 			e.printStackTrace();
 			System.out.println("HomeController Login API Excep:  " + e.getMessage());
+			session.setAttribute("loginError", " Something Went Wrong! Server Error");
 		}
 
 		return output;

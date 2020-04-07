@@ -225,7 +225,8 @@
 															id="grandTotal${billDetails.billDetailNo}"><c:out
 																value="${billDetails.grandTotal}" /></td>
 
-														<td align="left"  style="display: none;"><c:out value="${billDetails.remark}" /></td>
+														<td align="left" style="display: none;"><c:out
+																value="${billDetails.remark}" /></td>
 
 													</tr>
 
@@ -342,9 +343,13 @@
 			var baseRate=((billRate*100)/(100+sgstPer+cgstPer)).toFixed(2); 
 			var taxableAmt=(billQty*baseRate).toFixed(2); 
 			
-			if(discAmt>0 && discAmt<=taxableAmt){
+			//alert(taxableAmt);
+			
+			var tot=parseFloat(billRate)*parseFloat(billQty);
+			
+			if(discAmt>0 && discAmt<=tot){
           		
-          		var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+          		/* var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
           		$("#discountPer"+detailNo).html(discPer.toFixed(2));
           		
           		taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
@@ -355,11 +360,39 @@
     			var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
     			$("#taxableAmt"+detailNo).html(taxableAmt);
     			$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
-    			$("#grandTotal"+detailNo).html(grandTotal.toFixed(2)); 
+    			$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));  */
+    			
+    			
+				var discPer=(parseFloat(discAmt)/parseFloat(tot))*100;
+          		var id="discPer"+detailNo;
+          		//document.getElementById("discPer" + detailNo).innerHTML=discPer.toFixed(2);
+          		$("#discountPer"+detailNo).html(discPer.toFixed(2));
+          		
+          		var newTotal=parseFloat(tot)-parseFloat(discAmt);
+          		
+           	 	
+         			var discAmtPerItem=parseFloat(discAmt)/billQty;
+         			var baseTotal= parseFloat(billRate)-discAmtPerItem;
+         		
+         		baseRate=(parseFloat(baseTotal)*100)/(100+parseFloat(sgstPer)+parseFloat(cgstPer));
+       		     
+         		taxableAmt=parseFloat(baseRate.toFixed(3))*billQty;
+              	 
+         		var sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));
+       		  	var cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));
+       		    var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));
+       		     
+       		     var total=parseFloat(taxableAmt.toFixed(2)) + parseFloat(taxAmt.toFixed(2));
+          		
+				
+				$("#taxableAmt"+detailNo).html(taxableAmt.toFixed(2));
+				$("#totalTax"+detailNo).html(taxAmt.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(total.toFixed(2));  
+    			
     			
 			}else{
 				
-				$("#discountPer"+detailNo).html(0);
+				/* $("#discountPer"+detailNo).html(0);
 				document.getElementById("discAmt" + detailNo).value=0;
 				
 				taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
@@ -370,11 +403,10 @@
 				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
 				$("#taxableAmt"+detailNo).html(taxableAmt);
 				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
-				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));  */
 			}
 			
-			// var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
-          	  //document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
+			
           	 
             
 		}
@@ -447,27 +479,35 @@
 			// var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
           	// document.getElementById("discAmt" + detailNo).innerHTML=discAmt.toFixed(2);
           	
-          	if(discAmt>0 && discAmt<=taxableAmt){
-          		
-          		
+          	var tot=parseFloat(billRate)*parseFloat(billQty);
+          	
+          	if(discAmt>0 && discAmt<=tot){
 				
-          		var discPer=(parseFloat(discAmt)/parseFloat(taxableAmt))*100;
+          		var discPer=(parseFloat(discAmt)/parseFloat(tot))*100;
           		var id="discPer"+detailNo;
           		//document.getElementById("discPer" + detailNo).innerHTML=discPer.toFixed(2);
           		$("#discountPer"+detailNo).html(discPer.toFixed(2));
           		
-          		//alert(discPer);
+          		var newTotal=parseFloat(tot)-parseFloat(discAmt);
           		
-          		taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
-	          	  
-				var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
-				var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
-				var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
-				var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
+           	 	
+         			var discAmtPerItem=parseFloat(discAmt)/billQty;
+         			var baseTotal= parseFloat(billRate)-discAmtPerItem;
+         		
+         		baseRate=(parseFloat(baseTotal)*100)/(100+parseFloat(sgstPer)+parseFloat(cgstPer));
+       		     
+         		taxableAmt=parseFloat(baseRate.toFixed(3))*billQty;
+              	 
+         		var sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));
+       		  	var cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));
+       		    var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));
+       		     
+       		     var total=parseFloat(taxableAmt.toFixed(2)) + parseFloat(taxAmt.toFixed(2));
+          		
 				
 				$("#taxableAmt"+detailNo).html(taxableAmt.toFixed(2));
-				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
-				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));   
+				$("#totalTax"+detailNo).html(taxAmt.toFixed(2)); 
+				$("#grandTotal"+detailNo).html(total.toFixed(2));   
 				
 				
 			}else{

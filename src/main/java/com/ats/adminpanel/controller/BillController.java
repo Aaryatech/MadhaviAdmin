@@ -338,6 +338,8 @@ public class BillController {
 							if (billQty == null || billQty == "") {// new code to handle hidden records
 								billQty = "0";
 							}
+							
+							float discAmtForSave=0;
 
 							if (gBill.getIsSameState() == 1) {
 								baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
@@ -345,7 +347,7 @@ public class BillController {
 								// ----------------------------------------------------------
 								discAmt = ((taxableAmt * discPer) / 100); // new row added
 								System.out.println("discAmt: " + discAmt);// new row added
-								sumDiscAmt = sumDiscAmt + discAmt;
+								
 
 								taxableAmt = taxableAmt - discAmt; // new row added
 								// ----------------------------------------------------------
@@ -353,6 +355,12 @@ public class BillController {
 								cgstRs = (taxableAmt * tax2) / 100;
 								igstRs = 0;
 								totalTax = sgstRs + cgstRs;
+								
+								
+								float tot=orderRate*Float.parseFloat(billQty);
+								discAmtForSave=((tot * discPer) / 100);
+								
+								sumDiscAmt = sumDiscAmt + discAmtForSave;
 
 							}
 
@@ -362,7 +370,7 @@ public class BillController {
 								// ----------------------------------------------------------
 								discAmt = ((taxableAmt * discPer) / 100); // new row added
 								System.out.println("discAmt: " + discAmt);// new row added
-								sumDiscAmt = sumDiscAmt + discAmt;
+								//sumDiscAmt = sumDiscAmt + discAmt;
 
 								taxableAmt = taxableAmt - discAmt; // new row added
 								// ----------------------------------------------------------
@@ -370,6 +378,11 @@ public class BillController {
 								cgstRs = 0;
 								igstRs = (taxableAmt * tax3) / 100;
 								totalTax = igstRs;
+								
+								float tot=orderRate*Float.parseFloat(billQty);
+								discAmtForSave=((tot * discPer) / 100);
+								
+								sumDiscAmt = sumDiscAmt + discAmtForSave;
 							}
 
 							sgstRs = roundUp(sgstRs);
@@ -411,7 +424,7 @@ public class BillController {
 							billDetail.setBaseRate(roundUp(baseRate));
 							billDetail.setTaxableAmt(roundUp(taxableAmt));
 							billDetail.setDiscPer(discPer);// new
-							billDetail.setRemark("" + roundUp(discAmt));// new
+							billDetail.setRemark("" + roundUp(discAmtForSave));// new
 							billDetail.setSgstPer(tax1);
 							billDetail.setSgstRs(sgstRs);
 							billDetail.setCgstPer(tax2);
@@ -580,12 +593,12 @@ public class BillController {
 
 			System.out.println("Test data : " + postBillDataCommon.toString());
 
-//			PostBillHeader[] info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
-//					PostBillHeader[].class);
-//
-//			 ArrayList<PostBillHeader> trayMgtDetailsList = new ArrayList<PostBillHeader>(Arrays.asList(info));
-//
-//			 System.out.println("trayMgtDetailsList" + trayMgtDetailsList.toString());
+			PostBillHeader[] info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
+					PostBillHeader[].class);
+
+			 ArrayList<PostBillHeader> trayMgtDetailsList = new ArrayList<PostBillHeader>(Arrays.asList(info));
+
+			 System.out.println("trayMgtDetailsList" + trayMgtDetailsList.toString());
 
 		} catch (Exception e) {
 			System.out.println("Exc in Inserting bill " + e.getMessage());
@@ -2772,6 +2785,8 @@ public class BillController {
 						.parseFloat(request.getParameter("sgstPer" + billDetailsList.get(i).getBillDetailNo()));
 				float newCgstPer = Float
 						.parseFloat(request.getParameter("cgstPer" + billDetailsList.get(i).getBillDetailNo()));
+				
+				float newTotal=newBillQty*newBillRate;
 
 //				float newDiscPer = Float
 //						.parseFloat(request.getParameter("discountPer" + billDetailsList.get(i).getBillDetailNo()));
@@ -2813,27 +2828,26 @@ public class BillController {
 				postBillDetail.setExpiryDate(getBillDetail.getExpiryDate());
 				postBillDetail.setIsGrngvnApplied(getBillDetail.getIsGrngvnApplied());
 
-				float baseRate = postBillDetail.getBaseRate();
-
-				float taxableAmt = baseRate * newBillQty;
-
-				// ----------------------------------------------------------
-				// float discAmt = ((taxableAmt * getBillDetail.getDiscPer()) / 100); // new row
-				// added
+				
 				float discAmt = newDiscAmt;
 
-				newDiscPer = (newDiscAmt / taxableAmt) * 100;
+				newDiscPer = (newDiscAmt / newTotal) * 100;
+				
+				float discPerItem=newDiscAmt/newBillQty;
+				float baseTotal=newBillRate-discPerItem;
+				
+				float baseRate = (baseTotal*100)/(100+newSgstPer+newCgstPer);
+						
+				float taxableAmt = baseRate * newBillQty;
 
 				System.out.println("discAmt: " + discAmt);// new row added
 				sumDiscAmt = sumDiscAmt + discAmt;
 
-				taxableAmt = taxableAmt - discAmt; // new row added
-				// ----------------------------------------------------------
 				taxableAmt = roundUp(taxableAmt);
 
-				float sgstRs = (taxableAmt * postBillDetail.getSgstPer()) / 100;
-				float cgstRs = (taxableAmt * postBillDetail.getCgstPer()) / 100;
-				float igstRs = (taxableAmt * getBillDetail.getIgstPer()) / 100;
+				float sgstRs = (taxableAmt * newSgstPer) / 100;
+				float cgstRs = (taxableAmt * newCgstPer) / 100;
+				float igstRs = (taxableAmt * (newSgstPer+newCgstPer)) / 100;
 
 				sgstRs = roundUp(sgstRs);
 				cgstRs = roundUp(cgstRs);
