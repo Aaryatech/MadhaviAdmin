@@ -188,6 +188,70 @@
 									</div>
 								</div>
 								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Contact</label>
+									<div class="col-sm-6 col-lg-4 controls">
+									
+									
+									<c:choose>
+								<c:when test="${submit eq 1 }">
+								
+								<input type="text" name="contact" id="contact"
+											value="${user.contact}" onkeyup="samePass();"
+											class="form-control" placeholder="Password"
+											data-rule-required="true" />
+								
+								</c:when>
+								<c:otherwise>
+								
+								<input type="text" name="contact" id="contact"
+											value="${user.contact}" onkeyup="samePass();"
+											class="form-control" placeholder="Password"
+											data-rule-required="true" readonly="readonly" />
+								
+								</c:otherwise>
+								</c:choose>
+									
+									</div>
+									<span class="" id="pass"></span>
+									<!-- </div>
+						<div class="form-group"> -->
+									<label class="col-sm-3 col-lg-2 control-label">Email
+										</label>
+									<div class="col-sm-6 col-lg-4 controls">
+									
+									
+									
+									<c:choose>
+								<c:when test="${submit eq 1 }">
+								
+								<input type="text" name="email"
+											value="${user.email}" id="email"
+											onkeyup="samePass();" class="form-control"
+											placeholder="Confirm Password" data-rule-required="true" />
+								
+								</c:when>
+								<c:otherwise>
+
+												<input type="text" name="email"
+													value="${user.email}" id="email"
+													onkeyup="samePass();" class="form-control"
+													placeholder="Confirm Password" data-rule-required="true"
+													readonly="readonly" />
+
+											</c:otherwise>
+								</c:choose>
+								
+								
+										
+									
+									
+									
+									</div>
+									
+									<span class="" id="cpass"></span>
+								</div>
+								
 								<c:choose>
 								<c:when test="${submit eq 1 }">
 								<div class="row">	

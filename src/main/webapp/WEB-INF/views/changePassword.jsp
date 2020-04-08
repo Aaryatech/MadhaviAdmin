@@ -69,8 +69,8 @@
 					<div class="wrap-input100 validate-input"
 						data-validate="Valid username is required"
 						style="border-radius: 25px;">
-						<input class="input100" type="text" id="newPass" name="newPass"
-							placeholder="Enter New Password"" style="border-radius: 25px;" required> <span
+						<input class="input100" type="password" id="newPass" name="newPass"
+							placeholder="Enter New Password" style="border-radius: 25px;" required> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
 					</div>
 					<br>
@@ -78,14 +78,14 @@
 					<div class="wrap-input100 validate-input"
 						data-validate="Valid username is required"
 						style="border-radius: 25px;">
-						<input class="input100" type="text" id="confrmPass" name="confrmPass"
-							placeholder="Confirfm New Password"" style="border-radius: 25px;" required> <span
+						<input class="input100" type="password" id="confrmPass" name="confrmPass" onkeyup="checkPassword()"
+							placeholder="Confirfm New Password" style="border-radius: 25px;" required> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-20"
 						style="border-radius: 25px;">
-						<button class="login100-form-btn" style="border-radius: 25px;">
+						<button class="login100-form-btn" style="border-radius: 25px;" id="sendOTP">
 							Change Password</button>
 					</div>
 					<input type="hidden" id="userId" name="userId" value="${userId}">
@@ -94,11 +94,6 @@
 						<div style="color: white;">${loginResponseMessage}</div>
 
 					</c:if>
-
-
-
-
-
 
 					<div class="text-center p-t-45 p-b-4">
 
@@ -130,7 +125,7 @@ $("#confrmPass").keyup(function(){
 		document. getElementById("sendOTP"). disabled = false;
 	}
 	
-	});
+});
 </script>
 
 	<!--===============================================================================================-->

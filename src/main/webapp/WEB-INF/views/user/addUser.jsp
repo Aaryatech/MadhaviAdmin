@@ -321,7 +321,7 @@
 	})
 	
 	
-/* function validateEmail(email) {
+function validateEmail(email) {
     
 	var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
@@ -391,7 +391,7 @@ function  sameContact(){
 	
 	
 
-function  sameUser(){
+/* function  sameUser(){
 	var valid = true
 		var uname = $("#uname").val();
 		//alert(contact);
@@ -416,7 +416,7 @@ function  sameUser(){
 
 						});
 
-	} */
+	}  */
 </script>
 	<script>
 		function samePass() {

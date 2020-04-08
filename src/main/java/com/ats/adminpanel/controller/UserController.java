@@ -253,9 +253,9 @@ Instant start = null;
 	public ModelAndView getUserInfoByMobNo(HttpServletRequest request, HttpServletResponse response) {
 		Info info = new Info();
 		ModelAndView model = null;
-		HttpSession session = request.getSession();
-	try{
 		
+	try{
+		HttpSession session = request.getSession();
 		RestTemplate rest = new RestTemplate();
 		String mob = request.getParameter("mob");
 		//System.out.println("Contact--------------------------"+username);
@@ -272,14 +272,13 @@ Instant start = null;
 			System.err.println(info);
 			
 			start = Instant.now();
-
 			;
 		}else {
-			info.setError(true);
-			model = new ModelAndView("forgetPassUser");
+			info.setError(true);			
 			info.setMessage("User Not Found");
-			model.addObject("invalidMob", "Invali Mobile No.");
 			System.err.println(info);
+			session.setAttribute("invalidMob", "Invalid Mobile No.");
+			model = new ModelAndView("forgetPassUser");
 		}
 	}catch (Exception e) {
 		e.printStackTrace();		
@@ -293,11 +292,11 @@ Instant start = null;
 	
 	@RequestMapping(value = "/OTPVerification", method = RequestMethod.POST)
 	public ModelAndView OTPVerificationByContact(HttpServletRequest request, HttpServletResponse response) {
-
+		HttpSession session = request.getSession();
 		System.err.println("Hiii  OTPVerification  ");
 		Info info = new Info();
 		ModelAndView model = null;
-
+		
 		try {
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -310,6 +309,8 @@ Instant start = null;
 		//	System.err.println("OTP User--------------"+user);
 
 			if (user.getId() == 0) {
+				
+				session.setAttribute("invalidOtp", "Invalid OTP.");
 				model = new ModelAndView("forgetPassUser");
 				model.addObject("msg", "Incorrect OTP");
 
