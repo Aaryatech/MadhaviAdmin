@@ -55,65 +55,43 @@
 			
 			<div style="color: red; text-align: center;">
 				<h4><c:out value="${sessionScope.loginError}" /></h4>
-				 <c:remove var="loginError" scope="session" />
-			</div>
-			<br>
-			<div style="color: white; text-align: center;">
-				<h4><c:out value="${sessionScope.changePassword}" /></h4>
-				<c:remove var="changePassword" scope="session" />
-			</div>
-			<br>
-			<div style="color: white; text-align: center;">
-				<h4><c:out value="${sessionScope.changePasswordFail}" /></h4>
-				<c:remove var="changePasswordFail" scope="session" />
 			</div>
 			<br><br>
 			
+			
 				<form class="login100-form validate-form" id="form-login"
-					action="loginProcess" method="post">
+					action="getUserInfoByMobNo" method="post">
 
-					<span class="login100-form-title p-b-33"> <!-- <img src="/adminpanel/resources/img/Madhvi_Logo(4).jpg"></img> -->Admin
-						Login
+					<span class="login100-form-title p-b-33"> <!-- <img src="/adminpanel/resources/img/Madhvi_Logo(4).jpg"></img> -->Forgot
+						Password
 					</span>
-
+					
 					<div class="wrap-input100 validate-input"
 						data-validate="Valid username is required"
 						style="border-radius: 25px;">
-						<input class="input100" type="text" id="username" name="username"
-							placeholder="Username" style="border-radius: 25px;"> <span
+						<input class="input100" type="text" id="mob" name="mob"
+							placeholder="Enter Mobile No." style="border-radius: 25px;"> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
+							
 					</div>
+					<c:if test="${not empty invalidMob}">
+						<!-- here would be a message with a result of processing -->
+						<div style="color: white; font-weight: bold;">${invalidMob}</div>
+					</c:if>
 					<br>
-					<div class="wrap-input100 rs1 validate-input"
-						data-validate="Password is required" style="border-radius: 25px;">
-						<input class="input100" type="password" name="userpassword"
-							id="userpassword" placeholder="Password"
-							style="border-radius: 25px;"> <span
-							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
-					</div>
 
 					<div class="container-login100-form-btn m-t-20"
 						style="border-radius: 25px;">
 						<button class="login100-form-btn" style="border-radius: 25px;">
-							Sign in</button>
+							Send OTP</button>
 					</div>
-					<c:if test="${not empty loginResponseMessage}">
-						<!-- here would be a message with a result of processing -->
-						<div style="color: white;">${loginResponseMessage}</div>
-
-					</c:if>
-
-
-
-
-
-
+					
 					<div class="text-center p-t-45 p-b-4">
 
 						<span class="txt1" >
 							<!-- Forgot -->
-							<a href="${pageContext.request.contextPath}/forgetPwd"><span class="links" style="color:white; font-weight: bold;">
-							Forgot Password</span></a>
+							<a href="${pageContext.request.contextPath}/login"><span class="links" style="color:white; font-weight: bold;">
+							Back To Login</span></a>
 						</span>
 					</div>
 

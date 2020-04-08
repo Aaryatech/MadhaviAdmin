@@ -3,6 +3,7 @@ package com.ats.adminpanel.controller;
 import java.time.Instant;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -239,6 +240,45 @@ Instant start = null;
 			info.setError(true);
 			model = new ModelAndView("forgetPassUser");
 			info.setMessage("User Not Found");
+			System.err.println(info);
+		}
+	}catch (Exception e) {
+		e.printStackTrace();		
+	}
+		
+		return model;
+		
+	}
+	@RequestMapping(value = "/getUserInfoByMobNo", method = RequestMethod.POST)
+	public ModelAndView getUserInfoByMobNo(HttpServletRequest request, HttpServletResponse response) {
+		Info info = new Info();
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+	try{
+		
+		RestTemplate rest = new RestTemplate();
+		String mob = request.getParameter("mob");
+		//System.out.println("Contact--------------------------"+username);
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("mob", mob);
+		
+		User user = rest.postForObject(Constants.url + "getUserInfoByMobileNo", map, User.class);
+		System.err.println("User Info-----------"+user);
+		if(user!=null) {
+			model = new ModelAndView("verifyOTP");
+			model.addObject("contact", user.getContact());
+			info.setError(false);
+			info.setMessage("User Found");			
+			System.err.println(info);
+			
+			start = Instant.now();
+
+			;
+		}else {
+			info.setError(true);
+			model = new ModelAndView("forgetPassUser");
+			info.setMessage("User Not Found");
+			model.addObject("invalidMob", "Invali Mobile No.");
 			System.err.println(info);
 		}
 	}catch (Exception e) {
