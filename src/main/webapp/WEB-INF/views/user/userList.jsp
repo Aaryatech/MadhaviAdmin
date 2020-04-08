@@ -198,7 +198,7 @@
 								
 								<input type="text" name="contact" id="contact"
 											value="${user.contact}" onkeyup="samePass();"
-											class="form-control" placeholder="Password"
+											class="form-control" placeholder="Contact"
 											data-rule-required="true" />
 								
 								</c:when>
@@ -228,7 +228,7 @@
 								<input type="text" name="email"
 											value="${user.email}" id="email"
 											onkeyup="samePass();" class="form-control"
-											placeholder="Confirm Password" data-rule-required="true" />
+											placeholder="Email" data-rule-required="true" />
 								
 								</c:when>
 								<c:otherwise>
