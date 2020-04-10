@@ -67,25 +67,31 @@
 					</span>
 
 					<div class="wrap-input100 validate-input"
-						data-validate="Valid username is required"
+						data-validate="Enter New Password"
 						style="border-radius: 25px;">
 						<input class="input100" type="password" id="newPass" name="newPass"
-							placeholder="Enter New Password" style="border-radius: 25px;" required> <span
+							placeholder="Enter New Password" style="border-radius: 25px;"> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
+							  <span class="error_form text-danger" id="error_newPass"
+									style="display: none; color: red;">This field is required</span>
 					</div>
 					<br>
 					
 					<div class="wrap-input100 validate-input"
-						data-validate="Valid username is required"
+						data-validate="Enter Confirm Password"
 						style="border-radius: 25px;">
-						<input class="input100" type="password" id="confrmPass" name="confrmPass" onkeyup="checkPassword()"
-							placeholder="Confirfm New Password" style="border-radius: 25px;" required> <span
+						<input class="input100" type="password" id="confrmPass" name="confrmPass"
+							placeholder="Confirfm New Password" style="border-radius: 25px;" onkeyup="checkPassword()"> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
+							 <span class="error_form text-danger" id="error_confirmPass"
+								style="display: none; color: red;">This field is required</span>
+							<span class="error_form text-danger" id="error_match"
+								style="display: none; color: red;">New password not matched with confirm password</span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-20"
 						style="border-radius: 25px;">
-						<button class="login100-form-btn" style="border-radius: 25px;" id="sendOTP">
+						<button class="login100-form-btn" style="border-radius: 25px;" id="pass_btn" type="submit" disabled="disabled">
 							Change Password</button>
 					</div>
 					<input type="hidden" id="userId" name="userId" value="${userId}">
@@ -115,17 +121,88 @@
 	</div>
 
 <script>
-$("#confrmPass").keyup(function(){
-	var newPass = $("#newPass").val();
-	var conrfmPass = $("#confrmPass").val();
+function checkPassword(){
+	var npass= $("#newPass").val();
+	var cpass = $("#confrmPass").val();
+	//alert("---"+npass+" "+cpass)
+if (npass != cpass) {   
 	
-	if(newPass!=conrfmPass){
-		document. getElementById("sendOTP"). disabled = true;
-	}else{
-		document. getElementById("sendOTP"). disabled = false;
+		$("#error_match")
+		.show()
+		document.getElementById("pass_btn").disabled = true;
+		return false;
+	}else {
+		$("#error_match")
+			.hide()
+			document.getElementById("pass_btn").disabled = false;
+			return true;
+			
 	}
-	
-});
+}
+
+/* $(document)
+.ready(
+		function($) {
+
+			$("#form-login")
+					.submit(
+							function(e) {
+								var isError = false;
+								alert($("#newPass").val());
+
+								if (!$("#newPass").val()) {
+
+									isError = true;
+								
+									$("#error_newPass")
+											.show()
+									//return false;
+								} else {
+									$("#error_newPass")
+											.hide()
+								}
+								
+								
+								if (!$("#confrmPass").val()) {
+
+									isError = true;
+								
+									$("#error_confrmPass")
+											.show()
+									//return false;
+								} else {
+									$("#error_confrmPass")
+											.hide()
+								}
+
+								if ($("#newPass").val() != $("#confirmPass").val()) { 
+									
+									isError = true; 
+									
+									$("#error_match")
+									.show()
+									
+								}else {
+									$("#error_match")
+										.hide()
+								}
+								
+
+								if (!isError) {
+
+									var x = confirm("Do you really want to submit the form?");
+									if (x == true) {
+
+										document
+												.getElementById("sub1").disabled = true;
+										document
+												.getElementById("sub2").disabled = true; 
+										return true;
+									}
+								}
+								return false;
+							});
+		}); */
 </script>
 
 	<!--===============================================================================================-->

@@ -72,8 +72,8 @@
 					<div class="wrap-input100 validate-input"
 						data-validate="Valid username is required"
 						style="border-radius: 25px;">
-						<input class="input100" type="text" id="mob" name="mob"
-							placeholder="Enter Mobile No." style="border-radius: 25px;"> <span
+						<input class="input100" type="text" id="mob" name="mob" maxlength="10"
+							pattern="[0-9]{10}" placeholder="Enter Mobile No." style="border-radius: 25px;"> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
 							
 					</div>
@@ -118,7 +118,12 @@
 		</div>
 	</div>
 
-
+<script type="text/javascript">
+/* $('#mob').on('input', function() {
+	 this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');
+	}); */
+	
+</script>
 
 	<!--===============================================================================================-->
 	<script

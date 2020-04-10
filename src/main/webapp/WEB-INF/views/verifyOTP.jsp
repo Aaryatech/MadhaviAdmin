@@ -69,8 +69,8 @@
 					<div class="wrap-input100 validate-input"
 						data-validate="Valid username is required"
 						style="border-radius: 25px;">
-						<input class="input100" type="text" id="otp" name="otp"
-							placeholder="Enter OTP" style="border-radius: 25px;"> <span
+						<input class="input100" type="text" id="otp" name="otp" maxlength="6"
+							placeholder="Enter OTP" style="border-radius: 25px;" pattern="[0-9]{6}"> <span
 							class="focus-input100-1"></span> <span class="focus-input100-2"></span>
 					</div>
 					<input type="hidden" id="mob" name="mob" value="${contact}">
@@ -111,7 +111,11 @@
 		</div>
 	</div>
 
-
+<script type="text/javascript">
+/* $('#otp').on('input', function() {
+	 this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');
+	}); */
+</script>
 
 	<!--===============================================================================================-->
 	<script
