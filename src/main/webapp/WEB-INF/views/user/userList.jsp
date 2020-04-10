@@ -128,11 +128,6 @@
 
 											</c:otherwise>
 								</c:choose>
-								
-								
-										
-									
-									
 									
 									</div>
 									
@@ -242,16 +237,30 @@
 											</c:otherwise>
 								</c:choose>
 								
-								
-										
-									
-									
-									
 									</div>
 									
 									<span class="" id="cpass"></span>
 								</div>
-								
+								<c:if test="${submit eq 1 }">
+									<div class="form-group">
+										<span class="" id="pass"></span>
+									
+										<label class="col-sm-3 col-lg-2 control-label">Is Active</label>
+										<div class="col-sm-6 col-lg-4 controls">
+										
+									<input type="radio" name="emp_stat" class="order" ${user.delStatus==0 ? 'checked' : ''}
+										value="0" id="emp_stat_yes"/> Yes 
+											&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="emp_stat" class="order"
+										value="1" id="emp_stat_no" ${user.delStatus==1 ? 'checked' : ''}
+											 /> No
+									
+									
+										</div>
+										
+										<span class="" id="cpass"></span>
+									</div>
+								</c:if>
 								<c:choose>
 								<c:when test="${submit eq 1 }">
 								<div class="row">	
@@ -299,11 +308,11 @@
 												<td><c:out value="${user.roleName}"></c:out>
 												<td><a
 													href="${pageContext.request.contextPath}/editUser/${user.id}"
-													class="btn btn-primary"><i class="fa fa-edit"></i></a> <a
+													class="btn btn-primary"><i class="fa fa-edit"></i></a> <%-- <a
 													href="${pageContext.request.contextPath}/deleteUser/${user.id}"
 													class="btn bnt-primary"
 													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-trash"></span></a></td>
+														class="glyphicon glyphicon-trash"></span></a> --%></td>
 											</tr>
 										</c:forEach>
 									</tbody>
