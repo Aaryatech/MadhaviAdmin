@@ -624,6 +624,7 @@ public class ManualOrderController {
 
 	@RequestMapping(value = "/generateManualBill", method = RequestMethod.POST)
 	public String generateManualBill(HttpServletRequest request, HttpServletResponse response) {
+		
 		int frId = 0;
 		GenerateBill[] orderListResponse = null;
 		String partyName = "";
@@ -1079,6 +1080,7 @@ public class ManualOrderController {
 			float discAmt = 0.0f;
 			float totGrand = 0;
 			for (int i = 0; i < orderList.size(); i++) {
+				
 				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId());
 				float qty = 0;
 				String strQty = null;
@@ -1191,7 +1193,7 @@ public class ManualOrderController {
 					GenerateBill[].class);
 
 			List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(Arrays.asList(orderListResponse1));
-
+			System.err.println("Goal-------------"+tempGenerateBillList);
 			// to save bill
 			if (tempGenerateBillList != null) {
 				System.err.println("saving bill with Advance" + tempGenerateBillList.toString());
