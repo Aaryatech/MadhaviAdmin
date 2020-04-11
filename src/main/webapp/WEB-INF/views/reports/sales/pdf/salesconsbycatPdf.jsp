@@ -81,6 +81,7 @@ th {
 
 				<th style="text-align: center;">Net Qty</th>
 				<th style="text-align: center;">Net Value</th>
+				<th style="text-align: center;">Contribution</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -92,6 +93,7 @@ th {
 			<c:set var="sumGvnValue" value="${0}" />
 			<c:set var="sumNetQty" value="${0}" />
 			<c:set var="sumNetValue" value="${0}" />
+			<c:set var="sumDiscount" value="${0}" />
 
 
 			<c:forEach items="${royaltyList.categoryList}" var="report"
@@ -115,6 +117,21 @@ th {
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>
+					<td><c:out value="" /></td>
+
+					<c:set var="totalContri" value="0"></c:set>
+					<c:forEach items="${royaltyList.salesReportRoyalty}" var="royalty"
+						varStatus="count">
+
+						<c:choose>
+							<c:when test="${royalty.catId==report.catId}">
+								<c:set var="totalContri"
+									value="${totalContri+royalty.tBillTaxableAmt -(royalty.tGrnTaxableAmt+royalty.tGvnTaxableAmt)}"></c:set>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+
+
 
 					<%-- <td><c:out value="${total}" /></td> --%>
 
@@ -186,6 +203,17 @@ th {
 										maxFractionDigits="2" minFractionDigits="2"
 										value="${netValue}" /></td>
 
+								<c:set var="contri" value="0.0"></c:set>
+
+								<c:if test="${totalContri>0}">
+									<c:set var="contri" value="${(netValue*100)/totalContri}"></c:set>
+								</c:if>
+
+
+
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2" value="${contri}" /></td>
+
 
 
 								<c:set var="sumSaleQty" value="${royalty.tBillQty+sumSaleQty}"></c:set>
@@ -207,6 +235,10 @@ th {
 
 								<c:set var="sumNetValue" value="${netValue+sumNetValue}"></c:set>
 
+								<c:if test="${billType==1}">
+									<c:set var="sumDiscount" value="${sumDiscount+royalty.discAmt}" />
+								</c:if>
+
 							</tr>
 						</c:when>
 					</c:choose>
@@ -226,7 +258,8 @@ th {
 							value="${sumSaleValue}" /></b></td>
 
 				<c:if test="${billType==1}">
-					<td align="right"></td>
+					<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${sumDiscount}" /></b></td>
 
 				</c:if>
 

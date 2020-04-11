@@ -8,6 +8,24 @@
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
+<style>
+
+/* .chart_l{float: none !important; width:100% !important; margin: 0 0 15px 0;}
+  .chart_r{float: none !important; width:100% !important; min-height:auto !important;} */
+#donutchart {
+	width: 100%;
+	height: 500px;
+	display: block;
+}
+
+#donutchart1 {
+	width: 100%;
+	height: 500px;
+	display: block;
+}
+</style>
+
 <body>
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
@@ -15,6 +33,14 @@
 	<c:url var="getBillList" value="/getSaleReportRoyConsoByCat"></c:url>
 	<c:url var="getAllCategoryForReport" value="/getAllCategoryForReport"></c:url>
 	<c:url var="getFrListofAllFr" value="/getFrListForDatewiseReport"></c:url>
+
+	<c:url var="getSubCatListForChart" value="/getSubCatListForChart"></c:url>
+	<c:url var="getItemListForChart" value="/getItemListForChart"></c:url>
+	<c:url var="getDateWiseSaleForItem" value="/getDateWiseSaleForItem"></c:url>
+	<c:url var="getFrWiseSaleForItem" value="/getFrWiseSaleForItem"></c:url>
+
+
+
 
 
 	<!-- BEGIN Sidebar -->
@@ -136,10 +162,10 @@
 						<div class="col-sm-6 col-lg-4">
 
 							<input type="radio" id="rd1" name="rd" value="1"
-								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr
-							And CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
-								id="rd2" name="rd" value="2"
-								onchange="billTypeSelection(this.value)">&nbsp;Company
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr.
+							Bills & Del. Challan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" id="rd2" name="rd" value="2"
+								onchange="billTypeSelection(this.value)">&nbsp;Retail
 							Outlet Bills
 
 						</div>
@@ -194,25 +220,42 @@
 							</div>
 						</div>
 
+						<div id="outletDiv" style="display: none;">
+
+
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type Option</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									multiple="multiple" tabindex="6" id="dairyId" name="dairyId">
+
+									<option value="1" selected="selected">Regular</option>
+									<option value="2" selected="selected">Is Dairy Mart</option>
+								</select>
+
+							</div>
+						</div>
+
 					</div>
 
 				</div>
-				
-				
+
+
 				<div class="row">
 
 					<div class="form-group">
-						<br> <label class="col-sm-3 col-lg-2 control-label">Sort By</label>
+						<br> <label class="col-sm-3 col-lg-2 control-label">Sort
+							By</label>
 						<div class="col-sm-3 col-lg-4">
 
-							<select data-placeholder="Sort"
-								class="form-control chosen" tabindex="6"
-								id="selectSort" name="selectSort"
+							<select data-placeholder="Sort" class="form-control chosen"
+								tabindex="6" id="selectSort" name="selectSort"
 								onchange="setAllCategory(this.value)">
 
 								<option value="1"><c:out value="Sale Quantity" /></option>
 								<option value="2"><c:out value="Sale Value" /></option>
-								
+
 
 							</select>
 						</div>
@@ -254,13 +297,16 @@
 
 							<div class="col-md-12" style="text-align: center;">
 								<br>
-								<button class="btn btn-info" onclick="searchReport()">Search
+								<button class="btn btn-info" onclick="searchReport(0)">Search
 									Report</button>
 								<!-- <button class="btn search_btn"  onclick="showChart()">Graph</button> -->
 
 
 								<button class="btn btn-primary" value="PDF" id="PDFButton"
 									onclick="genPdf()">PDF</button>
+
+								<button class="btn btn-primary" id="graphButton"
+									onclick="searchReport(1)">Graph</button>
 							</div>
 
 
@@ -300,7 +346,7 @@
 						action="${pageContext.request.contextPath}/submitNewBill"
 						method="post">
 						<div class=" box-content">
-							<div class="row">
+							<div class="row" style="display: none;">
 								<div class="col-md-12 table-responsive">
 									<table class="table table-bordered table-striped fill-head "
 										style="width: 100%" id="table_grid">
@@ -359,6 +405,7 @@
 													Value</th>
 												<th style="text-align: center;">Net Qty</th>
 												<th style="text-align: center;">Net Value</th>
+												<th style="text-align: center;">Contribution</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -387,6 +434,7 @@
 													Value</th>
 												<th style="text-align: center;">Net Qty</th>
 												<th style="text-align: center;">Net Value</th>
+												<th style="text-align: center;">Contribution</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -397,13 +445,56 @@
 							</div>
 
 
+
+							<div class="row" style="display: inline-block; width: 100%;">
+								<div class="chart_l"
+									style="float: none !important; width: 100% !important; margin: 0 0 15px 0;">
+
+									<div id="donutchart"></div>
+									<!-- style="width: 900px; height: 500px;" -->
+								</div>
+
+								<div class="clr"></div>
+
+							</div>
+
+							<div class="row" style="display: inline-block; width: 100%;">
+								<div class="chart_l"
+									style="float: none !important; width: 100% !important; margin: 0 0 15px 0;">
+
+									<div id="donutchart1"></div>
+									<!-- style="width: 900px; height: 500px;" -->
+								</div>
+
+								<div class="clr"></div>
+
+							</div>
+
+
+							<div id="chart_div"></div>
+							<br>
+							<div id="chart_div1"></div>
+
+
+
+
 						</div>
 
-						<div id="chart_div"
+						<!-- <div id="chart_div"
 							style="width: 100%; height: 700px; background-color: white;"></div>
-						<div id="PieChart_div" style="width: 100%; height: 700px;"></div>
+						<div id="PieChart_div" style="width: 100%; height: 700px;"></div> -->
+
+
+
+
 
 					</form>
+
+
+
+
+
+
 				</div>
 			</div>
 			<!-- END Main Content -->
@@ -423,8 +514,10 @@
 
 				if (val == 2) {
 					document.getElementById("cdcDiv").style.display = "none";
+					document.getElementById("outletDiv").style.display = "block";
 				} else {
 					document.getElementById("cdcDiv").style.display = "block";
+					document.getElementById("outletDiv").style.display = "none";
 				}
 
 			}
@@ -432,12 +525,12 @@
 
 
 	<script type="text/javascript">
-			function searchReport() {
+			function searchReport(graph) {
 					//var isValid = validate();
                    
 				//document.getElementById('chart').style.display = "block";
-				document.getElementById("PieChart_div").style = "display:none";
-				document.getElementById("chart_div").style = "display:none";
+				//document.getElementById("PieChart_div").style = "display:none";
+				//document.getElementById("chart_div").style = "display:none";
                // if(isValid==true){
 				var selectedFr = $("#selectFr").val();
 				var type_id = $("#type_id").val();
@@ -450,6 +543,8 @@
 				var from_date = $("#fromDate").val();
 				var to_date = $("#toDate").val();
               // alert(selectedCat);
+              
+              var dairyId = $("#dairyId").val();
               
               var selectedSort = $("#selectSort").val();
               
@@ -505,19 +600,24 @@
 									type_id : JSON.stringify(type_id),
 									billType : billType,
 									sort : selectedSort,
+									dairy : dairyId,
 									ajax : 'true'
 
 								},
 								function(data) {
 									
+									if(graph==1){
+										drawGraph();
+									}
+									
 									
 								if(billType==2){
 									
-									document.getElementById("thGrnQty").innerHTML ="CRN QTY";
-									document.getElementById("thGrnVal").innerHTML ="CRN VALUE";
+									document.getElementById("thGrnQty").innerHTML ="CRN Qty";
+									document.getElementById("thGrnVal").innerHTML ="CRN Value";
 									
-									document.getElementById("thGrnQty2").innerHTML ="Crn Qty";
-									document.getElementById("thGrnVal2").innerHTML ="Crn Value";
+									document.getElementById("thGrnQty2").innerHTML ="CRN Qty";
+									document.getElementById("thGrnVal2").innerHTML ="CRN Value";
 									
 									$('#thGvnQty').hide();
 									$('#thGvnVal').hide();
@@ -530,11 +630,11 @@
 									
 								}else{
 
-									document.getElementById("thGrnQty").innerHTML ="GRN QTY";
-									document.getElementById("thGrnVal").innerHTML ="GRN VALUE";
+									document.getElementById("thGrnQty").innerHTML ="GRN Qty";
+									document.getElementById("thGrnVal").innerHTML ="GRN Value";
 									
-									document.getElementById("thGrnQty2").innerHTML ="Grn Qty";
-									document.getElementById("thGrnVal2").innerHTML ="Grn Value";
+									document.getElementById("thGrnQty2").innerHTML ="GRN Qty";
+									document.getElementById("thGrnVal2").innerHTML ="GRN Value";
 
 									$('#thGvnQty').show();
 									$('#thGvnVal').show();
@@ -750,11 +850,13 @@
 									$.each(data.categoryList,function(key, cat) {
 										
 										var netQtySum=0.0;var netValueSum=0.0;var rAmtSum=0.0;var billQtySum=0.0;var billTaxableAmtSum=0.0;var grnQtySum=0.0;var gvnQtySum=0.0;var gvnTaxableAmtSum=0.0;var grnTaxableAmtSum=0.0;
+										var finalDiscTotal=0.0;
 										
 										var tr = $('<tr style="background-color:pink;"></tr>');tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(cat.catName));
 												tr.append($('<td></td>').html(""));
 												tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
@@ -779,10 +881,23 @@
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
 												
 												$('#table_grid1 tbody').append(tr);
 												
+												
+												var contributionTotal=0;
+												$.each(data.salesReportRoyalty,function(key,report) {
+													if (subcat.subCatId == report.subCatId) {
+														contributionTotal=contributionTotal+report.tBillTaxableAmt-(report.tGrnTaxableAmt + report.tGvnTaxableAmt);
+													}
+												});
+												
+												
 											var netQtyTotal=0.0;var netValueTotal=0.0;var rAmtTotal=0.0;var billQtyTotal=0.0;var billTaxableAmtTotal=0.0;var grnQtyTotal=0.0;var gvnQtyTotal=0.0;var gvnTaxableAmtTotal=0.0;var grnTaxableAmtTotal=0.0;
+											var discTotal=0.0;
+											var contriTot=0
+											
 											
 											$.each(data.salesReportRoyalty,function(key,report) {
 
@@ -806,7 +921,14 @@
 																		rAmt = netValue* royPer/ 100;
 																		rAmtTotal = rAmtTotal+rAmt;
 																		
+																		discTotal=discTotal+report.discAmt;
 																		
+																		var contri=0.0;
+																		if(contributionTotal!=0){
+																			contri=(netValue*100)/contributionTotal;
+																		}
+																		
+																		contriTot=contriTot+contri;
 																		
 																		
 																				var tr = $('<tr></tr>');
@@ -872,6 +994,15 @@
 																						.html(
 																								addCommas(netValue.toFixed(2))));
 																		
+																		tr
+																		.append($(
+																				'<td  style="text-align:right;"></td>')
+																				.html(
+																						addCommas(contri.toFixed(2))));
+																		
+																		
+																		
+																		
 																		$(
 																				'#table_grid1 tbody')
 																				.append(
@@ -891,13 +1022,14 @@
 																		gvnQtySum=gvnQtySum+gvnQtyTotal;
 																		gvnTaxableAmtSum=gvnTaxableAmtSum+gvnTaxableAmtTotal;
 																		grnTaxableAmtSum=grnTaxableAmtSum+grnTaxableAmtTotal;
+																		finalDiscTotal=finalDiscTotal+discTotal;
 											
 											var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td></td>').html(" "));
 											tr.append($('<td></td>').html(subcat.subCatName+" Total"));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(billQtyTotal.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(billTaxableAmtTotal.toFixed(2)))));
 											
-											tr.append($('<td  style="text-align:right;"></td>').html());
+											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(discTotal.toFixed(2)))));
 
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnQtyTotal.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnTaxableAmtTotal.toFixed(2))));
@@ -907,6 +1039,9 @@
 											
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtyTotal.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(contriTot.toFixed(2))));
+											
+											
 											$('#table_grid1 tbody').append(tr);
 											
 						})
@@ -914,6 +1049,9 @@
 											tr.append($('<td></td>').html("Total"));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(billQtySum.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(billTaxableAmtSum.toFixed(2)))));
+											
+											tr.append($('<td  style="text-align:right;"></td>').html((addCommas(finalDiscTotal.toFixed(2)))));
+											
 
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnQtySum.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(grnTaxableAmtSum.toFixed(2))));
@@ -923,6 +1061,7 @@
 											
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtySum.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueSum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(" "));
 											$('#table_grid1 tbody').append(tr);
 									})
 									
@@ -943,6 +1082,7 @@
 											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
 											tr.append($('<td></td>').html(""));
+											tr.append($('<td></td>').html(""));
 											$('#table_grid2 tbody').append(tr);	var srNo = 0;												
 											$.each(cat.subCategoryList,function(key, subcat) {
 												var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td  style="text-align:right;"></td>').html(""));
@@ -955,8 +1095,20 @@
 
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
 												tr.append($('<td  style="text-align:right;"></td>').html(""));
+												tr.append($('<td  style="text-align:right;"></td>').html(""));
 												$('#table_grid2 tbody').append(tr);
+												
+												var contributionTotal=0;
+												$.each(data.salesReportRoyalty,function(key,report) {
+													if (subcat.subCatId == report.subCatId) {
+														contributionTotal=contributionTotal+report.tBillTaxableAmt-(report.tGrnTaxableAmt + report.tGvnTaxableAmt);
+													}
+												});
+												
+												
 											var netQtyTotal=0.0;var netValueTotal=0.0;var rAmtTotal=0.0;var billQtyTotal=0.0;var billTaxableAmtTotal=0.0;var grnQtyTotal=0.0;var gvnQtyTotal=0.0;var gvnTaxableAmtTotal=0.0;var grnTaxableAmtTotal=0.0;
+											var contriTot=0;
+											
 											$.each(data.salesReportRoyalty,function(key,report) {
 
 																			if (subcat.subCatId == report.subCatId) {
@@ -979,7 +1131,12 @@
 																		rAmt = netValue* royPer/ 100;
 																		rAmtTotal = rAmtTotal+rAmt;
 																		
+																		var contri=0.0;
+																		if(contributionTotal!=0){
+																			contri=(netValue*100)/contributionTotal;
+																		}
 																		
+																		contriTot=contriTot+contri;
 																		
 																		
 																				var tr = $('<tr></tr>');
@@ -1028,6 +1185,15 @@
 																						.html(
 																								addCommas(netValue.toFixed(2))));
 																		
+																		tr
+																		.append($(
+																				'<td  style="text-align:right;"></td>')
+																				.html(
+																						addCommas(contri.toFixed(2))));
+																		
+																		
+																		
+																		
 																		$(
 																				'#table_grid2 tbody')
 																				.append(
@@ -1059,6 +1225,8 @@
 											
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtyTotal.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueTotal.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(contriTot.toFixed(2))));
+											
 											$('#table_grid2 tbody').append(tr);
 											
 						})
@@ -1073,6 +1241,7 @@
 											
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netQtySum.toFixed(2))));
 											tr.append($('<td  style="text-align:right;"></td>').html(addCommas(netValueSum.toFixed(2))));
+											tr.append($('<td  style="text-align:right;"></td>').html(" "));
 											$('#table_grid2 tbody').append(tr);
 									})
 									
@@ -1157,208 +1326,468 @@
 		</script>
 
 
+
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
+
 	<script type="text/javascript">
-			function showChart() {
+		function drawDonutChart() {
+			//alert("hii donut ch");
+			//to draw donut chart
+			var chart;
+			var datag = '';
+			var a = "";
+			var dataSale = [];
+			var Header = [ 'Category', 'Amount', 'ID' ];
+			dataSale.push(Header);
+			$.post('${getSubCatListForChart}', {
+				ajax : 'true'
+			}, function(chartsdata) {
+				//alert(JSON.stringify(chartsdata));
+				//	console.log('data ' + JSON.stringify(chartsdata));
+				var len = chartsdata.length;
+				datag = datag + '[';
+				$.each(chartsdata, function(key, chartsdata) {
+					var temp = [];
+					temp.push(chartsdata.subCatName + " ("
+							+ (parseFloat(chartsdata.total).toFixed(2))
+							+ ")", (parseFloat(chartsdata.total)),
+							parseInt(chartsdata.subCatId));
+					dataSale.push(temp);
 
-			
-				
+				});
 
-				$("#PieChart_div").empty();
-				$("#chart_div").empty();
-				//document.getElementById('chart').style.display = "block";
-				document.getElementById("table_grid").style = "display:none";
-				document.getElementById("PieChart_div").style = "block";
-				document.getElementById("chart_div").style = "block";
+				//console.log(dataSale);
+				var data1 = google.visualization.arrayToDataTable(dataSale);
 
-				var selectedFr = $("#selectFr").val();
-				var routeId = $("#selectRoute").val();
-				var selectedCat = $("#selectCat").val();
-				var from_date = $("#fromDate").val();
-				var to_date = $("#toDate").val();
-				var getBy= $("#getBy").val();
-				var isGraph = 1;
-				
-				$('#loader').show();
+				var options = {
+					title : 'Sub-category wise sale(%)',
+					pieHole : 0.4,
+					backgroundColor : 'transparent',
+					pieSliceText : 'none',
+					sliceVisibilityThreshold : 0,
+					legend : {
+						position : 'labeled',
+						labeledValueText : 'both',
+						textStyle : {
+							color : 'red',
+							fontSize : 10
+						}
+					},
+					is3D : true,
+				};
+				//  alert(222);
+				chart = new google.visualization.PieChart(document
+						.getElementById('donutchart'));
 
-				$
-						.getJSON(
-								'${getBillList}',
+				function selectQtyHandler() {
+					// alert("hii");
+					var selectedItem = chart.getSelection()[0];
+					if (selectedItem) {
+						// alert("hii selectedItem");
+						i = selectedItem.row, 0;
 
-								{
-									fr_id_list : JSON.stringify(selectedFr),
-									fromDate : from_date,
-									toDate : to_date,
-									route_id : routeId,
-									cat_id_list : JSON.stringify(selectedCat),
-									is_graph : isGraph,
-									getBy:getBy,
-									ajax : 'true'
+						//alert("hii selectedItem" + chartsdata[i].subCatId);
+						getItemListBySubCatId(chartsdata[i].subCatId,chartsdata[i].subCatName);
 
-								},
-								function(data) {
+					}
+				}
 
-									$('#loader').hide();
-								
-									if (data == "") {
-										alert("No records found !!");
+				google.visualization.events.addListener(chart, 'select',
+						selectQtyHandler);
+				chart.draw(data1, options);
 
-									}
-									var i = 0;
+			});
 
-									google.charts.load('current', {
-										'packages' : [ 'corechart', 'bar' ]
-									});
-									google.charts.setOnLoadCallback(drawStuff);
+		}
+	</script>
 
-									function drawStuff() {
 
-										// alert("Inside DrawStuff");
+	<script type="text/javascript">
+		function drawItemDonutChart() {
+			//alert("hii donut ch");
+			//to draw donut chart
+			var chart;
+			var datag = '';
+			var a = "";
+			var dataSale = [];
+			var Header = [ 'Category', 'Amount', 'ID' ];
+			dataSale.push(Header);
+			$.post('${getSubCatListForChart}', {
+				ajax : 'true'
+			}, function(chartsdata) {
+				//alert(JSON.stringify(chartsdata));
+				//	console.log('data ' + JSON.stringify(chartsdata));
+				var len = chartsdata.length;
+				datag = datag + '[';
+				$.each(chartsdata, function(key, chartsdata) {
+					var temp = [];
+					temp.push(chartsdata.subCatName + " ("
+							+ (parseFloat(chartsdata.total).toFixed(2))
+							+ ")", (parseFloat(chartsdata.total)),
+							parseInt(chartsdata.subCatId));
+					dataSale.push(temp);
 
-										var chartDiv = document
-												.getElementById('chart_div');
-										document.getElementById("chart_div").style.border = "thin dotted red";
+				});
 
-										var PiechartDiv = document
-												.getElementById('PieChart_div');
-										document.getElementById("PieChart_div").style.border = "thin dotted red";
+				//console.log(dataSale);
+				var data1 = google.visualization.arrayToDataTable(dataSale);
 
-										var dataTable = new google.visualization.DataTable();
-										dataTable.addColumn('string',
-												'Category'); // Implicit domain column.
-										dataTable.addColumn('number', 'NetQty'); // Implicit data column.
-										dataTable.addColumn('number',
-												'NetValue');
+				var options = {
+					title : 'Sub-category wise sale(%)',
+					pieHole : 0.4,
+					backgroundColor : 'transparent',
+					pieSliceText : 'none',
+					sliceVisibilityThreshold : 0,
+					legend : {
+						position : 'labeled',
+						labeledValueText : 'both',
+						textStyle : {
+							color : 'red',
+							fontSize : 13
+						}
+					},
+					is3D : true,
+				};
+				//  alert(222);
+				chart = new google.visualization.PieChart(document
+						.getElementById('donutchart'));
 
-										var piedataTable = new google.visualization.DataTable();
-										piedataTable.addColumn('string',
-												'Category'); // Implicit domain column.
-										piedataTable.addColumn('number',
-												'NetValue');
+				function selectQtyHandler() {
+					// alert("hii");
+					var selectedItem = chart.getSelection()[0];
+					if (selectedItem) {
+						// alert("hii selectedItem");
+						i = selectedItem.row, 0;
 
-										$
-												.each(
-														data.categoryList,
-														function(key, cat) {
-															var netQty = 0;
-															var netValue = 0;
-															$
-																	.each(
-																			data.salesReportRoyalty,
-																			function(
-																					key,
-																					report) {
+						//alert("hii selectedItem" + chartsdata[i].subCatId);
+						getItemListBySubCatId(chartsdata[i].subCatId,chartsdata[i].subCatName);
 
-																				if (cat.catId === report.catId) {
-																					netQty = netQty
-																							+ report.tBillQty
-																							- (report.tGrnQty + report.tGvnQty);
-																					//netQty=netQty.toFixed(2);
-																					netValue = netValue
-																							+ report.tBillTaxableAmt
-																							- (report.tGrnTaxableAmt + report.tGvnTaxableAmt);
-																					//netValue=netValue.toFixed(2);
-																					var catName = report.cat_name;
-																					//alert("CatName"+catName);
+					}
+				}
 
-																					//alert("netValue"+netValue);
-																					//alert("netQty"+netQty);
+				google.visualization.events.addListener(chart, 'select',
+						selectQtyHandler);
+				chart.draw(data1, options);
 
-																					dataTable
-																							.addRows([
-																									[
-																											catName,
-																											netQty,
-																											netValue ], ]);
+			});
 
-																					piedataTable
-																							.addRows([
-																									[
-																											catName,
-																											netValue ], ]);
-																				}
-																			})
+		}
+	</script>
 
-														})
-										// Instantiate and draw the chart.
+	<script type="text/javascript">
+		function drawGraph() {
 
-										var materialOptions = {
+			google.charts.load("current", {
+				packages : [ "corechart" ]
+			});
+			google.charts.setOnLoadCallback(drawDonutChart);
 
-											width : 500,
-											chart : {
-												title : 'Date wise Tax Graph',
-												subtitle : 'Total tax & Taxable Amount per day',
+			google.charts.load('current', {
+				'packages' : [ 'corechart', 'line' ]
+			});
+			google.charts.setOnLoadCallback(drawStuff1); 
 
-											},
-											series : {
-												0 : {
-													axis : 'distance'
-												}, // Bind series 0 to an axis named 'distance'.
-												1 : {
-													axis : 'brightness'
-												}
-											// Bind series 1 to an axis named 'brightness'.
-											},
-											axes : {
-												y : {
-													distance : {
-														label : 'Total Tax'
-													}, // Left y-axis.
-													brightness : {
-														side : 'right',
-														label : 'Taxable Amount'
-													}
-												// Right y-axis.
-												}
-											}
-										};
-
-										function drawMaterialChart() {
-											var materialChart = new google.charts.Bar(
-													chartDiv);
-
-											materialChart
-													.draw(
-															dataTable,
-															google.charts.Bar
-																	.convertOptions(materialOptions));
-
-										}
-
-										var chart = new google.visualization.ColumnChart(
-												document
-														.getElementById('chart_div'));
-
-										var Piechart = new google.visualization.PieChart(
-												document
-														.getElementById('PieChart_div'));
-										chart
-												.draw(
-														dataTable,
-														{
-															width : 1000,
-															height : 600,
-															title : 'Sales Summary Group By Month'
-														});
-
-										Piechart
-												.draw(
-														piedataTable,
-														{
-															width : 1000,
-															height : 600,
-															title : 'Sales Summary Group By Month',
-															is3D : true
-														});
-										// drawMaterialChart();
-									}
-									;
-
-								});
-
+			var type = $
+			{
+				type
 			}
-		</script>
-		
-		<script type="text/javascript">
+			;
+
+
+		}
+	</script>
+
+
+
+
+	<script type="text/javascript">
+		function getItemListBySubCatId(id,name) {
+			
+
+			var chart;
+			var datag = '';
+			var a = "";
+			var dataSale = [];
+			var Header = [ 'Category', 'Amount', 'ID' ];
+			dataSale.push(Header);
+			
+			$.post('${getItemListForChart}', {
+				subCatId : id,
+				ajax : 'true'
+			}, function(chartsdata) {
+
+				
+				
+				var len = chartsdata.length;
+				datag = datag + '[';
+				$.each(chartsdata, function(key, chartsdata) {
+					var temp = [];
+					temp.push(chartsdata.itemName + " ("
+							+ (parseFloat(chartsdata.total).toFixed(2))
+							+ ")", (parseFloat(chartsdata.total)),
+							parseInt(chartsdata.itemId));
+					dataSale.push(temp);
+
+				});
+
+				//console.log(dataSale);
+				var data1 = google.visualization.arrayToDataTable(dataSale);
+
+				var title=name+" Item wise sale(%)";
+				
+				var options = {
+					title : title,
+					pieHole : 0.4,
+					backgroundColor : 'transparent',
+					pieSliceText : 'none',
+					sliceVisibilityThreshold : 0,
+					legend : {
+						position : 'labeled',
+						labeledValueText : 'both',
+						textStyle : {
+							color : 'red',
+							fontSize : 13
+						}
+					},
+					is3D : true,
+				};
+				//  alert(222);
+				chart = new google.visualization.PieChart(document
+						.getElementById('donutchart1'));
+
+				 function selectQtyHandler() {
+					var selectedItem = chart.getSelection()[0];
+					if (selectedItem) {
+						i = selectedItem.row, 0;
+
+						drawStuff(chartsdata[i].itemId);
+						drawStuffFr(chartsdata[i].itemId)
+
+					}
+				}
+
+				google.visualization.events.addListener(chart, 'select',
+						selectQtyHandler); 
+				chart.draw(data1, options);
+			
+
+			});
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function drawStuff(id) {
+			
+			
+			var selectedFr = $("#selectFr").val();
+			var type_id = $("#type_id").val();
+			var selectedCat = $("#selectCat").val();
+			var type= $("#type").val();
+			var from_date = $("#fromDate").val();
+			var to_date = $("#toDate").val();
+          
+          	var dairyId = $("#dairyId").val();
+          
+      		var billType = 1;
+			if (document.getElementById("rd1").checked == true) {
+				billType = 1;
+			} else {
+				billType = 2;
+			}
+			
+			var chartDiv = document.getElementById('chart_div');
+			document.getElementById("chart_div").style.border = "thin dotted red";
+			
+			var dataTable = new google.visualization.DataTable();
+
+			dataTable.addColumn('string', 'Date'); // Implicit domain column.
+			dataTable.addColumn('number', 'Amount'); // Implicit data column.
+
+			$.post('${getDateWiseSaleForItem}', {
+				fr_id_list : JSON.stringify(selectedFr),
+				fromDate : from_date,
+				toDate : to_date,
+				cat_id_list : JSON.stringify(selectedCat),
+				type_id : JSON.stringify(type_id),
+				billType : billType,
+				dairy : dairyId,
+				itemId : id,
+				ajax : 'true'
+			}, function(chartsBardata) {
+
+				$.each(chartsBardata, function(key, chartsBardata) {
+
+					dataTable.addRows([ [ chartsBardata.billDate,
+							parseInt(chartsBardata.total) ] ]);
+
+				});
+
+				//alert(11);
+
+				var materialOptions = {
+					width : 900,
+					height : 500,
+					chart : {
+						title : 'Sell Amount By Date',
+						subtitle : ' '
+					},
+					series : {
+						0 : {
+							axis : 'distance'
+						}, // Bind series 0 to an axis named 'distance'.
+						1 : {
+							axis : 'brightness'
+						}
+					// Bind series 1 to an axis named 'brightness'.
+					},
+					axes : {
+						y : {
+							distance : {
+								label : 'Sell Amount'
+							}, // Left y-axis.
+							brightness : {
+								side : 'right',
+								label : 'Date'
+							}
+						// Right y-axis.
+						}
+					}
+				};
+
+				//var materialChart = new google.charts.Bar(chartDiv);
+				var materialChart = new google.charts.Line(chartDiv);
+
+				function drawMaterialChart() {
+					// var materialChart = new google.charts.Bar(chartDiv);
+					// google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+					materialChart.draw(dataTable, google.charts.Line
+							.convertOptions(materialOptions));
+					// button.innerText = 'Change to Classic';
+					// button.onclick = drawClassicChart;
+				}
+
+				drawMaterialChart();
+
+			});
+
+		}
+	</script>
+
+	<script type="text/javascript">
+		function drawStuffFr(id) {
+			
+			
+			var selectedFr = $("#selectFr").val();
+			var type_id = $("#type_id").val();
+			var selectedCat = $("#selectCat").val();
+			var type= $("#type").val();
+			var from_date = $("#fromDate").val();
+			var to_date = $("#toDate").val();
+          
+          	var dairyId = $("#dairyId").val();
+          
+      		var billType = 1;
+			if (document.getElementById("rd1").checked == true) {
+				billType = 1;
+			} else {
+				billType = 2;
+			}
+			
+			var chartDiv = document.getElementById('chart_div1');
+			document.getElementById("chart_div1").style.border = "thin dotted red";
+			
+			var dataTable = new google.visualization.DataTable();
+
+			dataTable.addColumn('string', 'Date'); // Implicit domain column.
+			dataTable.addColumn('number', 'Amount'); // Implicit data column.
+
+			$.post('${getFrWiseSaleForItem}', {
+				fr_id_list : JSON.stringify(selectedFr),
+				fromDate : from_date,
+				toDate : to_date,
+				cat_id_list : JSON.stringify(selectedCat),
+				type_id : JSON.stringify(type_id),
+				billType : billType,
+				dairy : dairyId,
+				itemId : id,
+				ajax : 'true'
+			}, function(chartsBardata) {
+
+				$.each(chartsBardata, function(key, chartsBardata) {
+
+					dataTable.addRows([ [ chartsBardata.frName,
+							parseInt(chartsBardata.total) ] ]);
+
+				});
+
+				//alert(11);
+
+				var materialOptions = {
+					width : 900,
+					height : 500,
+					chart : {
+						title : 'Sell Amount By Franchisee',
+						subtitle : ' '
+					},
+					series : {
+						0 : {
+							axis : 'distance'
+						}, // Bind series 0 to an axis named 'distance'.
+						1 : {
+							axis : 'brightness'
+						}
+					// Bind series 1 to an axis named 'brightness'.
+					},
+					axes : {
+						y : {
+							distance : {
+								label : 'Sell Amount'
+							}, // Left y-axis.
+							brightness : {
+								side : 'right',
+								label : 'Franchisee'
+							}
+						// Right y-axis.
+						}
+					}
+				};
+
+				//var materialChart = new google.charts.Bar(chartDiv);
+				var materialChart = new google.charts.Line(chartDiv);
+
+				function drawMaterialChart() {
+					// var materialChart = new google.charts.Bar(chartDiv);
+					// google.visualization.events.addListener(materialChart, 'select', selectHandler);    
+					materialChart.draw(dataTable, google.charts.Line
+							.convertOptions(materialOptions));
+					// button.innerText = 'Change to Classic';
+					// button.onclick = drawClassicChart;
+				}
+
+				drawMaterialChart();
+
+			});
+
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function drawStuff1() {
+			var chartDiv = document.getElementById('chart_div');
+			document.getElementById("chart_div").style.border = "thin dotted red";
+		}
+	</script>
+
+
+
+
+
+
+
+	<script type="text/javascript">
 		
 		function addCommas(x){
 
@@ -1466,6 +1895,8 @@
 				var getBy= $("#getBy").val();
 				var type= $("#type").val();
 				var typeId = $("#type_id").val();
+				var dairyId = $("#dairyId").val();
+	            var selectedSort = $("#selectSort").val();
 				
 				var billType = 1;
 				if (document.getElementById("rd1").checked == true) {
@@ -1475,7 +1906,7 @@
 				}
 
 				window.open('pdfForReport?url=pdf/getSaleReportRoyConsoByCatPdf/'
-						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type+'/'+typeId+'/'+billType);
+						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type+'/'+typeId+'/'+billType+'/'+dairyId+'/'+selectedSort);
 
 			}
 			function exportToExcel()

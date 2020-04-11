@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -83,6 +84,10 @@ import com.ats.adminpanel.model.SpKgSummaryDaoResponse;
 import com.ats.adminpanel.model.Tax1Report;
 import com.ats.adminpanel.model.Tax2Report;
 import com.ats.adminpanel.model.accessright.ModuleJson;
+import com.ats.adminpanel.model.chart.DateWiseSaleForItem;
+import com.ats.adminpanel.model.chart.FrWiseSaleForItem;
+import com.ats.adminpanel.model.chart.ItemWiseSale;
+import com.ats.adminpanel.model.chart.SubcatWiseSale;
 import com.ats.adminpanel.model.creditnote.GetCreditNoteReport;
 import com.ats.adminpanel.model.creditnote.GetCreditNoteReportList;
 import com.ats.adminpanel.model.franchisee.AllMenuResponse;
@@ -1102,6 +1107,11 @@ public class SalesReportController {
 
 		rowData.add("IGST Amt");
 		rowData.add("Total Tax Amt");
+
+		rowData.add("Disc %");
+		rowData.add("Disc Amt");
+		rowData.add("Round Off");
+
 		rowData.add("Total");
 
 		expoExcel.setRowData(rowData);
@@ -1113,15 +1123,24 @@ public class SalesReportController {
 		float igstSum = 0.0f;
 		float totalTax = 0.0f;
 		float grandTotal = 0.0f;
+		float discAmtTot = 0.0f;
+		float roundOffTot = 0.0f;
 
 		for (int i = 0; i < saleList.size(); i++) {
 
 			taxableAmt = taxableAmt + saleList.get(i).getTaxableAmt();
 			cgstSum = cgstSum + saleList.get(i).getCgstSum();
 			sgstSum = sgstSum + saleList.get(i).getSgstSum();
-			igstSum = igstSum + saleList.get(i).getIgstSum();
+
+			if (saleList.get(i).getIsSameState() == 0) {
+				igstSum = igstSum + saleList.get(i).getIgstSum();
+			}
+
 			totalTax = totalTax + saleList.get(i).getTotalTax();
 			grandTotal = grandTotal + saleList.get(i).getGrandTotal();
+
+			discAmtTot = discAmtTot + saleList.get(i).getDiscAmt();
+			roundOffTot = roundOffTot + saleList.get(i).getRoundOff();
 
 			expoExcel = new ExportToExcel();
 			rowData = new ArrayList<String>();
@@ -1143,9 +1162,20 @@ public class SalesReportController {
 			rowData.add("" + roundUp(saleList.get(i).getCgstSum()));
 			rowData.add("" + roundUp(saleList.get(i).getSgstSum()));
 
-			rowData.add("" + roundUp(saleList.get(i).getIgstSum()));
+			if (saleList.get(i).getIsSameState() == 0) {
+				rowData.add("" + roundUp(saleList.get(i).getIgstSum()));
+			} else {
+				rowData.add("0");
+			}
+
 			rowData.add("" + roundUp(saleList.get(i).getTotalTax()));
+
+			rowData.add("" + roundUp(saleList.get(i).getDiscPer()));
+			rowData.add("" + roundUp(saleList.get(i).getDiscAmt()));
+			rowData.add("" + roundUp(saleList.get(i).getRoundOff()));
+
 			rowData.add("" + roundUp(saleList.get(i).getGrandTotal()));
+
 			srno = srno + 1;
 
 			expoExcel.setRowData(rowData);
@@ -1173,6 +1203,11 @@ public class SalesReportController {
 		rowData.add("" + roundUp(sgstSum));
 		rowData.add("" + roundUp(igstSum));
 		rowData.add("" + roundUp(totalTax));
+
+		rowData.add("");
+		rowData.add("" + roundUp(discAmtTot));
+		rowData.add("" + roundUp(roundOffTot));
+
 		rowData.add("" + roundUp(grandTotal));
 
 		expoExcel.setRowData(rowData);
@@ -1204,10 +1239,10 @@ public class SalesReportController {
 		return mCategoryList;
 	}
 
-	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/{typeIdList}/{billType}/", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/{typeIdList}/{billType}/{dairyType}/", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByDatePdf(@PathVariable String fDate, @PathVariable String tDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
-			@PathVariable String typeIdList, @PathVariable int billType, HttpServletRequest request,
+			@PathVariable String typeIdList, @PathVariable int billType,@PathVariable String dairyType, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesbydatePdf");
@@ -1281,6 +1316,8 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("fromDate", fDate);
 				map.add("toDate", tDate);
+				map.add("dairyList", dairyType);
+				
 				if (billType == 1) {
 					map.add("typeIdList", typeIdList);
 				} else {
@@ -2093,12 +2130,20 @@ public class SalesReportController {
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
 
+			String dairyType = request.getParameter("dairyMartType");
+			dairyType = dairyType.substring(1, dairyType.length() - 1);
+			dairyType = dairyType.replaceAll("\"", "");
+
+			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
 
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("dairyList", dairyType);
+//			map.add("typeIdList", selectedType);
 
 			ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>> typeRef = new ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>>() {
 			};
@@ -2223,6 +2268,11 @@ public class SalesReportController {
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
+			
+			String dairyType = request.getParameter("dairyMartType");
+			dairyType = dairyType.substring(1, dairyType.length() - 1);
+			dairyType = dairyType.replaceAll("\"", "");
+			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
@@ -2230,6 +2280,7 @@ public class SalesReportController {
 			map.add("frIdList", selectedFr);
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("dairyList", dairyType);
 
 			ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>> typeRef = new ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>>() {
 			};
@@ -2498,10 +2549,10 @@ public class SalesReportController {
 	 * return saleList; }
 	 */
 
-	@RequestMapping(value = "pdf/showSaleBillwiseGrpByDatePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{typeIdList}/{billType}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleBillwiseGrpByDatePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{typeIdList}/{billType}/{dairyMartType}", method = RequestMethod.GET)
 	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String typeIdList, @PathVariable String selectedFr, @PathVariable String routeId,
-			@PathVariable int billType, HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable int billType,@PathVariable String dairyMartType, HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesgrpbydatePdf");
 
@@ -2550,11 +2601,17 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 				map.add("typeIdList", typeIdList);
-
+				map.add("dairyList", dairyMartType);
+				
 				ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 				};
-				ResponseEntity<List<SalesReportDateMonth>> responseEntity = restTemplate
-						.exchange(Constants.url + "getDatewiseReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+				ResponseEntity<List<SalesReportDateMonth>> responseEntity = restTemplate.exchange(
+						Constants.url + "getDatewiseReportWithDairyMart", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+
+//				ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
+//				};
+//				ResponseEntity<List<SalesReportDateMonth>> responseEntity = restTemplate
+//						.exchange(Constants.url + "getDatewiseReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 				saleList = responseEntity.getBody();
 
@@ -2580,6 +2637,7 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
+				map.add("dairyList", dairyMartType);
 
 				ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>> typeRef = new ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>>() {
 				};
@@ -6265,6 +6323,196 @@ public class SalesReportController {
 
 	}
 
+	List<SubcatWiseSale> subCatListForChart = new ArrayList<SubcatWiseSale>();
+	RoyaltyListBean royaltyBean = new RoyaltyListBean();
+
+	@RequestMapping(value = "/getSubCatListForChart", method = RequestMethod.POST)
+	public @ResponseBody List<SubcatWiseSale> getSubCatListForChart(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		System.err.println("SUB CAT LIST - " + subCatListForChart);
+
+		return subCatListForChart;
+	}
+
+	List<ItemWiseSale> itemListForChart = new ArrayList<ItemWiseSale>();
+
+	@RequestMapping(value = "/getItemListForChart", method = RequestMethod.POST)
+	public @ResponseBody List<ItemWiseSale> getItemListForChart(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		itemListForChart.clear();
+
+		List<SalesReportRoyalty> data = new ArrayList<>();
+		data = royaltyBean.getSalesReportRoyalty();
+
+		int subCatId = Integer.parseInt(request.getParameter("subCatId"));
+
+		System.err.println("SUB CAT ID - " + subCatId);
+
+		for (SalesReportRoyalty model : data) {
+
+			if (subCatId == model.getSubCatId()) {
+
+				ItemWiseSale item = new ItemWiseSale(model.getId(), model.getItem_name(), model.gettBillTaxableAmt());
+				itemListForChart.add(item);
+			}
+
+		}
+
+		System.err.println("ITEM LIST - " + itemListForChart);
+
+		return itemListForChart;
+	}
+
+	@RequestMapping(value = "/getDateWiseSaleForItem", method = RequestMethod.POST)
+	public @ResponseBody List<DateWiseSaleForItem> getDateWiseSaleForItem(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		String fromDate = "";
+		String toDate = "";
+		List<DateWiseSaleForItem> sale = new ArrayList<>();
+		royaltyBean = new RoyaltyListBean();
+
+		int billType = 1;
+		int itemId = 0;
+
+		try {
+			System.out.println("Inside get Sale Bill Wise");
+			String selectedFr = request.getParameter("fr_id_list");
+			fromDate = request.getParameter("fromDate");
+			toDate = request.getParameter("toDate");
+			billType = Integer.parseInt(request.getParameter("billType"));
+			itemId = Integer.parseInt(request.getParameter("itemId"));
+
+			String selectedDairy = request.getParameter("dairy");
+			System.err.println("DAIRY - " + selectedDairy);
+
+			if (selectedDairy != null) {
+				selectedDairy = selectedDairy.substring(1, selectedDairy.length() - 1);
+				selectedDairy = selectedDairy.replaceAll("\"", "");
+			} else {
+				selectedDairy = "1";
+			}
+
+			String selectedCat = request.getParameter("cat_id_list");
+
+			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
+			selectedFr = selectedFr.replaceAll("\"", "");
+
+			selectedCat = selectedCat.substring(1, selectedCat.length() - 1);
+			selectedCat = selectedCat.replaceAll("\"", "");
+
+			frList = new ArrayList<>();
+			frList = Arrays.asList(selectedFr);
+
+			String selectedType = request.getParameter("type_id");
+
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate restTemplate = new RestTemplate();
+
+			map.add("catIdList", selectedCat);
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+			map.add("frIdList", selectedFr);
+			map.add("typeIdList", selectedType);
+			map.add("billType", billType);
+			map.add("dairy", selectedDairy);
+			map.add("itemId", itemId);
+
+			ParameterizedTypeReference<List<DateWiseSaleForItem>> typeRef = new ParameterizedTypeReference<List<DateWiseSaleForItem>>() {
+			};
+
+			ResponseEntity<List<DateWiseSaleForItem>> responseEntity = restTemplate.exchange(
+					Constants.url + "getDateWiseSaleForItem", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			sale = responseEntity.getBody();
+
+			System.err.println("DATE SALE - " + sale);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return sale;
+	}
+
+	@RequestMapping(value = "/getFrWiseSaleForItem", method = RequestMethod.POST)
+	public @ResponseBody List<FrWiseSaleForItem> getFrWiseSaleForItem(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		String fromDate = "";
+		String toDate = "";
+		List<FrWiseSaleForItem> sale = new ArrayList<>();
+		royaltyBean = new RoyaltyListBean();
+
+		int billType = 1;
+		int itemId = 0;
+
+		try {
+			System.out.println("Inside get Sale Bill Wise");
+			String selectedFr = request.getParameter("fr_id_list");
+			fromDate = request.getParameter("fromDate");
+			toDate = request.getParameter("toDate");
+			billType = Integer.parseInt(request.getParameter("billType"));
+			itemId = Integer.parseInt(request.getParameter("itemId"));
+
+			String selectedDairy = request.getParameter("dairy");
+			System.err.println("DAIRY - " + selectedDairy);
+
+			if (selectedDairy != null) {
+				selectedDairy = selectedDairy.substring(1, selectedDairy.length() - 1);
+				selectedDairy = selectedDairy.replaceAll("\"", "");
+			} else {
+				selectedDairy = "1";
+			}
+
+			String selectedCat = request.getParameter("cat_id_list");
+
+			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
+			selectedFr = selectedFr.replaceAll("\"", "");
+
+			selectedCat = selectedCat.substring(1, selectedCat.length() - 1);
+			selectedCat = selectedCat.replaceAll("\"", "");
+
+			frList = new ArrayList<>();
+			frList = Arrays.asList(selectedFr);
+
+			String selectedType = request.getParameter("type_id");
+
+			selectedType = selectedType.substring(1, selectedType.length() - 1);
+			selectedType = selectedType.replaceAll("\"", "");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate restTemplate = new RestTemplate();
+
+			map.add("catIdList", selectedCat);
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+			map.add("frIdList", selectedFr);
+			map.add("typeIdList", selectedType);
+			map.add("billType", billType);
+			map.add("dairy", selectedDairy);
+			map.add("itemId", itemId);
+
+			ParameterizedTypeReference<List<FrWiseSaleForItem>> typeRef = new ParameterizedTypeReference<List<FrWiseSaleForItem>>() {
+			};
+
+			ResponseEntity<List<FrWiseSaleForItem>> responseEntity = restTemplate
+					.exchange(Constants.url + "getFrWiseSaleForItem", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			sale = responseEntity.getBody();
+
+			System.err.println("FR SALE - " + sale);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return sale;
+	}
+
 	// --------------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/getSaleReportRoyConsoByCat", method = RequestMethod.GET)
 	public @ResponseBody RoyaltyListBean getSaleReportRoyConsoByCat(HttpServletRequest request,
@@ -6272,10 +6520,12 @@ public class SalesReportController {
 		String fromDate = "";
 		String toDate = "";
 		List<SalesReportRoyalty> royaltyList = new ArrayList<>();
-		RoyaltyListBean royaltyBean = new RoyaltyListBean();
+		royaltyBean = new RoyaltyListBean();
+
+		subCatListForChart.clear();
 
 		int billType = 1;
-		int sort=0;
+		int sort = 0;
 
 		try {
 			System.out.println("Inside get Sale Bill Wise");
@@ -6286,13 +6536,22 @@ public class SalesReportController {
 			int type = Integer.parseInt(request.getParameter("type"));
 			int isGraph = Integer.parseInt(request.getParameter("is_graph"));
 			billType = Integer.parseInt(request.getParameter("billType"));
-			
+
 			try {
 				sort = Integer.parseInt(request.getParameter("sort"));
-			}catch(Exception e) {
-				sort=0;
+			} catch (Exception e) {
+				sort = 0;
 			}
-			
+
+			String selectedDairy = request.getParameter("dairy");
+			System.err.println("DAIRY - " + selectedDairy);
+
+			if (selectedDairy != null) {
+				selectedDairy = selectedDairy.substring(1, selectedDairy.length() - 1);
+				selectedDairy = selectedDairy.replaceAll("\"", "");
+			} else {
+				selectedDairy = "1";
+			}
 
 			String selectedCat = request.getParameter("cat_id_list");
 
@@ -6322,6 +6581,7 @@ public class SalesReportController {
 			map.add("typeIdList", selectedType);
 			map.add("billType", billType);
 			map.add("sort", sort);
+			map.add("dairy", selectedDairy);
 
 			if (isGraph == 0) {
 				ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
@@ -6337,6 +6597,40 @@ public class SalesReportController {
 				royaltyListForPdf = royaltyList;
 
 				System.err.println("RESULT -- > " + royaltyList);
+
+				if (royaltyList != null) {
+
+					SubCategory[] subCatList = restTemplate.getForObject(Constants.url + "getAllSubCatList",
+							SubCategory[].class);
+
+					ArrayList<SubCategory> subCatAList = new ArrayList<SubCategory>(Arrays.asList(subCatList));
+
+					HashSet<Integer> subCatIds = new HashSet();
+
+					for (SalesReportRoyalty model : royaltyList) {
+						subCatIds.add(model.getSubCatId());
+					}
+
+					for (Integer id : subCatIds) {
+						float totalSale = 0;
+						for (SalesReportRoyalty model : royaltyList) {
+							if (id == model.getSubCatId()) {
+								totalSale = totalSale + model.gettBillTaxableAmt();
+							}
+						}
+
+						for (SubCategory s : subCatAList) {
+							if (id == s.getSubCatId()) {
+								SubcatWiseSale sale = new SubcatWiseSale(id, s.getSubCatName(), totalSale);
+								subCatListForChart.add(sale);
+								break;
+							}
+						}
+
+					}
+
+				}
+
 			}
 
 			CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
@@ -6436,7 +6730,6 @@ public class SalesReportController {
 					rowData.add("" + roundUp(royaltyList.get(i).getDiscAmt()));
 				}
 
-				
 				rowData.add("" + roundUp(royaltyList.get(i).gettGrnQty()));
 
 				rowData.add("" + roundUp(royaltyList.get(i).gettGrnTaxableAmt()));
@@ -6512,11 +6805,12 @@ public class SalesReportController {
 
 	}
 
-	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}/{isGraph}/{getBy}/{type}/{typeId}/{billType}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}/{isGraph}/{getBy}/{type}/{typeId}/{billType}/{dairyId}/{sort}", method = RequestMethod.GET)
 	public ModelAndView getSaleReportRoyConsoByCat(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
 			@PathVariable int isGraph, @PathVariable int getBy, @PathVariable int type, @PathVariable String typeId,
-			@PathVariable int billType, HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable int billType, @PathVariable String dairyId, @PathVariable int sort,
+			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesconsbycatPdf");
 
 		List<SalesReportRoyalty> royaltyList = new ArrayList<>();
@@ -6535,6 +6829,8 @@ public class SalesReportController {
 			map.add("type", type);
 			map.add("typeIdList", typeId);
 			map.add("billType", billType);
+			map.add("dairy", dairyId);
+			map.add("sort", sort);
 
 			if (isGraph == 0) {
 				ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
@@ -6617,6 +6913,7 @@ public class SalesReportController {
 
 		List<Integer> idList = new ArrayList<>();
 		String[] typeIds = request.getParameterValues("type_id");
+		String[] dairyIds = request.getParameterValues("dairy_id");
 
 		int billType = 1;
 		try {
@@ -6641,8 +6938,28 @@ public class SalesReportController {
 		} catch (Exception e) {
 			idList.add(0);
 		}
-
 		model.addObject("idList", idList);
+		
+		
+		System.out.println("dairyId" + dairyIds);
+		String dairy = null;
+		StringBuilder sb1 = new StringBuilder();
+
+		try {
+
+			for (int i = 0; i < dairyIds.length; i++) {
+				sb1 = sb1.append(dairyIds[i] + ",");
+			}
+			dairy = sb1.toString();
+			dairy = dairy.substring(0, dairy.length() - 1);
+
+		} catch (Exception e) {
+		}
+		model.addObject("dairy", dairy);
+		
+		
+		
+		
 		try {
 			String year = request.getParameter("year");
 
@@ -6655,6 +6972,7 @@ public class SalesReportController {
 				map.add("toYear", yrs[1]);
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
+				map.add("dairy", dairy);
 
 				SalesReturnQtyReportList[] salesReturnQtyReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnQtyReport", map, SalesReturnQtyReportList[].class);
@@ -6877,6 +7195,7 @@ public class SalesReportController {
 			List<Integer> idList = new ArrayList<>();
 
 			String[] typeIds = request.getParameterValues("type_id");
+			String[] dairyIds = request.getParameterValues("dairy_id");
 
 			System.out.println("mId" + typeIds);
 
@@ -6894,6 +7213,22 @@ public class SalesReportController {
 
 			}
 			model.addObject("idList", idList);
+			
+			StringBuilder sb1 = new StringBuilder();
+			String dairy = null;
+
+			try {
+				for (int i = 0; i < dairyIds.length; i++) {
+					sb1 = sb1.append(dairyIds[i] + ",");
+				}
+				dairy = sb1.toString();
+				dairy = dairy.substring(0, dairy.length() - 1);
+			} catch (Exception e) {
+
+			}
+			model.addObject("dairy", dairy);
+			
+			
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
@@ -6903,6 +7238,7 @@ public class SalesReportController {
 				map.add("toYear", yrs[1]);
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
+				map.add("dairy", dairy);
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -7040,6 +7376,7 @@ public class SalesReportController {
 			List<Integer> idList = new ArrayList<>();
 
 			String[] typeIds = request.getParameterValues("type_id");
+			String[] dairyIds = request.getParameterValues("dairy_id");
 
 			System.out.println("mId" + typeIds);
 
@@ -7057,6 +7394,22 @@ public class SalesReportController {
 
 			}
 			model.addObject("idList", idList);
+			
+			
+			StringBuilder sb1 = new StringBuilder();
+			String dairy = null;
+
+			try {
+				for (int i = 0; i < dairyIds.length; i++) {
+					sb1 = sb1.append(dairyIds[i] + ",");
+				}
+				dairy = sb1.toString();
+				dairy = dairy.substring(0, dairy.length() - 1);
+			} catch (Exception e) {
+
+			}
+			model.addObject("dairy", dairy);
+			
 
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
@@ -7067,6 +7420,7 @@ public class SalesReportController {
 				map.add("toYear", yrs[1]);
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
+				map.add("dairy", dairy);
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -7854,8 +8208,6 @@ public class SalesReportController {
 			ExportToExcel expoExcel = new ExportToExcel();
 			List<String> rowData = new ArrayList<String>();
 
-			
-
 			expoExcel = new ExportToExcel();
 			rowData = new ArrayList<String>();
 
@@ -7876,7 +8228,7 @@ public class SalesReportController {
 
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
-				
+
 				rowData.add((i + 1) + "");
 				rowData.add("" + result.get(i).getFromInvoice());
 				rowData.add("" + result.get(i).getToInvoice());
@@ -7894,9 +8246,9 @@ public class SalesReportController {
 			session.setAttribute("excelNameNew", "TaxSummaryReport");
 			session.setAttribute("reportNameNew", "Tax Summary Report");
 			session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
-			//session.setAttribute("mergeUpto1", "$A$1:$R$1");
-			//session.setAttribute("mergeUpto2", "$A$2:$R$2");
-			
+			// session.setAttribute("mergeUpto1", "$A$1:$R$1");
+			// session.setAttribute("mergeUpto2", "$A$2:$R$2");
+
 			session.setAttribute("mergeUpto1", "$A$1:$G$1");
 			session.setAttribute("mergeUpto2", "$A$2:$G$2");
 			session.setAttribute("mergeUpto2", "$A$2:$G$2");

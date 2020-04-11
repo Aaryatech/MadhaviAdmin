@@ -811,10 +811,20 @@ public class SalesReportController2 {
 
 	}
 
+	List<SubCatReport> saleList = new ArrayList<>();
+
+	// -----------------------------------------
+	@RequestMapping(value = "/getSubCatReportChart", method = RequestMethod.POST)
+	public @ResponseBody List<SubCatReport> getSubCatReportChart(HttpServletRequest request,
+			HttpServletResponse response) {
+		return saleList;
+	}
+	// -------------------------------------------
+
 	@RequestMapping(value = "/getSubCatReport", method = RequestMethod.GET)
 	public @ResponseBody List<SubCatReport> getSubCatReport(HttpServletRequest request, HttpServletResponse response) {
 
-		List<SubCatReport> saleList = new ArrayList<>();
+		saleList = new ArrayList<>();
 		String fromDate = "";
 		String toDate = "";
 		try {
@@ -825,6 +835,11 @@ public class SalesReportController2 {
 			String selectedType = request.getParameter("typeId");
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
+			
+			String dairyType = request.getParameter("dairy");
+			dairyType = dairyType.substring(1, dairyType.length() - 1);
+			dairyType = dairyType.replaceAll("\"", "");
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			RestTemplate restTemplate = new RestTemplate();
@@ -833,6 +848,7 @@ public class SalesReportController2 {
 			map.add("toDate", toDate);
 			map.add("typeIdList", selectedType);
 			map.add("billType", billType);
+			map.add("dairy", dairyType);
 
 			ParameterizedTypeReference<List<SubCatReport>> typeRef = new ParameterizedTypeReference<List<SubCatReport>>() {
 			};
@@ -877,6 +893,9 @@ public class SalesReportController2 {
 				rowData.add("Net Qty");
 				rowData.add("Net Amt");
 
+				rowData.add("Qty %");
+				rowData.add("Amt %");
+
 				rowData.add("Ret Per Amt");
 			} else {
 				rowData.add("Sr");
@@ -889,6 +908,9 @@ public class SalesReportController2 {
 
 				rowData.add("Net Qty");
 				rowData.add("Net Amt");
+
+				rowData.add("Qty %");
+				rowData.add("Amt %");
 
 			}
 
@@ -905,6 +927,17 @@ public class SalesReportController2 {
 			float totalNetQty = 0;
 			float totalNetAmt = 0;
 			float retAmtPer = 0;
+
+			float totalQtyPer = 0;
+			float totalAmtPer = 0;
+
+			float qtyPerSum = 0, amtPerSum = 0;
+			for (int i = 0; i < saleList.size(); i++) {
+				qtyPerSum = qtyPerSum + saleList.get(i).getNetQty();
+				;
+				amtPerSum = amtPerSum + saleList.get(i).getNetAmt();
+				;
+			}
 
 			for (int i = 0; i < saleList.size(); i++) {
 
@@ -934,7 +967,25 @@ public class SalesReportController2 {
 					rowData.add("" + roundUp(saleList.get(i).getRetAmt()));
 					rowData.add("" + roundUp(saleList.get(i).getNetQty()));
 					rowData.add("" + roundUp(saleList.get(i).getNetAmt()));
+
+					float qtyPer = 0;
+					if (qtyPerSum > 0) {
+						qtyPer = (saleList.get(i).getNetQty() * 100) / qtyPerSum;
+					}
+					totalQtyPer = totalQtyPer + qtyPer;
+
+					rowData.add("" + roundUp(qtyPer));
+
+					float amtPer = 0;
+					if (amtPerSum > 0) {
+						amtPer = (saleList.get(i).getNetAmt() * 100) / amtPerSum;
+					}
+					totalAmtPer = totalAmtPer + amtPer;
+
+					rowData.add("" + roundUp(amtPer));
+
 					rowData.add("" + roundUp(saleList.get(i).getRetAmtPer()));
+
 				} else {
 					rowData.add("" + srno);
 					rowData.add(saleList.get(i).getSubCatName());
@@ -946,6 +997,22 @@ public class SalesReportController2 {
 					rowData.add("" + roundUp(saleList.get(i).getRetAmt()));
 					rowData.add("" + roundUp(saleList.get(i).getNetQty()));
 					rowData.add("" + roundUp(saleList.get(i).getNetAmt()));
+
+					float qtyPer = 0;
+					if (qtyPerSum > 0) {
+						qtyPer = (saleList.get(i).getNetQty() * 100) / qtyPerSum;
+					}
+					totalQtyPer = totalQtyPer + qtyPer;
+
+					rowData.add("" + roundUp(qtyPer));
+
+					float amtPer = 0;
+					if (amtPerSum > 0) {
+						amtPer = (saleList.get(i).getNetAmt() * 100) / amtPerSum;
+					}
+					totalAmtPer = totalAmtPer + amtPer;
+
+					rowData.add("" + roundUp(amtPer));
 				}
 
 				srno = srno + 1;
@@ -969,6 +1036,10 @@ public class SalesReportController2 {
 
 				rowData.add("" + roundUp(totalNetQty));
 				rowData.add("" + roundUp(totalNetAmt));
+
+				rowData.add("" + roundUp(totalQtyPer));
+				rowData.add("" + roundUp(totalAmtPer));
+
 				rowData.add("" + roundUp(retAmtPer));
 			} else {
 				rowData.add("" + roundUp(totalSoldQty));
@@ -977,9 +1048,10 @@ public class SalesReportController2 {
 				rowData.add("" + roundUp(totalRetAmt));
 				rowData.add("" + roundUp(totalNetQty));
 				rowData.add("" + roundUp(totalNetAmt));
-			}
 
-			
+				rowData.add("" + roundUp(totalQtyPer));
+				rowData.add("" + roundUp(totalAmtPer));
+			}
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -998,10 +1070,10 @@ public class SalesReportController2 {
 		return saleList;
 	}
 
-	@RequestMapping(value = "pdf/showSaleReportBySubCatPdf/{fromDate}/{toDate}/{typeId}/{billType}  ", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleReportBySubCatPdf/{fromDate}/{toDate}/{typeId}/{billType}/{dairy}  ", method = RequestMethod.GET)
 	public ModelAndView showSaleReportBySubCatPdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String typeId,@PathVariable int billType,
-			HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String typeId, @PathVariable int billType,@PathVariable String dairy, HttpServletRequest request,
+			HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/saleRepBySubCatOnlyPdf");
 
 		List<SubCatReport> subCatReportList = new ArrayList<>();
@@ -1015,11 +1087,12 @@ public class SalesReportController2 {
 			map.add("toDate", toDate);
 			map.add("typeIdList", typeId);
 			map.add("billType", billType);
+			map.add("dairy", dairy);
 
 			ParameterizedTypeReference<List<SubCatReport>> typeRef = new ParameterizedTypeReference<List<SubCatReport>>() {
 			};
-			ResponseEntity<List<SubCatReport>> responseEntity = restTemplate
-					.exchange(Constants.url + "getAdminSubCatReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			ResponseEntity<List<SubCatReport>> responseEntity = restTemplate.exchange(
+					Constants.url + "getAdminSubCatReportApi", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			subCatReportList = responseEntity.getBody();
 
@@ -1148,6 +1221,13 @@ public class SalesReportController2 {
 
 			typeIdList = typeIdList.substring(1, typeIdList.length() - 1);
 			typeIdList = typeIdList.replaceAll("\"", "");
+			
+			String dairyIdList = request.getParameter("dairy");
+
+			dairyIdList = dairyIdList.substring(1, dairyIdList.length() - 1);
+			dairyIdList = dairyIdList.replaceAll("\"", "");
+			
+			System.out.println("DAIRY------------------" + dairyIdList);
 
 			System.out.println("selectedFrBefore------------------" + selectedFr);
 
@@ -1168,6 +1248,7 @@ public class SalesReportController2 {
 			map.add("subCatIdList", selectedSubCatIdList);
 			map.add("billType", billType);
 			map.add("typeIdList", typeIdList);
+			map.add("dairy", dairyIdList);
 
 			ParameterizedTypeReference<List<SubCatItemReport>> typeRef = new ParameterizedTypeReference<List<SubCatItemReport>>() {
 			};
@@ -1414,10 +1495,10 @@ public class SalesReportController2 {
 		return subCatFrReportListData;
 	}
 
-	@RequestMapping(value = "pdf/showSummeryFrAndSubCatItemPdf/{fromDate}/{toDate}/{selectedFr}/{selectedSubCatIdList}/{billType}/{typeId} ", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSummeryFrAndSubCatItemPdf/{fromDate}/{toDate}/{selectedFr}/{selectedSubCatIdList}/{billType}/{typeId}/{dairy} ", method = RequestMethod.GET)
 	public ModelAndView showSummeryFrAndSubCatItemPdf(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String selectedFr, @PathVariable String selectedSubCatIdList, @PathVariable int billType,
-			@PathVariable String typeId, HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable String typeId,@PathVariable String dairy, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/saleRepBySubCatItemPdf");
 
 		SubCatFrRepItemList subCatFrReportListData = new SubCatFrRepItemList();
@@ -1442,6 +1523,7 @@ public class SalesReportController2 {
 			map.add("subCatIdList", selectedSubCatIdList);
 			map.add("typeIdList", typeId);
 			map.add("billType", billType);
+			map.add("dairy", dairy);
 
 			ParameterizedTypeReference<List<SubCatItemReport>> typeRef = new ParameterizedTypeReference<List<SubCatItemReport>>() {
 			};

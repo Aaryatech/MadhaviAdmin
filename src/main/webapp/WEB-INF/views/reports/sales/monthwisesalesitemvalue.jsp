@@ -51,8 +51,7 @@
 			<div class="box">
 				<div class="box-title">
 					<h3>
-						<i class="fa fa-bars"></i>Monthly Sales Value Item Wise
-						Report
+						<i class="fa fa-bars"></i>Monthly Sales Value Item Wise Report
 					</h3>
 				</div>
 				<div class="box-content">
@@ -76,10 +75,11 @@
 
 								<input type="radio" id="rd1" name="rd" value="1"
 									${billType==1 ? 'checked' : ''} checked="checked"
-									onchange="billTypeSelection(this.value)">&nbsp;Fr And
-								CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
-									id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
-									onchange="billTypeSelection(this.value)">&nbsp;Company
+									onchange="billTypeSelection(this.value)">&nbsp;Fr.
+								Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+									type="radio" id="rd2" name="rd" value="2"
+									${billType==2 ? 'checked' : ''}
+									onchange="billTypeSelection(this.value)">&nbsp;Retail
 								Outlet Bills
 
 							</div>
@@ -91,81 +91,27 @@
 						</div>
 					</div>
 
-
-					<c:choose>
-
-						<c:when test="${billType==1}">
-
-							<div id="cdcDiv">
-								<br>
-								<div class="row">
-
-									<div class="form-group">
+					<br>
 
 
-										<label class="col-sm-3 col-lg-2 control-label"></label>
-										<div class="col-sm-6 col-lg-4"></div>
+					<div class="row">
+
+						<div class="form-group">
+
+							<label class="col-sm-3 col-lg-2 control-label"></label>
+							<div class="col-sm-6 col-lg-4"></div>
 
 
 
-										<label class="col-sm-3 col-lg-2 control-label">Select
-											Bill Type Option</label>
-										<div class="col-sm-6 col-lg-4">
-
-											<select data-placeholder="Choose "
-												class="form-control chosen" multiple="multiple" tabindex="6"
-												id="type_id" name="type_id">
-
-												<!-- <option value="1" selected="selected">Franchise Bill</option>
-										<option value="2" selected="selected">Delivery Chalan</option> -->
-
-												<c:choose>
-
-													<c:when test="${billTypeOpt == 1}">
-														<option value="1" selected="selected">Franchise
-															Bill</option>
-														<option value="2">Delivery Chalan</option>
-													</c:when>
-													<c:when test="${billTypeOpt == 2}">
-														<option value="1">Franchise Bill</option>
-														<option value="2" selected="selected">Delivery
-															Chalan</option>
-													</c:when>
 
 
-													<c:otherwise>
-														<option value="1" selected="selected">Franchise
-															Bill</option>
-														<option value="2" selected="selected">Delivery
-															Chalan</option>
-													</c:otherwise>
+							<c:if test="${not empty billType}"></c:if>
 
-												</c:choose>
+							<c:choose>
 
-												<!-- <option value="3">Company Outlet Bill</option> -->
-											</select>
+								<c:when test="${billType==1 or empty billType}">
 
-										</div>
-
-
-									</div>
-								</div>
-							</div>
-
-						</c:when>
-
-						<c:otherwise>
-
-							<div id="cdcDiv" style="display: none;">
-								<br>
-								<div class="row">
-
-									<div class="form-group">
-
-
-										<label class="col-sm-3 col-lg-2 control-label"></label>
-										<div class="col-sm-6 col-lg-4"></div>
-
+									<div id="cdcDiv">
 
 
 										<label class="col-sm-3 col-lg-2 control-label">Select
@@ -209,12 +155,140 @@
 
 
 									</div>
-								</div>
-							</div>
 
-						</c:otherwise>
+									<div id="dairyDiv" style="display: none;">
+										<label class="col-sm-3 col-lg-2 control-label">Select
+											Type</label>
+										<div class="col-sm-6 col-lg-4">
 
-					</c:choose>
+											<select data-placeholder="Choose "
+												class="form-control chosen" multiple="multiple" tabindex="6"
+												id="dairy_id" name="dairy_id">
+
+												<c:choose>
+
+													<c:when test="${dairySel == 1}">
+														<option value="1" selected="selected">Regular</option>
+														<option value="2">Is Dairy Mart</option>
+													</c:when>
+													<c:when test="${dairySel == 2}">
+														<option value="1">Regular</option>
+														<option value="2" selected="selected">Is Dairy
+															Mart</option>
+													</c:when>
+
+
+													<c:otherwise>
+														<option value="1" selected="selected">Regular</option>
+														<option value="2" selected="selected">Is Dairy
+															Mart</option>
+													</c:otherwise>
+
+												</c:choose>
+
+												<!-- <option value="1" selected="selected">Regular</option>
+												<option value="2" selected="selected">Is Dairy Mart</option> -->
+											</select>
+
+										</div>
+									</div>
+
+								</c:when>
+
+								<c:otherwise>
+
+									<div id="dairyDiv">
+										<label class="col-sm-3 col-lg-2 control-label">Select
+											Type</label>
+										<div class="col-sm-6 col-lg-4">
+
+											<select data-placeholder="Choose "
+												class="form-control chosen" multiple="multiple" tabindex="6"
+												id="dairy_id" name="dairy_id">
+
+												<c:choose>
+
+													<c:when test="${dairySel eq '1'}">
+														<option value="1" selected="selected">Regular</option>
+														<option value="2">Is Dairy Mart</option>
+													</c:when>
+													<c:when test="${dairySel eq '2'}">
+														<option value="1">Regular</option>
+														<option value="2" selected="selected">Is Dairy
+															Mart</option>
+													</c:when>
+
+
+													<c:otherwise>
+														<option value="1" selected="selected">Regular</option>
+														<option value="2" selected="selected">Is Dairy
+															Mart</option>
+													</c:otherwise>
+
+												</c:choose>
+
+												<!-- <option value="1" selected="selected">Regular</option>
+												<option value="2" selected="selected">Is Dairy Mart</option> -->
+											</select>
+
+										</div>
+									</div>
+
+									<div id="cdcDiv" style="display: none;">
+
+										<label class="col-sm-3 col-lg-2 control-label">Select
+											Bill Type Option</label>
+										<div class="col-sm-6 col-lg-4">
+
+											<select data-placeholder="Choose "
+												class="form-control chosen" multiple="multiple" tabindex="6"
+												id="type_id" name="type_id">
+
+												<!-- <option value="1" selected="selected">Franchise Bill</option>
+										<option value="2" selected="selected">Delivery Chalan</option> -->
+
+												<c:choose>
+
+													<c:when test="${billTypeOpt == 1}">
+														<option value="1" selected="selected">Franchise
+															Bill</option>
+														<option value="2">Delivery Chalan</option>
+													</c:when>
+													<c:when test="${billTypeOpt == 2}">
+														<option value="1">Franchise Bill</option>
+														<option value="2" selected="selected">Delivery
+															Chalan</option>
+													</c:when>
+
+
+													<c:otherwise>
+														<option value="1" selected="selected">Franchise
+															Bill</option>
+														<option value="2" selected="selected">Delivery
+															Chalan</option>
+													</c:otherwise>
+
+												</c:choose>
+
+												<!-- <option value="3">Company Outlet Bill</option> -->
+											</select>
+
+										</div>
+
+
+									</div>
+
+								</c:otherwise>
+
+							</c:choose>
+
+
+
+						</div>
+					</div>
+
+
+
 
 
 
@@ -443,6 +517,7 @@
 																	<c:set var="gvnQty" value="${rep.gvnQty+gvnQty}" />
 																</c:when>
 																<c:otherwise>
+
 
 																</c:otherwise>
 															</c:choose>
@@ -701,8 +776,10 @@
 
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
+				document.getElementById("dairyDiv").style.display = "block";
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
+				document.getElementById("dairyDiv").style.display = "none";
 			}
 
 		}

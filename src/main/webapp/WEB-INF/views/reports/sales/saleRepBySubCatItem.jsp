@@ -149,10 +149,10 @@
 						<div class="col-sm-6 col-lg-4">
 
 							<input type="radio" id="rd1" name="rd" value="1"
-								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr
-							And CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
-								id="rd2" name="rd" value="2"
-								onchange="billTypeSelection(this.value)">&nbsp;Company
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr.
+							Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" id="rd2" name="rd" value="2"
+								onchange="billTypeSelection(this.value)">&nbsp;Retail
 							Outlet Bills
 
 						</div>
@@ -177,11 +177,28 @@
 								<select data-placeholder="Choose " class="form-control chosen"
 									multiple="multiple" tabindex="6" id="type_id" name="type_id">
 
-									<option value="1" selected="selected">Franchise Bill</option>
-									<option value="2" selected="selected">Delivery Chalan</option>
+									<option value="1" selected="selected">Franchisee Bill</option>
+									<option value="2" selected="selected">Delivery Challan</option>
 									<!-- <option value="3">Company Outlet Bill</option> -->
 								</select>
 
+							</div>
+						</div>
+
+						<div id="dairyDiv" style="display: none;">
+
+							<label class="col-sm-3 col-lg-2 control-label"></label>
+							<div class="col-sm-6 col-lg-4"></div>
+
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Type</label>
+							<div class="col-sm-6 col-lg-4">
+								<select data-placeholder="Choose " class="form-control chosen"
+									multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
+
+									<option value="1" selected="selected">Regular</option>
+									<option value="2" selected="selected">Is Dairy Mart</option>
+								</select>
 							</div>
 						</div>
 
@@ -338,8 +355,10 @@
 
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
+				document.getElementById("dairyDiv").style.display = "block";
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
+				document.getElementById("dairyDiv").style.display = "none";
 			}
 
 		}
@@ -358,6 +377,8 @@
 			var to_date = $("#toDate").val();
 
 			var typeId = $("#type_id").val();
+
+			var dairy = $("#dairy_id").val();
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -382,6 +403,13 @@
 				} else {
 					isValid = 1;
 				}
+			} else if (billType == 2) {
+				if (dairy == null) {
+					alert("Please select Regular or Dairy Mart type");
+					isValid = 0;
+				} else {
+					isValid = 1;
+				}
 			} else {
 				isValid = 1;
 			}
@@ -402,6 +430,7 @@
 									toDate : to_date,
 									billType : billType,
 									typeId : JSON.stringify(typeId),
+									dairy : JSON.stringify(dairy),
 									ajax : 'true'
 
 								},
@@ -1439,6 +1468,8 @@
 
 			var typeId = $("#type_id").val();
 
+			var dairy = $("#dairy_id").val();
+
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
 				billType = 1;
@@ -1459,7 +1490,7 @@
 							+ '/'
 							+ billType
 							+ '/'
-							+ typeId);
+							+ typeId + '/' + dairy);
 
 		}
 	</script>

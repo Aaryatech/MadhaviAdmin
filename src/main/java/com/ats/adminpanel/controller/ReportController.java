@@ -1713,9 +1713,11 @@ public class ReportController {
 		rowData.add("Item Name");
 		rowData.add("Order Qty");
 		rowData.add("Bill Qty");
+		rowData.add("Difference");
 
 		float totalBillQty = 0;
 		float totalOrderQty = 0;
+		float totalDiff = 0;
 
 		expoExcel.setRowData(rowData);
 		int srno = 1;
@@ -1729,12 +1731,20 @@ public class ReportController {
 
 			rowData.add(" " + roundUp(itemReportList.get(i).getOrderQty()));
 			rowData.add("" + roundUp(itemReportList.get(i).getBillQty()));
+			
+			float diff=itemReportList.get(i).getOrderQty()-itemReportList.get(i).getBillQty();
+			if(diff!=0) {
+				rowData.add("" + roundUp(diff));
+			}else {
+				rowData.add(" ");
+			}
 
 			srno = srno + 1;
 
 			totalBillQty = totalBillQty + itemReportList.get(i).getBillQty();
 			totalOrderQty = totalOrderQty + itemReportList.get(i).getOrderQty();
-
+			totalDiff=totalDiff+diff;
+			
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
 
@@ -1747,6 +1757,7 @@ public class ReportController {
 		rowData.add("");
 		rowData.add("" + roundUp(totalOrderQty));
 		rowData.add(" " + roundUp(totalBillQty));
+		rowData.add(" " + roundUp(totalDiff));
 
 		expoExcel.setRowData(rowData);
 		exportToExcelList.add(expoExcel);
@@ -1793,12 +1804,12 @@ public class ReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(4);
+		PdfPTable table = new PdfPTable(5);
 		table.setHeaderRows(1);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 0.7f, 3.0f, 1.2f, 1.2f });
+			table.setWidths(new float[] { 0.7f, 3.0f, 1.2f, 1.2f, 1.2f });
 			Font headFont = new Font(FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 10.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -1823,10 +1834,16 @@ public class ReportController {
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Difference", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
 
 			int index = 0;
 			float totalBillQty = 0;
 			float totalOrderQty = 0;
+			float totalDiff = 0;
 
 			for (int j = 0; j < itemReportList.size(); j++) {
 
@@ -1856,9 +1873,28 @@ public class ReportController {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(1);
 				table.addCell(cell);
+				
+				float diff=itemReportList.get(j).getOrderQty()-itemReportList.get(j).getBillQty();
+				
+				if(diff!=0) {
+					cell = new PdfPCell(new Phrase("" + roundUp(diff), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(1);
+					table.addCell(cell);
+				}else {
+					cell = new PdfPCell(new Phrase(" ", headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(1);
+					table.addCell(cell);
+				}
+				
+				
 
 				totalBillQty = totalBillQty + itemReportList.get(j).getBillQty();
 				totalOrderQty = totalOrderQty + itemReportList.get(j).getOrderQty();
+				totalDiff=totalDiff+diff;
 
 			}
 
@@ -1878,13 +1914,19 @@ public class ReportController {
 			cell.setPaddingRight(1);
 			table.addCell(cell);
 
-			cell = new PdfPCell(new Phrase("" + totalBillQty, headFont));
+			cell = new PdfPCell(new Phrase("" + totalOrderQty, headFont));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 			cell.setPaddingRight(1);
 			table.addCell(cell);
 
-			cell = new PdfPCell(new Phrase("" + totalOrderQty, headFont));
+			cell = new PdfPCell(new Phrase("" + totalBillQty, headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(1);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("" + roundUp(totalDiff), headFont));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 			cell.setPaddingRight(1);
@@ -1893,7 +1935,7 @@ public class ReportController {
 			document.open();
 
 			Paragraph heading = new Paragraph(
-					"NET SALES CODE TAX WISE SUMMERY Report \n From Date:" + fromdate + " To Date:" + todate);
+					"Product Order Report \n From Date:" + fromdate + " To Date:" + todate);
 			heading.setAlignment(Element.ALIGN_CENTER);
 			document.add(heading);
 

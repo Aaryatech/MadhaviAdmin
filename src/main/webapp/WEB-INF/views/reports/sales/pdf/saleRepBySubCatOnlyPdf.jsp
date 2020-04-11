@@ -73,6 +73,8 @@ th {
 						<th style="text-align: center;">Ret Amt</th>
 						<th style="text-align: center;">Net Qty</th>
 						<th style="text-align: center;">Net Amt</th>
+						<th style="text-align: center;">Qty %</th>
+						<th style="text-align: center;">Amt %</th>
 						<th style="text-align: center;">Ret Amt</th>
 					</tr>
 				</thead>
@@ -87,10 +89,25 @@ th {
 					<c:set var="totalNetQty" value="${0}" />
 					<c:set var="totalNetAmt" value="${0}" />
 					<c:set var="retAmtPer" value="${0}" />
+					<c:set var="totalQtyPer" value="${0}" />
+					<c:set var="totalAmtPer" value="${0}" />
 					<tr>
 
 
 					</tr>
+
+					<c:set var="qtyPerSum" value="${0}" />
+					<c:set var="amtPerSum" value="${0}" />
+
+					<c:forEach items="${subCatReportList}" var="report"
+						varStatus="count">
+
+						<c:set var="qtyPerSum" value="${qtyPerSum+report.netQty}" />
+						<c:set var="amtPerSum" value="${amtPerSum+report.netAmt}" />
+
+					</c:forEach>
+
+
 					<c:forEach items="${subCatReportList}" var="report"
 						varStatus="count">
 						<tr>
@@ -134,6 +151,25 @@ th {
 							<td align="right"><fmt:formatNumber type="number"
 									maxFractionDigits="2" minFractionDigits="2"
 									value="${report.netAmt}" /></td>
+
+							<c:set var="qtyPer" value="${0}" />
+							<c:if test="${qtyPerSum>0}">
+								<c:set var="qtyPer" value="${(report.netQty*100)/qtyPerSum}" />
+							</c:if>
+							<c:set var="totalQtyPer" value="${totalQtyPer+qtyPer}" />
+
+							<td align="right"><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2" value="${qtyPer}" /></td>
+
+							<c:set var="amtPer" value="${0}" />
+							<c:if test="${amtPerSum>0}">
+								<c:set var="amtPer" value="${(report.netAmt*100)/amtPerSum}" />
+							</c:if>
+							<c:set var="totalAmtPer" value="${totalAmtPer+amtPer}" />
+
+							<td align="right"><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2" value="${amtPer}" /></td>
+
 
 							<td align="right"><fmt:formatNumber type="number"
 									maxFractionDigits="2" minFractionDigits="2"
@@ -204,6 +240,14 @@ th {
 
 						<td align="right"><b><fmt:formatNumber type="number"
 									maxFractionDigits="2" minFractionDigits="2"
+									value="${totalQtyPer}" /></b></td>
+
+						<td align="right"><b><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2"
+									value="${totalAmtPer}" /></b></td>
+
+						<td align="right"><b><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2"
 									value="${retAmtPer}" /></b></td>
 
 
@@ -231,6 +275,8 @@ th {
 						<th style="text-align: center;">CRN Amt</th>
 						<th style="text-align: center;">Net Qty</th>
 						<th style="text-align: center;">Net Amt</th>
+						<th style="text-align: center;">Qty %</th>
+						<th style="text-align: center;">Amt %</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -244,10 +290,24 @@ th {
 					<c:set var="totalNetQty" value="${0}" />
 					<c:set var="totalNetAmt" value="${0}" />
 					<c:set var="retAmtPer" value="${0}" />
+					<c:set var="totalQtyPer" value="${0}" />
+					<c:set var="totalAmtPer" value="${0}" />
 					<tr>
 
 
 					</tr>
+
+					<c:set var="qtyPerSum" value="${0}" />
+					<c:set var="amtPerSum" value="${0}" />
+
+					<c:forEach items="${subCatReportList}" var="report"
+						varStatus="count">
+
+						<c:set var="qtyPerSum" value="${qtyPerSum+report.netQty}" />
+						<c:set var="amtPerSum" value="${amtPerSum+report.netAmt}" />
+
+					</c:forEach>
+
 					<c:forEach items="${subCatReportList}" var="report"
 						varStatus="count">
 						<tr>
@@ -283,7 +343,25 @@ th {
 
 							<td align="right"><fmt:formatNumber type="number"
 									maxFractionDigits="2" minFractionDigits="2"
-									value="${report.netAmt}" /></td> 
+									value="${report.netAmt}" /></td>
+
+							<c:set var="qtyPer" value="${0}" />
+							<c:if test="${qtyPerSum>0}">
+								<c:set var="qtyPer" value="${(report.netQty*100)/qtyPerSum}" />
+							</c:if>
+							<c:set var="totalQtyPer" value="${totalQtyPer+qtyPer}" />
+
+							<td align="right"><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2" value="${qtyPer}" /></td>
+
+							<c:set var="amtPer" value="${0}" />
+							<c:if test="${amtPerSum>0}">
+								<c:set var="amtPer" value="${(report.netAmt*100)/amtPerSum}" />
+							</c:if>
+							<c:set var="totalAmtPer" value="${totalAmtPer+amtPer}" />
+
+							<td align="right"><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2" value="${amtPer}" /></td>
 
 
 							<c:set var="totalSoldQty"
@@ -339,7 +417,13 @@ th {
 									maxFractionDigits="2" minFractionDigits="2"
 									value="${totalNetAmt}" /></b></td>
 
+						<td align="right"><b><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2"
+									value="${totalQtyPer}" /></b></td>
 
+						<td align="right"><b><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2"
+									value="${totalAmtPer}" /></b></td>
 
 
 						<!--  <td><b>Total</b></td> -->

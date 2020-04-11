@@ -99,10 +99,10 @@
 						<div class="col-sm-6 col-lg-4">
 
 							<input type="radio" id="rd1" name="rd" value="1"
-								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr
-							And CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
-								id="rd2" name="rd" value="2"
-								onchange="billTypeSelection(this.value)">&nbsp;Company
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr.
+							Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" id="rd2" name="rd" value="2"
+								onchange="billTypeSelection(this.value)">&nbsp;Retail
 							Outlet Bills
 
 						</div>
@@ -115,21 +115,22 @@
 				<div class="row">
 					<div class="form-group">
 
+
+
+						<label class="col-sm-3 col-lg-2 control-label">Select Type</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<select data-placeholder="Choose " class="form-control chosen"
+								multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
+
+								<option value="1" selected="selected">Regular</option>
+								<option value="2" selected="selected">Is Dairy Mart</option>
+								<!-- <option value="3">Company Outlet Bill</option> -->
+							</select>
+
+						</div>
+
 						<div id="cdcDiv">
-
-							<label class="col-sm-3 col-lg-2 control-label">Select
-								Type</label>
-							<div class="col-sm-6 col-lg-4">
-
-								<select data-placeholder="Choose " class="form-control chosen"
-									multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
-
-									<option value="1" selected="selected">Regular</option>
-									<option value="2" selected="selected">Is Dairy Mart</option>
-									<!-- <option value="3">Company Outlet Bill</option> -->
-								</select>
-
-							</div>
 
 							<label class="col-sm-3 col-lg-2 control-label">Select
 								Bill Type Option</label>
@@ -138,8 +139,8 @@
 								<select data-placeholder="Choose " class="form-control chosen"
 									multiple="multiple" tabindex="6" id="type_id" name="type_id">
 
-									<option value="1" selected="selected">Franchise Bill</option>
-									<option value="2" selected="selected">Delivery Chalan</option>
+									<option value="1" selected="selected">Franchisee Bill</option>
+									<option value="2" selected="selected">Delivery Challan</option>
 									<!-- <option value="3">Company Outlet Bill</option> -->
 								</select>
 
@@ -354,12 +355,12 @@
 					if (typeId == null) {
 						alert("Please select bill type options");
 						isValid = 0;
-					} else if (dairyMartType == null) {
-						alert("Please select Regular or Dairy Mart Type");
-						isValid = 0;
-					} else {
+					}  else {
 						isValid = 1;
 					}
+				} else if (dairyMartType == null) {
+					alert("Please select Regular or Dairy Mart Type");
+					isValid = 0;
 				} else {
 					isValid = 1;
 				}

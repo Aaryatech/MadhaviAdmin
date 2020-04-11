@@ -75,10 +75,9 @@
 
 								<input type="radio" id="rd1" name="rd" value="1"
 									${billType==1 ? 'checked' : ''} checked="checked"
-									onchange="billTypeSelection(this.value)">&nbsp;Fr And
-								CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+									onchange="billTypeSelection(this.value)">&nbsp;Fr. Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
 									id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
-									onchange="billTypeSelection(this.value)">&nbsp;Company
+									onchange="billTypeSelection(this.value)">&nbsp;Retail
 								Outlet Bills
 
 							</div>
@@ -135,6 +134,41 @@
 
 									</select>
 
+								</div>
+							</div>
+							
+							<div id="dairyDiv" style="display: none;">
+
+								<label class="col-sm-3 col-lg-2 control-label"></label>
+								<div class="col-sm-6 col-lg-4"></div>
+
+								<label class="col-sm-3 col-lg-2 control-label">Select
+									Type</label>
+								<div class="col-sm-6 col-lg-4">
+									<select data-placeholder="Choose " class="form-control chosen"
+										multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
+
+										<c:choose>
+
+											<c:when test="${dairy == '1'}">
+												<option value="1" selected="selected">Regular</option>
+												<option value="2">Is Dairy Mart</option>
+											</c:when>
+											<c:when test="${dairy == '2'}">
+												<option value="1">Regular</option>
+												<option value="2" selected="selected">Is Dairy Mart</option>
+											</c:when>
+
+
+											<c:otherwise>
+												<option value="1" selected="selected">Regular</option>
+												<option value="2" selected="selected">Is Dairy Mart</option>
+											</c:otherwise>
+
+										</c:choose>
+
+										
+									</select>
 								</div>
 							</div>
 
@@ -548,8 +582,10 @@
 
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
+				document.getElementById("dairyDiv").style.display = "block";
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
+				document.getElementById("dairyDiv").style.display = "none";
 			}
 
 		}

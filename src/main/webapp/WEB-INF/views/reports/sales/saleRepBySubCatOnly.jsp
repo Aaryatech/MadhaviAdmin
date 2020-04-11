@@ -4,6 +4,24 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
+<style>
+
+/* .chart_l{float: none !important; width:100% !important; margin: 0 0 15px 0;}
+  .chart_r{float: none !important; width:100% !important; min-height:auto !important;} */
+#donutchart {
+	width: 100%;
+	height: 500px;
+	display: block;
+}
+
+#donutchart1 {
+	width: 100%;
+	height: 500px;
+	display: block;
+}
+</style>
+
 <body>
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
@@ -11,6 +29,7 @@
 	<c:url var="getBillList" value="/getSubCatReport"></c:url>
 	<c:url var="getAllCatByAjax" value="/getAllCatByAjax"></c:url>
 	<c:url var="getGroup2ByCatId" value="/getSubCatByCatIdForReport"></c:url>
+	<c:url var="getSubCatReportChart" value="/getSubCatReportChart"></c:url>
 
 
 
@@ -79,6 +98,8 @@
 					</div>
 				</div>
 
+				<br>
+
 				<div class="row">
 					<div class="form-group">
 
@@ -88,10 +109,10 @@
 
 							<input type="radio" id="rd1" name="rd" value="1"
 								${billType==1 ? 'checked' : ''} checked="checked"
-								onchange="billTypeSelection(this.value)">&nbsp;Fr And
-							CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+								onchange="billTypeSelection(this.value)">&nbsp;Fr. Bills
+							& Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
 								id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
-								onchange="billTypeSelection(this.value)">&nbsp;Company
+								onchange="billTypeSelection(this.value)">&nbsp;Retail
 							Outlet Bills
 
 						</div>
@@ -107,13 +128,33 @@
 								<select data-placeholder="Choose " class="form-control chosen"
 									multiple="multiple" tabindex="6" id="type_id" name="type_id">
 
-									<option value="1" selected="selected">Franchise Bill</option>
+									<option value="1" selected="selected">Franchisee Bill</option>
 									<option value="2" selected="selected">Delivery Challan</option>
 
 								</select>
 
 							</div>
 						</div>
+
+						<div id="dairyDiv" style="display: none;">
+
+
+							<label class="col-sm-3 col-lg-2 control-label">Select
+								Bill Type Option</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
+
+									<option value="1" selected="selected">Regular</option>
+									<option value="2" selected="selected">Is Dairy Mart</option>
+
+								</select>
+
+							</div>
+						</div>
+
+
 
 					</div>
 				</div>
@@ -168,6 +209,8 @@
 									<th style="text-align: center;">Ret Amt</th>
 									<th style="text-align: center;">Net Qty</th>
 									<th style="text-align: center;">Net Amt</th>
+									<th style="text-align: center;">Qty %</th>
+									<th style="text-align: center;">Amt %</th>
 									<th style="text-align: center;">Ret Amt</th>
 								</tr>
 							</thead>
@@ -191,6 +234,8 @@
 									<th style="text-align: center;">CRN Amt</th>
 									<th style="text-align: center;">Net Qty</th>
 									<th style="text-align: center;">Net Amt</th>
+									<th style="text-align: center;">Qty %</th>
+									<th style="text-align: center;">Amt %</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -211,6 +256,31 @@
 					</div>
 				</div>
 
+
+				<div class="row" style="display: inline-block; width: 100%;">
+					<div class="chart_l"
+						style="float: none !important; width: 100% !important; margin: 0 0 15px 0;">
+
+						<div id="donutchart"></div>
+						<!-- style="width: 900px; height: 500px;" -->
+					</div>
+
+					<div class="clr"></div>
+
+				</div>
+
+				<div class="row" style="display: inline-block; width: 100%;">
+					<div class="chart_l"
+						style="float: none !important; width: 100% !important; margin: 0 0 15px 0;">
+
+						<div id="donutchart1"></div>
+						<!-- style="width: 900px; height: 500px;" -->
+					</div>
+
+					<div class="clr"></div>
+
+				</div>
+
 			</div>
 
 		</div>
@@ -218,7 +288,7 @@
 	<!-- END Main Content -->
 
 	<footer>
-		<p>2017 © Monginis.</p>
+		<p>2019 © MADHVI.</p>
 	</footer>
 
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
@@ -229,8 +299,11 @@
 
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
+				document.getElementById("dairyDiv").style.display = "block";
+
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
+				document.getElementById("dairyDiv").style.display = "none";
 			}
 
 		}
@@ -244,6 +317,7 @@
 			var to_date = $("#toDate").val();
 
 			var typeId = $("#type_id").val();
+			var dairy = $("#dairy_id").val();
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -280,7 +354,7 @@
 									toDate : to_date,
 									typeId : JSON.stringify(typeId),
 									billType : billType,
-
+									dairy : JSON.stringify(dairy),
 									ajax : 'true'
 
 								},
@@ -289,6 +363,7 @@
 									//alert(data);
 
 									$('#table_grid td').remove();
+									$('#table_grid2 td').remove();
 									$('#loader').hide();
 
 									if (data == "") {
@@ -296,9 +371,10 @@
 										document.getElementById("expExcel").disabled = true;
 									}
 
-									
+									drawGraph();
+
 									if (billType == 1) {
-										
+
 										var totalSoldQty = 0;
 										var totalSoldAmt = 0;
 										var totalVarQty = 0;
@@ -308,10 +384,21 @@
 										var totalNetQty = 0;
 										var totalNetAmt = 0;
 										var retAmtPer = 0;
-
+										var totalQtyPer = 0;
+										var totalAmtPer = 0;
 
 										$('#purchase').show();
 										$('#sale').hide();
+
+										var netQtySum = 0;
+										var netAmtSum = 0;
+
+										$.each(data, function(key, report) {
+											netQtySum = netQtySum
+													+ report.netQty;
+											netAmtSum = netAmtSum
+													+ report.netAmt;
+										});
 
 										$
 												.each(
@@ -412,6 +499,37 @@
 																			.html(
 																					addCommas(report.netAmt
 																							.toFixed(2))));
+
+															var qtyPer = 0;
+															if (netQtySum > 0) {
+																qtyPer = (report.netQty * 100)
+																		/ netQtySum;
+															}
+															totalQtyPer = totalQtyPer
+																	+ qtyPer;
+
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(qtyPer
+																							.toFixed(2))));
+
+															var amtPer = 0;
+															if (netAmtSum > 0) {
+																amtPer = (report.netAmt * 100)
+																		/ netAmtSum;
+															}
+															totalAmtPer = totalAmtPer
+																	+ amtPer;
+
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(amtPer
+																							.toFixed(2))));
+
 															tr
 																	.append($(
 																			'<td style="text-align:right;"></td>')
@@ -422,6 +540,8 @@
 															$(
 																	'#table_grid tbody')
 																	.append(tr);
+
+															//alert("hii2");
 
 														})
 
@@ -487,13 +607,26 @@
 												.append($(
 														'<td style="text-align:right;"></td>')
 														.html(
+																addCommas(totalQtyPer
+																		.toFixed(2))));
+										tr
+												.append($(
+														'<td style="text-align:right;"></td>')
+														.html(
+																addCommas(totalAmtPer
+																		.toFixed(2))));
+
+										tr
+												.append($(
+														'<td style="text-align:right;"></td>')
+														.html(
 																addCommas(retAmtPer
 																		.toFixed(2))));
 
 										$('#table_grid tbody').append(tr);
 
 									} else {
-										
+
 										var totalSoldQty = 0;
 										var totalSoldAmt = 0;
 										var totalVarQty = 0;
@@ -503,10 +636,21 @@
 										var totalNetQty = 0;
 										var totalNetAmt = 0;
 										var retAmtPer = 0;
-
+										var totalQtyPer = 0;
+										var totalAmtPer = 0;
 
 										$('#purchase').hide();
 										$('#sale').show();
+
+										var netQtySum = 0;
+										var netAmtSum = 0;
+
+										$.each(data, function(key, report) {
+											netQtySum = netQtySum
+													+ report.netQty;
+											netAmtSum = netAmtSum
+													+ report.netAmt;
+										});
 
 										$
 												.each(
@@ -594,6 +738,36 @@
 																					addCommas(report.netAmt
 																							.toFixed(2))));
 
+															var qtyPer = 0;
+															if (netQtySum > 0) {
+																qtyPer = (report.netQty * 100)
+																		/ netQtySum;
+															}
+															totalQtyPer = totalQtyPer
+																	+ qtyPer;
+
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(qtyPer
+																							.toFixed(2))));
+
+															var amtPer = 0;
+															if (netAmtSum > 0) {
+																amtPer = (report.netAmt * 100)
+																		/ netAmtSum;
+															}
+															totalAmtPer = totalAmtPer
+																	+ amtPer;
+
+															tr
+																	.append($(
+																			'<td style="text-align:right;"></td>')
+																			.html(
+																					addCommas(amtPer
+																							.toFixed(2))));
+
 															$(
 																	'#table_grid2 tbody')
 																	.append(tr);
@@ -647,6 +821,19 @@
 																addCommas(totalNetAmt
 																		.toFixed(2))));
 
+										tr
+												.append($(
+														'<td style="text-align:right;"></td>')
+														.html(
+																addCommas(totalQtyPer
+																		.toFixed(2))));
+										tr
+												.append($(
+														'<td style="text-align:right;"></td>')
+														.html(
+																addCommas(totalAmtPer
+																		.toFixed(2))));
+
 										$('#table_grid2 tbody').append(tr);
 
 									}
@@ -658,7 +845,7 @@
 	</script>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		function addCommas(x) {
 
 			x = String(x).toString();
@@ -675,8 +862,8 @@
 					+ lastThree + afterPoint;
 		}
 	</script>
-	
-	
+
+
 	<script type="text/javascript">
 		function validate() {
 
@@ -733,8 +920,9 @@
 		function genPdf() {
 			var fromDate = $("#fromDate").val();
 			var toDate = $("#toDate").val();
-			
+
 			var typeId = $("#type_id").val();
+			var dairy = $("#dairy_id").val();
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -744,11 +932,15 @@
 				billType = 2;
 			}
 
-			
-
 			window
 					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportBySubCatPdf/'
-							+ fromDate + '/' + toDate + '/' + typeId +'/'+ billType);
+							+ fromDate
+							+ '/'
+							+ toDate
+							+ '/'
+							+ typeId
+							+ '/'
+							+ billType + '/' + dairy);
 
 		}
 	</script>
@@ -783,6 +975,207 @@
 			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
+
+
+
+
+
+
+
+
+
+	<script type="text/javascript">
+		function drawGraph() {
+
+			google.charts.load("current", {
+				packages : [ "corechart" ]
+			});
+			google.charts.setOnLoadCallback(drawDonutChart);
+
+			google.charts.load("current", {
+				packages : [ "corechart" ]
+			});
+			google.charts.setOnLoadCallback(drawDonutChartAmt);
+
+			/* google.charts.load('current', {
+				'packages' : [ 'corechart', 'line' ]
+			});
+			google.charts.setOnLoadCallback(drawStuff1);  */
+
+			var type = $
+			{
+				type
+			}
+			;
+
+		}
+	</script>
+
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script type="text/javascript">
+		function drawDonutChart() {
+			//alert("hii donut ch");
+			//to draw donut chart
+			var chart;
+			var datag = '';
+			var a = "";
+			var dataSale = [];
+			var Header = [ 'Sub-category', 'Amount', 'ID' ];
+			dataSale.push(Header);
+			$.post('${getSubCatReportChart}', {
+				ajax : 'true'
+			}, function(chartsdata) {
+				//alert(JSON.stringify(chartsdata));
+				//	console.log('data ' + JSON.stringify(chartsdata));
+				var len = chartsdata.length;
+				datag = datag + '[';
+				$.each(chartsdata, function(key, chartsdata) {
+					var temp = [];
+
+					if (parseFloat(chartsdata.netQty) > 0) {
+
+						temp.push(chartsdata.subCatName + " ("
+								+ (parseFloat(chartsdata.netQty).toFixed(2))
+								+ ")", (parseFloat(chartsdata.netQty)),
+								parseInt(chartsdata.subCatId));
+						dataSale.push(temp);
+					}
+
+				});
+
+				//console.log(dataSale);
+				var data1 = google.visualization.arrayToDataTable(dataSale);
+
+				var options = {
+					title : 'Sub-category Quantity wise Chart',
+					pieHole : 0.6,
+					backgroundColor : 'transparent',
+					pieSliceText : 'none',
+					sliceVisibilityThreshold : 0,
+					legend : {
+						position : 'labeled',
+						labeledValueText : 'both',
+						textStyle : {
+							color : 'red',
+							fontSize : 13
+						}
+					},
+					is3D : true,
+				};
+				//  alert(222);
+				chart = new google.visualization.PieChart(document
+						.getElementById('donutchart'));
+
+				function selectQtyHandler() {
+					// alert("hii");
+					var selectedItem = chart.getSelection()[0];
+					if (selectedItem) {
+						// alert("hii selectedItem");
+						i = selectedItem.row, 0;
+
+						//alert("hii selectedItem" + chartsdata[i].subCatId);
+						//getItemListBySubCatId(chartsdata[i].subCatId,chartsdata[i].subCatName);
+
+					}
+				}
+
+				google.visualization.events.addListener(chart, 'select',
+						selectQtyHandler);
+				chart.draw(data1, options);
+
+			});
+
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function drawDonutChartAmt() {
+			//alert("hii donut ch");
+			//to draw donut chart
+			var chart;
+			var datag = '';
+			var a = "";
+			var dataSale = [];
+			var Header = [ 'Sub-category', 'Amount', 'ID' ];
+			dataSale.push(Header);
+			$.post('${getSubCatReportChart}', {
+				ajax : 'true'
+			}, function(chartsdata) {
+				//alert(JSON.stringify(chartsdata));
+				//	console.log('data ' + JSON.stringify(chartsdata));
+				var len = chartsdata.length;
+				datag = datag + '[';
+				$.each(chartsdata, function(key, chartsdata) {
+					var temp = [];
+
+					if (parseFloat(chartsdata.netAmt) > 0) {
+						temp.push(chartsdata.subCatName + " ("
+								+ (parseFloat(chartsdata.netAmt).toFixed(2))
+								+ ")", (parseFloat(chartsdata.netAmt)),
+								parseInt(chartsdata.subCatId));
+						dataSale.push(temp);
+					}
+
+				});
+
+				//console.log(dataSale);
+				var data1 = google.visualization.arrayToDataTable(dataSale);
+
+				var options = {
+					title : 'Sub-category Amount wise Chart',
+					pieHole : 0.4,
+					backgroundColor : 'transparent',
+					pieSliceText : 'none',
+					sliceVisibilityThreshold : 0,
+					legend : {
+						position : 'labeled',
+						labeledValueText : 'both',
+						textStyle : {
+							color : 'red',
+							fontSize : 13
+						}
+					},
+					is3D : true,
+				};
+				//  alert(222);
+				chart = new google.visualization.PieChart(document
+						.getElementById('donutchart1'));
+
+				function selectQtyHandler() {
+					// alert("hii");
+					var selectedItem = chart.getSelection()[0];
+					if (selectedItem) {
+						// alert("hii selectedItem");
+						i = selectedItem.row, 0;
+
+						//alert("hii selectedItem" + chartsdata[i].subCatId);
+						//getItemListBySubCatId(chartsdata[i].subCatId,chartsdata[i].subCatName);
+
+					}
+				}
+
+				google.visualization.events.addListener(chart, 'select',
+						selectQtyHandler);
+				chart.draw(data1, options);
+
+			});
+
+		}
+	</script>
+
+
+
+
+
+
+
+
+
+
+
 
 	<!--basic scripts-->
 	<script

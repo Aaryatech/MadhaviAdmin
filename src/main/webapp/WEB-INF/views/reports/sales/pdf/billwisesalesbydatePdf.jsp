@@ -72,6 +72,10 @@ th {
 				<th>Basic Value</th>
 				<th>CGST</th>
 				<th>SGST</th>
+				<th>Disc %</th>
+				<th>Disc Amt</th>
+				<th>Round Off</th>
+
 				<th>Total</th>
 			</tr>
 		</thead>
@@ -81,29 +85,36 @@ th {
 			<c:set var="cgst" value="${0 }" />
 			<c:set var="sgst" value="${0 }" />
 			<c:set var="grandTotal" value="${0 }" />
+
+			<c:set var="discAmtTot" value="${0 }" />
+			<c:set var="roundOffTot" value="${0 }" />
+
 			<c:forEach items="${report}" var="report" varStatus="count">
 				<tr>
-					<td style="text-align: center;"><c:out value="${count.index+1}" /></td>
-					<td style="text-align: center;" ><c:out value="${report.invoiceNo}" /></td>
-					<td style="text-align: center;" ><c:out value="${report.billDate}" /></td>
-					<td ><c:out value="${report.frName}" /></td>
-					<td ><c:out value="${report.frCity}" /></td>
+					<td style="text-align: center;"><c:out
+							value="${count.index+1}" /></td>
+					<td style="text-align: center;"><c:out
+							value="${report.invoiceNo}" /></td>
+					<td style="text-align: center;"><c:out
+							value="${report.billDate}" /></td>
+					<td><c:out value="${report.frName}" /></td>
+					<td><c:out value="${report.frCity}" /></td>
 
 					<c:if test="${billType==2}">
-						<td ><c:out value="${report.custName}" /></td>
+						<td><c:out value="${report.custName}" /></td>
 					</c:if>
 
-					<td  align="right"><fmt:formatNumber type="number"
+					<td align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"
 							value="${report.taxableAmt}" /></td>
 					<c:choose>
 						<c:when test="${report.isSameState eq 1}">
 
-							<td  align="right"><fmt:formatNumber
-									type="number" maxFractionDigits="2" minFractionDigits="2"
+							<td align="right"><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2"
 									value="${report.cgstSum}" /></td>
-							<td  align="right"><fmt:formatNumber
-									type="number" maxFractionDigits="2" minFractionDigits="2"
+							<td align="right"><fmt:formatNumber type="number"
+									maxFractionDigits="2" minFractionDigits="2"
 									value="${report.sgstSum}" /></td>
 							<c:set var="total"
 								value="${report.cgstSum +report.sgstSum + report.taxableAmt}" />
@@ -115,8 +126,8 @@ th {
 						<c:when test="${report.isSameState eq 0}">
 							<c:set var="total" value="${report.igstSum+ report.taxableAmt}" />
 
-							<td  align="right"><c:out value="0" /></td>
-							<td  align="right"><c:out value="0"></c:out></td>
+							<td align="right"><c:out value="0" /></td>
+							<td align="right"><c:out value="0"></c:out></td>
 						</c:when>
 					</c:choose>
 
@@ -125,7 +136,23 @@ th {
 					<c:set var="grandTotal" value="${grandTotal+total}" />
 					<%-- <td><c:out value="${total}" /></td> --%>
 
-					<td  align="right"><fmt:formatNumber type="number"
+					<td align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.discPer}" /></td>
+
+					<td align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.discAmt}" /></td>
+							
+							<c:set var="discAmtTot" value="${discAmtTot+report.discAmt}" />
+
+					<td align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.roundOff}" /></td>
+							
+							<c:set var="roundOffTot" value="${roundOffTot+report.roundOff}" />
+
+					<td align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2" value="${total}" /></td>
 				</tr>
 
@@ -134,26 +161,31 @@ th {
 
 				<c:choose>
 					<c:when test="${billType==2}">
-						<td  colspan='6' align="left"><b>Total</b></td>
+						<td colspan='6' align="left"><b>Total</b></td>
 					</c:when>
 					<c:otherwise>
-						<td  colspan='5' align="left"><b>Total</b></td>
+						<td colspan='5' align="left"><b>Total</b></td>
 					</c:otherwise>
 				</c:choose>
 
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${taxAmount}" /></b></td>
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${cgst}" /></b></td>
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${sgst}" /></b></td>
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${taxAmount}" /></b></td>
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${cgst}" /></b></td>
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${sgst}" /></b></td>
 
-				<td  align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${grandTotal}" /></b></td>
+				<td align="right"><b></b></td>
+
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${discAmtTot}" /></b></td>
+
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${roundOffTot}" /></b></td>
+
+				<td align="right"><b><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2" value="${grandTotal}" /></b></td>
 				<!--  <td><b>Total</b></td> -->
 			</tr>
 		</tbody>

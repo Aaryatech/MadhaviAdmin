@@ -154,6 +154,7 @@
 										<th>Item Name</th>
 										<th>Order Qty</th>
 										<th>Bill Qty</th>
+										<th>Difference</th>
 										<th>Action</th>
 
 									</tr>
@@ -225,6 +226,7 @@
 
 								var totalBillQty = 0;
 								var totalOrderQty = 0;
+								var diffTotal = 0;
 
 								$
 										.each(
@@ -265,6 +267,27 @@
 													totalOrderQty = totalOrderQty
 															+ report.orderQty;
 
+													var diff = report.orderQty
+															- report.billQty;
+													diffTotal = diffTotal
+															+ diff;
+
+													if (diff != 0) {
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				diff
+																						.toFixed(2)));
+
+													} else {
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				" "));
+													}
+
 													var acButton = '<a href="#" class="action_btn" onclick="callEdit('
 															+ report.itemId
 															+ ','
@@ -295,6 +318,10 @@
 								tr.append($(
 										'<td  style="text-align:right;"></td>')
 										.html(totalBillQty));
+
+								tr.append($(
+										'<td  style="text-align:right;"></td>')
+										.html(diffTotal.toFixed(2)));
 
 								$('#table_grid tbody').append(tr);
 

@@ -76,6 +76,21 @@ public class SaleItemReportController {
 
 			System.err.println("SUB CAT ---- " + subCatId);
 			System.err.println("CAT ---- " + catId);
+			
+			
+			
+			String dairyArray[] = request.getParameterValues("dairy_id");
+
+			StringBuilder sb2 = new StringBuilder();
+
+			for (int i = 0; i < dairyArray.length; i++) {
+				sb2 = sb2.append(dairyArray[i] + ",");
+			}
+			String dairy = sb2.toString();
+			dairy = dairy.substring(0, dairy.length() - 1);
+
+			System.err.println("DAIRY ---- " + dairy);
+			
 
 			int billType = 1;
 
@@ -120,6 +135,7 @@ public class SaleItemReportController {
 				map.add("subCatId", subCatId);
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
+				map.add("dairyList", dairy);
 
 				SalesReturnItemDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesValueItemReport", map, SalesReturnItemDaoList[].class);
@@ -178,6 +194,19 @@ public class SaleItemReportController {
 
 				model.addObject("billTypeOpt", bTypeIds);
 				model.addObject("billType", billType);
+				
+				
+				String dairyIds = "";
+				if (dairy.equalsIgnoreCase("1,2") || dairy.equalsIgnoreCase("2,1")) {
+					dairyIds = "0";
+				} else {
+					dairyIds = instruments;
+				}
+				
+				System.err.println("SELECTED DAIRY IDS ------------- "+dairy);
+				
+				model.addObject("dairySel", dairy);
+				
 
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();

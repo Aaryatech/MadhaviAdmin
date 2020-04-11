@@ -144,7 +144,7 @@
 								class="form-control chosen" id="menuId" name="menuId"
 								multiple="multiple" required onchange="onMenuChange(this.value)">
 
-								<option value="-1">All</option>
+								<!-- <option value="-1">All</option> -->
 								<c:forEach items="${menuList}" var="menuList">
 									<option value="${menuList.menuId}"><c:out
 											value="${menuList.menuTitle}" />

@@ -129,7 +129,7 @@
 												<th class="col-md-1">Paid Amount</th>
 												<th class="col-md-1">Pending Amount</th>
 
-												<th class="col-md-1">Action</th>
+												<th class="col-md-1" style="display: none;">Action</th>
 
 											</tr>
 										</thead>
@@ -157,7 +157,7 @@
 
 
 
-													<td class="col-md-2"><div>
+													<td class="col-md-2"  style="display: none;"><div>
 															<a
 																href="${pageContext.request.contextPath}/closeBill/${billList.billTransId}">
 																<abbr title='Close Bill'><i class='fa fa-edit'></i></abbr>

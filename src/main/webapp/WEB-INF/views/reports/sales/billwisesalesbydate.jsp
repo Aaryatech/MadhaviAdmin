@@ -10,7 +10,7 @@
 
 	<c:url var="getBillList" value="/getSaleBillwise"></c:url>
 	<c:url var="getAllCatByAjax" value="/getAllCatByAjax"></c:url>
-
+	<c:url var="getFrListofAllFr" value="/getFrListForDatewiseReport"></c:url>
 
 
 	<!-- BEGIN Sidebar -->
@@ -114,7 +114,8 @@
 
 							<select data-placeholder="Choose Franchisee"
 								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectFr" name="selectFr" onchange="disableRoute()">
+								id="selectFr" name="selectFr"
+								onchange="setAllFrSelected(this.value)">
 
 								<option value="-1"><c:out value="All" /></option>
 
@@ -132,10 +133,10 @@
 						<div class="col-sm-6 col-lg-4">
 
 							<input type="radio" id="rd1" name="rd" value="1"
-								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr
-							And CDC Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
-								id="rd2" name="rd" value="2"
-								onchange="billTypeSelection(this.value)">&nbsp;Company
+								checked="checked" onchange="billTypeSelection(this.value)">&nbsp;Fr.
+							Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" id="rd2" name="rd" value="2"
+								onchange="billTypeSelection(this.value)">&nbsp;Retail
 							Outlet Bills
 
 						</div>
@@ -151,23 +152,22 @@
 				<div class="row">
 					<div class="form-group">
 
+
+						<label class="col-sm-3 col-lg-2 control-label">Select Type</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<select data-placeholder="Choose " class="form-control chosen"
+								multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
+								<%-- <option value="-1"><c:out value="All" /></option> --%>
+								<option value="1" selected="selected">Regular</option>
+								<option value="2" selected="selected">Is Dairy Mart</option>
+								<!-- <option value="3">Company Outlet Bill</option> -->
+							</select>
+
+						</div>
+
+
 						<div id="cdcDiv">
-							<label class="col-sm-3 col-lg-2 control-label">Select
-								Type</label>
-							<div class="col-sm-6 col-lg-4">
-
-								<select data-placeholder="Choose " class="form-control chosen"
-									multiple="multiple" tabindex="6" id="dairy_id" name="dairy_id">
-									<%-- <option value="-1"><c:out value="All" /></option> --%>
-									<option value="1" selected="selected">Regular</option>
-									<option value="2" selected="selected">Is Dairy Mart</option>
-									<!-- <option value="3">Company Outlet Bill</option> -->
-								</select>
-
-							</div>
-
-
-
 							<label class="col-sm-3 col-lg-2 control-label">Select
 								Bill Type Option</label>
 							<div class="col-sm-6 col-lg-4">
@@ -175,14 +175,13 @@
 								<select data-placeholder="Choose " class="form-control chosen"
 									multiple="multiple" tabindex="6" id="type_id" name="type_id">
 									<%-- <option value="-1"><c:out value="All" /></option> --%>
-									<option value="1" selected="selected">Franchise Bill</option>
-									<option value="2" selected="selected">Delivery Chalan</option>
+									<option value="1" selected="selected">Franchisee Bill</option>
+									<option value="2" selected="selected">Delivery Challan</option>
 									<!-- <option value="3">Company Outlet Bill</option> -->
 								</select>
 
 							</div>
-							<br>
-							<br>
+							<br> <br>
 						</div>
 
 
@@ -212,7 +211,7 @@
 
 				</div>
 				<div class="row">
-
+					<br>
 
 					<div class="col-md-12" style="text-align: center;">
 						<button class="btn btn-info" onclick="searchReport()">Search
@@ -267,6 +266,8 @@
 										<th>CGST</th>
 										<th>SGST</th>
 										<th>IGST</th>
+										<th>Disc %</th>
+										<th>Disc Amt</th>
 										<th>Round Off</th>
 										<th>Total</th>
 
@@ -375,13 +376,13 @@
 				if (typeId == null) {
 					alert("Please select bill type options");
 					isValid = 0;
-				} else if (dairyMartType == null) {
-					alert("Please select Regular or Dairy Mart Type");
-					isValid = 0;
 				} else {
 					isValid = 1;
 				}
 
+			} else if (dairyMartType == null) {
+				alert("Please select Regular or Dairy Mart Type");
+				isValid = 0;
 			} else {
 				isValid = 1;
 			}
@@ -430,13 +431,18 @@
 									var totalRoundOff = 0;
 									var totalFinal = 0;
 
+									var totDiscAmt = 0;
+
 									$
 											.each(
 													data,
 													function(key, report) {
 
-														totalIgst = totalIgst
-																+ report.igstSum;
+														if (report.isSameState == 0) {
+															totalIgst = totalIgst
+															+ report.igstSum;
+														}
+														
 														totalSgst = totalSgst
 																+ report.sgstSum;
 														totalCgst = totalCgst
@@ -445,6 +451,9 @@
 																+ report.taxableAmt;
 														totalRoundOff = totalRoundOff
 																+ report.roundOff;
+
+														totDiscAmt = totDiscAmt
+																+ report.discAmt;
 
 														document
 																.getElementById("expExcel").disabled = false;
@@ -543,6 +552,19 @@
 																							.toFixed(2))));
 														}
 														//tr.append($('<td></td>').html(report.igstSum));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.discPer.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.discAmt.toFixed(2)));
+
 														tr
 																.append($(
 																		'<td style="text-align:right;"></td>')
@@ -598,15 +620,34 @@
 									tr
 											.append($(
 													'<td style="text-align:right;font-weight:bold;"></td>')
-													.html(addCommas(totalCgst.toFixed(2))));
+													.html(
+															addCommas(totalCgst
+																	.toFixed(2))));
 									tr
 											.append($(
 													'<td style="text-align:right;font-weight:bold;"></td>')
-													.html(addCommas(totalSgst.toFixed(2))));
+													.html(
+															addCommas(totalSgst
+																	.toFixed(2))));
 									tr
 											.append($(
 													'<td style="text-align:right;font-weight:bold;"></td>')
-													.html(addCommas(totalIgst.toFixed(2))));
+													.html(
+															addCommas(totalIgst
+																	.toFixed(2))));
+
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(""));
+
+									tr
+											.append($(
+													'<td style="text-align:right;font-weight:bold;"></td>')
+													.html(
+															addCommas(totDiscAmt
+																	.toFixed(2))));
+
 									tr
 											.append($(
 													'<td style="text-align:right;font-weight:bold;"></td>')
@@ -616,7 +657,9 @@
 									tr
 											.append($(
 													'<td style="text-align:right;font-weight:bold;"></td>')
-													.html(addCommas(totalFinal.toFixed(2))));
+													.html(
+															addCommas(totalFinal
+																	.toFixed(2))));
 
 									$('#table_grid tbody').append(tr);
 
@@ -674,6 +717,37 @@
 		}
 	</script>
 
+	<script>
+		function setAllFrSelected(frId) {
+			//alert("frId" + frId);
+			//alert("hii")
+			if (frId == -1) {
+
+				$.getJSON('${getFrListofAllFr}', {
+
+					ajax : 'true'
+				},
+						function(data) {
+
+							var len = data.length;
+
+							//alert(len);
+
+							$('#selectFr').find('option').remove().end()
+							$("#selectFr").append(
+									$("<option value='-1'>All</option>"));
+							for (var i = 0; i < len; i++) {
+								$("#selectFr").append(
+										$("<option selected ></option>").attr(
+												"value", data[i].frId).text(
+												data[i].frName));
+							}
+							$("#selectFr").trigger("chosen:updated");
+						});
+			}
+		}
+	</script>
+
 	<script type="text/javascript">
 		function updateTotal(orderId, rate) {
 
@@ -707,6 +781,8 @@
 			var selectedCat = $("#item_grp1").val();
 
 			var typeIdList = $("#type_id").val();
+			
+			var dairyMartType = $("#dairy_id").val();
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -728,7 +804,7 @@
 							+ '/'
 							+ selectedCat
 							+ '/'
-							+ typeIdList + '/' + billType + '/');
+							+ typeIdList + '/' + billType + '/' + dairyMartType + '/');
 
 			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 

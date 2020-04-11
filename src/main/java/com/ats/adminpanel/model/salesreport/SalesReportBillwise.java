@@ -3,48 +3,64 @@ package com.ats.adminpanel.model.salesreport;
 import java.util.Date;
 
 public class SalesReportBillwise {
-	
+
 	private int billNo;
-	
+
 	private int taxApplicable;
-	
+
 	private String invoiceNo;
-	
+
 	private String billDate;
-	
+
 	private String frName;
-	
+
 	private int frId;
-	
+
 	private String frCode;
-	
+
 	private float grandTotal;
-	
+
 	private float taxableAmt;
-	
+
 	private float totalTax;
 
 	private float sgstSum;
-	
+
 	private float cgstSum;
-	
+
 	private float igstSum;
-	
+
 	private float roundOff;
-	
+
 	private String frCity;
-	 
+
 	private String frGstNo;
-	 
+
 	private int isSameState;
-	
+
 	String month;
-	
+
 	private String custName;
 	private int custId;
-	
-	
-	
+
+	private float discPer;
+	private float discAmt;
+
+	public float getDiscPer() {
+		return discPer;
+	}
+
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
+	}
+
+	public float getDiscAmt() {
+		return discAmt;
+	}
+
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
 
 	public String getCustName() {
 		return custName;
@@ -206,8 +222,6 @@ public class SalesReportBillwise {
 		this.month = month;
 	}
 
-	
-	
 	@Override
 	public String toString() {
 		return "SalesReportBillwise [billNo=" + billNo + ", taxApplicable=" + taxApplicable + ", invoiceNo=" + invoiceNo
@@ -215,7 +229,7 @@ public class SalesReportBillwise {
 				+ ", grandTotal=" + grandTotal + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", sgstSum="
 				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", roundOff=" + roundOff + ", frCity="
 				+ frCity + ", frGstNo=" + frGstNo + ", isSameState=" + isSameState + ", month=" + month + ", custName="
-				+ custName + ", custId=" + custId + "]";
+				+ custName + ", custId=" + custId + ", discPer=" + discPer + ", discAmt=" + discAmt + "]";
 	}
 
 }
