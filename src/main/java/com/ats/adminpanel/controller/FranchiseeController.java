@@ -40,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.adminpanel.commons.Constants;
+import com.ats.adminpanel.commons.DateConvertor;
 import com.ats.adminpanel.commons.VpsImageUpload;
 import com.ats.adminpanel.model.AllRoutesListResponse;
 import com.ats.adminpanel.model.ConfigureFrBean;
@@ -2585,9 +2586,11 @@ public class FranchiseeController {
 
 			String pass1 = request.getParameter("pass1");
 
-			String pass2 = request.getParameter("pass2");
+			String pass2 = request.getParameter("weighing_scale1");
 
-			String pass3 = request.getParameter("pass3");
+			String pass3 = request.getParameter("weighing_scale2");
+			
+			String pass4 = request.getParameter("shop_estb_act");
 
 			String pass5 = request.getParameter("fr_status");
 
@@ -2602,15 +2605,15 @@ public class FranchiseeController {
 				noInRoute = 0;
 			}
 
-			// String remainderDate=request.getParameter("remainder_date");
+			String remainderDate=request.getParameter("pro_tax");
 			
-			String remainderDate="";
-			if(!pestControlDate.isEmpty()) {
-				Date pestCtrlDate = new SimpleDateFormat("dd-MM-yyyy").parse(pestControlDate);
-				Date newDate = addDays(pestCtrlDate, frequency);
-				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-				remainderDate = dateFormat.format(newDate);
-			}
+		
+//			if(!pestControlDate.isEmpty()) {
+//				Date pestCtrlDate = new SimpleDateFormat("dd-MM-yyyy").parse(pestControlDate);
+//				Date newDate = addDays(pestCtrlDate, frequency);
+//				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//				remainderDate = dateFormat.format(newDate);
+//			}
 
 			
 
@@ -2622,13 +2625,13 @@ public class FranchiseeController {
 			frSup.setFrState(frState);
 			frSup.setDelStatus(0);
 			frSup.setPass1(pass1);
-			frSup.setPass2(pass2);
-			frSup.setPass3(pass3);
-			frSup.setPass4("pass4");
+			frSup.setPass2(pass2);	//Weighing Scale License Date1
+			frSup.setPass3(pass3); 	//Weighing Scale License Date2
+			frSup.setPass4(pass4); //License under Shops & Establishment Act Date
 			frSup.setPass5(pass5);
-			frSup.setPestControlDate(pestControlDate);
+			frSup.setPestControlDate(pestControlDate); // Madhvi Franchisee Agreement Expiry Date
 			frSup.setFrequency(frequency);
-			frSup.setRemainderDate(remainderDate);
+			frSup.setRemainderDate(remainderDate); //Professional Tax License Date
 			frSup.setIsTallySync(0);
 			frSup.setNoInRoute(noInRoute);
 

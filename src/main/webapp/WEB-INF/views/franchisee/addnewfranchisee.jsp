@@ -390,7 +390,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-3 col-lg-2 control-label">FDA License
+											<label class="col-sm-3 col-lg-2 control-label">FDA License Expiry
 												Date</label>
 											<div class="col-sm-5 col-lg-4 controls">
 												<input class="form-control date-picker"
@@ -399,6 +399,8 @@
 													placeholder="FDA License Date" />
 											</div>
 										</div>
+										
+										
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">GST
 												Type*</label>

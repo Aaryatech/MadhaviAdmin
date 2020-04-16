@@ -181,27 +181,63 @@
 											 value="${frSup.pass1}" readonly />
 									</div>
 								</div>
-								<div class="form-group"  style="display: none;">
-									<label class="col-sm-3 col-lg-2 control-label">Captain
-										Password</label>
+								<div class="col2" >
+									<label class="col-sm-3 col-lg-2 control-label">Weighing Scale License
+										Date 1</label>
 									<div class="col-sm-9 col-lg-3 controls">
-										<input type="text" name="pass2" id="pass2"
+										<input class="form-control date-picker"
+													id="weighing_scale1" size="16" type="text"
+													name="weighing_scale1"  autocomplete="off"
+													placeholder="Weighing Scale License Date 1"  value="${frSup.pass2}"/>
+										<%-- <input type="text" name="pass2" id="pass2"
 											placeholder="User2 Password" class="form-control"
-											 value="${frSup.pass2}" />
+											 value="${frSup.pass2}" /> --%>
 									</div>
 								</div>
-								<div class="col2"  style="display: none;">
-									<label class="col-sm-3 col-lg-2 control-label">CSP
-										Password</label>
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Weighing Scale License
+										Date 2</label>
 									<div class="col-sm-9 col-lg-3 controls">
-										<input type="text" name="pass3" id="pass3"
+									<input class="form-control date-picker"
+													id="weighing_scale2" size="16" type="text"
+													name="weighing_scale2"  autocomplete="off"
+													placeholder="Weighing Scale License Date 2" value="${frSup.pass3}" />
+										<%-- <input type="text" name="pass3" id="pass3"
 											placeholder="User3 Password" class="form-control"
-											 value="${frSup.pass3}" />
+											 value="${frSup.pass3}" /> --%>
 									</div>
 								</div>
-								<div class="form-group"  style="display: none;">
-									<label class="col-sm-3 col-lg-2 control-label">Pest
-										Control Date</label>
+								
+								<div class="col2" >
+									<label class="col-sm-3 col-lg-2 control-label">License under Shops & Establishment Act
+										Date </label>
+									<div class="col-sm-9 col-lg-3 controls">
+										<input class="form-control date-picker"
+													id="shop_estb_act" size="16" type="text"
+													name="shop_estb_act"  autocomplete="off"
+													placeholder="License under Shops & Establishment Act Date"  value="${frSup.pass4}"/>
+										<%-- <input type="text" name="pass2" id="pass2"
+											placeholder="User2 Password" class="form-control"
+											 value="${frSup.pass2}" /> --%>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Professional Tax License
+									Date</label>
+									<div class="col-sm-9 col-lg-3 controls">
+
+										<input class="form-control date-picker"
+													id="pro_tax" size="16" type="text"
+													name="pro_tax"  autocomplete="off"
+													placeholder="Professional Tax License Date" value="${frSup.remainderDate}"/>
+										
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Madhvi Franchisee
+										 Agreement Expiry Date</label>
 									<div class="col-sm-9 col-lg-3 controls">
 
 										<input class="form-control date-picker" id="pest_control_date"
@@ -211,6 +247,7 @@
 											onblur="return onPestControlDateChange()" />
 									</div>
 								</div>
+								
 								<div class="col2"  style="display: none;">
 									<label class="col-sm-3 col-lg-2 control-label">Frequency</label>
 									<div class="col-sm-9 col-lg-3 controls">
@@ -347,14 +384,16 @@
 														<th width="45" style="width: 18px">Sr.No.</th>
 														<th width="100" align="left">Franchisee</th>
 														<th width="100" align="left">PAN No.</th>
-														<th width="100" align="left">State</th>
-														<th width="100" align="left">Country</th>
-														<th width="290" align="left">PestControl Date</th>
+														<th width="100" align="left">State</th><!-- 
+														<th width="100" align="left">Country</th> -->
+														<th width="290" align="left">Madhvi Franchisee Agreement Expiry Date</th>
 														<th width="60" align="right">Frequency</th>
-														<th width="190" align="left">Remainder Date</th>
+														
 														<th width="70" align="left">Pass1</th>
-														<th width="70" align="left">Pass2</th>
-														<th width="70" align="left">Pass3</th>
+														<th width="70" align="left">Weighing Scale License Date 1</th>
+														<th width="70" align="left">Weighing Scale License Date 2</th>
+														<th width="70" align="left">License under Shops & Establishment Act Date</th>
+														<th width="190" align="left">Professional Tax License Date</th>
 
 														<th width="81" align="left">Action</th>
 													</tr>
@@ -369,17 +408,18 @@
 															<td align="left"><c:out value="${frSupList.frName}"></c:out></td>
 															<td align="left"><c:out value="${frSupList.frPanNo}"></c:out></td>
 															<td align="left"><c:out value="${frSupList.frState}"></c:out></td>
-															<td align="left"><c:out
-																	value="${frSupList.frCountry}"></c:out></td>
+															<%-- <td align="left"><c:out
+																	value="${frSupList.frCountry}"></c:out></td> --%>
 															<td align="left"><c:out
 																	value="${frSupList.pestControlDate}"></c:out></td>
 															<td align="center"><c:out
-																	value="${frSupList.frequency}"></c:out></td>
-															<td align="left"><c:out
-																	value="${frSupList.remainderDate}"></c:out></td>
+																	value="${frSupList.frequency}"></c:out></td>														
 															<td align="left"><c:out value="${frSupList.pass1}"></c:out></td>
 															<td align="left"><c:out value="${frSupList.pass2}"></c:out></td>
 															<td align="left"><c:out value="${frSupList.pass3}"></c:out></td>
+															<td align="left"><c:out value="${frSupList.pass4}"></c:out></td>
+																<td align="left"><c:out
+																	value="${frSupList.remainderDate}"></c:out></td>
 
 															<c:choose>
 																<c:when test="${isEdit==1}">

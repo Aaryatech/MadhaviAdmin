@@ -20,19 +20,19 @@ public class FranchiseSup {
 
 	private String pass1;
 	
-	private String pass2;
+	private String pass2;	//Weighing Scale License Date1
 	
-	private String pass3;
+	private String pass3;	//Weighing Scale License Date2
 
-	private String pass4;
+	private String pass4;	//License under Shops & Establishment Act Date
 
 	private String pass5;
 
 	private int frequency;
 	
-	private String pestControlDate;
+	private String pestControlDate; //Madhvi Franchisee Agreement Expiry Date
 	
-	private String remainderDate;
+	private String remainderDate;	//Professional Tax License Date
 	
 	private int noInRoute;;
 
