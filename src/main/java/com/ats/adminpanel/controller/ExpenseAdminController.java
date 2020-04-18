@@ -1,5 +1,12 @@
 package com.ats.adminpanel.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -13,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,6 +115,56 @@ public class ExpenseAdminController {
 		model.addObject("toDate", toDate);
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/downloadExpenseAdmin/{id}", method = RequestMethod.GET)
+	public String downloadExpense(@PathVariable("id") int id, HttpServletRequest request,
+			HttpServletResponse response) throws FileNotFoundException {
+	
+		RestTemplate restTemplate = new RestTemplate();
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("expId", id);
+
+		Expense expDoc = restTemplate.postForObject(Constants.url + "getExpenseByExpId", map, Expense.class);		
+		
+		String EXTERNAL_FILE_PATH = "/opt/apache-tomcat-8.5.37/webapps/uploads/GVN/";//OPS //Defined in VpsImageUpload
+		 //String EXTERNAL_FILE_PATH = "/home/maddy/ats-11/";
+		
+		//System.out.println("Expense Document-------------"+EXTERNAL_FILE_PATH);
+		
+		File file = new File(EXTERNAL_FILE_PATH + expDoc.getImgName());
+		
+		if (file.exists()) {
+
+			//get the mimetype
+			String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+			if (mimeType == null) {
+				//unknown mimetype so set the mimetype to application/octet-stream
+				mimeType = "application/octet-stream";
+			}
+
+			response.setContentType(mimeType);
+			
+			response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
+				
+			//response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));	
+			
+			response.setContentLength((int) file.length());
+
+			InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+			try {
+				FileCopyUtils.copy(inputStream, response.getOutputStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		
+		return "redirect:/showExpenseList";
+
 	}
 
 	//----------------FOR BILL SETTLEMENT-----------------------

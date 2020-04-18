@@ -212,6 +212,10 @@ a[disabled="disabled"] {
 												    </c:otherwise>
 														</c:choose></td>
 													<td class="col-md-2"><div>
+													<a
+													href="${pageContext.request.contextPath}/downloadExpenseAdmin/${expList.expId}" target="_blank">
+															<abbr title='Download'><i class='fa fa-download'></i></abbr>
+														</a> &nbsp;&nbsp;
 
 															<c:if test="${expList.expType==2}">
 																<c:if test="${expList.status==2}">
