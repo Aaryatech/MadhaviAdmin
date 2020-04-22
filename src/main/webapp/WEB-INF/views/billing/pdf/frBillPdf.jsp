@@ -6,6 +6,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -158,8 +159,11 @@ table {
 						<b> Ship To:&nbsp; &nbsp; ${frDetails.partyName} [GSTIN:
 							${frDetails.partyGstin}]</b>
 					</p>
+					
+					<c:set var = "shipToAddr" value = "${fn:split(frDetails.partyAddress, '~~')}" />
+					<c:set var = "string5" value = "${fn:join(shipToAddr, ' ')}" />
 					<p
-						style="color: #000; font-size: 11px; text-align:; left; margin: 0px;">${frDetails.partyAddress}</p>
+						style="color: #000; font-size: 11px; text-align:; left; margin: 0px;">${shipToAddr[0]}</p>
 
 				</td>
 			</tr>
@@ -183,7 +187,7 @@ table {
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">UOM
 				</td> -->
 				<td align="center" width="5%" rowspan="2"
-					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Base
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; display: none;">Base
 					Rate</td>
 				<td align="center" width="5%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Unit
@@ -234,7 +238,7 @@ table {
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
-						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;  display: none;">-</td>
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
@@ -408,7 +412,7 @@ table {
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">UOM
 				</td> -->
 				<td align="center" width="5%" rowspan="2"
-					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Base
+					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;  display: none;">Base
 					Rate</td>
 
 				<td align="center" width="5%" rowspan="2"
@@ -495,7 +499,7 @@ table {
 									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">${billDetails.itemUom}</td>
 						 --%>
 				<td align="right"
-					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;"><fmt:formatNumber
+					style="border-left: 1px solid #313131; padding: 3px 4px; color: #000; font-size: 12px;  display: none;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${billDetails.baseRate}" /></td>
 
@@ -570,7 +574,7 @@ table {
 							type="number" maxFractionDigits="3" minFractionDigits="2"
 							value="${totalQty}" /></b></td>
 				<td align="center"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;  display: none;">-</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td align="center"
@@ -615,7 +619,7 @@ table {
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;  display: none;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
@@ -649,7 +653,7 @@ table {
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;  display: none;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>

@@ -304,7 +304,8 @@ a[disabled="disabled"] {
 									</label>
 								</div>
 
-								<input type="text" name="expId" id="expId" style="display: none;" />
+								<input type="text" name="expId" id="expId" style="display: none;" />	
+								<input type="text" name="expAmt" id="expAmt" style="display: none;" />
 								<div class="component">
 
 									<table width="80%" id="modeltable"
@@ -434,8 +435,10 @@ a[disabled="disabled"] {
 								
 								if(data==""){
 									document.getElementById("expId").value=0;
+									document.getElementById("expAmt").value=0;
 								}else{
 									document.getElementById("expId").value=expId;
+									document.getElementById("expAmt").value=expAmt;
 								}
 
 								$('#modeltable td').remove();

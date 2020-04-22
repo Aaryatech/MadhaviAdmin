@@ -266,7 +266,7 @@ table {
 				alert("Please Select Production")
 			} else {
 				
-				alert(checkedVals);
+				//alert(checkedVals);
 				
 				 window.location.href = '${pageContext.request.contextPath}/getDeptWiseItemListPdf/'
 						+ checkedVals; 

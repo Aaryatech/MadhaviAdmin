@@ -28,7 +28,10 @@ import org.springframework.web.client.RestTemplate;
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.model.billing.Company;
 import com.ats.adminpanel.model.ewaybill.BillHeadEwayBill;
+import com.ats.adminpanel.model.ewaybill.CancelEWBModel;
 import com.ats.adminpanel.model.ewaybill.CustomErrEwayBill;
+import com.ats.adminpanel.model.ewaybill.EWBCancelError;
+import com.ats.adminpanel.model.ewaybill.EWBCancelSuccess;
 import com.ats.adminpanel.model.ewaybill.EwayBillSuccess;
 import com.ats.adminpanel.model.ewaybill.EwayConstants;
 import com.ats.adminpanel.model.ewaybill.GetAuthToken;
@@ -514,6 +517,127 @@ public class EwayBillController {
 			} // End of Bill Header For Loop
 
 			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return errorBillList;
+
+	}
+	
+	
+	
+	@RequestMapping(value = "/cancelEWB", method = RequestMethod.POST)
+	public @ResponseBody List<CustomErrEwayBill> cancelEWB(HttpServletRequest request, HttpServletResponse response) {
+		List<CustomErrEwayBill> errorBillList = new ArrayList<CustomErrEwayBill>();
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			ObjectMapper mapperObj = new ObjectMapper();
+			String billList = new String();
+			ResponseEntity<List<BillHeadEwayBill>> bRes = null;
+			String[] selectedBills = request.getParameterValues("select_to_print");
+			for (int i = 0; i < selectedBills.length; i++) {
+				billList = selectedBills[i] + "," + billList;
+			}
+
+			billList = billList.substring(0, billList.length() - 1);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("billIdList", billList);
+
+			ParameterizedTypeReference<List<BillHeadEwayBill>> typeRef1 = new ParameterizedTypeReference<List<BillHeadEwayBill>>() {
+			};
+			try {
+				bRes = restTemplate.exchange(Constants.url + "getBillListForEwaybill", HttpMethod.POST,
+						new HttpEntity<>(map), typeRef1);
+			} catch (HttpClientErrorException e) {
+				System.err.println("/getBillListForEwaybill Http Excep \n " + e.getResponseBodyAsString());
+			}
+			List<BillHeadEwayBill> billHeaderList = bRes.getBody();
+
+			//System.err.println("billHeaderList " + billHeaderList.toString());
+
+			GetAuthToken tokenRes = null; // = restTemplate.getForObject(EwayConstants.getToken, GetAuthToken.class);
+			ResponseEntity<String> tokRes = null;
+
+			ParameterizedTypeReference<String> typeRef2 = new ParameterizedTypeReference<String>() {
+			};
+			try {
+				tokRes = restTemplate.exchange(EwayConstants.getToken, HttpMethod.GET, new HttpEntity<>(map), typeRef2);
+				try {
+					tokenRes = mapperObj.readValue(tokRes.getBody(), GetAuthToken.class);
+					// System.err.println("Token Res " +tokenRes.toString());
+				} catch (Exception e) {
+					System.err.println("Inner try for getToken" + e.getMessage());
+				}
+			} catch (HttpClientErrorException e) {
+				System.err.println("/getToken Http Excep \n " + e.getResponseBodyAsString());
+			}
+
+
+			for (int i = 0; i < billHeaderList.size(); i++) {
+
+				BillHeadEwayBill bill = billHeaderList.get(i);
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+
+				//------------------------------------------------------------
+
+				CancelEWBModel cancelMod=new CancelEWBModel();
+				cancelMod.setEwbNo(bill.getEwbNo());
+				cancelMod.setCancelRsnCode(2);
+				cancelMod.setCancelRmrk("Cancelled the order");
+				
+				System.err.println("CANCEL REQ " + cancelMod.toString());
+
+				
+				EWBCancelSuccess success=null;
+				EWBCancelError ewayErrRes = null;
+				
+				//------------------------------------------------------------
+				
+				ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+				};
+				ResponseEntity<String> responseEntity = null;
+
+				try {
+					responseEntity = restTemplate.exchange(EwayConstants.cancelEWBUrl + "" + tokenRes.getAuthtoken(),
+							HttpMethod.POST, new HttpEntity<>(cancelMod), typeRef);
+
+					try {
+						success = mapperObj.readValue(responseEntity.getBody(), EWBCancelSuccess.class);
+						System.err.println("ewaySuccRes " + success.toString());
+
+						map = new LinkedMultiValueMap<String, Object>();
+						map.add("ewayBillNo", success.getEwayBillNo());
+						//map.add("billNo", bill.getBillNo());
+						map.add("billNo", "0");
+						
+						ErrorMessage updateEwayBillNo=restTemplate.postForObject(Constants.url+"/tally/updateEwayBillNo",map, ErrorMessage.class);
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.err.println("Inner Try");
+					}
+
+				} catch (HttpClientErrorException e) {
+
+					ewayErrRes = mapperObj.readValue(e.getResponseBodyAsString(), EWBCancelError.class);
+					System.err.println("ewayErrRes   " + ewayErrRes.toString());
+					CustomErrEwayBill errRes=new CustomErrEwayBill();
+					
+					errRes.setBillNo(bill.getBillNo());
+					errRes.setInvoiceNo(bill.getInvoiceNo());
+					errRes.setTimeStamp("--");
+					errRes.setErrorCode(String.valueOf(ewayErrRes.getError().getErrorCodes()));
+					errRes.setMessage("error!");
+					
+					errorBillList.add(errRes);
+				}
+
+			} // End of Bill Header For Loop
+
+		
 
 		} catch (Exception e) {
 			e.printStackTrace();

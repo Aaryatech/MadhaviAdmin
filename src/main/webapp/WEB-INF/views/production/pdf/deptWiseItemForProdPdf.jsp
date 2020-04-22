@@ -74,15 +74,15 @@ table {
 					style="border-top: 1px solid #313131; border-right: 1px solid #313131;">
 					<tr>
 						<td width="5%"
-							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;">No.</td>
+							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>No.</b></td>
 						<td width="55%"
-							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;">Product
-							Name</td>
+							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Product
+							Name</b></td>
 						<td width="20%"
-							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;">Order Quantity
+							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Order Quantity</b>
 						</td>
 						<td width="20%"
-							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;">Production Quantity</td>
+							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Production Quantity</b></td>
 					</tr>
 
 

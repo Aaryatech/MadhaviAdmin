@@ -250,8 +250,7 @@
 						<div class="col-sm-3 col-lg-4">
 
 							<select data-placeholder="Sort" class="form-control chosen"
-								tabindex="6" id="selectSort" name="selectSort"
-								onchange="setAllCategory(this.value)">
+								tabindex="6" id="selectSort" name="selectSort">
 
 								<option value="1"><c:out value="Sale Quantity" /></option>
 								<option value="2"><c:out value="Sale Value" /></option>

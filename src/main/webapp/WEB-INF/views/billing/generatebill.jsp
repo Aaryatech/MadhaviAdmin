@@ -949,7 +949,7 @@ var advOrdHeaderId=0;
 
 			var taxableAmt = 0;
 			 
-			if(discPer>0 && discPer<=100){
+			if(discPer>=0 && discPer<=100){
 				 
 				 var tot=0;
 				if(isOwnFr==1){
@@ -960,7 +960,7 @@ var advOrdHeaderId=0;
 	    		}
 				 
 				 
-           	   var discAmt=((parseFloat(tot) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
+           	   var discAmt=(parseFloat(tot) * parseFloat(discPer)) /100;//alert(discAmt+"discAmt");
            	  document.getElementById("discAmt" + catId+""+orderId).value=discAmt.toFixed(2);
            	  
            	  var newTotal=parseFloat(tot)-parseFloat(discAmt);
@@ -1048,9 +1048,16 @@ var advOrdHeaderId=0;
 
 		var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
 		
-		var tot=parseFloat(qty) * parseFloat(mrp);
-		
-		if(discAmt>0 && discAmt<=tot){
+		//var tot=parseFloat(qty) * parseFloat(mrp);
+		 var tot=0;
+			if(isOwnFr==1){
+				tot=parseFloat(qty) * parseFloat(mrp);
+			}else
+ 		{
+				tot=parseFloat(qty) * parseFloat(rate);
+ 		}
+			
+		if(discAmt>=0 && discAmt<=tot){
 			
 			
 			

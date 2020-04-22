@@ -470,8 +470,7 @@ table {
 										</div>
 
 										<input type="button" id="btn_submit" class="btn btn-primary"
-											onclick="submitBill()" value="BillDetail" />
-											 <input
+											onclick="submitBill()" value="BillDetail" /> <input
 											type="button" id="btn_submit" class="btn btn-primary"
 											onclick="showVehNo()" value="E-way Bill" />
 										<div class="form-group"></div>
@@ -492,9 +491,14 @@ table {
 
 											<input type="button" id="genEwayBill_button"
 												class="btn btn-primary" onclick="genEwayBill()"
-												value="Gen E-way Bill" style="width: 10%;" />
+												value="Gen E-way Bill" style="width: 10%;" /> <input
+												type="button" id="cancelEwayBill_button"
+												class="btn btn-primary" value="Cancel E-way Bill"
+												style="width: 10%; display: none;" >
 
 										</div>
+
+
 
 
 										<div class="table-wrap">
@@ -705,6 +709,80 @@ table {
 					//form.submit();
 				});	
 	</script>
+
+
+	<script type="text/javascript">
+	
+	
+	$('#cancelEwayBill_button')
+	.click(
+			function() {
+				var vehNo=document.getElementById("vehNo").value;
+				//alert("vehNo"+vehNo);
+				var form = document.getElementById("validation-form")
+				
+				$.ajax({
+   type: "POST",
+        url: "${pageContext.request.contextPath}/cancelEWB",
+        data: $("#validation-form").serialize(),
+        dataType: 'json',
+success: function(data){
+	//alert(JSON.stringify(data));
+if(data.length>0)
+{			document.getElementById("table2").style.display="block";
+
+	$('#table2 td').remove();
+	if (data == "") {
+		alert("No Bill Found");
+	}
+
+	$
+			.each(
+					data,
+					function(key, bill) {
+						
+
+						var tr = $('<tr></tr>');
+						
+						tr
+								.append($(
+										'<td class="col-sm-1"></td>')
+										.html(
+												key + 1));
+
+						tr
+								.append($(
+										'<td class="col-md-1"></td>')
+										.html(
+												bill.invoiceNo));
+						tr
+						.append($(
+								'<td class="col-md-1"></td>')
+								.html(
+										bill.errorCode));
+						tr
+						.append($(
+								'<td class="col-md-1"></td>')
+								.html(
+										bill.message));
+						
+						
+						$('#table2 tbody').append(
+								tr);
+						
+					});
+	
+}
+
+callSearch();
+}
+})
+			});	
+	
+	</script>
+
+
+
 	<script type="text/javascript">
 	function validate() {
 

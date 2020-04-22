@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,8 +34,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.AllFrIdNameList;
+import com.ats.adminpanel.model.BillReceiptHeaderDisplay;
+import com.ats.adminpanel.model.Franchisee;
 import com.ats.adminpanel.model.Info;
+import com.ats.adminpanel.model.billing.BillReceiptDetail;
+import com.ats.adminpanel.model.billing.BillReceiptHeader;
 import com.ats.adminpanel.model.billing.BillTransaction;
 import com.ats.adminpanel.model.billing.Expense;
 import com.ats.adminpanel.model.billing.ExpenseTransaction;
@@ -308,54 +314,141 @@ public class ExpenseAdminController {
 			RestTemplate restTemplate = new RestTemplate();
 
 			int expId = Integer.parseInt(request.getParameter("expId"));
-			
-			List<BillTransaction> billTransactionList=new ArrayList<>();
-			
-			if(tempBillList!=null) {
-				
-				for(int i=0;i<tempBillList.size();i++) {
-					
-					float billAmt = Float.parseFloat(tempBillList.get(i).getBillAmt());
-					float paidAmt = Float.parseFloat(tempBillList.get(i).getPaidAmt())+Float.parseFloat(tempBillList.get(i).getSettleAmt());
-					float pendingAmt = Float.parseFloat(tempBillList.get(i).getBillAmt())-paidAmt;
-					float settleAmt = Float.parseFloat(tempBillList.get(i).getSettleAmt());
-					
-					if(settleAmt>0) {
-						
-						BillTransaction bt =new BillTransaction();
+			float expAmt = Float.parseFloat(request.getParameter("expAmt"));
+
+			List<BillTransaction> billTransactionList = new ArrayList<>();
+
+			if (tempBillList != null) {
+
+				for (int i = 0; i < tempBillList.size(); i++) {
+
+					float billAmt = Math.round(Float.parseFloat(tempBillList.get(i).getBillAmt()));
+					float paidAmt = Math.round(Float.parseFloat(tempBillList.get(i).getPaidAmt())
+							+ Float.parseFloat(tempBillList.get(i).getSettleAmt()));
+					float pendingAmt = Math.round(Float.parseFloat(tempBillList.get(i).getBillAmt()) - paidAmt);
+					float settleAmt = Math.round(Float.parseFloat(tempBillList.get(i).getSettleAmt()));
+
+//					System.err.println("billAmt = " + billAmt + "   paidAmt = " + paidAmt + "     pendingAmt = "
+//							+ pendingAmt + "       settleAmt = " + settleAmt);
+
+					if (settleAmt > 0) {
+
+						BillTransaction bt = new BillTransaction();
 						bt.setBillTransId(tempBillList.get(i).getBillTransId());
 						bt.setBillHeadId(tempBillList.get(i).getBillHeadId());
 						bt.setBillAmt(String.valueOf(billAmt));
 						bt.setExVar1(String.valueOf(settleAmt));
 						bt.setPaidAmt(String.valueOf(paidAmt));
 						bt.setPendingAmt(String.valueOf(pendingAmt));
-						bt.setExInt1(expId);//expId
-						
-						if(pendingAmt==0) {
+						bt.setExInt1(expId);// expId
+
+						if (pendingAmt == 0) {
 							bt.setIsClosed(1);
-						}else {
+						} else {
 							bt.setIsClosed(0);
 						}
-						
+
 						billTransactionList.add(bt);
-						
+
 					}
 				}
-				
-				Info errorMessage = restTemplate.postForObject(Constants.url + "/updateBillTranscForBillSettlement", billTransactionList,Info.class);
-				
-				
+
+				Info errorMessage = restTemplate.postForObject(Constants.url + "/updateBillTranscForBillSettlement",
+						billTransactionList, Info.class);
+
 				if (errorMessage.getError() == false) {
 					flag = 2;
+					int frId = 0;
+					List<BillReceiptDetail> detailList = new ArrayList<>();
+
+					for (GetBillListByFrIdToSettle bill : tempBillList) {
+						if (Float.parseFloat(bill.getSettleAmt()) > 0) {
+							BillReceiptDetail detail = new BillReceiptDetail(0, 0, bill.getBillHeadId(),
+									bill.getBillNo(), Float.parseFloat(bill.getBillAmt()),
+									Float.parseFloat(bill.getSettleAmt()), 0, 0, "", "", 0, 0);
+							detailList.add(detail);
+							
+						}
+						frId = bill.getFrId();
+					}
+
+					Calendar cal = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					String date = sdf.format(cal.getTime());
+
+					// Invoice Number
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("settingId", 59);
+					int val = 0;
+					val = restTemplate.postForObject(Constants.url + "/getSettingValueById", map, Integer.class);
+
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("frId", frId);
+					Franchisee fr = restTemplate.postForObject(Constants.url + "/getFrById", map, Franchisee.class);
+
+					String invoiceNo = fr.getFrCode() + "" + getCurrYearForInvoice() + "-" + String.format("%05d", val);
+					System.err.println("INVOICE - " + invoiceNo);
+
+					BillReceiptHeader header = new BillReceiptHeader(0, invoiceNo, date, frId, expId, expAmt, 0, 0, "",
+							"", 0, 0, detailList);
+
+					BillReceiptHeader info = restTemplate.postForObject(Constants.url + "insertBillReceiptData", header,
+							BillReceiptHeader.class);
+
 				} else {
 					flag = 0;
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return flag;
+
+	}
+
+	public String getCurrYearForInvoice() {
+
+		int year = Year.now().getValue();
+		String curStrYear = String.valueOf(year);
+		curStrYear = curStrYear.substring(2);
+
+		int preMarchYear = Year.now().getValue() - 1;
+		String preMarchStrYear = String.valueOf(preMarchYear);
+		preMarchStrYear = preMarchStrYear.substring(2);
+
+		System.out.println("Pre MArch year ===" + preMarchStrYear);
+
+		int nextYear = Year.now().getValue() + 1;
+		String nextStrYear = String.valueOf(nextYear);
+		nextStrYear = nextStrYear.substring(2);
+
+		System.out.println("Next  year ===" + nextStrYear);
+
+		int postAprilYear = nextYear + 1;
+		String postAprilStrYear = String.valueOf(postAprilYear);
+		postAprilStrYear = postAprilStrYear.substring(2);
+
+		System.out.println("Post April   year ===" + postAprilStrYear);
+
+		java.util.Date date = new Date();
+		Calendar cale = Calendar.getInstance();
+		cale.setTime(date);
+		int month = cale.get(Calendar.MONTH);
+
+		month = month + 1;
+
+		if (month <= 3) {
+
+			curStrYear = preMarchStrYear + curStrYear;
+			System.out.println("Month <= 3::Cur Str Year " + curStrYear);
+		} else if (month >= 4) {
+
+			curStrYear = curStrYear + nextStrYear;
+			System.out.println("Month >=4::Cur Str Year " + curStrYear);
+		}
+
+		return curStrYear;
 
 	}
 
@@ -425,5 +518,116 @@ public class ExpenseAdminController {
 
 		return "redirect:/showPendingBillList";
 	}
+	
+	@RequestMapping(value = "/showBillReceiptList", method = RequestMethod.GET)
+	public ModelAndView showBillReceiptList(HttpServletRequest request, HttpServletResponse response) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		ModelAndView model = null;
+		String fromDate = "";
+		String toDate = "";
+		model = new ModelAndView("billing/billReceiptList");
+
+		allFrIdNameList = new AllFrIdNameList();
+		allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+		System.out.println("fr list:" + allFrIdNameList.toString());
+
+		model.addObject("allFrIdNameList", allFrIdNameList.getFrIdNamesList());
+
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		fromDate = formatter.format(date);
+		toDate = formatter.format(date);
+		
+		model.addObject("fromDate", fromDate);
+		model.addObject("toDate", toDate);
+
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/getFrList", method = RequestMethod.GET)
+	public @ResponseBody List<AllFrIdName> getFrList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<AllFrIdName> res=allFrIdNameList.getFrIdNamesList();
+
+		return res;
+
+	}
+	
+	
+	@RequestMapping(value = "/getReceiptList", method = RequestMethod.GET)
+	public @ResponseBody List<BillReceiptHeaderDisplay> getReceiptList(HttpServletRequest request,
+			HttpServletResponse response) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		List<BillReceiptHeaderDisplay> res = new ArrayList<BillReceiptHeaderDisplay>();
+
+		try {
+			System.err.println("hii");
+			
+			String fromDate=request.getParameter("fromDate");
+			String toDate=request.getParameter("toDate");
+			
+			String selFrId=request.getParameter("frId");
+			selFrId = selFrId.substring(1, selFrId.length() - 1);
+			selFrId = selFrId.replaceAll("\"", "");
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+			map.add("frId", selFrId);
+
+			BillReceiptHeaderDisplay[] billList = restTemplate.postForObject(Constants.url + "getBillReceiptList",
+					map, BillReceiptHeaderDisplay[].class);
+
+			res = new ArrayList<BillReceiptHeaderDisplay>(Arrays.asList(billList));
+
+			System.err.println("BILL_LIST -------------> " + res);
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return res;
+
+	}
+	
+	
+	@RequestMapping(value = "/getBillReceiptDetailList", method = RequestMethod.GET)
+	public @ResponseBody List<BillReceiptDetail> getBillReceiptDetailList(HttpServletRequest request,
+			HttpServletResponse response) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		List<BillReceiptDetail> res = new ArrayList<BillReceiptDetail>();
+
+		try {
+			System.err.println("hii");
+			
+			int headerId=Integer.parseInt(request.getParameter("recId"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("headerId", headerId);
+
+			BillReceiptDetail[] billList = restTemplate.postForObject(Constants.url + "getBillReceiptDetailList",
+					map, BillReceiptDetail[].class);
+
+			res = new ArrayList<BillReceiptDetail>(Arrays.asList(billList));
+
+			System.err.println("BILL_LIST -------------> " + res);
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return res;
+
+	}
+	
 
 }

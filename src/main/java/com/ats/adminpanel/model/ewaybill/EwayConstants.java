@@ -3,19 +3,19 @@ package com.ats.adminpanel.model.ewaybill;
 public class EwayConstants {
 
 	//SandBox Auth Token
-
-	// public static String getToken="http://testapi.taxprogsp.co.in/ewaybillapi/dec/v1.03/authenticate?action=ACCESSTOKEN&aspid=1629701119&password=pdMulani@123&gstin=24AAJCM0068N1Z8&username=MADHVIDAIR_API_EBL&ewbpwd=madhavi@2019";
+	 //public static String getToken="http://testapi.taxprogsp.co.in/ewaybillapi/dec/v1.03/authenticate?action=ACCESSTOKEN&aspid=1629701119&password=pdMulani@123&gstin=24AAJCM0068N1Z8&username=MADHVIDAIR_API_EBL&ewbpwd=madhavi@2019";
 
 	//Production Get ACCESSTOKEN
-
 	public static String getToken="https://api.taxprogsp.co.in/v1.03/dec/authenticate?action=ACCESSTOKEN&aspid=1629701119&password=pdMulani@123&gstin=24AAJCM0068N1Z8&username=MADHVIDAIR_API_EBL&ewbpwd=madhavi@2019";
 	
 	//SandBox  GENEWAYBILL
-	// public static String genEwayGenUrl="http://testapi.taxprogsp.co.in/ewaybillapi/dec/v1.03/ewayapi?action=GENEWAYBILL&aspid=1629701119&password=pdMulani@123&gstin=05AAACG1625Q1ZK&username=05AAACG1625Q1ZK&authtoken=";
+	 //public static String genEwayGenUrl="http://testapi.taxprogsp.co.in/ewaybillapi/dec/v1.03/ewayapi?action=GENEWAYBILL&aspid=1629701119&password=pdMulani@123&gstin=05AAACG1625Q1ZK&username=05AAACG1625Q1ZK&authtoken=";
 	
 	//Production GENEWAYBILL
 	public static String genEwayGenUrl="https://api.taxprogsp.co.in/v1.03/dec/ewayapi?action=GENEWAYBILL&aspid=1629701119&password=pdMulani@123&gstin=24AAJCM0068N1Z8&username=MADHVIDAIR_API_EBL&authtoken=";
 	
+	//Cancel EWB
+	public static String cancelEWBUrl="https://api.taxprogsp.co.in/v1.03/dec/ewayapi?action=CANEWB&aspid=1629701119&password=pdMulani@123&gstin=24AAJCM0068N1Z8&username=MADHVIDAIR_API_EBL&authtoken=";
 	
 		
 	 //MADHVIDAIR_API_EBL	24AAJCM0068N1Z8 madhavi@2019

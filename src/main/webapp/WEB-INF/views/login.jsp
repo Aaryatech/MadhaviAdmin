@@ -51,14 +51,17 @@
 		<div class="container-login100">
 
 			
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+			<div class="wrap-login100 p-l-55 p-r-55 p-b-50">
 			
 			<div style="color: red; text-align: center;">
 				<h4><c:out value="${sessionScope.loginError}" /></h4>
 				 <c:remove var="loginError" scope="session" />
+				 <h4><c:out value="${sessionScope.changePassword}" /></h4>
+				<c:remove var="changePassword" scope="session" />
+				<h4><c:out value="${sessionScope.changePasswordFail}" /></h4>
+				<c:remove var="changePasswordFail" scope="session" />
 			</div>
-			<br>
-			<div style="color: white; text-align: center;">
+			<%-- <div style="color: white; text-align: center;">
 				<h4><c:out value="${sessionScope.changePassword}" /></h4>
 				<c:remove var="changePassword" scope="session" />
 			</div>
@@ -66,7 +69,7 @@
 			<div style="color: white; text-align: center;">
 				<h4><c:out value="${sessionScope.changePasswordFail}" /></h4>
 				<c:remove var="changePasswordFail" scope="session" />
-			</div>
+			</div> --%>
 			<br><br>
 			
 				<form class="login100-form validate-form" id="form-login"
