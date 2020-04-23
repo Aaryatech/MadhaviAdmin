@@ -160,7 +160,7 @@
 
 														<td align="left"><c:out value="${billDetails.mrp}" /></td>
 
-														<td align="left"><input type="text"
+														<td align="left"><input type="text" disabled="disabled"
 															class="form-control" data-rule-number="true"
 															name="billRate${billDetails.billDetailNo}"
 															id="billRate${billDetails.billDetailNo}"

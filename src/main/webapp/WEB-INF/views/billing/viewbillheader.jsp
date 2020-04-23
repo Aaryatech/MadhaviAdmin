@@ -8,6 +8,31 @@ table {
 	width: 100%;
 	border: 1px solid #ddd;
 }
+
+#overlay2 {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(239, 219, 219, 0.5);
+	z-index: 9992;
+	cursor: pointer;
+}
+
+#text2 {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 25px;
+	color: white;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+}
+
 </style>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
@@ -16,6 +41,14 @@ table {
 	<c:url var="callGetBillListProcess" value="/getBillListProcess" />
 
 	<div class="container" id="main-container">
+
+		<div id="overlay2">
+			<div id="text2">
+				<img
+					src="${pageContext.request.contextPath}/resources/img/loader.gif"
+					alt="madhvi_logo">
+			</div>
+		</div>
 
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
@@ -470,15 +503,23 @@ table {
 										</div>
 
 										<input type="button" id="btn_submit" class="btn btn-primary"
-											onclick="submitBill()" value="BillDetail" /> <input
+											onclick="submitBill()" value="BillDetail" /> 
+											
+											<input
 											type="button" id="btn_submit" class="btn btn-primary"
-											onclick="showVehNo()" value="E-way Bill" />
+											onclick="showVehNo()" value="Gen E-way Bill" />
+											
+											<input
+											type="button" id="btn_submit" class="btn btn-primary"
+											onclick="showCancelEWB()" value="Cancel E-way Bill" />
+										
+										
 										<div class="form-group"></div>
 
 										<div id="eway_submit" style="display: none">
 
 											<input type="text" name="vehNo" id="vehNo"
-												style="width: 10%;" list="vehlist">
+												style="width: 20%;" list="vehlist">
 
 											<datalist id="vehlist">
 												<c:forEach var="veh" items="${vehicleList}"
@@ -491,10 +532,19 @@ table {
 
 											<input type="button" id="genEwayBill_button"
 												class="btn btn-primary" onclick="genEwayBill()"
-												value="Gen E-way Bill" style="width: 10%;" /> <input
+												value="Gen E-way Bill" style="width: 20%;" /> 
+
+										</div>
+										
+										<div id="eway_cancel" style="display: none">
+
+											<input type="text" name="cancelRemark" id="cancelRemark"
+												style="width: 40%;" value="Data entry clearical error">
+
+											 <input
 												type="button" id="cancelEwayBill_button"
 												class="btn btn-primary" value="Cancel E-way Bill"
-												style="width: 10%; display: none;" >
+												style="width: 20%;">
 
 										</div>
 
@@ -634,10 +684,19 @@ table {
 			document.getElementById("eway_submit").style.display="block";
 			//document.getElementById("vehNo").style.display="block";
 		}
+
+		function showCancelEWB(){
+			document.getElementById("eway_cancel").style.display="block";
+			//document.getElementById("vehNo").style.display="block";
+		}
+
 		
 		$('#genEwayBill_button')
 		.click(
 				function() {
+					
+					document.getElementById("overlay2").style.display = "block";
+					
 					var vehNo=document.getElementById("vehNo").value;
 					//alert("vehNo"+vehNo);
 					var form = document.getElementById("validation-form")
@@ -648,6 +707,9 @@ table {
             data: $("#validation-form").serialize(),
             dataType: 'json',
     success: function(data){
+    	
+    	document.getElementById("overlay2").style.display = "none";
+    	
     	//alert(JSON.stringify(data));
     if(data.length>0)
     {			document.getElementById("table2").style.display="block";
@@ -717,6 +779,9 @@ table {
 	$('#cancelEwayBill_button')
 	.click(
 			function() {
+				
+				document.getElementById("overlay2").style.display = "block";
+				
 				var vehNo=document.getElementById("vehNo").value;
 				//alert("vehNo"+vehNo);
 				var form = document.getElementById("validation-form")
@@ -727,6 +792,9 @@ table {
         data: $("#validation-form").serialize(),
         dataType: 'json',
 success: function(data){
+	
+	document.getElementById("overlay2").style.display = "none";
+	
 	//alert(JSON.stringify(data));
 if(data.length>0)
 {			document.getElementById("table2").style.display="block";
@@ -868,7 +936,11 @@ callSearch();
 	</script>
 	<script type="text/javascript">
 		function callSearch() {
+			//alert("hi");
 			//$('#table2 td').remove();
+			
+			document.getElementById("eway_submit").style.display="none";
+			document.getElementById("eway_cancel").style.display="none";
 
 			var isDelete=document.getElementById("isDelete").value;
 			var isEdit=document.getElementById("isEdit").value;

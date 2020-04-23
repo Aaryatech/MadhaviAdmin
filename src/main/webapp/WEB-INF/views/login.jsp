@@ -60,6 +60,8 @@
 				<c:remove var="changePassword" scope="session" />
 				<h4><c:out value="${sessionScope.changePasswordFail}" /></h4>
 				<c:remove var="changePasswordFail" scope="session" />
+				
+				<br>
 			</div>
 			<%-- <div style="color: white; text-align: center;">
 				<h4><c:out value="${sessionScope.changePassword}" /></h4>
@@ -70,7 +72,7 @@
 				<h4><c:out value="${sessionScope.changePasswordFail}" /></h4>
 				<c:remove var="changePasswordFail" scope="session" />
 			</div> --%>
-			<br><br>
+			
 			
 				<form class="login100-form validate-form" id="form-login"
 					action="loginProcess" method="post">

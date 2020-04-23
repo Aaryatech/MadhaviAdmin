@@ -283,29 +283,6 @@ public class ItemController {
 
 			RestTemplate restTemplate = new RestTemplate();
 
-			/*
-			 * FrItemStockConfiResponse frItemStockConfiResponse = restTemplate
-			 * .getForObject(Constants.url + "getfrItemConfSetting",
-			 * FrItemStockConfiResponse.class);
-			 */
-
-			/*
-			 * List<FrItemStockConfigure> frItemStockConfigures = new
-			 * ArrayList<FrItemStockConfigure>();
-			 * 
-			 * frItemStockConfigures = frItemStockConfiResponse.getFrItemStockConfigure();
-			 * 
-			 * for (int i = 0; i < frItemStockConfigures.size(); i++) {
-			 * 
-			 * if (frItemStockConfigures.get(i).getSettingKey().equals("frItemStockType")) {
-			 * 
-			 * settingValue = frItemStockConfigures.get(i).getSettingValue();
-			 * 
-			 * }
-			 * 
-			 * }
-			 * 
-			 */
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			String settingKey = "frItemStockType";
@@ -448,7 +425,8 @@ public class ItemController {
 
 			RestTemplate restTemplate = new RestTemplate();
 
-			Item[] item = restTemplate.postForObject(Constants.url + "getItemsByCatId", map, Item[].class);
+			//Item[] item = restTemplate.postForObject(Constants.url + "getItemsByCatId", map, Item[].class);
+			Item[] item = restTemplate.postForObject(Constants.url + "getStockableItemsByCatId", map, Item[].class);
 
 			ArrayList<Item> tempItemList = new ArrayList<Item>(Arrays.asList(item));
 
@@ -516,7 +494,30 @@ public class ItemController {
 
 						if (getPrevItemStockResponsesList.get(j).getItemId() == tempItemList.get(i).getId()) {
 
-							tempItemStockResponse = getPrevItemStockResponsesList.get(j);
+							//tempItemStockResponse = getPrevItemStockResponsesList.get(j);
+							
+							List<StockDetail> details=tempItemStockResponse.getStockDetails();
+							
+							
+							for(int k=0;k<details.size();k++) {
+								
+								for(int m=0;m<getPrevItemStockResponsesList.get(j).getStockDetails().size();m++) {
+									
+									if(details.get(k).getType()==getPrevItemStockResponsesList.get(j).getStockDetails().get(m).getType()) {
+										
+										details.get(k).setFrStockId(getPrevItemStockResponsesList.get(j).getStockDetails().get(m).getFrStockId());
+										details.get(k).setMaxQty(getPrevItemStockResponsesList.get(j).getStockDetails().get(m).getMaxQty());
+										details.get(k).setMinQty(getPrevItemStockResponsesList.get(j).getStockDetails().get(m).getMinQty());
+										details.get(k).setType(getPrevItemStockResponsesList.get(j).getStockDetails().get(m).getType());
+										details.get(k).setReorderQty(getPrevItemStockResponsesList.get(j).getStockDetails().get(m).getReorderQty());
+										
+										break;
+									}
+									
+								}
+								
+							}
+							
 						}
 
 					}
@@ -639,10 +640,12 @@ public class ItemController {
 
 							frItemStock.setFrStockId(Integer.parseInt(frStockId));
 							frItemStock.setMinQty(Integer.parseInt(minQty));
+							
+							frItemStock.setMaxQty(Integer.parseInt(minQty));
+							frItemStock.setReorderQty(Integer.parseInt(minQty));
 
-							frItemStock.setMaxQty(Integer.parseInt(maxQty));
-
-							frItemStock.setReorderQty(Integer.parseInt(reorderQty));
+							//frItemStock.setMaxQty(Integer.parseInt(maxQty));
+							//frItemStock.setReorderQty(Integer.parseInt(reorderQty));
 
 							frItemStock.setItemId(getPrevItemStockResponse.getItemId());
 							frItemStock.setType(j + 1);

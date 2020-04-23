@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -163,18 +165,25 @@ public class EwayBillController {
 				String pincode="";
 				int pin=0;
 				String km="";
+				String add=bill.getPartyAddress();
 
 				if(arr.length==2) {
 					pincode=arr[1];
 					pin=Integer.parseInt(pincode);
+					
+					add=arr[0];
+					
 				}else if(arr.length==3) {
 					pincode=arr[1];
 					km=arr[2];
 					pin=Integer.parseInt(pincode);
+					
+					add=arr[0];
+					
 				}
 				
 				
-				System.err.println("PINCODE - "+pincode+"          KM - "+km);
+				System.err.println("PINCODE - "+pincode+"          KM - "+km+"         Add - "+add);
 				
 				//billReq.setToPincode(franchise.getFrKg2());
 				//billReq.setTransDistance(""+franchise.getFrKg3());
@@ -182,7 +191,7 @@ public class EwayBillController {
 				billReq.setToPincode(pin);
 				billReq.setTransDistance(km);
 				
-				billReq.setToPlace(" ");
+				billReq.setToPlace(add);
 				billReq.setToStateCode(company.getStateCode());
 
 				billReq.setTotalValue(bill.getTaxableAmt());
@@ -203,7 +212,8 @@ public class EwayBillController {
 				//New 19-02-2020
 				billReq.setShipToTradeName(billHeaderList.get(i).getPartyName());
 				billReq.setShipToGSTIN(billHeaderList.get(i).getPartyGstin());
-				billReq.setToAddr1(billHeaderList.get(i).getPartyAddress());
+				//billReq.setToAddr1(billHeaderList.get(i).getPartyAddress());
+				billReq.setToAddr1(add);
 
 				
 				billReq.setToTrdName(billHeaderList.get(i).getExVarchar3());
@@ -540,6 +550,8 @@ public class EwayBillController {
 			for (int i = 0; i < selectedBills.length; i++) {
 				billList = selectedBills[i] + "," + billList;
 			}
+			
+			String remark = request.getParameter("cancelRemark");
 
 			billList = billList.substring(0, billList.length() - 1);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -587,7 +599,11 @@ public class EwayBillController {
 				CancelEWBModel cancelMod=new CancelEWBModel();
 				cancelMod.setEwbNo(bill.getEwbNo());
 				cancelMod.setCancelRsnCode(2);
-				cancelMod.setCancelRmrk("Cancelled the order");
+				//cancelMod.setCancelRmrk("Cancelled the order");
+				if(remark==null) {
+					remark="Cancelled the order";
+				}
+				cancelMod.setCancelRmrk(remark);
 				
 				System.err.println("CANCEL REQ " + cancelMod.toString());
 
@@ -610,9 +626,9 @@ public class EwayBillController {
 						System.err.println("ewaySuccRes " + success.toString());
 
 						map = new LinkedMultiValueMap<String, Object>();
-						map.add("ewayBillNo", success.getEwayBillNo());
+						map.add("ewayBillNo", 0);
 						//map.add("billNo", bill.getBillNo());
-						map.add("billNo", "0");
+						map.add("billNo", bill.getBillNo());
 						
 						ErrorMessage updateEwayBillNo=restTemplate.postForObject(Constants.url+"/tally/updateEwayBillNo",map, ErrorMessage.class);
 					} catch (Exception e) {
@@ -621,15 +637,23 @@ public class EwayBillController {
 					}
 
 				} catch (HttpClientErrorException e) {
-
-					ewayErrRes = mapperObj.readValue(e.getResponseBodyAsString(), EWBCancelError.class);
-					System.err.println("ewayErrRes   " + ewayErrRes.toString());
+					
+					System.err.println("ewayErrRes   " + e.getResponseBodyAsString());
+					e.printStackTrace();
+					
+					JSONParser parser = new JSONParser(); 
+					JSONObject json = (JSONObject) parser. parse(e.getResponseBodyAsString());
+					System.err.println("JSON ERROR   " + json.get("error"));
+					
+					
+					//ewayErrRes = mapperObj.readValue(e.getResponseBodyAsString(), EWBCancelError.class);
+					//System.err.println("ewayErrRes   " + ewayErrRes.toString());
 					CustomErrEwayBill errRes=new CustomErrEwayBill();
 					
 					errRes.setBillNo(bill.getBillNo());
 					errRes.setInvoiceNo(bill.getInvoiceNo());
 					errRes.setTimeStamp("--");
-					errRes.setErrorCode(String.valueOf(ewayErrRes.getError().getErrorCodes()));
+					errRes.setErrorCode(String.valueOf(json.get("error")));
 					errRes.setMessage("error!");
 					
 					errorBillList.add(errRes);
