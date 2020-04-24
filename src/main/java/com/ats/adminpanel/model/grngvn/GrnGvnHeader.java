@@ -45,6 +45,8 @@ public class GrnGvnHeader {
 	float aprGrandTotal;
 	float aprROff;
 	//nw field
+	
+	String frName;
 
 	public int getGrnGvnHeaderId() {
 		return grnGvnHeaderId;
@@ -215,6 +217,18 @@ public class GrnGvnHeader {
 	public void setAprROff(float aprROff) {
 		this.aprROff = aprROff;
 	}
+	
+	
+
+	public String getFrName() {
+		return frName;
+	}
+
+	public void setFrName(String frName) {
+		this.frName = frName;
+	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -224,7 +238,7 @@ public class GrnGvnHeader {
 				+ ", isCreditNote=" + isCreditNote + ", creditNoteId=" + creditNoteId + ", approvedDatetime="
 				+ approvedDatetime + ", grnGvn=" + grnGvn + ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax="
 				+ aprTotalTax + ", aprSgstRs=" + aprSgstRs + ", aprCgstRs=" + aprCgstRs + ", aprIgstRs=" + aprIgstRs
-				+ ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff + "]";
+				+ ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff + ", frName=" + frName + "]";
 	}
 
 	

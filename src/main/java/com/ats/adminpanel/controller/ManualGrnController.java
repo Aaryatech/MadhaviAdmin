@@ -30,6 +30,7 @@ import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.FrMenu;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.accessright.ModuleJson;
+import com.ats.adminpanel.model.billing.PostBillHeader;
 import com.ats.adminpanel.model.franchisee.FranchiseeList;
 import com.ats.adminpanel.model.grngvn.FrSetting;
 import com.ats.adminpanel.model.grngvn.GetBillsForFr;
@@ -237,11 +238,14 @@ public class ManualGrnController {
 		System.err.println("Inside insertManGrn");
 		ModelAndView model = new ModelAndView("grngvn/manGrn");
 		selectedGrn = new ArrayList<>();
+		
+		
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
 			String date = request.getParameter("date");
 			for (int i = 0; i < grnConfList.size(); i++) {
+				
 				String billNo = request.getParameter("" + grnConfList.get(i).getBillDetailNo());
 
 				String grnQty = request.getParameter("qty" + billNo);
@@ -256,7 +260,8 @@ public class ManualGrnController {
 				System.err.println("Bill no " + billNo);
 				System.err.println("");
 			}
-
+			
+			
 			System.err.println("selected GRn " + selectedGrn.toString());
 
 			FranchiseeList frList = restTemplate.getForObject(Constants.url + "getFranchisee?frId={frId}",

@@ -15,8 +15,39 @@ public class EwayItemList {
 	private double cessRate;
 	private double cessNonAdvol;
 	private double taxableAmount;
+	
+	
 
 	
+
+	public EwayItemList() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+
+	public EwayItemList(int billDetailNo, String productName, String productDesc, int hsnCode, double quantity,
+			String qtyUnit, double cgstRate, double sgstRate, double igstRate, double cessRate, double cessNonAdvol,
+			double taxableAmount) {
+		super();
+		this.billDetailNo = billDetailNo;
+		this.productName = productName;
+		this.productDesc = productDesc;
+		this.hsnCode = hsnCode;
+		this.quantity = quantity;
+		this.qtyUnit = qtyUnit;
+		this.cgstRate = cgstRate;
+		this.sgstRate = sgstRate;
+		this.igstRate = igstRate;
+		this.cessRate = cessRate;
+		this.cessNonAdvol = cessNonAdvol;
+		this.taxableAmount = taxableAmount;
+	}
+
+
+
 
 	public int getBillDetailNo() {
 		return billDetailNo;

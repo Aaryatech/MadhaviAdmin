@@ -31,6 +31,7 @@ import com.ats.adminpanel.commons.AccessControll;
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
 import com.ats.adminpanel.commons.Firebase;
+import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.accessright.ModuleJson;
@@ -40,6 +41,7 @@ import com.ats.adminpanel.model.grngvn.GrnGvnHeader;
 import com.ats.adminpanel.model.grngvn.GrnGvnHeaderList;
 import com.ats.adminpanel.model.grngvn.TempGrnGvnBeanUp;
 import com.ats.adminpanel.model.login.UserResponse;
+import com.ats.adminpanel.model.logistics.VehicalMaster;
 import com.ats.adminpanel.model.remarks.GetAllRemarks;
 import com.ats.adminpanel.model.remarks.GetAllRemarksList;
 
@@ -1748,6 +1750,11 @@ public class GvnController {
 				
 				model.addObject("franchiseList", franchiseList);
 				model.addObject("frSelectedFlag", 	frSelectedFlag);
+				
+				List<VehicalMaster> vehicleList = restTemplate.getForObject(Constants.url + "getAllVehicalList",
+						List.class);
+				model.addObject("vehicleList", vehicleList);
+				
 			} catch (Exception e) {
 
 				System.out.println("Excep in Gate Header List /getGvnHeaderForAcc " + e.getMessage());
@@ -1757,6 +1764,77 @@ public class GvnController {
 
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/getFrListForApprovrGvn", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AllFrIdName> getFrListForApprovrGvn(HttpServletRequest request, HttpServletResponse response) {
+
+		return allFrIdNameList.getFrIdNamesList();
+	}
+	
+	
+	// Anmol-23-04-2020
+		@RequestMapping(value = "/getGvnHeaderList", method = RequestMethod.GET)
+		public @ResponseBody List<GrnGvnHeader> getGrnHeaderList(HttpServletRequest request, HttpServletResponse response) {
+
+			gvnAccHeaderList = new ArrayList<>();
+
+			try {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				String frIdString = request.getParameter("fr_id_list");
+				String fromDate = request.getParameter("from_date");
+				String toDate = request.getParameter("to_date");
+
+				frIdString = frIdString.substring(1, frIdString.length() - 1);
+				frIdString = frIdString.replaceAll("\"", "");
+
+				List<String> franchIds = new ArrayList();
+				franchIds = Arrays.asList(frIdString);
+
+				System.out.println("fr Id ArrayList " + frIdString);
+				System.err.println("FROM DATE - "+fromDate+"    TO DATE - "+toDate);
+
+				map.add("frIdList", frIdString);
+				map.add("fromDate", fromDate);// ie current date
+				map.add("toDate", toDate);// ie current date
+				map.add("isGrn", "0" + "," + "2");
+
+				gvnAccHeaderList = new ArrayList<>();
+
+				headerList = restTemplate.postForObject(Constants.url + "getGrnGvnHeader", map,
+						GrnGvnHeaderList.class);
+
+				gvnAccHeaderList = headerList.getGrnGvnHeader();
+				
+				if(gvnAccHeaderList!=null) {
+					for(int i=0;i<gvnAccHeaderList.size();i++) {
+						for(int j=0;j<allFrIdNameList.getFrIdNamesList().size();j++) {
+							if(gvnAccHeaderList.get(i).getFrId()==allFrIdNameList.getFrIdNamesList().get(j).getFrId()) {
+								gvnAccHeaderList.get(i).setFrName(allFrIdNameList.getFrIdNamesList().get(j).getFrName());
+								break;
+							}
+						}
+					}
+				}
+
+				System.out.println("gvnAccHeaderList  " + gvnAccHeaderList.toString());
+			} catch (Exception e) {
+
+				System.out.println("ERROR-  " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return gvnAccHeaderList;
+
+		}
+		
+		
+	
 
 	// Get GVN Acc detail
 	List<Integer> statusIndexList;
