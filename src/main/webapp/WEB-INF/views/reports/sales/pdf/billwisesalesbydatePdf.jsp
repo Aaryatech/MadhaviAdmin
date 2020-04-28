@@ -116,15 +116,43 @@ th {
 							<td align="right"><fmt:formatNumber type="number"
 									maxFractionDigits="2" minFractionDigits="2"
 									value="${report.sgstSum}" /></td>
-							<c:set var="total"
-								value="${report.cgstSum +report.sgstSum + report.taxableAmt}" />
+
+							<c:choose>
+
+								<c:when test="${report.taxApplicable eq 2}">
+									<c:set var="total"
+										value="${report.cgstSum +report.sgstSum + report.taxableAmt+report.discAmt}" />
+								</c:when>
+
+								<c:otherwise>
+									<c:set var="total"
+										value="${report.cgstSum +report.sgstSum + report.taxableAmt}" />
+								</c:otherwise>
+
+							</c:choose>
+
+
 							<c:set var="sgst" value="${sgst + report.sgstSum }" />
 
 							<c:set var="cgst" value="${cgst + report.cgstSum }" />
 						</c:when>
 
 						<c:when test="${report.isSameState eq 0}">
-							<c:set var="total" value="${report.igstSum+ report.taxableAmt}" />
+
+							<c:choose>
+
+								<c:when test="${report.taxApplicable eq 2}">
+									<c:set var="total"
+										value="${report.igstSum+ report.taxableAmt+report.discAmt}" />
+								</c:when>
+
+								<c:otherwise>
+									<c:set var="total" value="${report.igstSum+ report.taxableAmt}" />
+								</c:otherwise>
+
+							</c:choose>
+
+
 
 							<td align="right"><c:out value="0" /></td>
 							<td align="right"><c:out value="0"></c:out></td>
@@ -143,14 +171,14 @@ th {
 					<td align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"
 							value="${report.discAmt}" /></td>
-							
-							<c:set var="discAmtTot" value="${discAmtTot+report.discAmt}" />
+
+					<c:set var="discAmtTot" value="${discAmtTot+report.discAmt}" />
 
 					<td align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"
 							value="${report.roundOff}" /></td>
-							
-							<c:set var="roundOffTot" value="${roundOffTot+report.roundOff}" />
+
+					<c:set var="roundOffTot" value="${roundOffTot+report.roundOff}" />
 
 					<td align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2" value="${total}" /></td>

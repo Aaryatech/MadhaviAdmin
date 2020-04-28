@@ -388,6 +388,7 @@
 									value="Export to Excel">
 								<div class="col-md-12 table-responsive">
 									<table style="width: 100%; border: 1px;" id="table_grid1"
+										class="table table-bordered table-striped fill-head "
 										border="1">
 										<thead style="background-color: #f95d64;">
 											<tr>
@@ -420,7 +421,7 @@
 									onclick="tableToExcel('table_grid2', 'name', 'ProductWiseReport.xls')"
 									value="Export to Excel">
 								<div class="col-md-12 table-responsive">
-									<table style="width: 100%; border: 1px;" id="table_grid2"
+									<table style="width: 100%; border: 1px;" id="table_grid2" class="table table-bordered  fill-head "
 										border="1">
 										<thead style="background-color: #f95d64;">
 											<tr>
@@ -580,7 +581,8 @@
 					//getby-2 - grand total
 					//type -1-grn,2-crn
               
-              
+             
+					
 				$('#loader').show();
 
 				$
@@ -604,6 +606,10 @@
 
 								},
 								function(data) {
+									
+									//$('#table_grid td').remove();
+									$('#table_grid1 td').remove();
+									//alert("hi --- "+JSON.stringify(data));
 									
 									if(graph==1){
 										drawGraph();
@@ -646,9 +652,8 @@
 
 								}	
 									
-
-									$('#table_grid td').remove();
-									$('#table_grid1 td').remove();
+								 $("#table_grid2 td").remove();
+									
 									$('#loader').hide();
 									var royPer = ${royPer};
 									if (data == "") {

@@ -573,13 +573,30 @@
 														var total;
 
 														if (report.isSameState == 1) {
-															total = parseFloat(report.taxableAmt)
-																	+ parseFloat(report.cgstSum
-																			+ report.sgstSum);
+															if(report.taxApplicable==2){
+																total = parseFloat(report.taxableAmt)
+																+ parseFloat(report.cgstSum
+																		+ report.sgstSum)+parseFloat(report.discAmt);
+																
+															}else{
+																total = parseFloat(report.taxableAmt)
+																+ parseFloat(report.cgstSum
+																		+ report.sgstSum);
+																
+															}
 														} else {
+															
+															if(report.taxApplicable==2){
+																total = report.taxableAmt
+																+ report.igstSum+parseFloat(report.discAmt);
+																
+															}else{
+																total = report.taxableAmt
+																+ report.igstSum;
+																
+															}
 
-															total = report.taxableAmt
-																	+ report.igstSum;
+															
 														}
 
 														totalFinal = totalFinal

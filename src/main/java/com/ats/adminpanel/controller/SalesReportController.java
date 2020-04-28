@@ -6660,6 +6660,7 @@ public class SalesReportController {
 				}
 			}
 			System.out.println("temp list " + categoryList.toString() + "size of t List " + categoryList.size());
+			
 			royaltyBean.setCategoryList(tempList);
 			royaltyBean.setSalesReportRoyalty(royaltyList);
 			staticRoyaltyBean = royaltyBean;
