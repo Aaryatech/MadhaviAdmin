@@ -114,6 +114,7 @@ public class ExpenseAdminController {
 		List<Expense> expList = new ArrayList<Expense>(Arrays.asList(frSetting));
 
 		model.addObject("expList", expList);
+		model.addObject("imageUrl", Constants.GVN_IMAGE_URL);
 
 		System.out.println("Excep list:" + expList.toString());
 

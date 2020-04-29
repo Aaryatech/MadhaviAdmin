@@ -175,6 +175,7 @@ a[disabled="disabled"] {
 												<th class="col-md-1">Amount</th>
 												<th class="col-md-1">Type</th>
 												<th class="col-md-1">Status</th>
+												<th class="col-md-1">Attachment</th>
 												<th class="col-md-1">Action</th>
 
 											</tr>
@@ -211,11 +212,20 @@ a[disabled="disabled"] {
 												         Pending
 												    </c:otherwise>
 														</c:choose></td>
+
+
+
+													<td class="col-md-1" style="text-align: center;"><a
+														href="${imageUrl}${expList.imgName}" download><img
+															src="${imageUrl}${expList.imgName}"
+															style="width: 80px; height: 80px;"
+															onerror="this.src='${pageContext.request.contextPath}/resources/img/No_Image_Available.jpg';"></a>
+
+													</td>
+
+
+
 													<td class="col-md-2"><div>
-													<a
-													href="${pageContext.request.contextPath}/downloadExpenseAdmin/${expList.expId}" target="_blank">
-															<abbr title='Download'><i class='fa fa-download'></i></abbr>
-														</a> &nbsp;&nbsp;
 
 															<c:if test="${expList.expType==2}">
 																<c:if test="${expList.status==2}">
@@ -270,107 +280,94 @@ a[disabled="disabled"] {
 		</div>
 
 
-			<div class="modal-dialog" role="document"
-				style="width: 80%; height: 50%;">
-				<!--Content-->
-				<div class="modal-content form-elegant">
+		<div class="modal-dialog" role="document"
+			style="width: 80%; height: 50%;">
+			<!--Content-->
+			<div class="modal-content form-elegant">
 
-					<a href="#" class="close" data-dismiss="modal" aria-label="Close"
-						style="margin: 10px;" id="closeHrefModel"> <i
-						class="fa fa-times" style="color: #000000;"></i>
-					</a>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close"
+					style="margin: 10px;" id="closeHrefModel"> <i
+					class="fa fa-times" style="color: #000000;"></i>
+				</a>
 
-					<!--Header-->
-					<div class="modal-header text-center">
-						<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
-							id="myModalLabel" style="color: #ea4973;">
-							<strong>Close Bill Against Chalan</strong>
-						</h3>
+				<!--Header-->
+				<div class="modal-header text-center">
+					<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
+						id="myModalLabel" style="color: #ea4973;">
+						<strong>Close Bill Against Chalan</strong>
+					</h3>
 
-						<div></div>
-						<div class="modal-body mx-6">
+					<div></div>
+					<div class="modal-body mx-6">
 
-							<form name="modalfrm" id="modalfrm" method="post">
+						<form name="modalfrm" id="modalfrm" method="post">
 
+							<div class="row">
+								<label class="col-sm-2 col-lg-3 control-label"
+									style="color: blue;">Amount :<span id="chAmt"></span>
+								</label> <label class="col-sm-2 col-lg-3 control-label"
+									style="color: blue;">Chalan No :<span id="chNo"></label>
+								<label class="col-sm-2 col-lg-3 control-label"
+									style="color: blue;">Chalan Date :<span id="chDate"></span>
+								</label> <label class="col-sm-2 col-lg-3 control-label"
+									style="color: blue;">Franchise Name :<span id="frName"></span>
+								</label>
+							</div>
+
+							<input type="text" name="expId" id="expId" style="display: none;" />
+							<input type="text" name="expAmt" id="expAmt"
+								style="display: none;" />
+							<div class="component">
+
+								<table width="80%" id="modeltable"
+									class="table table-bordered table-striped fill-head">
+									<!-- class="table table-advance" -->
+									<thead style="background-color: #f95d64;">
+										<tr>
+
+											<th width="17" style="width: 18px; text-align: center;">Sr
+												No</th>
+											<th width="120" style="text-align: center;">Bill No</th>
+											<th width="100" style="text-align: center;">Bill Date</th>
+											<th width="100" style="text-align: center;">Bill Amount</th>
+											<th width="120" style="text-align: center;">Paid Amt</th>
+											<th width="120" style="text-align: center;">Pending Amt</th>
+											<th width="120" style="text-align: center;">Settle Amt</th>
+
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+
+							</div>
+
+							<div class="component" style="display: none;">
 								<div class="row">
-									<label class="col-sm-2 col-lg-3 control-label"
-										style="color: blue;">Amount :<span id="chAmt"></span>
-									</label> <label class="col-sm-2 col-lg-3 control-label"
-										style="color: blue;">Chalan No :<span id="chNo"></label>
-									<label class="col-sm-2 col-lg-3 control-label"
-										style="color: blue;">Chalan Date :<span id="chDate"></span>
-									</label> <label class="col-sm-2 col-lg-3 control-label"
-										style="color: blue;">Franchise Name :<span id="frName"></span>
-									</label>
-								</div>
-
-								<input type="text" name="expId" id="expId" style="display: none;" />	
-								<input type="text" name="expAmt" id="expAmt" style="display: none;" />
-								<div class="component">
-
-									<table width="80%" id="modeltable"
-										class="table table-bordered table-striped fill-head">
-										<!-- class="table table-advance" -->
-										<thead style="background-color: #f95d64;">
-											<tr>
-
-												<th width="17" style="width: 18px; text-align: center;">Sr
-													No</th>
-												<th width="120" style="text-align: center;">Bill No</th>
-												<th width="100" style="text-align: center;">Bill Date</th>
-												<th width="100" style="text-align: center;">Bill Amount</th>
-												<th width="120" style="text-align: center;">Paid Amt</th>
-												<th width="120" style="text-align: center;">Pending Amt</th>
-												<th width="120" style="text-align: center;">Settle Amt</th>
-
-											</tr>
-										</thead>
-										<tbody>
-										</tbody>
-									</table>
-
-								</div>
-
-								<div class="component" style="display: none;">
-									<div class="row">
-										<label class="col-sm-3 col-lg-1 control-label">Total </label>
-										<div class="col-sm-9 col-lg-1 controls">
-											<input type="text" name="total" id="total" value="0"
-												style="width: 90px;" class="form-control" /> <input
-												type="hidden" name="frId" id="frId" value="0"
-												class="form-control" /> <input type="hidden" name="delDate"
-												id="delDate" value="0" class="form-control" /> <input
-												type="hidden" name="expenseId" id="expenseId" value="0"
-												class="form-control" />
-										</div>
+									<label class="col-sm-3 col-lg-1 control-label">Total </label>
+									<div class="col-sm-9 col-lg-1 controls">
+										<input type="text" name="total" id="total" value="0"
+											style="width: 90px;" class="form-control" /> <input
+											type="hidden" name="frId" id="frId" value="0"
+											class="form-control" /> <input type="hidden" name="delDate"
+											id="delDate" value="0" class="form-control" /> <input
+											type="hidden" name="expenseId" id="expenseId" value="0"
+											class="form-control" />
 									</div>
 								</div>
-
-
-							</form>
-							<br>
-
-							<div class="form-group"></div>
-							<div class="col-md-12">
-								<button type="button" class="btn btn-primary" id="sbtbtn"
-									disabled="disabled">Submit</button>
 							</div>
-							
-							<div align="center" id="loader" style="display: none">
-
-									<span>
-										<h4>
-											<font color="#343690">Loading</font>
-										</h4>
-									</span> <span class="l-1"></span> <span class="l-2"></span> <span
-										class="l-3"></span> <span class="l-4"></span> <span
-										class="l-5"></span> <span class="l-6"></span>
-								</div>
 
 
+						</form>
+						<br>
 
+						<div class="form-group"></div>
+						<div class="col-md-12">
+							<button type="button" class="btn btn-primary" id="sbtbtn"
+								disabled="disabled">Submit</button>
 						</div>
-						<div align="center" id="loader1" style="display: none">
+
+						<div align="center" id="loader" style="display: none">
 
 							<span>
 								<h4>
@@ -380,13 +377,27 @@ a[disabled="disabled"] {
 								class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 							<span class="l-6"></span>
 						</div>
-					</div>
-					<!--Body-->
 
-					<!--Footer-->
+
+
+					</div>
+					<div align="center" id="loader1" style="display: none">
+
+						<span>
+							<h4>
+								<font color="#343690">Loading</font>
+							</h4>
+						</span> <span class="l-1"></span> <span class="l-2"></span> <span
+							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+						<span class="l-6"></span>
+					</div>
 				</div>
-				<!--/.Content-->
+				<!--Body-->
+
+				<!--Footer-->
 			</div>
+			<!--/.Content-->
+		</div>
 	</div>
 
 
@@ -406,7 +417,7 @@ a[disabled="disabled"] {
 	<script type="text/javascript">
 		function showDetailsForCp(expId, expAmt, expDate, chalanNo, frId) {
 			var finTot = 0;
-			var settleTotal=0;
+			var settleTotal = 0;
 			document.getElementById("total").value;
 			//alert("hii" + frId + expAmt + expDate + chalanNo);
 			$("#chNo").css("color", "red");
@@ -432,66 +443,107 @@ a[disabled="disabled"] {
 								ajax : 'true',
 							},
 							function(data) {
-								
-								if(data==""){
-									document.getElementById("expId").value=0;
-									document.getElementById("expAmt").value=0;
-								}else{
-									document.getElementById("expId").value=expId;
-									document.getElementById("expAmt").value=expAmt;
+
+								if (data == "") {
+									document.getElementById("expId").value = 0;
+									document.getElementById("expAmt").value = 0;
+								} else {
+									document.getElementById("expId").value = expId;
+									document.getElementById("expAmt").value = expAmt;
 								}
 
 								$('#modeltable td').remove();
 								document.getElementById("frName").innerHTML = data[0].frName;
 								var totalcalc = 0;
 
-								$.each(data, function(key, data1) {
-									
-									var flag = 0;
-									var y = 0;
-									var tot = document.getElementById("total").value;
+								$
+										.each(
+												data,
+												function(key, data1) {
 
-									if (parseFloat(data1.pendingAmt) <= parseFloat(expAmt)) {
-										if ((parseFloat(tot) + parseFloat(data1.pendingAmt)) > parseFloat(expAmt)) {
+													var flag = 0;
+													var y = 0;
+													var tot = document
+															.getElementById("total").value;
 
-											y = (parseFloat(tot) + parseFloat(data1.pendingAmt))- parseFloat(expAmt);
-											flag = 1;
-										}
-									}
+													if (parseFloat(data1.pendingAmt) <= parseFloat(expAmt)) {
+														if ((parseFloat(tot) + parseFloat(data1.pendingAmt)) > parseFloat(expAmt)) {
 
-									var tr = $('<tr></tr>');
+															y = (parseFloat(tot) + parseFloat(data1.pendingAmt))
+																	- parseFloat(expAmt);
+															flag = 1;
+														}
+													}
 
-									
-									tr.append($('<td></td>').html(key + 1));
-									
-									tr.append($('<td></td>').html(data1.billNo+ ""+ "<input type=hidden value='"+data1.billNo+"'  id=billNo"+data1.billHeadId+"  name=billNo"+data1.billHeadId+"  >"));
+													var tr = $('<tr></tr>');
 
-									tr.append($('<td></td>').html(data1.billDate+ ""+ "<input type=hidden value='"+data1.billDate+"'  id=billDate"+data1.billHeadId+"  name=billDate"+data1.billHeadId+"  >"));
-							
-									tr.append($('<td></td>').html(data1.billAmt+ ""+ "<input type=hidden value='"+data1.billAmt+"'  id=billAmt"+data1.billHeadId+"  name=billAmt"+data1.billHeadId+"  >"));
-							
-									tr.append($('<td></td>').html(data1.paidAmt+ ""+ "<input type=hidden value='"+data1.paidAmt+"'  id=paidAmt"+data1.billHeadId+"  name=paidAmt"+data1.billHeadId+"  >"));
+													tr.append($('<td></td>')
+															.html(key + 1));
 
-									tr.append($('<td></td>').html(data1.pendingAmt+ ""+ "<input type=hidden value='"+data1.pendingAmt+"'  id=pendingAmt"+data1.billHeadId+"  name=pendingAmt"+data1.billHeadId+"  >"));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data1.billNo
+																					+ ""
+																					+ "<input type=hidden value='"+data1.billNo+"'  id=billNo"+data1.billHeadId+"  name=billNo"+data1.billHeadId+"  >"));
 
-									tr.append($('<td></td>').html(data1.settleAmt+ ""+ "<input type=hidden value='"+data1.settleAmt+"'  id=settleAmt"+data1.billHeadId+"  name=settleAmt"+data1.billHeadId+"  >"));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data1.billDate
+																					+ ""
+																					+ "<input type=hidden value='"+data1.billDate+"'  id=billDate"+data1.billHeadId+"  name=billDate"+data1.billHeadId+"  >"));
 
-									
-									/* tr.append($('<td></td>').html("<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
-											+ data1.billHeadId
-											+ "'  id=settleAmt"
-											+ data1.billHeadId
-											+ " value="
-											+ data1.settleAmt
-											+ "  /> &nbsp;  ")); */
-									
-									settleTotal=parseFloat(settleTotal)+parseFloat(data1.settleAmt);
-									
-									$('#modeltable tbody').append(tr);
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data1.billAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data1.billAmt+"'  id=billAmt"+data1.billHeadId+"  name=billAmt"+data1.billHeadId+"  >"));
 
-								});
-								
-								
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data1.paidAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data1.paidAmt+"'  id=paidAmt"+data1.billHeadId+"  name=paidAmt"+data1.billHeadId+"  >"));
+
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data1.pendingAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data1.pendingAmt+"'  id=pendingAmt"+data1.billHeadId+"  name=pendingAmt"+data1.billHeadId+"  >"));
+
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			data1.settleAmt
+																					+ ""
+																					+ "<input type=hidden value='"+data1.settleAmt+"'  id=settleAmt"+data1.billHeadId+"  name=settleAmt"+data1.billHeadId+"  >"));
+
+													/* tr.append($('<td></td>').html("<input type=text onkeypress='return IsNumeric(event);'   style='width:100px;border-radius:25px; font-weight:bold;text-align:center;'  readonly ondrop='return false;' min='0'  onpaste='return false;' style='text-align: center;' class='form-control' name='settleAmt"
+															+ data1.billHeadId
+															+ "'  id=settleAmt"
+															+ data1.billHeadId
+															+ " value="
+															+ data1.settleAmt
+															+ "  /> &nbsp;  ")); */
+
+													settleTotal = parseFloat(settleTotal)
+															+ parseFloat(data1.settleAmt);
+
+													$('#modeltable tbody')
+															.append(tr);
+
+												});
+
 								var tr = $('<tr></tr>');
 
 								tr.append($('<td></td>').html(" "));
@@ -500,17 +552,18 @@ a[disabled="disabled"] {
 								tr.append($('<td></td>').html(" "));
 								tr.append($('<td></td>').html(" "));
 								tr.append($('<td></td>').html(" TOTAL "));
-								tr.append($('<td></td>').html(settleTotal.toFixed(2)));
-								
+								tr.append($('<td></td>').html(
+										settleTotal.toFixed(2)));
+
 								$('#modeltable tbody').append(tr);
-							
-								
-								 if(parseFloat(expAmt)-parseFloat(settleTotal)==0){
+
+								if (parseFloat(expAmt)
+										- parseFloat(settleTotal) == 0) {
 									$("#sbtbtn").prop("disabled", false);
 
-								}else{
+								} else {
 									$("#sbtbtn").prop("disabled", true);
-									
+
 									var tr = $('<tr></tr>');
 
 									tr.append($('<td></td>').html(" "));
@@ -518,12 +571,15 @@ a[disabled="disabled"] {
 									tr.append($('<td></td>').html(" "));
 									tr.append($('<td></td>').html(" "));
 									tr.append($('<td></td>').html(" "));
-									tr.append($('<td></td>').html(" REMAINING AMT "));
-									tr.append($('<td></td>').html(parseFloat(expAmt)-parseFloat(settleTotal)));
-									
+									tr.append($('<td></td>').html(
+											" REMAINING AMT "));
+									tr.append($('<td></td>').html(
+											parseFloat(expAmt)
+													- parseFloat(settleTotal)));
+
 									$('#modeltable tbody').append(tr);
 
-								} 
+								}
 
 							});
 		}
@@ -569,9 +625,9 @@ a[disabled="disabled"] {
 						alert("Bill Settled Successfully")
 						$("#overlay").fadeOut(300);
 						$("#closeHrefModel")[0].click();
-						
+
 						window.location.reload();
-						
+
 					}
 				}
 			}).done(function() {
