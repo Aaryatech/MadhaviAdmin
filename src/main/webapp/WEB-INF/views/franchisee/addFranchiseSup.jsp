@@ -242,7 +242,7 @@
 
 										<input class="form-control date-picker" id="pest_control_date"
 											size="16" type="text" name="pest_control_date" 
-											placeholder="Pest Control Date"
+											placeholder="Franchisee Agreement Expiry Date"
 											value="${frSup.pestControlDate}"
 											onblur="return onPestControlDateChange()" />
 									</div>

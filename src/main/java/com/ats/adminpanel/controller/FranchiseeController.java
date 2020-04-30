@@ -1906,11 +1906,11 @@ public class FranchiseeController {
 			String ownerBirthDate = request.getParameter("fr_birth_date");
 			logger.info("18] ownerBirthDate " + ownerBirthDate);
 
-			String frLicenseDate = request.getParameter("fr_license_date");
+			String frLicenseDate = request.getParameter("fr_license_date");//License No
 			logger.info("19] frLicenseDate " + frLicenseDate);
 
 			String frAgreementDate = request.getParameter("fr_agreement_date");
-			logger.info("20] frAgreementDate " + frAgreementDate);
+			logger.info("20] frAgreementDate " + frAgreementDate); // FDA License Date
 
 			int frGstType = Integer.parseInt(request.getParameter("fr_gst_type"));
 			logger.info("21] frGstType " + frGstType);
@@ -2008,15 +2008,16 @@ public class FranchiseeController {
 			map.add("delStatus", delStatus);
 
 			map.add("ownerBirthDate", ownerBirthDate);
-			map.add("fbaLicenseDate", frLicenseDate);
-			map.add("frAgreementDate", frAgreementDate);
+			map.add("fbaLicenseDate", frLicenseDate);// License No
+			map.add("frAgreementDate", frAgreementDate); // FDA License Date
 			map.add("frGstType", frGstType);
 			map.add("frGstNo", frGstNo);
 			map.add("stockType", stockType);
 			map.add("frAddress", frAddr);
 			map.add("frTarget", frTarget);
 			map.add("isSameState", isSameState);
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "updateFranchisee", map, ErrorMessage.class);
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "updateAdminFranchisee", map, ErrorMessage.class);
+			//updateFranchisee
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
