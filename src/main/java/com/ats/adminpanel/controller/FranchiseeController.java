@@ -2010,6 +2010,7 @@ public class FranchiseeController {
 			map.add("ownerBirthDate", ownerBirthDate);
 			map.add("fbaLicenseDate", frLicenseDate);// License No
 			map.add("frAgreementDate", frAgreementDate); // FDA License Date
+			map.add("fdaAgreementDate", frAgreementDate);
 			map.add("frGstType", frGstType);
 			map.add("frGstNo", frGstNo);
 			map.add("stockType", stockType);
