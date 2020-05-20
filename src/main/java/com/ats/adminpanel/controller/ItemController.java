@@ -693,7 +693,7 @@ public class ItemController {
 
 		double itemRate1 = Double.parseDouble(request.getParameter("item_rate1"));
 
-		double itemRate2 = Double.parseDouble(request.getParameter("item_rate2"));
+		int itemRate2 = Integer.parseInt(request.getParameter("item_rate2"));
 
 		double itemRate3 = Double.parseDouble(request.getParameter("item_rate3"));
 
@@ -714,6 +714,7 @@ public class ItemController {
 		int itemIsUsed = Integer.parseInt(request.getParameter("is_used"));
 
 		String itemSortId = request.getParameter("item_sort_id");
+		System.err.println("SORT ID - "+itemSortId);
 
 		int grnTwo = Integer.parseInt(request.getParameter("grn_two"));
 
@@ -811,6 +812,32 @@ public class ItemController {
 		map.add("isBillable", isBillable);
 		map.add("isDecimal", isDecimal);
 		map.add("billItems", billItems);
+		
+		System.err.println("ID - "+itemId);
+		System.err.println("itemName - "+itemName);
+		System.err.println("itemGrp1 - "+itemGrp1);
+		System.err.println("itemGrp2 - "+itemGrp2);
+		System.err.println("itemGrp3 - "+itemGrp3);
+		System.err.println("minQty - "+minQty);
+		System.err.println("itemRate1 - "+itemRate1);
+		System.err.println("itemRate2 - "+itemRate2);
+		System.err.println("itemRate3 - "+itemRate3);
+		System.err.println("itemMrp1 - "+itemMrp1);
+		System.err.println("itemMrp2 - "+itemMrp2);
+		System.err.println("itemMrp3 - "+itemMrp3);
+		System.err.println("itemTax1 - "+itemTax1);
+		System.err.println("itemTax2 - "+itemTax2);
+		System.err.println("itemTax3 - "+itemTax3);
+		System.err.println("itemIsUsed - "+itemIsUsed);
+		System.err.println("itemSortId - "+itemSortId);
+		System.err.println("grnTwo - "+grnTwo);
+		System.err.println("itemShelfLife - "+itemShelfLife);
+		System.err.println("isSaleable - "+isSaleable);
+		System.err.println("isStockable - "+isStockable);
+		System.err.println("isFactOrFr - "+isFactOrFr);
+		System.err.println("isBillable - "+isBillable);
+		System.err.println("isDecimal - "+isDecimal);
+		System.err.println("billItems - "+billItems);
 		
 		try {
 			Item itemRes = rest.postForObject("" + Constants.url + "insertItem", map, Item.class);
