@@ -160,7 +160,7 @@
 
 														<td align="left"><c:out value="${billDetails.mrp}" /></td>
 
-														<td align="left"><input type="text" disabled="disabled"
+														<td align="left"><input type="text" readonly="readonly"
 															class="form-control" data-rule-number="true"
 															name="billRate${billDetails.billDetailNo}"
 															id="billRate${billDetails.billDetailNo}"
@@ -170,14 +170,14 @@
 															name="discPer${billDetails.billDetailNo}"
 															id="discPer${billDetails.billDetailNo}"
 															value="${billDetails.discPer}" />
-														<td align="left"><input type="text"
+														<td align="left"><input type="text" readonly="readonly"
 															class="form-control" data-rule-number="true"
 															name="sgstPer${billDetails.billDetailNo}"
 															id="sgstPer${billDetails.billDetailNo}"
 															style="width: 60px" value="${billDetails.sgstPer}"
 															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
 
-														<td align="left"><input type="text"
+														<td align="left"><input type="text" readonly="readonly"
 															class="form-control" data-rule-number="true"
 															name="cgstPer${billDetails.billDetailNo}"
 															id="cgstPer${billDetails.billDetailNo}"
@@ -404,6 +404,7 @@
 				$("#taxableAmt"+detailNo).html(taxableAmt);
 				$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 
 				$("#grandTotal"+detailNo).html(grandTotal.toFixed(2));  */
+				changeValuesForDiscount(detailNo);
 			}
 			
 			

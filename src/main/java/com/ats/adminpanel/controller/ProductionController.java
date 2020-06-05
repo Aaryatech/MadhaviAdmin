@@ -188,7 +188,7 @@ public class ProductionController {
 	public ModelAndView showProdForcasting(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable int catId) {
 
-		System.err.println("CATID ---------(MENU ID)---------------- " + catId);
+		System.err.println("---------(MENU ID)---------------- " + catId);
 
 		ModelAndView model = null;
 		HttpSession session = request.getSession();

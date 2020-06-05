@@ -32,13 +32,15 @@ table {
 	transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 }
-
 </style>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 	<c:url var="callGetBillListProcess" value="/getBillListProcess" />
+	<c:url var="genOutwardEwayBillJson" value="/genOutwardEwayBillJson" />
+	
+	
 
 	<div class="container" id="main-container">
 
@@ -327,6 +329,28 @@ table {
 											</div>
 											<div class="table-wrap">
 
+
+												<div class="form-group">
+
+													<div class="col-sm-7 controls"></div>
+
+													<label class="col-sm-3 control-label">Vehicle
+														Number for E-Way Bill Json</label>
+													<div class="col-sm-2 controls">
+														<input type="text" name="vehNoJson" id="vehNoJson"
+															style="width: 100%;" list="vehlist1">
+
+														<datalist id="vehlist1">
+															<c:forEach var="veh" items="${vehicleList}"
+																varStatus="count">
+																<option value="${veh.vehNo}">
+															</c:forEach>
+
+														</datalist>
+													</div>
+												</div>
+
+
 												<table id="table1" class="table table-advance" border="1">
 													<thead>
 														<tr class="bgpink">
@@ -503,17 +527,13 @@ table {
 										</div>
 
 										<input type="button" id="btn_submit" class="btn btn-primary"
-											onclick="submitBill()" value="BillDetail" /> 
-											
-											<input
+											onclick="submitBill()" value="BillDetail" /> <input
 											type="button" id="btn_submit" class="btn btn-primary"
-											onclick="showVehNo()" value="Gen E-way Bill" />
-											
-											<input
+											onclick="showVehNo()" value="Gen E-way Bill" /> <input
 											type="button" id="btn_submit" class="btn btn-primary"
 											onclick="showCancelEWB()" value="Cancel E-way Bill" />
-										
-										
+
+
 										<div class="form-group"></div>
 
 										<div id="eway_submit" style="display: none">
@@ -531,18 +551,20 @@ table {
 
 
 											<input type="button" id="genEwayBill_button"
-												class="btn btn-primary" onclick="genEwayBill()"
-												value="Gen E-way Bill" style="width: 20%;" /> 
+												class="btn btn-primary" value="Gen E-way Bill"
+												style="width: 20%;" /> <input type="button"
+												id="genEwayBillJson_button" class="btn btn-primary"
+												value="E-way Bill JSON Format"
+												style="width: 20%; display: none;" />
 
 										</div>
-										
+
 										<div id="eway_cancel" style="display: none">
 
 											<input type="text" name="cancelRemark" id="cancelRemark"
-												style="width: 40%;" value="Data entry clearical error">
+												style="width: 40%;" value="Data entry clerical error">
 
-											 <input
-												type="button" id="cancelEwayBill_button"
+											<input type="button" id="cancelEwayBill_button"
 												class="btn btn-primary" value="Cancel E-way Bill"
 												style="width: 20%;">
 
@@ -771,6 +793,45 @@ table {
 					//form.submit();
 				});	
 	</script>
+
+
+	<script type="text/javascript">
+	
+	$('#genEwayBillJson_button').click(
+			function() {
+				
+				document.getElementById("overlay2").style.display = "block";
+				
+				var vehNo=document.getElementById("vehNo").value;
+				//alert("vehNo"+vehNo);
+				var form = document.getElementById("validation-form")
+				
+				$.ajax({
+   					type: "POST",
+       		 		url: "${pageContext.request.contextPath}/genOutwardEwayBillJson",
+        			data: $("#validation-form").serialize(),
+        			dataType: 'json',
+					success: function(data){
+						document.getElementById("overlay2").style.display = "none";
+						//alert(JSON.stringify(data));
+						
+						
+						var myjson = JSON.stringify(data, null, 2);
+					    console.log(myjson);
+					    var x = window.open();
+					    x.document.open();
+					    x.document.write('<html><body><pre>' + myjson + '</pre></body></html>');
+					    x.document.close();
+					    
+					}
+				});
+
+			});	
+	
+	</script>
+
+
+
 
 
 	<script type="text/javascript">
@@ -1111,7 +1172,8 @@ callSearch();
 																					+ bill.billNo
 																					+ "/"
 																					+ bill.frName
-																					+ "'<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"));
+																					+ "'<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"
+																					+"&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=genEwayBillJson("+bill.billNo+")  id=btn_submit_json class='btn btn-primary' value=E-Way Json />"));
 
 														 
 													 }else if(isDelete==1 && isEdit==0){
@@ -1132,7 +1194,8 @@ callSearch();
 																					+ bill.billNo
 																					+ "/"
 																					+ bill.frName
-																					+ "'<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"));
+																					+ "'<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"
+																					+"&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=genEwayBillJson("+bill.billNo+")  id=btn_submit_json class='btn btn-primary' value=E-Way Json />"));
 
 														 
 													 }else if(isDelete==0 && isEdit==1){
@@ -1153,7 +1216,8 @@ callSearch();
 																					+ bill.billNo
 																					+ "/"
 																					+ bill.frName
-																					+ "class='disableClick''<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"));
+																					+ "class='disableClick''<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"
+																					+"&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=genEwayBillJson("+bill.billNo+")  id=btn_submit_json class='btn btn-primary' value=E-Way Json />"));
 
 														 
 													 }else{
@@ -1175,7 +1239,8 @@ callSearch();
 																					+ bill.billNo
 																					+ "/"
 																					+ bill.frName
-																					+ "class='disableClick''<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"));
+																					+ "class='disableClick''<abbr title='Delete Bill'></abbr><i class='fa fa-trash-o  fa-lg'></i></a>&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=generateSinglePdf("+bill.billNo+")  id=btn_submit_pdf class='btn btn-primary' value=PDF />"
+																					+"&nbsp;&nbsp;<input type=button  style='padding: 0px 4px;font-size: 14px;' onclick=genEwayBillJson("+bill.billNo+")  id=btn_submit_json class='btn btn-primary' value=E-Way Json />"));
 														 
 														 
 														 /* tr
@@ -1297,6 +1362,51 @@ callSearch();
 			}
 
 		}
+	</script>
+
+
+	<script type="text/javascript">
+	
+	function genEwayBillJson(billNo) {
+		
+		var vehNo=document.getElementById("vehNoJson").value;
+		//alert(billNo);
+		
+		if(vehNo==""){
+			alert("Please Enter Vehicle Number!");
+		}else{
+			
+			document.getElementById("overlay2").style.display = "block";
+			
+			$.getJSON('${genOutwardEwayBillJson}',{
+						billNo : billNo,
+						veh : vehNo,
+						ajax : 'true'
+					},
+					function(data) {
+						
+						document.getElementById("overlay2").style.display = "none";
+						//alert(JSON.stringify(data));
+						
+						
+						var myjson = JSON.stringify(data, null, 2);
+					    console.log(myjson);
+					    var x = window.open();
+					    x.document.open();
+					    x.document.write('<html><body><pre>' + myjson + '</pre></body></html>');
+					    x.document.close();
+						
+						
+					});
+			
+			
+		}
+		
+		
+		
+		
+	}
+	
 	</script>
 
 

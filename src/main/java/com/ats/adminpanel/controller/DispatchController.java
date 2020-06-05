@@ -41,6 +41,7 @@ import com.ats.adminpanel.model.FranchiseForDispatch;
 import com.ats.adminpanel.model.PDispatchReport;
 import com.ats.adminpanel.model.creditnote.GetCreditNoteReport;
 import com.ats.adminpanel.model.franchisee.SubCategory;
+import com.ats.adminpanel.model.item.AllItemsListResponse;
 import com.ats.adminpanel.model.item.CategoryListResponse;
 import com.ats.adminpanel.model.item.Item;
 import com.ats.adminpanel.model.item.MCategoryList;
@@ -248,18 +249,17 @@ public class DispatchController {
 				PdfPTable table;
 				if (advOrd.equalsIgnoreCase("1")) {
 					table = new PdfPTable(6);
-					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f,1.9f,1.9f, 1.7f });
+					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f, 1.9f, 1.9f, 1.7f });
 				} else {
 					table = new PdfPTable(4);
 					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f, 1.7f });
 				}
 
-				//PdfPTable table = new PdfPTable(4);
+				// PdfPTable table = new PdfPTable(4);
 				table.setHeaderRows(1);
 
 				table.setWidthPercentage(100);
-				
-				
+
 				Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 				Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 				Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.BOLD, BaseColor.BLUE);
@@ -313,28 +313,28 @@ public class DispatchController {
 						if (itemsList.get(k).getItemGrp2() == subCatAList.get(j).getSubCatId()) {
 							float editQty = 0;
 
-							float advQty = 0, totalQty = 0,orderQty=0;
+							float advQty = 0, totalQty = 0, orderQty = 0;
 
-							//for (int l = 0; l < frNameIdByRouteIdList.size(); l++) {
+							// for (int l = 0; l < frNameIdByRouteIdList.size(); l++) {
 
-								//if (frNameIdByRouteIdList.get(l).getFrId() == frListOrdersPresent.get(i)) {
-									for (int m = 0; m < dispatchReportList.size(); m++) {
+							// if (frNameIdByRouteIdList.get(l).getFrId() == frListOrdersPresent.get(i)) {
+							for (int m = 0; m < dispatchReportList.size(); m++) {
 
-										if (dispatchReportList.get(m).getItemId() == itemsList.get(k).getId()) {
-											if (dispatchReportList.get(m).getFrId() == frListOrdersPresent.get(i)) {
-												editQty = dispatchReportList.get(m).getEditQty();
-												orderQty=dispatchReportList.get(m).getOrderQty();
+								if (dispatchReportList.get(m).getItemId() == itemsList.get(k).getId()) {
+									if (dispatchReportList.get(m).getFrId() == frListOrdersPresent.get(i)) {
+										editQty = dispatchReportList.get(m).getEditQty();
+										orderQty = dispatchReportList.get(m).getOrderQty();
 
-												advQty = dispatchReportList.get(m).getAdvQty();
-												totalQty = orderQty + advQty;
-											}
-
-										}
-
+										advQty = dispatchReportList.get(m).getAdvQty();
+										totalQty = orderQty + advQty;
 									}
-								//}
 
-							//}
+								}
+
+							}
+							// }
+
+							// }
 
 							if (editQty > 0) {
 								if (flagnew == 0) {
@@ -411,7 +411,7 @@ public class DispatchController {
 								cell.setPadding(4);
 								table.addCell(cell);
 
-								cell = new PdfPCell(new Phrase("" + String.format("%.2f",orderQty), headFont));
+								cell = new PdfPCell(new Phrase("" + String.format("%.2f", orderQty), headFont));
 								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 								cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 								cell.setPaddingRight(2);
@@ -420,14 +420,397 @@ public class DispatchController {
 
 								if (advOrd.equalsIgnoreCase("1")) {
 
-									cell = new PdfPCell(new Phrase("" + String.format("%.2f",advQty), headFont));
+									cell = new PdfPCell(new Phrase("" + String.format("%.2f", advQty), headFont));
 									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setPaddingRight(2);
 									cell.setPadding(4);
 									table.addCell(cell);
 
-									cell = new PdfPCell(new Phrase("" + String.format("%.2f",totalQty), headFont));
+									cell = new PdfPCell(new Phrase("" + String.format("%.2f", totalQty), headFont));
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+									cell.setPaddingRight(2);
+									cell.setPadding(4);
+									table.addCell(cell);
+
+								}
+
+								cell = new PdfPCell(new Phrase("", headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPaddingRight(2);
+								cell.setPadding(4);
+								table.addCell(cell);
+
+							}
+
+						}
+					}
+				}
+
+				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+				String reportDate = DF.format(new Date());
+				for (int l = 0; l < frNameIdByRouteIdList.size(); l++) {
+					if (frNameIdByRouteIdList.get(l).getFrId() == frListOrdersPresent.get(i)) {
+
+						Paragraph company = new Paragraph(
+								"Madhvi Dairy Retail Outlet : " + frNameIdByRouteIdList.get(l).getFrName() + "\n",
+								new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.MAGENTA));
+						company.setAlignment(Element.ALIGN_CENTER);
+						document.add(company);
+						Paragraph header = new Paragraph(" Dispatch Sheet    Dispatch Date:  " + billDate, f1);
+						document.add(header);
+					}
+				}
+				document.add(new Paragraph("\n"));
+				document.add(table);
+				document.add(new Paragraph("\n"));
+
+				int totalPages = writer.getPageNumber();
+
+				System.out.println("Page no " + totalPages);
+				document.newPage();
+			}
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = null;
+				try {
+					inputStream = new BufferedInputStream(new FileInputStream(file));
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error: BOm Prod  View Prod" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+
+	}
+
+	// NEW
+
+	@RequestMapping(value = "/getDispatchChkListPdfItext/{billDate}/{menuId}/{frId}/{advOrd}", method = RequestMethod.GET)
+	public void getDispatchChkListPdfItext(@PathVariable String billDate, @PathVariable String menuId,
+			@PathVariable String frId, @PathVariable String advOrd, HttpServletRequest request,
+			HttpServletResponse response) throws FileNotFoundException {
+		RestTemplate restTemplate = new RestTemplate();
+
+		List<PDispatchReport> dispatchReportList = new ArrayList<PDispatchReport>();
+		List<FranchiseForDispatch> frNameIdByRouteIdList = null;
+		List<SubCategory> subCatAList = null;
+		List<Item> itemsList = null;
+		List<Integer> frListOrdersPresent = new ArrayList<>();
+		String convertedDate = "";
+
+		try {
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dateFormat.parse(billDate));
+				cal.add(Calendar.DATE, 1);
+				convertedDate = dateFormat.format(cal.getTime());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			String selectedFr = null;
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			String strFrIdRouteWise = frId.toString();
+			selectedFr = strFrIdRouteWise.substring(0, strFrIdRouteWise.length());
+			System.out.println("fr Id Route WISE = " + selectedFr + "frId" + frId);
+			// -----------------new------------------------
+			map.add("frIds", frId);
+
+			FranchiseForDispatch[] frNameId = restTemplate
+					.postForObject(Constants.url + "getFranchiseForDispatchByFrIds", map, FranchiseForDispatch[].class);
+
+			frNameIdByRouteIdList = new ArrayList<>(Arrays.asList(frNameId));
+
+			System.out.println("route wise franchisee " + frNameIdByRouteIdList.toString());
+			// ---------------------------------------------
+
+
+			map.add("productionDate", billDate);
+			map.add("frId", selectedFr);
+			map.add("menuId", menuId);
+			map.add("advOrd", advOrd);
+
+			ParameterizedTypeReference<List<PDispatchReport>> typeRef = new ParameterizedTypeReference<List<PDispatchReport>>() {
+			};
+
+			ResponseEntity<List<PDispatchReport>> responseEntity = restTemplate.exchange(
+					Constants.url + "getDispatchChkListReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+
+			dispatchReportList = responseEntity.getBody();
+			System.err.println("dispatchReportList = " + dispatchReportList.toString());
+
+			AllItemsListResponse allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems",
+					AllItemsListResponse.class);
+			 itemsList = allItemsListResponse.getItems();
+			
+			SubCategory[] subCatList = restTemplate.getForObject(Constants.url + "getAllSubCatList",
+					SubCategory[].class);
+
+			 subCatAList = new ArrayList<SubCategory>(Arrays.asList(subCatList));
+
+			System.err.println("dispatchReportList --------------- " + dispatchReportList);
+			System.err.println("itemList --------------- " + itemsList);
+			
+			
+			List<Integer> frList = Stream.of(selectedFr.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+			for (int l = 0; l < frList.size(); l++) {
+				int flag = 0;
+				for (int m = 0; m < dispatchReportList.size(); m++) {
+					if (dispatchReportList.get(m).getFrId() == frList.get(l)) {
+						flag = 1;
+						break;
+					}
+				}
+				if (flag == 1) {
+					frListOrdersPresent.add(frList.get(l));
+				}
+			}
+
+			// model.addObject("frListSelected", frListOrdersPresent);
+
+		} catch (Exception e) {
+			System.out.println("get Dispatch Report Exception: " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		BufferedOutputStream outStream = null;
+		Document document = new Document(PageSize.A4);
+
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+		document.open();
+
+		try {
+			for (int i = 0; i < frListOrdersPresent.size(); i++) {
+
+				PdfPTable table;
+				if (advOrd.equalsIgnoreCase("1")) {
+					table = new PdfPTable(6);
+					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f, 1.9f, 1.9f, 1.7f });
+				} else {
+					table = new PdfPTable(4);
+					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f, 1.7f });
+				}
+
+				// PdfPTable table = new PdfPTable(4);
+				table.setHeaderRows(1);
+
+				table.setWidthPercentage(100);
+
+				Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+				Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+				Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.BOLD, BaseColor.BLUE);
+				Font f1 = new Font(FontFamily.TIMES_ROMAN, 10.0f, Font.NORMAL, BaseColor.BLACK);
+				PdfPCell hcell = new PdfPCell();
+
+				hcell = new PdfPCell(new Phrase("Sr.", headFont1));
+				hcell.setPadding(5);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(hcell);
+
+				hcell = new PdfPCell(new Phrase("ITEM NAME", headFont1));
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setPadding(5);
+				table.addCell(hcell);
+
+				hcell = new PdfPCell(new Phrase("DISPATCH QTY", headFont1));
+				hcell.setPadding(5);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(hcell);
+
+				if (advOrd.equalsIgnoreCase("1")) {
+
+					hcell = new PdfPCell(new Phrase("ADVANCE QTY", headFont1));
+					hcell.setPadding(5);
+					hcell.setBackgroundColor(BaseColor.PINK);
+					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(hcell);
+
+					hcell = new PdfPCell(new Phrase("TOTAL QTY", headFont1));
+					hcell.setPadding(5);
+					hcell.setBackgroundColor(BaseColor.PINK);
+					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(hcell);
+
+				}
+
+				hcell = new PdfPCell(new Phrase("SENT", headFont1));
+				hcell.setPadding(5);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(hcell);
+
+				for (int j = 0; j < subCatAList.size(); j++) {
+					int flagnew = 0;
+					int srNo = 1;
+					for (int k = 0; k < itemsList.size(); k++) {
+						if (itemsList.get(k).getItemGrp2() == subCatAList.get(j).getSubCatId()) {
+							float editQty = 0;
+
+							float advQty = 0, totalQty = 0, orderQty = 0;
+
+							// for (int l = 0; l < frNameIdByRouteIdList.size(); l++) {
+
+							// if (frNameIdByRouteIdList.get(l).getFrId() == frListOrdersPresent.get(i)) {
+							for (int m = 0; m < dispatchReportList.size(); m++) {
+
+								if (dispatchReportList.get(m).getItemId() == itemsList.get(k).getId()) {
+									if (dispatchReportList.get(m).getFrId() == frListOrdersPresent.get(i)) {
+										editQty = dispatchReportList.get(m).getEditQty();
+										orderQty = dispatchReportList.get(m).getOrderQty();
+
+										advQty = dispatchReportList.get(m).getAdvQty();
+										totalQty = orderQty + advQty;
+									}
+
+								}
+
+							}
+							// }
+
+							// }
+
+							if (editQty > 0) {
+								if (flagnew == 0) {
+									PdfPCell cell;
+
+									cell = new PdfPCell(new Phrase("", headFont));
+									cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+									cell.setPadding(4);
+									table.addCell(cell);
+
+									cell = new PdfPCell(new Phrase("" + subCatAList.get(j).getSubCatName(), headFont));
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+									cell.setPaddingRight(2);
+									cell.setPadding(4);
+									table.addCell(cell);
+
+									cell = new PdfPCell(new Phrase("", headFont));
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+									cell.setPaddingRight(2);
+									cell.setPadding(4);
+									table.addCell(cell);
+
+									cell = new PdfPCell(new Phrase("", headFont));
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+									cell.setPaddingRight(2);
+									cell.setPadding(4);
+									table.addCell(cell);
+
+									if (advOrd.equalsIgnoreCase("1")) {
+
+										cell = new PdfPCell(new Phrase("", headFont));
+										cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+										cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+										cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+										cell.setPaddingRight(2);
+										cell.setPadding(4);
+										table.addCell(cell);
+
+										cell = new PdfPCell(new Phrase("", headFont));
+										cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+										cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+										cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+										cell.setPaddingRight(2);
+										cell.setPadding(4);
+										table.addCell(cell);
+
+									}
+
+									flagnew = 1;
+								}
+
+								PdfPCell cell;
+
+								cell = new PdfPCell(new Phrase("" + srNo, headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+								cell.setPadding(4);
+								table.addCell(cell);
+
+								srNo = srNo + 1;
+
+								cell = new PdfPCell(new Phrase("" + itemsList.get(k).getItemName(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPaddingRight(2);
+								cell.setPadding(4);
+								table.addCell(cell);
+
+								cell = new PdfPCell(new Phrase("" + String.format("%.2f", orderQty), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+								cell.setPaddingRight(2);
+								cell.setPadding(4);
+								table.addCell(cell);
+
+								if (advOrd.equalsIgnoreCase("1")) {
+
+									cell = new PdfPCell(new Phrase("" + String.format("%.2f", advQty), headFont));
+									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+									cell.setPaddingRight(2);
+									cell.setPadding(4);
+									table.addCell(cell);
+
+									cell = new PdfPCell(new Phrase("" + String.format("%.2f", totalQty), headFont));
 									cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 									cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setPaddingRight(2);

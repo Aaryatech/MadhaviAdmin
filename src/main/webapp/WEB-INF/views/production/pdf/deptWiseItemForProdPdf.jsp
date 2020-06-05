@@ -27,7 +27,7 @@ table {
 		<%-- <div style="text-align: center; font-size: 12px;">
 			Production Date : <b>${date}</b>
 		</div> --%>
-
+		
 		<c:forEach items="${deptIdList}" var="dept" varStatus="count">
 
 			<c:set value="0" var="isNotEmpty"></c:set>
@@ -56,7 +56,7 @@ table {
 
 						</div>
 
-						<c:set var="currentDate" value="2020-01-04" />
+						<c:set var="currentDate" value="${date}" />
 						<fmt:parseDate value="${currentDate}" var="parsedCurrentDate"
 							pattern="yyyy-MM-dd" />
 

@@ -12,7 +12,8 @@ table {
 	border: 1px solid #ddd;
 }
 </style>
-<body><!-- onload="loadCat(${catId})" -->
+<body onload="getMenuByCat(${catId});">
+	<!-- onload="loadCat(${catId})" -->
 	<script>
 		$(function() {
 			$("#datepicker").datepicker({
@@ -64,110 +65,110 @@ table {
 
 			<!-- BEGIN Main Content -->
 
-<div class="row">
-			<div class="box">
-				<div class="box-title">
-					<h3>
-						<i class="fa fa-bars"></i> Add Order to Production Page
-					</h3>
-
-				</div>
-
-				<div class="box-content">
-					<div class="row">
-
-						<div class="form-group">
-
-							<label class=" col-md-2 control-label menu_label">Category
-							</label>
-							<div class="col-md-4 controls">
-
-								<select class="form-control chosen"
-									data-placeholder="Choose Category" name="selectCategory"
-									id="selectCategory" tabindex="-1" data-rule-required="true">
-
-									<option value="-1"><c:out value="" /></option>
-
-									<c:forEach items="${unSelectedCatList}" var="unSelectedCat"
-										varStatus="count">
-										<c:choose>
-
-											<c:when test="${catId==unSelectedCat.catId}">
-												<option selected value="${unSelectedCat.catId}"><c:out
-														value="${unSelectedCat.catName}" /></option>
-
-											</c:when>
-											<c:otherwise>
-												<option value="${unSelectedCat.catId}"><c:out
-														value="${unSelectedCat.catName}" /></option>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-
-								</select>
-							</div>
-
-							<label class="col-md-2 control-label menu_label">Menu</label>
-							<div class="col-md-4 controls">
-								<select data-placeholder="Select Menu" multiple="multiple"
-									class="form-control chosen-select chosen" name="selectMenu"
-									tabindex="-1" id="selectMenu" data-rule-required="true">
-									<option value="-1">ALL</option>
-								</select>
-							</div>
-
-
-						</div>
-					</div>
-					<br>
-					<div class="row">
-
-						<div class="form-group">
-
-
-
-							<label class="col-md-2 control-label menu_label">Advance
-								Order</label>
-							<div class="col-md-4 controls">
-								<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="radio" name="advOrd" id="advNo" value="0">No
-							</div>
-
-
-
-							<label class=" col-md-2 control-label menu_label">Production
-								Date</label>
-							<div class="col-md-3 controls">
-								<input value="${todayDate}" class="form-control date-picker"
-									id="datepicker" size="16" type="text" name="production_date"
-									required />
-							</div>
-
-
-							<div class="col-md-1 controls">
-								<input type="button" class="btn btn-info" value="Search"
-									id="callsearch" onclick="searchOrder()">
-							</div>
-
-						</div>
-
-					</div>
-					<div align="center" id="loader"
-						style="display: none; background-color: white;">
-
-						<span>
-							<h4>
-								<font color="#343690">Loading</font>
-							</h4>
-						</span> <span class="l-1"></span> <span class="l-2"></span> <span
-							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-						<span class="l-6"></span>
-					</div>
-				</div>
-
+			<div class="row">
 				<div class="box">
-					<!-- 	<div class="box-title">
+					<div class="box-title">
+						<h3>
+							<i class="fa fa-bars"></i> Add Order to Production Page
+						</h3>
+
+					</div>
+
+					<div class="box-content">
+						<div class="row">
+
+							<div class="form-group">
+
+								<label class=" col-md-2 control-label menu_label">Category
+								</label>
+								<div class="col-md-4 controls">
+
+									<select class="form-control chosen"
+										data-placeholder="Choose Category" name="selectCategory"
+										id="selectCategory" tabindex="-1" data-rule-required="true">
+
+										<option value="-1"><c:out value="" /></option>
+
+										<c:forEach items="${unSelectedCatList}" var="unSelectedCat"
+											varStatus="count">
+											<c:choose>
+
+												<c:when test="${catId==unSelectedCat.catId}">
+													<option selected value="${unSelectedCat.catId}"><c:out
+															value="${unSelectedCat.catName}" /></option>
+
+												</c:when>
+												<c:otherwise>
+													<option value="${unSelectedCat.catId}"><c:out
+															value="${unSelectedCat.catName}" /></option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+
+									</select>
+								</div>
+
+								<label class="col-md-2 control-label menu_label">Menu</label>
+								<div class="col-md-4 controls">
+									<select data-placeholder="Select Menu" multiple="multiple"
+										class="form-control chosen-select chosen" name="selectMenu"
+										tabindex="-1" id="selectMenu" data-rule-required="true">
+										<option value="-1">ALL</option>
+									</select>
+								</div>
+
+
+							</div>
+						</div>
+						<br>
+						<div class="row">
+
+							<div class="form-group">
+
+
+
+								<label class="col-md-2 control-label menu_label">Advance
+									Order</label>
+								<div class="col-md-4 controls">
+									<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+										name="advOrd" id="advNo" value="0">No
+								</div>
+
+
+
+								<label class=" col-md-2 control-label menu_label">Production
+									Date</label>
+								<div class="col-md-3 controls">
+									<input value="${todayDate}" class="form-control date-picker"
+										id="datepicker" size="16" type="text" name="production_date"
+										required />
+								</div>
+
+
+								<div class="col-md-1 controls">
+									<input type="button" class="btn btn-info" value="Search"
+										id="callsearch" onclick="searchOrder()">
+								</div>
+
+							</div>
+
+						</div>
+						<div align="center" id="loader"
+							style="display: none; background-color: white;">
+
+							<span>
+								<h4>
+									<font color="#343690">Loading</font>
+								</h4>
+							</span> <span class="l-1"></span> <span class="l-2"></span> <span
+								class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+							<span class="l-6"></span>
+						</div>
+					</div>
+
+					<div class="box">
+						<!-- 	<div class="box-title">
 										<h3>
 											<i class="fa fa-table"></i>  Production List
 										</h3>
@@ -180,15 +181,16 @@ table {
 									 -->
 
 
-					<form action="${pageContext.request.contextPath}/submitProduction"
-						method="post">
+						<form action="${pageContext.request.contextPath}/submitProduction"
+							method="post">
 
-						<input type="text" id="advOrdFlag" name="advOrdFlag" style="display: none;">
+							<input type="text" id="advOrdFlag" name="advOrdFlag"
+								style="display: none;">
 
-						<div class="box-content">
-							<div id="table-scroll" class="table-scroll">
+							<div class="box-content">
+								<div id="table-scroll" class="table-scroll">
 
-								<!-- <div id="faux-table" class="faux-table" aria="hidden">
+									<!-- <div id="faux-table" class="faux-table" aria="hidden">
 									<table id="table2" class="table table-advance" border="1">
 											<thead>
 												<tr class="bgpink">
@@ -201,71 +203,74 @@ table {
 												</table>
 									
 									</div> -->
-								<div class="table-wrap">
+									<div class="table-wrap">
 
-									<table id="table1" class="table table-advance" border="1">
-										<thead>
-											<tr class="bgpink">
-												<th width="60" >Sr</th>
-												<th width="100">Item Id</th>
-												<th width="170">Item Name</th>
-												<!-- 	<th width="100">Current Opening Qty</th> -->
-												<th width="100">Order Qty</th>
-												<th width="100" id="advQtyCol" style="display: none;">Adv Qty</th>
-												<th width="100" id="totQtyCol" style="display: none;">Total Qty</th>
-											</tr>
-										</thead>
-
-										
-										<tbody>
-
-										</tbody>
-
-									</table>
-								</div>
-								<br /> <br /> <br />
-								<div class="form-group col-md-8" align="left">
-									<label class=" col-md-3   "></label> <label
-										class=" col-md-3   ">Select Time Slot </label>
-									<div class="col-md-6 controls">
-
-										<select class="form-control chosen"
-											data-placeholder="Choose Time Slot" name="selectTime"
-											id="selectTime" tabindex="-1" data-rule-required="true">
+										<table id="table1" class="table table-advance" border="1">
+											<thead>
+												<tr class="bgpink">
+													<th width="60">Sr</th>
+													<th width="100">Item Id</th>
+													<th width="170">Item Name</th>
+													<!-- 	<th width="100">Current Opening Qty</th> -->
+													<th width="100">Order Qty</th>
+													<th width="100" id="advQtyCol" style="display: none;">Adv
+														Qty</th>
+													<th width="100" id="totQtyCol" style="display: none;">Total
+														Qty</th>
+												</tr>
+											</thead>
 
 
+											<tbody>
 
-											<c:forEach items="${productionTimeSlot}" var="productionTime"
-												varStatus="count">
-												<option value="${productionTime}"><c:out
-														value="Time Slot ${productionTime}" /></option>
-											</c:forEach>
-										</select>
+											</tbody>
+
+										</table>
+									</div>
+									<br /> <br /> <br />
+									<div class="form-group col-md-8" align="left">
+										<label class=" col-md-3   "></label> <label
+											class=" col-md-3   ">Select Time Slot </label>
+										<div class="col-md-6 controls">
+
+											<select class="form-control chosen"
+												data-placeholder="Choose Time Slot" name="selectTime"
+												id="selectTime" tabindex="-1" data-rule-required="true">
+
+
+
+												<c:forEach items="${productionTimeSlot}"
+													var="productionTime" varStatus="count">
+													<option value="${productionTime}"><c:out
+															value="Time Slot ${productionTime}" /></option>
+												</c:forEach>
+											</select>
+										</div>
+
+
+
+									</div>
+
+									<br />
+									<div class="row" align="center">
+										<div class="col-md-12">
+											<input type="submit" class="btn btn-primary" value="Submit"
+												disabled id="callSubmit"> <input type="button"
+												id="expExcel" class="btn btn-primary"
+												value="EXPORT TO Excel" onclick="exportToExcel();"
+												disabled="disabled">
+										</div>
 									</div>
 
 
 
 								</div>
-
-								<br />
-								<div class="row" align="center">
-									<div class="col-md-12">
-										<input type="submit" class="btn btn-primary" value="Submit"
-											disabled id="callSubmit"> <input type="button"
-											id="expExcel" class="btn btn-primary" value="EXPORT TO Excel"
-											onclick="exportToExcel();" disabled="disabled">
-									</div>
-								</div>
+						</form>
+					</div>
 
 
-								
-							</div>
-					</form>
+
 				</div>
-
-
-
-			</div>
 			</div>
 			<!-- END Main Content -->
 			<footer>
@@ -384,14 +389,6 @@ table {
 																				+ data[i].menuTitle
 																				+ '</option>';
 
-																		/*  $("#selectMenu").append(
-
-																		           $("<option ></option>").attr(
-
-																		               "value", data[i].menuId).text(data[i].menuTitle)
-
-																		       ); */
-
 																	}
 																	html += '</option>';
 																	$(
@@ -408,85 +405,98 @@ table {
 											});
 						});
 	</script>
+
+
+
+
+
 	<script type="text/javascript">
-	
- 
-						function  loadCat(temp) {
-							$
-									.getJSON(
-											'${getMenu}',
-											{
-												selectedCat :temp,
-												ajax : 'true'
-											},
-											function(data) {
+		function getMenuByCat(catId) {
+			//alert("Cat = "+catId);
+			$.getJSON('${getMenu}', {
+				selectedCat : catId,
+				ajax : 'true'
+			}, function(data) {
 
-												var len = data.length;
-												$(
-														'#selectMenu')
-														.find(
-																'option')
-														.remove()
-														.end()
-												var html = '<option value="-1">ALL</option>';
+				var len = data.length;
+				$('#selectMenu').find('option').remove().end()
+				var html = '<option value="-1">ALL</option>';
 
-												for (var i = 0; i < len; i++) {
+				for (var i = 0; i < len; i++) {
 
-													html += '<option selected value="' +data[i].menuId+ '">'
-															+ data[i].menuTitle
-															+ '</option>';
+					html += '<option value="' +data[i].menuId+ '">'
+							+ data[i].menuTitle + '</option>';
 
-													/*  $("#selectMenu").append(
+				}
+				html += '</option>';
+				$("#selectMenu").html(html);
 
-													           $("<option ></option>").attr(
+				$("#selectMenu").trigger("chosen:updated");
 
-													               "value", data[i].menuId).text(data[i].menuTitle)
+			});
+		}
 
-													       ); */
+		
+	</script>
 
-												}
-												html += '</option>';
-												$(
-														"#selectMenu")
-														.html(
-																html);
 
-												$(
-														"#selectMenu")
-														.trigger(
-																"chosen:updated");
 
-												searchOrder();
-											});
-						}
-	 
-	
-	 
-	
-	
+
+
+	<script type="text/javascript">
+		function loadCat(temp) {
+			$.getJSON('${getMenu}', {
+				selectedCat : temp,
+				ajax : 'true'
+			}, function(data) {
+
+				var len = data.length;
+				$('#selectMenu').find('option').remove().end()
+				var html = '<option value="-1">ALL</option>';
+
+				for (var i = 0; i < len; i++) {
+
+					html += '<option selected value="' +data[i].menuId+ '">'
+							+ data[i].menuTitle + '</option>';
+
+					/*  $("#selectMenu").append(
+
+					           $("<option ></option>").attr(
+
+					               "value", data[i].menuId).text(data[i].menuTitle)
+
+					       ); */
+
+				}
+				html += '</option>';
+				$("#selectMenu").html(html);
+
+				$("#selectMenu").trigger("chosen:updated");
+
+				searchOrder();
+			});
+		}
 	</script>
 	<script type="text/javascript">
 		function searchOrder() {
-			
-			var advOrd=1;
+
+			var advOrd = 1;
 			if (document.getElementById('advYes').checked) {
-				advOrd=1;
-				
-				document.getElementById('advOrdFlag').value="1";
-				
-				
+				advOrd = 1;
+
+				document.getElementById('advOrdFlag').value = "1";
+
 				$('#advQtyCol').show();
 				$('#totQtyCol').show();
-				
-			}else{
-				advOrd=0;
-			
-				document.getElementById('advOrdFlag').value="0";
-				
+
+			} else {
+				advOrd = 0;
+
+				document.getElementById('advOrdFlag').value = "0";
+
 				$('#advQtyCol').hide();
 				$('#totQtyCol').hide();
 			}
-			
 
 			$('#table1 td').remove();
 
@@ -498,7 +508,7 @@ table {
 				//document.getElementById("callsearch").disabled=true;
 				var productionDate = document.getElementById("datepicker").value;
 				var selectedMenu = $("#selectMenu").val();
-				
+
 				$('#loader').show();
 
 				$
@@ -513,8 +523,8 @@ table {
 
 								},
 								function(data) {
-									
-									//alert(data);
+
+									alert(data);
 
 									//$('#table_grid td').remove();
 
@@ -535,10 +545,10 @@ table {
 														function(key, order) {
 															//$('#loader').hide();
 															//if (order.qty > 0) {
-																document
-																		.getElementById("callSubmit").disabled = false;
+															document
+																	.getElementById("callSubmit").disabled = false;
 															//}
-															
+
 															document
 																	.getElementById("expExcel").disabled = false;
 															var tr = $('<tr></tr>');
@@ -565,23 +575,22 @@ table {
 																			'<td style="text-align:right;"></td>')
 																			.html(
 																					order.qty));
-															
-															if(advOrd==1){
+
+															if (advOrd == 1) {
 																tr
-																.append($(
-																		'<td style="text-align:right;"></td>')
-																		.html(
-																				order.advQty));
-															
+																		.append($(
+																				'<td style="text-align:right;"></td>')
+																				.html(
+																						order.advQty));
+
 																tr
-																.append($(
-																		'<td style="text-align:right;"></td>')
-																		.html(order.qty+
-																				order.advQty));
-																
+																		.append($(
+																				'<td style="text-align:right;"></td>')
+																				.html(
+																						order.qty
+																								+ order.advQty));
+
 															}
-															
-															
 
 															$('#table1 tbody')
 																	.append(tr);
@@ -630,7 +639,6 @@ table {
 																		.getElementById("callSubmit").disabled = false;
 															}
 															autoindex = autoindex + 1;
-
 
 															var tr = $('<tr></tr>');
 															tr

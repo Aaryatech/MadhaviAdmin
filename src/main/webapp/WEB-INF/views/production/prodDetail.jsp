@@ -649,7 +649,7 @@ table {
 														<c:when test="${planHeader.productionStatus==2}">
 															<button type="submit" class="btn btn-primary"
 																id="editOrderQty">
-																<i class="fa fa-check"></i> Order Plan Qty
+																<i class="fa fa-check"></i> Change Qty
 															</button>
 														</c:when>
 

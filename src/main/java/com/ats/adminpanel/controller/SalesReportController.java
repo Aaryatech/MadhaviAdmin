@@ -97,6 +97,7 @@ import com.ats.adminpanel.model.franchisee.FranchiseeAndMenuList;
 import com.ats.adminpanel.model.franchisee.FranchiseeList;
 import com.ats.adminpanel.model.franchisee.Menu;
 import com.ats.adminpanel.model.franchisee.SubCategory;
+import com.ats.adminpanel.model.item.AllItemsListResponse;
 import com.ats.adminpanel.model.item.CategoryListResponse;
 import com.ats.adminpanel.model.item.FrItemStockConfigureList;
 import com.ats.adminpanel.model.item.Item;
@@ -1242,8 +1243,8 @@ public class SalesReportController {
 	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/{typeIdList}/{billType}/{dairyType}/", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByDatePdf(@PathVariable String fDate, @PathVariable String tDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
-			@PathVariable String typeIdList, @PathVariable int billType,@PathVariable String dairyType, HttpServletRequest request,
-			HttpServletResponse response) {
+			@PathVariable String typeIdList, @PathVariable int billType, @PathVariable String dairyType,
+			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesbydatePdf");
 
@@ -1317,7 +1318,7 @@ public class SalesReportController {
 				map.add("fromDate", fDate);
 				map.add("toDate", tDate);
 				map.add("dairyList", dairyType);
-				
+
 				if (billType == 1) {
 					map.add("typeIdList", typeIdList);
 				} else {
@@ -2134,8 +2135,6 @@ public class SalesReportController {
 			dairyType = dairyType.substring(1, dairyType.length() - 1);
 			dairyType = dairyType.replaceAll("\"", "");
 
-			
-
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
 
@@ -2268,11 +2267,10 @@ public class SalesReportController {
 
 			frList = new ArrayList<>();
 			frList = Arrays.asList(selectedFr);
-			
+
 			String dairyType = request.getParameter("dairyMartType");
 			dairyType = dairyType.substring(1, dairyType.length() - 1);
 			dairyType = dairyType.replaceAll("\"", "");
-			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
@@ -2552,7 +2550,8 @@ public class SalesReportController {
 	@RequestMapping(value = "pdf/showSaleBillwiseGrpByDatePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{typeIdList}/{billType}/{dairyMartType}", method = RequestMethod.GET)
 	public ModelAndView showSaleBillwiseGrpByDate(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String typeIdList, @PathVariable String selectedFr, @PathVariable String routeId,
-			@PathVariable int billType,@PathVariable String dairyMartType, HttpServletRequest request, HttpServletResponse response) {
+			@PathVariable int billType, @PathVariable String dairyMartType, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesgrpbydatePdf");
 
@@ -2602,11 +2601,12 @@ public class SalesReportController {
 				map.add("toDate", toDate);
 				map.add("typeIdList", typeIdList);
 				map.add("dairyList", dairyMartType);
-				
+
 				ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 				};
 				ResponseEntity<List<SalesReportDateMonth>> responseEntity = restTemplate.exchange(
-						Constants.url + "getDatewiseReportWithDairyMart", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+						Constants.url + "getDatewiseReportWithDairyMart", HttpMethod.POST, new HttpEntity<>(map),
+						typeRef);
 
 //				ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 //				};
@@ -3082,6 +3082,7 @@ public class SalesReportController {
 				map.add("frIdList", selectedFr);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
+				map.add("dairyList", dairyMartType);
 
 				ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>> typeRef = new ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>>() {
 				};
@@ -5019,7 +5020,7 @@ public class SalesReportController {
 
 	@RequestMapping(value = "/getAllMenusForDisp", method = RequestMethod.GET)
 	public @ResponseBody List<Menu> getAllMenusForDisp() {
-
+		System.err.println("MENU LIST DISPATCH CHK LIST - " + selectedMenuList);
 		return selectedMenuList;
 	}
 
@@ -6323,6 +6324,158 @@ public class SalesReportController {
 
 	}
 
+	// DISPATCH CHECK LIST-4-6-2020----------------------------------------
+
+	@RequestMapping(value = "pdf/getDispatchChkListReportPdf/{billDate}/{menuId}/{frId}/{advOrd}", method = RequestMethod.GET)
+	public ModelAndView getDispatchChkListReportPdf(@PathVariable String billDate, @PathVariable String menuId,
+			@PathVariable String frId, @PathVariable String advOrd, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("reports/sales/dispatchMini");/* dispatchReportPPdfBill */
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		List<PDispatchReport> dispatchReportList = new ArrayList<PDispatchReport>();
+
+		try {
+			String convertedDate = "";
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dateFormat.parse(billDate));
+				cal.add(Calendar.DATE, 1);
+				convertedDate = dateFormat.format(cal.getTime());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			String selectedFr = null;
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			String strFrIdRouteWise = frId.toString();
+
+			selectedFr = strFrIdRouteWise.substring(0, strFrIdRouteWise.length());
+			System.out.println("fr Id Route WISE = " + selectedFr + "frId" + frId);
+
+			// -----------------new------------------------
+			map.add("frIds", frId);
+
+			FranchiseForDispatch[] frNameId = restTemplate
+					.postForObject(Constants.url + "getFranchiseForDispatchByFrIds", map, FranchiseForDispatch[].class);
+
+			List<FranchiseForDispatch> frNameIdByRouteIdList = new ArrayList<>(Arrays.asList(frNameId));
+
+			System.out.println("selectedFr" + selectedFr.toString());
+
+			map.add("productionDate", billDate);
+			map.add("frId", selectedFr);
+			map.add("menuId", menuId);
+			map.add("advOrd", advOrd);
+
+			ParameterizedTypeReference<List<PDispatchReport>> typeRef = new ParameterizedTypeReference<List<PDispatchReport>>() {
+			};
+
+//			ResponseEntity<List<PDispatchReport>> responseEntity = restTemplate.exchange(
+//					Constants.url + "getPDispatchItemReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			
+			ResponseEntity<List<PDispatchReport>> responseEntity = restTemplate.exchange(
+					Constants.url + "getDispatchChkListReport", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+			
+
+			dispatchReportList = responseEntity.getBody();
+			System.err.println("dispatchReportList = " + dispatchReportList.toString());
+
+			map = new LinkedMultiValueMap<String, Object>();
+
+			AllItemsListResponse allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems",
+					AllItemsListResponse.class);
+			List<Item> itemsList = allItemsListResponse.getItems();
+
+//			ParameterizedTypeReference<List<Item>> typeRef1 = new ParameterizedTypeReference<List<Item>>() {
+//			};
+//
+//			ResponseEntity<List<Item>> responseEntity1 = restTemplate.exchange(Constants.url + "getItemsByCatIdForDisp",
+//					HttpMethod.POST, new HttpEntity<>(map), typeRef1);
+
+//			map = new LinkedMultiValueMap<String, Object>();
+//			map.add("catId", selectedCat);
+//			ParameterizedTypeReference<List<SubCategory>> typeRef2 = new ParameterizedTypeReference<List<SubCategory>>() {
+//			};
+//
+//			ResponseEntity<List<SubCategory>> responseEntity2 = restTemplate
+//					.exchange(Constants.url + "getSubCatListForDis", HttpMethod.POST, new HttpEntity<>(map), typeRef2);
+			
+			SubCategory[] subCatList = restTemplate.getForObject(Constants.url + "getAllSubCatList",
+					SubCategory[].class);
+
+			ArrayList<SubCategory> subCatAList = new ArrayList<SubCategory>(Arrays.asList(subCatList));
+
+			System.err.println("dispatchReportList --------------- " + dispatchReportList);
+			System.err.println("itemList --------------- " + itemsList);
+			
+			
+			allFrIdNameList = new AllFrIdNameList();
+			try {
+
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
+						AllFrIdNameList.class);
+
+			} catch (Exception e) {
+				System.out.println("Exception in getAllFrIdName" + e.getMessage());
+				e.printStackTrace();
+
+			}
+
+			model.addObject("dispatchReportList", dispatchReportList);
+			model.addObject("frList", frNameIdByRouteIdList);
+			model.addObject("itemList", itemsList);
+			model.addObject("subCatList", subCatAList);
+
+			model.addObject("convertedDate", convertedDate);
+			model.addObject("FACTORYNAME", Constants.FACTORYNAME);
+			model.addObject("FACTORYADDRESS", Constants.FACTORYADDRESS);
+			List<Integer> frList = Stream.of(selectedFr.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+			List<Integer> frListOrdersPresent = new ArrayList<>();
+			for (int l = 0; l < frList.size(); l++) {
+				int flag = 0;
+				for (int m = 0; m < dispatchReportList.size(); m++) {
+					if (dispatchReportList.get(m).getFrId() == frList.get(l)) {
+						flag = 1;
+						break;
+					}
+				}
+				if (flag == 1) {
+					frListOrdersPresent.add(frList.get(l));
+				}
+			}
+
+			model.addObject("frListSelected", frListOrdersPresent);
+
+		} catch (Exception e) {
+			System.out.println("get Dispatch Report Exception: " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		model.addObject("advOrd", advOrd);
+
+		return model;
+
+	}
+
+	// -------------------------------------------------------------------------------
+	
+	
+	@RequestMapping(value = "/getAllFrForDispatchChkList", method = RequestMethod.GET)
+	public @ResponseBody List<AllFrIdName> getAllFrForDispatchChkList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return allFrIdNameList.getFrIdNamesList();
+	}
+
+	
+	
+
 	List<SubcatWiseSale> subCatListForChart = new ArrayList<SubcatWiseSale>();
 	RoyaltyListBean royaltyBean = new RoyaltyListBean();
 
@@ -6660,7 +6813,7 @@ public class SalesReportController {
 				}
 			}
 			System.out.println("temp list " + categoryList.toString() + "size of t List " + categoryList.size());
-			
+
 			royaltyBean.setCategoryList(tempList);
 			royaltyBean.setSalesReportRoyalty(royaltyList);
 			staticRoyaltyBean = royaltyBean;
@@ -6940,8 +7093,7 @@ public class SalesReportController {
 			idList.add(0);
 		}
 		model.addObject("idList", idList);
-		
-		
+
 		System.out.println("dairyId" + dairyIds);
 		String dairy = null;
 		StringBuilder sb1 = new StringBuilder();
@@ -6957,10 +7109,7 @@ public class SalesReportController {
 		} catch (Exception e) {
 		}
 		model.addObject("dairy", dairy);
-		
-		
-		
-		
+
 		try {
 			String year = request.getParameter("year");
 
@@ -7214,7 +7363,7 @@ public class SalesReportController {
 
 			}
 			model.addObject("idList", idList);
-			
+
 			StringBuilder sb1 = new StringBuilder();
 			String dairy = null;
 
@@ -7228,8 +7377,7 @@ public class SalesReportController {
 
 			}
 			model.addObject("dairy", dairy);
-			
-			
+
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts
 
@@ -7395,8 +7543,7 @@ public class SalesReportController {
 
 			}
 			model.addObject("idList", idList);
-			
-			
+
 			StringBuilder sb1 = new StringBuilder();
 			String dairy = null;
 
@@ -7410,7 +7557,6 @@ public class SalesReportController {
 
 			}
 			model.addObject("dairy", dairy);
-			
 
 			if (year != "") {
 				String[] yrs = year.split("-"); // returns an array with the 2 parts

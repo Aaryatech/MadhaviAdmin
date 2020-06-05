@@ -38,6 +38,10 @@
 	<c:url var="getAllMenusForDisp" value="/getAllMenusForDisp"></c:url>
 	<c:url var="getCatByMenuId" value="/getCatByMenuId"></c:url>
 
+	<c:url var="getAllFrForDispatchChkList"
+		value="/getAllFrForDispatchChkList"></c:url>
+
+
 
 
 	<!-- BEGIN Sidebar -->
@@ -56,27 +60,6 @@
 
 	<!-- BEGIN Content -->
 	<div id="main-content">
-		<!-- BEGIN Page Title -->
-		<!-- 	<div class="page-title">
-			<div>
-				<h1>
-					<i class="fa fa-file-o"></i>Dispatch Item Report
-				</h1>
-				<h4></h4>
-			</div>
-		</div> -->
-		<!-- END Page Title -->
-
-		<!-- BEGIN Breadcrumb -->
-		<%-- <div id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li><i class="fa fa-home"></i> <a
-					href="${pageContext.request.contextPath}/home">Home</a> <span
-					class="divider"><i class="fa fa-angle-right"></i></span></li>
-				<li class="active">Dispatch Report</li>
-			</ul>
-		</div> --%>
-		<!-- END Breadcrumb -->
 
 		<!-- BEGIN Main Content -->
 		<div class="box">
@@ -94,12 +77,15 @@
 					<div class="form-group">
 						<label class="col-sm-3 col-lg-2	 control-label">Delivery
 							Date</label>
-						<div class="col-sm-6 col-lg-2 controls date_select">
-							<input class="form-control date-picker" id="billDate"
+						<div class="col-sm-6 col-lg-3 controls date_select">
+							<input class="form-control date-picker" id="billDate" 
 								name="billDate" size="30" type="text" value="${todaysDate}" />
 						</div>
-						<label class="col-sm-3 col-lg-2 control-label">ABC Type</label>
-						<div class="col-sm-3 col-lg-2">
+
+
+						<label class="col-sm-3 col-lg-2 control-label"
+							style="display: none;">ABC Type</label>
+						<div class="col-sm-3 col-lg-2" style="display: none;">
 
 							<select data-placeholder="Choose Category"
 								class="form-control chosen" onchange="routListByAbcType()"
@@ -109,13 +95,12 @@
 								<option value="1">A</option>
 								<option value="2">B</option>
 								<option value="3">C</option>
-								<%-- <c:forEach items="${catList}" var="cat" varStatus="count">
-									<option value="${cat.catId}"><c:out value="${cat.catName}"/></option>
-								</c:forEach> --%>
+
 							</select>
 						</div>
-						<label class="col-sm-3 col-lg-1 control-label">Route</label>
-						<div class="col-sm-6 col-lg-3 controls">
+						<label class="col-sm-3 col-lg-1 control-label"
+							style="display: none;">Route</label>
+						<div class="col-sm-6 col-lg-3 controls" style="display: none;">
 							<select data-placeholder="Select Route"
 								class="form-control chosen" name="selectRoute" id="selectRoute"
 								onchange="getFranchise(this.value)">
@@ -127,6 +112,18 @@
 							</select>
 
 						</div>
+
+						<div class="col-sm-3 col-lg-2"></div>
+						<label class="col-sm-3 col-lg-2 control-label"
+							style="text-align: right;">Advance Order </label>
+						<div class="col-sm-3 col-lg-3">
+
+							<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="advOrd"
+								id="advNo" value="0">No
+						</div>
+
+
 					</div>
 
 				</div>
@@ -138,13 +135,14 @@
 
 						<label class="col-sm-3 col-lg-2 control-label">Select Menu
 						</label>
-						<div class="col-sm-3 col-lg-4">
+						<div class="col-sm-3 col-lg-10">
 
 							<select data-placeholder="Select Menu "
 								class="form-control chosen" id="menuId" name="menuId"
-								multiple="multiple" required onchange="onMenuChange(this.value)">
+								multiple="multiple" required
+								onchange="setAllMenuSelected(this.value)">
 
-								<!-- <option value="-1">All</option> -->
+								<option value="-1">All</option>
 								<c:forEach items="${menuList}" var="menuList">
 									<option value="${menuList.menuId}"><c:out
 											value="${menuList.menuTitle}" />
@@ -156,27 +154,20 @@
 
 						</div>
 
-						<div class="col-sm-3 col-lg-2">
+						<div class="col-sm-3 col-lg-2" style="display: none;">
 
 							<button class="buttonload" id="loader">
 								<i class="fa fa-spinner fa-spin"></i>Loading
 							</button>
 						</div>
-						<label class="col-sm-3 col-lg-2 control-label">Advance
-							Order </label>
-						<div class="col-sm-3 col-lg-2">
 
-							<input type="radio" name="advOrd" id="advYes" value="1" checked>Yes
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="advOrd"
-								id="advNo" value="0">No
-						</div>
 
 
 
 					</div>
 				</div>
-				<br>
-				<div class="row">
+
+				<div class="row" style="display: none;">
 
 					<div class="form-group">
 						<label class="col-sm-3 col-lg-2 control-label">Select
@@ -208,8 +199,8 @@
 
 
 				</div>
-				<br>
-				<div class="row">
+
+				<div class="row" style="display: none;">
 
 					<div class="form-group">
 						<label class="col-sm-3 col-lg-2 control-label">Sub-Category</label>
@@ -246,9 +237,9 @@
 								<option value="">Select Franchisee</option>
 								<option value="-1"><c:out value="All" /></option>
 
-								<%--  	<c:forEach items="${frListRes}" var="frListRes" varStatus="cnt">
+								<c:forEach items="${frListRes}" var="frListRes" varStatus="cnt">
 									<option value="${frListRes.frId}">${frListRes.frName}</option>
-								</c:forEach> --%>
+								</c:forEach>
 
 							</select>
 						</div>
@@ -385,14 +376,12 @@
 		<script type="text/javascript">
 			function onFrChange() {
 				var frId = $("#fraId").val();
-				var routeId = $("#selectRoute").val();
+				//var routeId = $("#selectRoute").val();
 				if (frId == '-1') {
 					$
 							.getJSON(
-									'${getFranchisees}',
+									'${getAllFrForDispatchChkList}',
 									{
-
-										routeId : routeId,
 										ajax : 'true'
 									},
 									function(data) {
@@ -965,7 +954,7 @@
 				var selectedCat = $("#selectSubCat").val();//new for pune on 14 feb 19
 				var frId = $("#fraId").val();
 
-				window
+				/* window
 						.open('pdfForDisReport?url=pdf/getDispatchPReportPdfForDispatch/'
 								+ billDate
 								+ '/'
@@ -973,7 +962,18 @@
 								+ '/'
 								+ routeId
 								+ '/'
-								+ selectedCat + '/' + frId + '/' + advOrd);
+								+ selectedCat + '/' + frId + '/' + advOrd); */
+
+				window
+						.open('pdfForDisReport?url=pdf/getDispatchChkListReportPdf/'
+								+ billDate
+								+ '/'
+								+ menuId
+								+ '/'
+								+ frId
+								+ '/'
+								+ advOrd);
+
 			}
 			/* var fld = document.getElementById('fraId');
 			var values = [];
@@ -999,9 +999,13 @@
 				var selectedCat = $("#selectSubCat").val();//new for pune on 14 feb 19
 				var frId = $("#fraId").val();
 
-				window.open('getDispatchPdfForDispatch/' + billDate + '/'
+				/* window.open('getDispatchPdfForDispatch/' + billDate + '/'
 						+ menuId + '/' + routeId + '/' + selectedCat + '/'
-						+ frId + '/' + advOrd);
+						+ frId + '/' + advOrd); */
+
+				window.open('getDispatchChkListPdfItext/' + billDate + '/'
+						+ menuId + '/' + frId + '/' + advOrd);
+
 			}
 		</script>
 		<!--basic scripts-->
@@ -1160,44 +1164,128 @@
 												});
 							});
 		</script>
+
+
+		<script>
+			function setAllMenuSelected(menuId) {
+				//alert("frId" + frId);
+				//alert("hii")
+				if (menuId == -1) {
+
+					$.getJSON('${getAllMenusForDisp}', {
+
+						ajax : 'true'
+					}, function(data) {
+
+						var len = data.length;
+
+						//alert(len);
+
+						$('#menuId').find('option').remove().end()
+						$("#menuId").append(
+								$("<option value='-1'>All</option>"));
+						for (var i = 0; i < len; i++) {
+							$("#menuId").append(
+									$("<option selected ></option>").attr(
+											"value", data[i].menuId).text(
+											data[i].menuTitle));
+						}
+						$("#menuId").trigger("chosen:updated");
+
+						//var mId = $("#menuId").val();
+					});
+				}
+			}
+		</script>
+
+
+
+
 		<script type="text/javascript">
 			function onMenuChange(menuId) {
 
 				var mId = $("#menuId").val();
+
 				$('#loader').show();
 
-				if (mId == null) {
-					$('#selectCat').find('option').remove();
-					$("#selectCat").trigger("chosen:updated");
-					$('#loader').hide();
+				if (mId == -1) {
+					//$('#selectCat').find('option').remove();
+					//$("#selectCat").trigger("chosen:updated");
+					//$('#loader').hide();
+
+					$
+							.getJSON(
+									'${getAllMenusForDisp}',
+									{
+
+										ajax : 'true'
+									},
+									function(data) {
+
+										var len = data.length;
+
+										//alert(len);
+
+										var ids = "";
+
+										for (var i = 0; i < len; i++) {
+											ids += data[i].menuId + ",";
+										}
+
+										var newStr = ids.substring(0,
+												ids.length - 1);
+
+										//alert(newStr);
+
+										$
+												.getJSON(
+														'${getCatByMenuId}',
+														{
+															menuId : JSON
+																	.stringify(newStr),
+															ajax : 'true'
+														},
+														function(data) {
+															$('#loader').hide();
+
+															//alert(JSON.stringify(data));
+
+															var html = '<option value="">Select Category</option>';
+
+															var len = data.length;
+
+															$('#selectCat')
+																	.find(
+																			'option')
+																	.remove()
+																	.end()
+															/* 	$("#selectCat").append(
+																		$("<option></option>").attr("value", -1).text(
+																				"ALL")); */
+
+															for (var i = 0; i < len; i++) {
+
+																$("#selectCat")
+																		.append(
+																				$(
+																						"<option selected></option>")
+																						.attr(
+																								"value",
+																								data[i].catId)
+																						.text(
+																								data[i].catName));
+															}
+
+															$("#selectCat")
+																	.trigger(
+																			"chosen:updated");
+
+															getSubCategoriesByCatId();
+														});
+
+									});
+
 				} else {
-
-					//alert(mId);
-
-					/*  if (menuId == -1) {
-						$.getJSON('${getAllMenusForDisp}', {
-							ajax : 'true'
-						}, function(data) {
-							var html = '<option value="">Select Menus</option>';
-
-							var len = data.length;
-
-							$('#menuId').find('option').remove().end()
-							$("#menuId").append(
-									$("<option></option>").attr("value", -1).text(
-											"ALL"));
-
-							for (var i = 0; i < len; i++) {
-
-								$("#menuId").append(
-										$("<option selected></option>").attr(
-												"value", data[i].menuId).text(
-												data[i].menuTitle));
-							}
-
-							$("#menuId").trigger("chosen:updated");
-						});
-					}  */
 
 					$.getJSON('${getCatByMenuId}', {
 						menuId : JSON.stringify(mId),
@@ -1285,5 +1373,8 @@
 				}
 			}
 		</script>
+
+
+
 </body>
 </html>

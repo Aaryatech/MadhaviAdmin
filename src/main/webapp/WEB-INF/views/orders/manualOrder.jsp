@@ -1713,21 +1713,28 @@ $(function() {
 
 									if (data.error == false) {
 
-										var html = '<option value="0" selected>Select Customer</option>';
+										//var html = '<option value="0" selected>Select Customer</option>';
+										var html = "";
 										var len = data.customerList.length;
 										//alert(data.addCustomerId);
 										for (var i = 0; i < len; i++) {
 
 											if (data.customerList[i].custId == data.addCustomerId) {
+												
 												 document.getElementById("billToName").value=data.customerList[i].custName;
 					                              document.getElementById("billToGstin").value=data.customerList[i].gstNo;
 					                              document.getElementById("billToAddress").value=data.customerList[i].address;
-												html += '<option value="' + data.customerList[i].custId + '" selected>'
+					                              
+												
+					                              html += '<option value="' + data.customerList[i].custId + '" selected>'
 														+ data.customerList[i].custName
 														+ '&nbsp;'
 														+ data.customerList[i].phoneNumber
 														+ '</option>';
 											} else {
+												
+
+												
 												html += '<option value="' + data.customerList[i].custId + '">'
 														+ data.customerList[i].custName
 														+ '&nbsp;'
@@ -1736,12 +1743,14 @@ $(function() {
 											}
 
 										}
+										
+
 
 										$('#cust').html(html);
 
 										$("#cust").trigger("chosen:updated");
-										$('.chosen-select').trigger(
-												'chosen:updated');
+										
+										//$('.chosen-select').trigger('chosen:updated');
 										
 										document.getElementById("pincode").value = "";
 										document.getElementById("remark").value = "";
@@ -1763,7 +1772,7 @@ $(function() {
 										$("#custType").trigger("chosen:updated");
 										document.getElementById("ageRange").value ="0";
 										$("#ageRange").trigger("chosen:updated");
-										$('.chosen-select').trigger('chosen:updated');
+										//$('.chosen-select').trigger('chosen:updated');
 										document
 												.getElementById("add_cust_head_name").innerHTML = "Add Customer";
 										$("#isbuissnessdiv").hide();
@@ -1776,6 +1785,8 @@ $(function() {
 											alert("Customer Add Successfully");
 											closeMyModal('myModal');
 										}
+										
+										
 										
 									} else {
 										alert("Failed To Add Customer");

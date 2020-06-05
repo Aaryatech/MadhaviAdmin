@@ -2777,6 +2777,9 @@ public class BillController {
 			PostBillHeader postBillHeader = new PostBillHeader();
 			for (int i = 0; i < billDetailsList.size(); i++) {
 
+				System.err.println("Bill Qty = "+request.getParameter("billQty" + billDetailsList.get(i).getBillDetailNo()));
+				System.err.println("Bill Rate = "+request.getParameter("billRate" + billDetailsList.get(i).getBillDetailNo()));
+				
 				float newBillQty = Float
 						.parseFloat(request.getParameter("billQty" + billDetailsList.get(i).getBillDetailNo()));
 				float newBillRate = Float
@@ -2887,51 +2890,117 @@ public class BillController {
 				postBillDetailsList.add(postBillDetail);
 
 			} // End of for
+			
+			
+			
+			//-----------------GET BILL HEADER-----------------
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map = new LinkedMultiValueMap<String, Object>();
 
-			for (int j = 0; j < billHeadersList.size(); j++) {
+			map.add("billNoList", postBillDetailsList.get(0).getBillNo());
 
-				if (billHeadersList.get(j).getBillNo() == postBillDetailsList.get(0).getBillNo()) {
+			List<FrBillHeaderForPrint> billHeaderForEdit=new ArrayList<>();
+			
+			ParameterizedTypeReference<List<FrBillHeaderForPrint>> typeRef2 = new ParameterizedTypeReference<List<FrBillHeaderForPrint>>() {
+			};
+			ResponseEntity<List<FrBillHeaderForPrint>> responseEntity2 = restTemplate.exchange(
+					Constants.url + "getFrBillHeaderForPrintSelectedBill", HttpMethod.POST, new HttpEntity<>(map),
+					typeRef2);
+			billHeaderForEdit = responseEntity2.getBody();
+			
+			for (int j = 0; j < billHeaderForEdit.size(); j++) {
+
+				if (billHeaderForEdit.get(j).getBillNo() == postBillDetailsList.get(0).getBillNo()) {
 
 					DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 					Date billDate = null;
 					try {
-						billDate = formatter.parse(billHeadersList.get(j).getBillDate());
+						billDate = formatter.parse(billHeaderForEdit.get(j).getBillDate());
 					} catch (ParseException e) {
 						System.out.println("exc in formatting bill Date " + e.getMessage());
 						e.printStackTrace();
 					}
 					postBillHeader.setBillDate(billDate);
-					postBillHeader.setPartyName(billHeadersList.get(j).getPartyName());
-					postBillHeader.setPartyGstin(billHeadersList.get(j).getPartyGstin());
-					postBillHeader.setPartyAddress(billHeadersList.get(j).getPartyAddress());
-					postBillHeader.setVehNo(billHeadersList.get(j).getVehNo());// ex on 2 july
-					postBillHeader.setBillTime(billHeadersList.get(j).getBillTime());// ex on 2 july
-					postBillHeader.setExVarchar1(billHeadersList.get(j).getExVarchar1());// ex on 2 july
-					postBillHeader.setExVarchar2(billHeadersList.get(j).getExVarchar2());// ex on 2 july
-					postBillHeader.setBillNo(billHeadersList.get(j).getBillNo());
+					postBillHeader.setPartyName(billHeaderForEdit.get(j).getPartyName());
+					postBillHeader.setPartyGstin(billHeaderForEdit.get(j).getPartyGstin());
+					postBillHeader.setPartyAddress(billHeaderForEdit.get(j).getPartyAddress());
+					postBillHeader.setVehNo(billHeaderForEdit.get(j).getVehNo());// ex on 2 july
+					postBillHeader.setBillTime(billHeaderForEdit.get(j).getBillTime());// ex on 2 july
+					postBillHeader.setExVarchar1(billHeaderForEdit.get(j).getExVarchar1());// ex on 2 july
+					postBillHeader.setExVarchar2(billHeaderForEdit.get(j).getExVarchar2());// ex on 2 july
+					postBillHeader.setBillNo(billHeaderForEdit.get(j).getBillNo());
 					postBillHeader.setDelStatus(0);
-					postBillHeader.setFrCode(billHeadersList.get(j).getFrCode());
-					postBillHeader.setFrId(billHeadersList.get(j).getFrId());
+					postBillHeader.setFrCode(billHeaderForEdit.get(j).getFrCode());
+					postBillHeader.setFrId(billHeaderForEdit.get(j).getFrId());
 					postBillHeader.setGrandTotal(Float.valueOf(df.format(sumGrandTotal)));
-					postBillHeader.setInvoiceNo(billHeadersList.get(j).getInvoiceNo());
-					postBillHeader.setRemark(billHeadersList.get(j).getRemark());
-					postBillHeader.setStatus(billHeadersList.get(j).getStatus());
+					postBillHeader.setInvoiceNo(billHeaderForEdit.get(j).getInvoiceNo());
+					postBillHeader.setRemark(billHeaderForEdit.get(j).getRemark());
+					postBillHeader.setStatus(billHeaderForEdit.get(j).getStatus());
 					postBillHeader.setTaxableAmt(Float.valueOf(df.format(sumTaxableAmt)));
-					postBillHeader.setTaxApplicable(billHeadersList.get(j).getTaxApplicable());
+					postBillHeader.setTaxApplicable(billHeaderForEdit.get(j).getTaxApplicable());
 					postBillHeader.setTotalTax(Float.valueOf(df.format(sumTotalTax)));
-					postBillHeader.setRemark(billHeadersList.get(j).getRemark());
+					postBillHeader.setRemark(billHeaderForEdit.get(j).getRemark());
 					postBillHeader.setSgstSum(sumTotalSgst);
 					postBillHeader.setCgstSum(sumTotalCgst);
 					postBillHeader.setDiscAmt(roundUp(sumDiscAmt));// new
-					postBillHeader.setTime(billHeadersList.get(j).getTime());
+					postBillHeader.setTime(billHeaderForEdit.get(j).getBillTime());
 					break;
 				} // end of if
 
 			} // end of for
+			
+			
+			//----------------------------------
+			
+
+//			for (int j = 0; j < billHeadersList.size(); j++) {
+//
+//				if (billHeadersList.get(j).getBillNo() == postBillDetailsList.get(0).getBillNo()) {
+//
+//					DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//					Date billDate = null;
+//					try {
+//						billDate = formatter.parse(billHeadersList.get(j).getBillDate());
+//					} catch (ParseException e) {
+//						System.out.println("exc in formatting bill Date " + e.getMessage());
+//						e.printStackTrace();
+//					}
+//					postBillHeader.setBillDate(billDate);
+//					postBillHeader.setPartyName(billHeadersList.get(j).getPartyName());
+//					postBillHeader.setPartyGstin(billHeadersList.get(j).getPartyGstin());
+//					postBillHeader.setPartyAddress(billHeadersList.get(j).getPartyAddress());
+//					postBillHeader.setVehNo(billHeadersList.get(j).getVehNo());// ex on 2 july
+//					postBillHeader.setBillTime(billHeadersList.get(j).getBillTime());// ex on 2 july
+//					postBillHeader.setExVarchar1(billHeadersList.get(j).getExVarchar1());// ex on 2 july
+//					postBillHeader.setExVarchar2(billHeadersList.get(j).getExVarchar2());// ex on 2 july
+//					postBillHeader.setBillNo(billHeadersList.get(j).getBillNo());
+//					postBillHeader.setDelStatus(0);
+//					postBillHeader.setFrCode(billHeadersList.get(j).getFrCode());
+//					postBillHeader.setFrId(billHeadersList.get(j).getFrId());
+//					postBillHeader.setGrandTotal(Float.valueOf(df.format(sumGrandTotal)));
+//					postBillHeader.setInvoiceNo(billHeadersList.get(j).getInvoiceNo());
+//					postBillHeader.setRemark(billHeadersList.get(j).getRemark());
+//					postBillHeader.setStatus(billHeadersList.get(j).getStatus());
+//					postBillHeader.setTaxableAmt(Float.valueOf(df.format(sumTaxableAmt)));
+//					postBillHeader.setTaxApplicable(billHeadersList.get(j).getTaxApplicable());
+//					postBillHeader.setTotalTax(Float.valueOf(df.format(sumTotalTax)));
+//					postBillHeader.setRemark(billHeadersList.get(j).getRemark());
+//					postBillHeader.setSgstSum(sumTotalSgst);
+//					postBillHeader.setCgstSum(sumTotalCgst);
+//					postBillHeader.setDiscAmt(roundUp(sumDiscAmt));// new
+//					postBillHeader.setTime(billHeadersList.get(j).getTime());
+//					break;
+//				} // end of if
+//
+//			} // end of for
 
 			postBillHeader.setPostBillDetailsList(postBillDetailsList);
 			postBillHeadersList.add(postBillHeader);
 			postBillDataCommon.setPostBillHeadersList(postBillHeadersList);
+			
+			System.err.println("INPUT HEADER - "+postBillHeader);
+			System.err.println("INPUT - "+postBillDataCommon);
 
 			Info info = restTemplate.postForObject(Constants.url + "updateBillData", postBillDataCommon, Info.class);
 
