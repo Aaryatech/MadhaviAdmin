@@ -436,7 +436,11 @@ table {
 																			type="button" id="btn_submit_pdf"
 																			onclick="generateSinglePdf(${billHeadersList.billNo})"
 																			style="padding: 0px 4px; font-size: 14px;"
-																			class="btn btn-primary" value="PDF" /></td>
+																			class="btn btn-primary" value="PDF" />
+																			
+																			&nbsp;&nbsp;<input type="button"  style="padding: 0px 4px;font-size: 14px;" onclick="genEwayBillJson(${billHeadersList.billNo})"  id="btn_submit_json" class="btn btn-primary" value="E-Way" />
+																			
+																			</td>
 																	</c:when>
 
 																	<c:when test="${isEdit==1 and isDelete==0}">
@@ -453,7 +457,10 @@ table {
 																			type="button" id="btn_submit_pdf"
 																			onclick="generateSinglePdf(${billHeadersList.billNo})"
 																			style="padding: 0px 4px; font-size: 14px;"
-																			class="btn btn-primary" value="PDF" /></td>
+																			class="btn btn-primary" value="PDF" />
+																			
+																			&nbsp;&nbsp;<input type="button"  style="padding: 0px 4px;font-size: 14px;" onclick="genEwayBillJson(${billHeadersList.billNo})"  id="btn_submit_json" class="btn btn-primary" value="E-Way" />
+																			</td>
 																	</c:when>
 
 																	<c:when test="${isEdit==0 and isDelete==1}">
@@ -470,7 +477,11 @@ table {
 																			type="button" id="btn_submit_pdf"
 																			onclick="generateSinglePdf(${billHeadersList.billNo})"
 																			style="padding: 0px 4px; font-size: 14px;"
-																			class="btn btn-primary" value="PDF" /></td>
+																			class="btn btn-primary" value="PDF" />
+																			
+																			&nbsp;&nbsp;<input type="button"  style="padding: 0px 4px;font-size: 14px;" onclick="genEwayBillJson(${billHeadersList.billNo})"  id="btn_submit_json" class="btn btn-primary" value="E-Way" />
+																			
+																			</td>
 																	</c:when>
 
 																	<c:otherwise>
@@ -488,7 +499,11 @@ table {
 																			type="button" id="btn_submit_pdf"
 																			onclick="generateSinglePdf(${billHeadersList.billNo})"
 																			style="padding: 0px 4px; font-size: 14px;"
-																			class="btn btn-primary" value="PDF" /></td>
+																			class="btn btn-primary" value="PDF" />
+																			
+																			&nbsp;&nbsp;<input type="button"  style="padding: 0px 4px;font-size: 14px;" onclick="genEwayBillJson(${billHeadersList.billNo})"  id="btn_submit_json" class="btn btn-primary" value="E-Way" />
+																			
+																			</td>
 																	</c:otherwise>
 																</c:choose>
 
@@ -1374,6 +1389,7 @@ callSearch();
 		
 		if(vehNo==""){
 			alert("Please Enter Vehicle Number!");
+			document.getElementById("vehNoJson").focus(); 
 		}else{
 			
 			document.getElementById("overlay2").style.display = "block";

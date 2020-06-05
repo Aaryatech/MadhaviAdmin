@@ -524,7 +524,7 @@ table {
 								},
 								function(data) {
 
-									alert(data);
+									//alert(data);
 
 									//$('#table_grid td').remove();
 
