@@ -612,7 +612,9 @@ public class DispatchController {
 		BufferedOutputStream outStream = null;
 		Document document = new Document(PageSize.A4);
 
-		String FILE_PATH = Constants.REPORT_SAVE;
+		document.setMargins(30, 30, 30, 30);
+		
+		String FILE_PATH = Constants.DISPATCH_PATH;
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
@@ -632,11 +634,13 @@ public class DispatchController {
 				PdfPTable table;
 				if (advOrd.equalsIgnoreCase("1")) {
 					table = new PdfPTable(6);
-					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f, 1.9f, 1.9f, 1.7f });
+					table.setWidths(new float[] { 0.6f, 4.0f, 1.9f, 1.9f, 1.9f, 1.7f });
 				} else {
 					table = new PdfPTable(4);
-					table.setWidths(new float[] { 0.4f, 4.0f, 1.9f, 1.7f });
+					table.setWidths(new float[] { 0.6f, 4.0f, 1.9f, 1.7f });
 				}
+				
+				
 
 				// PdfPTable table = new PdfPTable(4);
 				table.setHeaderRows(1);

@@ -43,7 +43,7 @@ h6 {
 }
 
 th {
-	background-color: #EA3291;
+	background-color: #f95d64;
 	color: white;
 }
 </style>

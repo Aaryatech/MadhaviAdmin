@@ -27,7 +27,7 @@ table {
 		<%-- <div style="text-align: center; font-size: 12px;">
 			Production Date : <b>${date}</b>
 		</div> --%>
-		
+
 		<c:forEach items="${deptIdList}" var="dept" varStatus="count">
 
 			<c:set value="0" var="isNotEmpty"></c:set>
@@ -60,12 +60,26 @@ table {
 						<fmt:parseDate value="${currentDate}" var="parsedCurrentDate"
 							pattern="yyyy-MM-dd" />
 
+
+						<c:set var="now" value="${parsedCurrentDate}" />
+						<%-- <c:set target="${now}" property="time"
+							value="${now.time + 86400000 * 1}" />
+						<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" /> --%>
+
 						<div
 							style="text-align: center; font-size: 15px; margin-top: 35px; margin-bottom: 30px;">
 							Production Date : <b><fmt:formatDate pattern="dd/MM/yyyy"
 									value="${parsedCurrentDate}" /></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							Department : <b>${deptMaster.deptName}</b>
+
+
+							<c:set target="${now}" property="time"
+								value="${now.time + 86400000 * 1}" />
+
+							Delivery Date : <b><fmt:formatDate pattern="dd/MM/yyyy"
+									value="${now}" /></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Department :
+							<b>${deptMaster.deptName}</b>
 						</div>
+
 					</c:if>
 
 				</c:forEach>
@@ -77,12 +91,13 @@ table {
 							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>No.</b></td>
 						<td width="55%"
 							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Product
-							Name</b></td>
+								Name</b></td>
 						<td width="20%"
-							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Order Quantity</b>
-						</td>
+							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Order
+								Quantity</b></td>
 						<td width="20%"
-							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Production Quantity</b></td>
+							style="border-bottom: 1px solid #313131; border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 15px; text-align: center;"><b>Production
+								Quantity</b></td>
 					</tr>
 
 
@@ -135,9 +150,9 @@ table {
 			<div style="page-break-after: always;"></div>
 		</c:forEach>
 
-		
 
-		
+
+
 	</c:forEach>
 </body>
 </html>

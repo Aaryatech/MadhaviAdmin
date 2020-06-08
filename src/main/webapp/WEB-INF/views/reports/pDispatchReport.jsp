@@ -22,7 +22,7 @@
 
 /* Add a right margin to each icon */
 .fa {
-	margin-left: -12px;
+	//margin-left: -12px;
 	margin-right: 8px;
 }
 </style>
