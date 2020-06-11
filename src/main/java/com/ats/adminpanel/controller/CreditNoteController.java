@@ -111,8 +111,11 @@ public class CreditNoteController {
 	    crnDetailsMap = new LinkedHashMap<Integer, List<GetCrnDetails>>();
 	    
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		Info view = AccessControll.checkAccess("showAddNewFranchisee", "showAddNewFranchisee", "1", "0", "0", "0",
+		Info view = AccessControll.checkAccess("showInsertCreditNote", "showInsertCreditNote", "1", "0", "0", "0",
 				newModuleList);
+		
+		System.err.println("INFO -"+view);
+		
 		String pattern = "dd-MM-yyyy";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		String date = simpleDateFormat.format(new Date());
