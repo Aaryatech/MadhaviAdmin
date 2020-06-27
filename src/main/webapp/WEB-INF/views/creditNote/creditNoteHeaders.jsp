@@ -160,7 +160,7 @@
 											<table width="100%"
 												class="table table-advance table-responsive table-position"
 												id="table1">
-												<thead  style="background-color:#f3b5db; ">
+												<thead  style="background-color:#f95d64; ">
 													<tr>
 														<th></th>
 														<th>Sr No <input type="checkbox"
@@ -547,10 +547,14 @@
 			//alert("header ID "+headerId)
 
 			//alert("HHHHHH");
-			var form = document.getElementById("validation-form");
+			/* var form = document.getElementById("validation-form");
 			form.action = "${pageContext.request.contextPath}/getCrnDetailList/"
 					+ crnId;
-			form.submit();
+			form.submit(); */
+			
+			window.open('${pageContext.request.contextPath}/getCrnDetailList/'
+					+ crnId);
+			
 		}
 	</script>
 	<script>
@@ -597,7 +601,7 @@
 			//alert("Inside Gen Pdf ");
 			checkboxes = document.getElementsByName('select_to_agree');
 
-			var selArray;
+			var selArray="";
 
 			for (var x = 0; x < checkboxes.length; x++) {
 				if (document.getElementById("select_to_agree" + x).checked == true) {
@@ -613,6 +617,8 @@
 				}
 
 			}
+			
+			//alert(selArray);
 
 			//var check = document.getElementById("select_to_agree").value;
 

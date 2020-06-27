@@ -158,7 +158,7 @@
 						style="background-color: white;">
 						<table class="table table-bordered table-striped fill-head "
 							style="width: 100%" id="table_grid">
-							<thead style="background-color: #f3b5db;">
+							<thead style="background-color: #f95d64;">
 								<tr>
 									<th>Sr</th>
 									<th>CRN No</th>

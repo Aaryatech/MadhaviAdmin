@@ -796,10 +796,10 @@
 													var tot;
 
 													if (parseInt(isMart) == 1) {
-														tot = parseInt(data.orderQty)
+														tot = parseFloat(data.orderQty)
 																* parseFloat(data.orderRate);
 													} else {
-														tot = parseInt(data.orderQty)
+														tot = parseFloat(data.orderQty)
 																* parseFloat(data.orderMrp);
 													}
 													tot = tot
@@ -922,9 +922,9 @@
 			var tot;
 
 			if (parseInt(isMart) == 1) {
-				tot = parseInt(qty) * parseFloat(rate);
+				tot = parseFloat(qty) * parseFloat(rate);
 			} else {
-				tot = parseInt(qty) * parseFloat(mrp);
+				tot = parseFloat(qty) * parseFloat(mrp);
 			}
 
 			tot = tot - (parseFloat(tot) * parseFloat(disc) / 100);

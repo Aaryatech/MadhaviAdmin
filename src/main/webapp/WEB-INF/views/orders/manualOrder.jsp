@@ -2247,10 +2247,13 @@ $(function() {
 				calTotal(2);
 			} else {
 				
+				//alert(qty % minqty);
 				
-				
-				if (qty % minqty == 0
-						 &&  qty >= limqty && discper >= 0 )  {
+				//if (qty % minqty == 0
+				//		 &&  qty >= limqty && discper >= 0 )  {
+					
+					
+				if (qty >= limqty && discper >= 0 )  {
 					var total = rate * qty;
 					var disc = (total * discper) / 100;
 					$('#discamt' + id + '' + frId).val(disc.toFixed(2));

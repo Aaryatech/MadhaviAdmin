@@ -121,7 +121,7 @@
 											<table width="100%"
 												class="table table-advance table-responsive table-position"
 												id="table1">
-												<thead style="background-color:#f3b5db; ">
+												<thead style="background-color:#f95d64; ">
 													<tr>
 
 														<th>Sr No</th>

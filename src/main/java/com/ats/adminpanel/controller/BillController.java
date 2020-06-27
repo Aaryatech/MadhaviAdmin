@@ -2945,6 +2945,11 @@ public class BillController {
 					postBillHeader.setCgstSum(sumTotalCgst);
 					postBillHeader.setDiscAmt(roundUp(sumDiscAmt));// new
 					postBillHeader.setTime(billHeaderForEdit.get(j).getBillTime());
+					postBillHeader.setExVarchar3(billHeaderForEdit.get(j).getExVarchar3());
+					postBillHeader.setExVarchar4(billHeaderForEdit.get(j).getExVarchar4());
+					postBillHeader.setExVarchar5(billHeaderForEdit.get(j).getExVarchar5());
+					postBillHeader.setIsDairyMart(billHeaderForEdit.get(j).getIsDairyMart());
+					
 					break;
 				} // end of if
 
