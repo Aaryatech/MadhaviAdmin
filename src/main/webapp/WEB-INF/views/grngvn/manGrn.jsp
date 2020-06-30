@@ -3,7 +3,8 @@
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
- 	 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
@@ -42,7 +43,7 @@
 		<!-- END Page Title -->
 
 		<!-- BEGIN Breadcrumb -->
-<%-- 		<div id="breadcrumbs">
+		<%-- 		<div id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li><i class="fa fa-home"></i> <a
 					href="${pageContext.request.contextPath}/home">Home</a> <span
@@ -74,12 +75,12 @@
 
 								<option value="-1">Select Franchisee</option>
 								<c:forEach items="${frList}" var="fr" varStatus="count">
-									<option value="${fr.frId}"><c:out value="${fr.frName}"/></option>
+									<option value="${fr.frId}"><c:out value="${fr.frName}" /></option>
 								</c:forEach>
 
 							</select>
 						</div>
-					
+
 						<label class="col-md-2 control-label menu_label">Select
 							Bill</label>
 						<div class=" col-md-3 controls menu_select">
@@ -109,16 +110,18 @@
 								class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 							<span class="l-6"></span>
 						</div>
-					
+
 					</div>
-<div class="col-md-9" ></div> 
-					<label for="search" class="col-md-3" id="search">
-    <i class="fa fa-search" style="font-size:20px"></i>
-									<input type="text"  style="border-radius:25px;" id="myInput" onkeyup="myFunction()" style="border-radius: 25px;" placeholder="Search by ItemName" >
-										</label>  
+					<div class="col-md-9"></div>
+					<label for="search" class="col-md-3" id="search"> <i
+						class="fa fa-search" style="font-size: 20px"></i> <input
+						type="text" style="border-radius: 25px;" id="myInput"
+						onkeyup="myFunction()" style="border-radius: 25px;"
+						placeholder="Search by ItemName">
+					</label>
 				</div>
 			</div>
-			
+
 		</div>
 		<div class="box">
 			<div class="box-title">
@@ -130,13 +133,14 @@
 
 			<form id="openingStockForm"
 				action="${pageContext.request.contextPath}/insertManGrn"
-				method="post"  onsubmit="btnSubmit.disabled = true; return confirm('Do you want to save Grn ?');">
+				method="post"
+				onsubmit="btnSubmit.disabled = true; return confirm('Do you want to save Grn ?');">
 				<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive">
 							<table class="table table-bordered table-striped fill-head "
 								style="width: 100%" id="table_grid" align="left">
-								<thead style="background-color:#f3b5db; ">
+								<thead style="background-color: #f95d64;">
 									<tr>
 										<th width="50">SELECT</th>
 										<th width="50">Invoice</th>
@@ -162,15 +166,16 @@
 
 					<div class="row">
 						<div class="form-group">
-						
-					<label class=" col-md-1 control-label franchisee_label">Date</label>
-						<div class="col-sm-3 col-lg-2 controls">
-										<input class="form-control date-picker" id="date" size="19" placeholder="dd-mm-yyyy"
-											type="text" name="date"  required/>
-									</div>
+
+							<label class=" col-md-1 control-label franchisee_label">Date</label>
+							<div class="col-sm-3 col-lg-2 controls">
+								<input class="form-control date-picker" id="date" size="19"
+									placeholder="dd-mm-yyyy" type="text" name="date" required />
+							</div>
 							<div class="col-sm-9 col-sm-offset-1 col-lg-1 col-lg-offset-1">
 
-								<input type="submit" class="btn btn-primary" value="Submit"  id="btnSubmit"   disabled="disabled">
+								<input type="submit" class="btn btn-primary" value="Submit"
+									id="btnSubmit" disabled="disabled">
 							</div>
 						</div>
 					</div>
@@ -188,213 +193,344 @@
 		class="fa fa-chevron-up"></i></a>
 
 	<script type="text/javascript">
-				function getBills() {
-					var selectedFr = $("#selectFr").val();
-				
-					
-					$.getJSON('${getBillForFr}', {
-						fr_id: selectedFr,
-						ajax : 'true'
-					}, function(data) {
-						
-						var len = data.length;
-						
-						$('#selectMenu')
-					    .find('option')
-					    .remove()
-					    .end()
-					    
-			
-						 $("#selectMenu").append(
-	                                $("<option></option>").attr(
-	                                    "value",'-1').text('Select Bill')
-	                            );		
-								
-						for ( var i = 0; i < len; i++) {
-							
-					          
-	                        $("#selectMenu").append(
-	                                $("<option></option>").attr(
-	                                    "value", data[i].billNo).text(data[i].invoiceNo+ " [" +data[i].billDate+" ]")
-	                            );
-						}
-					 
-						   $("#selectMenu").trigger("chosen:updated");
-						 
-					});
-				}
-			</script>
+		function getBills() {
+			var selectedFr = $("#selectFr").val();
+
+			$
+					.getJSON(
+							'${getBillForFr}',
+							{
+								fr_id : selectedFr,
+								ajax : 'true'
+							},
+							function(data) {
+
+								var len = data.length;
+
+								$('#selectMenu').find('option').remove().end()
+
+								$("#selectMenu").append(
+										$("<option></option>").attr("value",
+												'-1').text('Select Bill'));
+
+								for (var i = 0; i < len; i++) {
+
+									$("#selectMenu")
+											.append(
+													$("<option></option>")
+															.attr(
+																	"value",
+																	data[i].billNo)
+															.text(
+																	data[i].invoiceNo
+																			+ " ["
+																			+ data[i].billDate
+																			+ " ]"));
+								}
+
+								$("#selectMenu").trigger("chosen:updated");
+
+							});
+		}
+	</script>
 
 
 	<script type="text/javascript">
-				function getItems() {
-//alert("Hi");
-					var bill = $("#selectMenu").val();
-					
-					//alert(bill);
-					$('#loader').show();
-					
-					$.getJSON('${getItemsByBillNo}', {
-						bill_no: bill,
-						ajax : 'true'
-					}, function(data) {
-						//alert(data);
-						var len = data.length;
-						$('#btnSubmit').removeAttr("disabled");
+		function getItems() {
+			//alert("Hi");
+			var bill = $("#selectMenu").val();
 
-						if(data==null){
-							alert("No Record Found ")
-							$('#loader').hide();
-							$("#btnSubmit").attr("disabled", true);
+			//alert(bill);
+			$('#loader').show();
 
-						}
-						
-						$('#table_grid td').remove();
-						$('#loader').hide();
-						
-						/* if (data == "" || data==null) {
-							alert("No Items found !!");
-							$('#submitStock').hide();
-						}else{
-							$.each(data,function(key, bill) { */
-					
-								$.each(data,function(key, bill) {
-									
-								 if(parseInt(bill.billQty)>0){
+			$
+					.getJSON(
+							'${getItemsByBillNo}',
+							{
+								bill_no : bill,
+								ajax : 'true'
+							},
+							function(data) {
+								//alert(data);
+								var len = data.length;
+								$('#btnSubmit').removeAttr("disabled");
 
-							var tr = $('<tr></tr>');
+								if (data == null) {
+									alert("No Record Found ")
+									$('#loader').hide();
+									$("#btnSubmit").attr("disabled", true);
 
-						  /* 	tr.append($('<td></td>').html(key+1)); */
-														
-							tr.append($('<td></td>').html("<input type=checkbox  id=check"+bill.billDetailNo+" name="+bill.billDetailNo+" value="+bill.billDetailNo+">"));
-						  
-						  						  	//tr.append($('<td></td>').html(bill.invoiceNo));
-
-
-						  	tr.append($('<td></td>').html(bill.invoiceNo));
-
-						  	tr.append($('<td></td>').html(bill.itemName));
-						  
-						  	
-						  	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center; width:60px;' class='form-control' min=0 max=100 id=grnPer"+bill.billDetailNo+" name=grnPer"+bill.billDetailNo+" value="+bill.grnType+">"));
-						  	tr.append($('<td></td>').html(bill.billQty));
-						  	tr.append($('<td></td>').html(bill.rate));
-						  	
-						  //	tr.append($('<td></td>').html(bill.rate));
-
-						 	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center;' class='form-control' min=0 id=qty"+bill.billDetailNo+" name=qty"+bill.billDetailNo+" Value="+0+" >"));
-						  	tr.append($('<td></td>').html(bill.igstPer));
-						  	tr.append($('<td id=taxable_amt'+bill.billDetailNo+'></td>').html(""));
-						  	tr.append($('<td id=tax_amt'+bill.billDetailNo+'></td>').html(""));
-						  	tr.append($('<td id=grn_amt'+bill.billDetailNo+'></td>').html(""));
-						  	
-						  	tr.append($('<td></td>').html(""));
-
-						 	//tr.append($('<td></td>').html(' <a>   <span class="glyphicon glyphicon-edit" id="edit'+bill.billNo+'" onClick=editQty('+bill.billNo+');> </span> </a><a><span class="glyphicon glyphicon-remove" id="delete'+bill.billDetailNo+'" onClick=deleteOrder('+bill.billDetailNo+');> </span></a>'));
-						 
-							$('#table_grid tbody').append(tr);
-							
 								}
 
-						})
-					
-		    });
-					
-		    
+								$('#table_grid td').remove();
+								$('#loader').hide();
+
+								/* if (data == "" || data==null) {
+									alert("No Items found !!");
+									$('#submitStock').hide();
+								}else{
+									$.each(data,function(key, bill) { */
+
+								$
+										.each(
+												data,
+												function(key, bill) {
+
+													if (parseInt(bill.billQty) > 0) {
+
+														var tr = $('<tr></tr>');
+
+														/* 	tr.append($('<td></td>').html(key+1)); */
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=checkbox  id=check"+bill.billDetailNo+" name="+bill.billDetailNo+" value="+bill.billDetailNo+">"));
+
+														//tr.append($('<td></td>').html(bill.invoiceNo));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				bill.invoiceNo));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				bill.itemName));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=text  onkeyup='return calcGrn("
+																						+ bill.billQty
+																						+ ","
+																						+ bill.rate
+																						+ ","
+																						+ bill.itemId
+																						+ ","
+																						+ bill.sgstPer
+																						+ ","
+																						+ bill.cgstPer
+																						+ ","
+																						+ bill.billDetailNo
+																						+ ","
+																						+ bill.discPer
+																						+ ")' ondrop='return false;' onpaste='return false;' style='text-align: center; width:60px;' class='form-control' min=0 max=100 id=grnPer"
+																						+ bill.billDetailNo
+																						+ " name=grnPer"
+																						+ bill.billDetailNo
+																						+ " value="
+																						+ bill.grnType
+																						+ "  oninput='isValidNum("
+																						+ bill.billDetailNo
+																						+ ")' >"));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				bill.billQty));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				bill.rate));
+
+														//	tr.append($('<td></td>').html(bill.rate));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<input type=text  onkeyup='return calcGrn("
+																						+ bill.billQty
+																						+ ","
+																						+ bill.rate
+																						+ ","
+																						+ bill.itemId
+																						+ ","
+																						+ bill.sgstPer
+																						+ ","
+																						+ bill.cgstPer
+																						+ ","
+																						+ bill.billDetailNo
+																						+ ","
+																						+ bill.discPer
+																						+ ")' ondrop='return false;' onpaste='return false;' style='text-align: center;' class='form-control' min=0 id=qty"
+																						+ bill.billDetailNo
+																						+ " name=qty"
+																						+ bill.billDetailNo
+																						+ " Value="
+																						+ 0
+																						+ " oninput='isValidQty("
+																						+ bill.billDetailNo
+																						+ ")'>"));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				bill.igstPer));
+														tr
+																.append($(
+																		'<td id=taxable_amt'+bill.billDetailNo+'></td>')
+																		.html(
+																				""));
+														tr
+																.append($(
+																		'<td id=tax_amt'+bill.billDetailNo+'></td>')
+																		.html(
+																				""));
+														tr
+																.append($(
+																		'<td id=grn_amt'+bill.billDetailNo+'></td>')
+																		.html(
+																				""));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				""));
+
+														//tr.append($('<td></td>').html(' <a>   <span class="glyphicon glyphicon-edit" id="edit'+bill.billNo+'" onClick=editQty('+bill.billNo+');> </span> </a><a><span class="glyphicon glyphicon-remove" id="delete'+bill.billDetailNo+'" onClick=deleteOrder('+bill.billDetailNo+');> </span></a>'));
+
+														$('#table_grid tbody')
+																.append(tr);
+
+													}
+
+												})
+
+							});
+
 		}
-			</script>
+	</script>
 
 
 
+	<script type="text/javascript">
+		function isValidNum(id) {
 
+			var z = document.getElementById("grnPer" + id).value;
 
-	<script type="text/javascript">	
+			if (!/^[0-9]+$/.test(z)) {
+				//alert("Please only enter numeric characters only for your Age! (Allowed input:0-9)");
+
+				document.getElementById("grnPer" + id).value = '0';
+
+			} else {
+
+				if (z<0 || z>100) {
+					document.getElementById("grnPer" + id).value = '0';
+				}
+
+			}
+
+		}
+	</script>
 	
-				function validate() {
-				
-					var selectedMenu = $("#selectMenu").val();
+	<script type="text/javascript">
+		function isValidQty(id) {
 
-					var isValid = true;
+			var z = document.getElementById("qty" + id).value;
 
-					if (selectedFr == "-1" || selectedFr == null) {
+			if (!/^[0-9]+$/.test(z)) {
+				//alert("Please only enter numeric characters only for your Age! (Allowed input:0-9)");
 
-						isValid = false;
-						alert("Please select Franchise");
+				document.getElementById("qty" + id).value = '0';
 
-					} else if (selectedMenu == "" || selectedMenu == null) {
+			}
 
-						isValid = false;
-						alert("Please select Menu");
+		}
+	</script>
+	
 
-					}
-					return isValid;
+	<script type="text/javascript">
+		function validate() {
+
+			var selectedMenu = $("#selectMenu").val();
+
+			var isValid = true;
+
+			if (selectedFr == "-1" || selectedFr == null) {
+
+				isValid = false;
+				alert("Please select Franchise");
+
+			} else if (selectedMenu == "" || selectedMenu == null) {
+
+				isValid = false;
+				alert("Please select Menu");
+
+			}
+			return isValid;
+
+		}
+
+		function calcGrn(billQty, rate, itemId, cgstPer, sgstPer, dNo, discPer) {
+
+			document.getElementById("check" + dNo).checked = false;
+
+			var grnType = document.getElementById("grnPer" + dNo).value;
+			//alert("GRN type="+grnType);
+
+			var grnQty = document.getElementById("qty" + dNo).value;
+
+			if (parseInt(grnQty) > billQty) {
+				alert("Grn Quantity can not be greater than Purchase Quantity");
+
+				document.getElementById("qty" + dNo).value = 0;
+
+				$("#grn_amt" + dNo).html(0.00);
+				$("#taxable_amt" + dNo).html(0.00);
+				$("#tax_amt" + dNo).html(0.00);
+
+				document.getElementById("check" + dNo).checked = false;
+
+			} else {
+				if (grnQty > 0) {
+					document.getElementById("check" + dNo).checked = true;
 
 				}
-				
-				function calcGrn(billQty,rate,itemId,cgstPer,sgstPer,dNo,discPer) {
-									
-					document.getElementById("check"+dNo).checked = false;
-					
-					var grnType=document.getElementById("grnPer"+dNo).value;
-					//alert("GRN type="+grnType);
-					
-				    var grnQty =document.getElementById("qty"+dNo).value;	
-				    
-				    
-				    if(parseInt(grnQty)>billQty){
-						alert("Grn Quantity can not be greater than Purchase Quantity");
-						
-						document.getElementById("qty"+dNo).value=0;
-						
-						$("#grn_amt"+dNo).html(0.00);
-						$("#taxable_amt"+dNo).html(0.00);
-						$("#tax_amt"+dNo).html(0.00);
-						
-						document.getElementById("check"+dNo).checked = false;
-						
-					}else{
-				    if(grnQty>0)
-					{
-					document.getElementById("check"+dNo).checked = true;
-				
-					}
-					var baseRate=rate;
-					
-					var grnBaseRate;
-					var grnRate;
-					
-					var grnRate=rate;
-					grnBaseRate = baseRate * grnType / 100;
-					//alert("grnBaseRate "+grnBaseRate);
-					
-					grnRate=(rate * grnType) / 100;
-					//alert("grnRate "+grnRate);
-					
-				  
-						var totTaxPer=parseFloat(sgstPer)+parseFloat(cgstPer);
-						var taxableAmt=grnBaseRate*grnQty;
-						//alert("prev taxableAmt " +taxableAmt)
+				var baseRate = rate;
 
-						var discAmt=(taxableAmt*discPer)/100;
-						//alert("disc  " +discAmt)
+				var grnBaseRate;
+				var grnRate;
 
-						taxableAmt=taxableAmt-discAmt;
-						//alert("new  taxableAmt " +taxableAmt)
+				var grnRate = rate;
+				grnBaseRate = baseRate * grnType / 100;
+				//alert("grnBaseRate "+grnBaseRate);
 
-						var totalTax=taxableAmt*(cgstPer+sgstPer)/100;
-						var grandTotal=taxableAmt+totalTax;
-						//alert("taxable " +taxableAmt);
-						//alert("totalTax " +totalTax);
-						//alert("grandTotal " +grandTotal);
-					$("#grn_amt"+dNo).html(grandTotal.toFixed(2));
-					$("#tax_per"+dNo).html(totTaxPer.toFixed(2));
-					$("#taxable_amt"+dNo).html(taxableAmt.toFixed(2));
-					$("#tax_amt"+dNo).html(totalTax.toFixed(2));
-					}
-				
+				grnRate = (rate * grnType) / 100;
+				//alert("grnRate "+grnRate);
+
+				var totTaxPer = parseFloat(sgstPer) + parseFloat(cgstPer);
+				var taxableAmt = grnBaseRate * grnQty;
+				//alert("prev taxableAmt " +taxableAmt)
+
+				var discAmt = (taxableAmt * discPer) / 100;
+				//alert("disc  " +discAmt)
+
+				taxableAmt = taxableAmt - discAmt;
+				//alert("new  taxableAmt " +taxableAmt)
+
+				var totalTax = taxableAmt * (cgstPer + sgstPer) / 100;
+				var grandTotal = taxableAmt + totalTax;
+				//alert("taxable " +taxableAmt);
+				//alert("totalTax " +totalTax);
+				//alert("grandTotal " +grandTotal);
+				$("#grn_amt" + dNo).html(grandTotal.toFixed(2));
+				$("#tax_per" + dNo).html(totTaxPer.toFixed(2));
+				$("#taxable_amt" + dNo).html(taxableAmt.toFixed(2));
+				$("#tax_amt" + dNo).html(totalTax.toFixed(2));
 			}
-					
-			</script>
+
+		}
+	</script>
 	<!--basic scripts-->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -450,28 +586,28 @@
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-		<script>
-function myFunction() {
-  var input, filter, table, tr, td,td1, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table_grid");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    td1 = tr[i].getElementsByTagName("td")[2];
+	<script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table_grid");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				td1 = tr[i].getElementsByTagName("td")[2];
 
-    if (td) {
-      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      }  else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
-</script>
+				if (td) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
 </body>
 </html>

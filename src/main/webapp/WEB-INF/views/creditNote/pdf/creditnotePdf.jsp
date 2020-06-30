@@ -272,8 +272,8 @@
 										minFractionDigits="2"
 										value="${crnDetail.baseRate*crnDetail.grnGvnQty}" /></td>
 
-								<c:set value="0" var="rtd"></c:set>
-								<c:choose>
+								<c:set value="${crnDetail.grnType}" var="rtd"></c:set>
+								<%-- <c:choose>
 									<c:when test="${headerH.creditHeader.isGrn==1}">
 										<c:choose>
 											<c:when test="${crnDetail.grnType==0}">
@@ -291,7 +291,7 @@
 									<c:otherwise>
 										<c:set value="0" var="rtd"></c:set>
 									</c:otherwise>
-								</c:choose>
+								</c:choose> --%>
 
 
 								<td align="right"

@@ -67,103 +67,131 @@
 						</div> --%>
 
 
-						<div class="box-content">
+					<div class="box-content">
 
-							<form action="${pageContext.request.contextPath}/updateCreditNote"
-				class="form-horizontal" method="post" id="validation-form" onsubmit="return confirm('Do you want to update Credit Note ?');">
+						<form action="${pageContext.request.contextPath}/updateCreditNote"
+							class="form-horizontal" method="post" id="validation-form"
+							onsubmit="return confirm('Do you want to update Credit Note ?');">
 
-              <input type="hidden" name="crnId" id="crnId" value="${creditNoteHeaders.crnId}" />
-             <input type="hidden" name="fromDate" id="fromDate" value="${fromDate}" />
-              <input type="hidden" name="toDate" id="toDate" value="${toDate}" />
-               <input type="hidden" name="selectFr" id="selectFr" value="${selectFr}" />
-								<div class="box">
-									<div class="box-title">
-										<h3>
-											<i class="fa fa-table"></i> Credit Note Details List for Credit Note Id : ${creditNoteHeaders.crnId}
-										</h3>
-										<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/showCreditNotes">Back to List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>
-							</div>
+							<input type="hidden" name="crnId" id="crnId"
+								value="${creditNoteHeaders.crnId}" /> <input type="hidden"
+								name="fromDate" id="fromDate" value="${fromDate}" /> <input
+								type="hidden" name="toDate" id="toDate" value="${toDate}" /> <input
+								type="hidden" name="selectFr" id="selectFr" value="${selectFr}" />
+							<div class="box">
+								<div class="box-title">
+									<h3>
+										<i class="fa fa-table"></i> Credit Note Details List for
+										Credit Note Id : ${creditNoteHeaders.crnId}
+									</h3>
+									<div class="box-tool">
+										<a href="${pageContext.request.contextPath}/showCreditNotes">Back
+											to List</a> <a data-action="collapse" href="#"><i
+											class="fa fa-chevron-up"></i></a>
 									</div>
+								</div>
 
-									<div class="box-content">
-<div class="col-md-9" ></div> 
-				<div class="col-md-3" >	<label for="search" class="col-md-3" id="search">
-   
-									<input type="text"  id="myInput" onkeyup="myFunction()" placeholder=" Search By Item Name.." title=" Search" style="padding-left:10px;height:25px;border-radius: 25px;">
-										</label></div>
-									<table style="width: 100%; border: 1px dashed;font-size: 14px;">
+								<div class="box-content">
+									<div class="col-md-9"></div>
+									<div class="col-md-3">
+										<label for="search" class="col-md-3" id="search"> <input
+											type="text" id="myInput" onkeyup="myFunction()"
+											placeholder=" Search By Item Name.." title=" Search"
+											style="padding-left: 10px; height: 25px; border-radius: 25px;">
+										</label>
+									</div>
+									<table
+										style="width: 100%; border: 1px dashed; font-size: 14px;">
 										<tbody>
-											<tr >
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;CREDIT NOTE NO: </td><td style="border: 1px dashed;">&nbsp; <b> ${creditNoteHeaders.crnNo} </b></td>
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;DATE:</td><td style="border: 1px dashed;"><b>
-											<input class="form-control date-picker" id="date" size="19" style="width:170px;" placeholder="dd-mm-yyyy" type="text" name="date" value="${creditNoteHeaders.crnDate}" required/>
-											  </b></td>
+											<tr>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;CREDIT
+													NOTE NO:</td>
+												<td style="border: 1px dashed;">&nbsp; <b>
+														${creditNoteHeaders.crnNo} </b></td>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;DATE:</td>
+												<td style="border: 1px dashed;"><b> <input
+														class="form-control date-picker" id="date" size="19"
+														style="width: 170px;" placeholder="dd-mm-yyyy" type="text"
+														name="date" value="${creditNoteHeaders.crnDate}" required />
+												</b></td>
 											</tr>
 											<tr style="border: 1px dashed;">
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;INVOICE NO:</td><td style="border: 1px dashed;">&nbsp;<b> ${creditNoteHeaders.exVarchar1} </b></td>
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;FRANCHISEE NAME:</td><td style="border: 1px dashed;">&nbsp;<b> ${creditNoteHeaders.frName} </b></td>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;INVOICE
+													NO:</td>
+												<td style="border: 1px dashed;">&nbsp;<b>
+														${creditNoteHeaders.exVarchar1} </b></td>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;FRANCHISEE
+													NAME:</td>
+												<td style="border: 1px dashed;">&nbsp;<b>
+														${creditNoteHeaders.frName} </b></td>
 											</tr>
 											<tr>
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;TAXABLE AMOUNT:</td><td style="border: 1px dashed;">&nbsp;<b> ${creditNoteHeaders.crnTaxableAmt} </b></td>
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;TAX AMOUNT:</td><td style="border: 1px dashed;">&nbsp;<b> ${creditNoteHeaders.crnTotalTax} </b></td>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;TAXABLE
+													AMOUNT:</td>
+												<td style="border: 1px dashed;">&nbsp;<b>
+														${creditNoteHeaders.crnTaxableAmt} </b></td>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;TAX
+													AMOUNT:</td>
+												<td style="border: 1px dashed;">&nbsp;<b>
+														${creditNoteHeaders.crnTotalTax} </b></td>
 											</tr>
-											<tr><td colspan="2" style="border: 1px dashed;" >&nbsp;</td>
-												<td style="border: 1px dashed;font-weight: bold;" >&nbsp;TOTAL:</td><td style="border: 1px dashed;">&nbsp;<b> ${creditNoteHeaders.crnGrandTotal}</b></td>
+											<tr>
+												<td colspan="2" style="border: 1px dashed;">&nbsp;</td>
+												<td style="border: 1px dashed; font-weight: bold;">&nbsp;TOTAL:</td>
+												<td style="border: 1px dashed;">&nbsp;<b>
+														${creditNoteHeaders.crnGrandTotal}</b></td>
 											</tr>
-											
+
 										</tbody>
 									</table>
 									<br>
-										<div class="clearfix"></div>
-										<div class="table-responsive" style="border: 0">
-											<table width="100%"
-												class="table table-advance table-responsive table-position"
-												id="table1">
-												<thead style="background-color:#f95d64; ">
+									<div class="clearfix"></div>
+									<div class="table-responsive" style="border: 0">
+										<table width="100%"
+											class="table table-advance table-responsive table-position"
+											id="table1">
+											<thead style="background-color: #f95d64;">
+												<tr>
+
+													<th>Sr No</th>
+													<th>GrnGvn Sr No</th>
+													<th>GrnGvn Date</th>
+													<th>Invoice No</th>
+													<th>Item Name</th>
+													<th>Return %</th>
+													<th>GrnBaseRate</th>
+													<th>Quantity</th>
+													<th>Tax %</th>
+													<th>Taxable Amt</th>
+													<th>Tax Amt</th>
+													<th>Amount</th>
+												</tr>
+
+											</thead>
+											<tbody>
+												<c:forEach items="${crnDetailList}" var="crnDetail"
+													varStatus="count">
+
 													<tr>
 
-														<th>Sr No</th>
-														<th>GrnGvn Sr No</th>
-														<th>GrnGvn Date</th>
-														<th>Invoice No</th>
-														<th>Item Name</th>
-														<th>Type</th>
-														<th>GrnBaseRate</th>
-														<th>Quantity</th>
-														<th>Tax %</th>
-														<th>Taxable Amt</th>
-														<th>Tax Amt</th>
-														<th>Amount</th>
-													</tr>
+														<td><c:out value="${count.index+1}" /></td>
 
-												</thead>
-												<tbody>
-													<c:forEach items="${crnDetailList}" var="crnDetail"
-														varStatus="count">
+														<td align="left"><c:out
+																value="${crnDetail.grngvnSrno}" /></td>
 
-														<tr>
-
-															<td><c:out value="${count.index+1}" /></td>
-
-															<td align="left"><c:out
-																	value="${crnDetail.grngvnSrno}" /></td>
-
-															<td align="left"><c:out
-																	value="${crnDetail.grnGvnDate}" /></td>
+														<td align="left"><c:out
+																value="${crnDetail.grnGvnDate}" /></td>
 
 
-															<td align="left"><c:out
-																	value="${crnDetail.refInvoiceNo}" /></td>
-																	
-															<td align="left"><c:out
-																	value="${crnDetail.itemName}" /></td>
-															
-															
-															<c:set var="type" value="aa"></c:set>
+														<td align="left"><c:out
+																value="${crnDetail.refInvoiceNo}" /></td>
 
-															<c:choose>
+														<td align="left"><c:out value="${crnDetail.itemName}" /></td>
+
+
+														<c:set var="retPer" value="${crnDetail.grnType}"></c:set>
+
+														<%-- <c:choose>
 																<c:when test="${crnDetail.isGrn==1}">
 
 																	<c:choose>
@@ -191,55 +219,83 @@
 																	<c:set var="type" value="GVN"></c:set>
 
 																</c:when>
-															</c:choose>
-  
-															<td align="left"><c:out value="${type}"></c:out></td>
-															<c:choose>
+															</c:choose> --%>
+
+														<td align="right"><c:out value="${retPer}"></c:out></td>
+
+														<c:choose>
 															<c:when test="${crnDetail.grnGvnQty==0}">
-															<c:choose>
-															<c:when test="${crnDetail.isGrn==0}">
-																 <fmt:formatNumber type = "number" maxFractionDigits = "2" minFractionDigits = "2" value = "${(crnDetail.baseRate)*0.99}" var="grnBaseRate"   groupingUsed="false" />
+																<c:choose>
+																	<c:when test="${crnDetail.isGrn==0}">
+																		<fmt:formatNumber type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${(crnDetail.baseRate)*0.99}"
+																			var="grnBaseRate" groupingUsed="false" />
+																	</c:when>
+																	<c:otherwise>
+																		<fmt:formatNumber type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${(crnDetail.baseRate)*0.79}"
+																			var="grnBaseRate" groupingUsed="false" />
+																	</c:otherwise>
+																</c:choose>
 															</c:when>
 															<c:otherwise>
-															 <fmt:formatNumber type = "number" maxFractionDigits = "2" minFractionDigits = "2" value = "${(crnDetail.baseRate)*0.79}" var="grnBaseRate"  groupingUsed="false" />
+																<fmt:formatNumber type="number" maxFractionDigits="2"
+																	minFractionDigits="2"
+																	value="${crnDetail.taxableAmt/crnDetail.grnGvnQty}"
+																	var="grnBaseRate" groupingUsed="false" />
 															</c:otherwise>
-															</c:choose>
-															</c:when>
-															<c:otherwise>
-															 <fmt:formatNumber type = "number"       maxFractionDigits = "2" minFractionDigits = "2" value = "${crnDetail.taxableAmt/crnDetail.grnGvnQty}" var="grnBaseRate"  groupingUsed="false" />
-															</c:otherwise>
-															</c:choose>
-                                                         
-                                                           
-                                                            <td align="left">${grnBaseRate}
-                                                            <input type="hidden" name="grnBaseRate${crnDetail.crndId}" id="grnBaseRate${crnDetail.crndId}" value="${grnBaseRate}" />
-                                                            </td>
-															<td align="left"><input type="text" class="form-control"  style="width:80px;" name="grnGvnQty${crnDetail.crndId}" id="grnGvnQty${crnDetail.crndId}"  value="${crnDetail.grnGvnQty}"      onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})"/>
-																</td>
-                                                            	<td align="left"><input type="text" class="form-control"  style="width:80px;" name="totalTaxPer${crnDetail.crndId}" id="totalTaxPer${crnDetail.crndId}"  value="${crnDetail.cgstPer+crnDetail.sgstPer}" onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})"/> </td>
-															<td align="left" id="taxableAmt${crnDetail.crndId}"><c:out
-																	value="${crnDetail.taxableAmt}"></c:out></td>
+														</c:choose>
 
-															<td align="left" id="totalTax${crnDetail.crndId}"><c:out
-																	value="${crnDetail.totalTax}"></c:out></td>
 
-															<td align="left"  id="grnGvnAmt${crnDetail.crndId}"><c:out
-																	value="${crnDetail.grnGvnAmt}"></c:out></td>
-														</tr>
+														<td align="right">${grnBaseRate}<input type="hidden"
+															name="grnBaseRate${crnDetail.crndId}"
+															id="grnBaseRate${crnDetail.crndId}"
+															value="${grnBaseRate}" />
+														</td>
+														<td align="right"><input type="text"
+															class="form-control" style="width: 80px;"
+															name="grnGvnQty${crnDetail.crndId}"
+															id="grnGvnQty${crnDetail.crndId}"
+															value="${crnDetail.grnGvnQty}"
+															onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})"
+															oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+															 />
+														</td>
+														<td align="left"><input type="text"
+															class="form-control" style="width: 80px;"
+															name="totalTaxPer${crnDetail.crndId}"
+															id="totalTaxPer${crnDetail.crndId}"
+															value="${crnDetail.cgstPer+crnDetail.sgstPer}"
+															onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})" />
+														</td>
+														<td align="right" id="taxableAmt${crnDetail.crndId}"><c:out
+																value="${crnDetail.taxableAmt}"></c:out></td>
 
-													</c:forEach>
+														<td align="right" id="totalTax${crnDetail.crndId}"><c:out
+																value="${crnDetail.totalTax}"></c:out></td>
 
-												</tbody>
+														<td align="right" id="grnGvnAmt${crnDetail.crndId}"><c:out
+																value="${crnDetail.grnGvnAmt}"></c:out></td>
+													</tr>
 
-											</table>
-										</div>
+												</c:forEach>
 
+											</tbody>
+
+										</table>
 									</div>
+
 								</div>
-                          <center>   <input type="submit" class="btn btn-primary" value="Update CRN" id="submitCRNote"/></center>
-							</form>
-						</div>
-				<!-- 	</div> -->
+							</div>
+							<center>
+								<input type="submit" class="btn btn-primary" value="Update CRN"
+									id="submitCRNote" />
+							</center>
+						</form>
+					</div>
+					<!-- 	</div> -->
 				</div>
 			</div>
 			<!-- END Main Content -->
@@ -314,7 +370,7 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-<script>
+	<script>
 function myFunction() {
   var input, filter, table, tr, td, i;
   input = document.getElementById("myInput");
@@ -333,7 +389,7 @@ function myFunction() {
   }
 }
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function calCrnValues(crndId,grnBaseRate)
 {
 	

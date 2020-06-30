@@ -702,9 +702,10 @@ var advOrdHeaderId=0;
 																baseRateAmt=(baseTotal*100)/(100+bill.itemTax3);
 															}
 															
-															baseRateAmt=baseRateAmt.toFixed(3);
+															baseRateAmt=baseRateAmt;
+															var bRateToDisp=baseRateAmt.toFixed(3);
 														var baseRate = "<td align=center id=baseRate"+bill.catId+""+bill.orderId+">&nbsp;"
-															+ baseRateAmt+ "</td>";
+															+ bRateToDisp+ "</td>";
 															
 															
 														/* var orderRate = "<td align=center id=billRate"+bill.orderId+"  value="
@@ -989,7 +990,7 @@ var advOrdHeaderId=0;
 		     /* baseRate = parseFloat(taxableAmt)/qty; */
 		     $('#baseRate'+catId+""+orderId).html(baseRate.toFixed(3));
 		     
-		     taxableAmt=parseFloat(baseRate.toFixed(3))*qty;
+		     taxableAmt=parseFloat(baseRate)*qty;
      		 
 		     sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));
              cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));
@@ -1085,7 +1086,7 @@ var advOrdHeaderId=0;
 		     /* baseRate = parseFloat(taxableAmt)/qty; */
 		     $('#baseRate'+catId+""+orderId).html(baseRate.toFixed(3));
 		     
-		     taxableAmt=parseFloat(baseRate.toFixed(3))*qty;
+		     taxableAmt=parseFloat(baseRate)*qty;
        	 
 		     sgstRs=((parseFloat(taxableAmt) * (parseFloat(sgstPer)/100)));
              cgstRs=((parseFloat(taxableAmt) * (parseFloat(cgstPer)/100)));

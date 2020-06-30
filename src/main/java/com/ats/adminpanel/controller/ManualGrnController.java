@@ -319,28 +319,35 @@ public class ManualGrnController {
 					float baseRate = selectedGrn.get(i).getRate();
 					float grnType = selectedGrn.get(i).getGrnType();
 					float grnBaseRate = 0.0f;
+					
+					
+					int retPer = Integer.parseInt(request.getParameter("grnPer" + selectedGrn.get(i).getBillDetailNo()));
+					System.err.println("RETURN PER = "+retPer);
 
 					float grnRate = 0.0f;
+					
+						
+					grnBaseRate = baseRate * retPer / 100;
 
-					if (selectedGrn.get(i).getGrnType() == 75) {
-						grnBaseRate = baseRate * grnType / 100;
+					grnRate = (selectedGrn.get(i).getRate() * retPer) / 100;
+					
 
-						grnRate = (selectedGrn.get(i).getRate() * grnType) / 100;
-						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
-					}
-
-					if (selectedGrn.get(i).getGrnType() == 85) {
-						grnBaseRate = baseRate * grnType / 100;
-						grnRate = (selectedGrn.get(i).getRate() * grnType) / 100;
-						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
-					}
-
-					if (selectedGrn.get(i).getGrnType() == 100) {
-						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
-
-						grnBaseRate = baseRate;
-						grnRate = selectedGrn.get(i).getRate();
-					}
+//					if (selectedGrn.get(i).getGrnType() == 75) {
+//						grnBaseRate = baseRate * grnType / 100;
+//
+//						grnRate = (selectedGrn.get(i).getRate() * grnType) / 100;
+//					}
+//
+//					if (selectedGrn.get(i).getGrnType() == 85) {
+//						grnBaseRate = baseRate * grnType / 100;
+//						grnRate = (selectedGrn.get(i).getRate() * grnType) / 100;
+//					}
+//
+//					if (selectedGrn.get(i).getGrnType() == 100) {
+//
+//						grnBaseRate = baseRate;
+//						grnRate = selectedGrn.get(i).getRate();
+//					}
 
 					float taxableAmt = grnBaseRate * grnQty;
 
@@ -374,7 +381,8 @@ public class ManualGrnController {
 					postGrnGvn.setItemRate(selectedGrn.get(i).getRate());
 					postGrnGvn.setItemMrp(selectedGrn.get(i).getDiscPer());// 5 FEB 2019
 					postGrnGvn.setGrnGvnQty(grnQty);
-					postGrnGvn.setGrnType(selectedGrn.get(i).getGrnType());
+					//postGrnGvn.setGrnType(selectedGrn.get(i).getGrnType());
+					postGrnGvn.setGrnType(retPer);
 					postGrnGvn.setIsGrn(1);
 					postGrnGvn.setIsGrnEdit(0);
 					postGrnGvn.setGrnGvnEntryDateTime(dateFormat.format(cal.getTime()));
