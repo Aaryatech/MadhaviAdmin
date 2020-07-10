@@ -258,8 +258,7 @@
 													<c:choose>
 
 														<c:when test="${advList.pincode eq 'null'}">
-															<td class="col-md-1"><c:out
-																	value="" /></td>
+															<td class="col-md-1"><c:out value="" /></td>
 														</c:when>
 
 														<c:otherwise>
@@ -287,19 +286,25 @@
 												    </c:otherwise>
 														</c:choose></td>
 
-													<td class="col-md-2" style="white-space: nowrap;"><a
+
+													<td class="col-md-2" style="white-space: nowrap;">
+													
+													
+												
+													
+													
+													<a
 														href=""
 														onclick="showDetailsForCp('${advList.advHeaderId}','${advList.frName}','${advList.custName}','${advList.total}','${advList.isDailyMart}','${advList.deliveryDate}','${advList.advanceAmt}','${advList.prodDate}','${advList.isBillGenerated}','${advList.exVar2}','${advList.address}','${advList.km}','${advList.phoneNumber}','${advList.remark}','${advList.pincode}')"
 														class="btn btn-default btn-rounded" data-toggle="modal"
 														data-target="#elegantModalForm"><abbr title='Edit'><i
-																class='fa fa-edit'></i></abbr></a> <%-- <c:if test="${prodDateSearch==0}"> --%> <c:if test="${advList.isBillGenerated==0}">
-																<a href="#"
-																	onclick="DeleteOrder('${advList.advHeaderId}')"
-																	class="btn btn-default"><abbr title='Delete'><i
-																		class='fa fa-trash-o'></i></abbr></a>
-															</c:if>
-														<%-- </c:if> --%>
-														</td>
+																class='fa fa-edit'></i></abbr></a> <%-- <c:if test="${prodDateSearch==0}"> --%>
+														<c:if test="${advList.isBillGenerated==0}">
+															<a href="#"
+																onclick="DeleteOrder('${advList.advHeaderId}')"
+																class="btn btn-default"><abbr title='Delete'><i
+																	class='fa fa-trash-o'></i></abbr></a>
+														</c:if></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -463,10 +468,11 @@
 									<input type="text" id="addr" name="addr" class="form-control"
 										value="">
 								</div>
-								
+
 								<label class="col-sm-1 control-label" style="color: blue;">Pincode</label>
 								<div class="col-sm-2 controls date_select">
-									<input class="form-control" id="pin" name="pin" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"/>
+									<input class="form-control" id="pin" name="pin" type="text"
+										oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" />
 								</div>
 
 								<label class="col-sm-1 control-label" style="color: blue;">Kilometer:
@@ -478,13 +484,14 @@
 								</div>
 
 							</div>
-							
+
 							<div class="row">
 
-								<label class="col-sm-1 control-label" style="color: blue;">Remark: </label>
+								<label class="col-sm-1 control-label" style="color: blue;">Remark:
+								</label>
 								<div class="col-sm-11">
-									<input type="text" id="remark" name="remark" class="form-control"
-										value="">
+									<input type="text" id="remark" name="remark"
+										class="form-control" value="">
 								</div>
 
 							</div>
@@ -504,8 +511,8 @@
 											value="Save/Update">
 									</c:otherwise>
 								</c:choose>
-								
-								
+
+
 							</div>
 
 							<!-- 									<input type="text" id="clockface_1" value="2:30 PM" data-format="hh:mm A" class="form-control small clockface-open">
@@ -593,6 +600,9 @@
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/chosen-bootstrap/chosen.jquery.min.js"></script>
+
+
+
 
 
 
@@ -724,24 +734,30 @@
 		}
 	</script>
 
+<!-- <script type="text/javascript">
 
+function showDetailsForCp1(headId,frName, custName,amount,isMart,devDate, advanceAmt,prodDate, isBillGenerated, delivTime,
+		addr, km,phone,remark){
+	alert("HIiiiiii - "+headId+"   - "+remark);
+}
+
+</script> -->
 
 
 	<script type="text/javascript">
 		function showDetailsForCp(headId, frName, custName, amount, isMart,
 				devDate, advanceAmt, prodDate, isBillGenerated, delivTime,
-				addr, km, phone,remark,pincode) {
+				addr, km, phone, remark, pincode) {
 
-			//alert(" hiiiiiiiiiiiiiii "+phone);
+			//alert("Hii");
 
-			$("#billAmt").css("color", "red");
+			 $("#billAmt").css("color", "red");
 			$("#devDate").css("color", "red");
 			$("#isMart1").css("color", "red");
 			$("#custName").css("color", "red");
 			$("#mob").css("color", "red");
 			$("#frName").css("color", "red");
 
-			//alert(isMart);
 
 			var x;
 			if (isMart == 1) {
@@ -749,7 +765,6 @@
 			} else {
 				x = "DM Order";
 			}
-			//alert(x);
 
 			document.getElementById("ordHeaderId").value = headId;
 			document.getElementById("isMart").value = isMart;
@@ -772,9 +787,7 @@
 			document.getElementById("remark").value = remark;
 			document.getElementById("pin").value = pincode;
 
-			$
-					.post(
-							'${getAdvaceOrderDetail}',
+			$.post('${getAdvaceOrderDetail}',
 							{
 								headId : headId,
 								ajax : 'true'
@@ -797,14 +810,14 @@
 
 													if (parseInt(isMart) == 1) {
 														tot = parseFloat(data.orderQty)
-																* parseFloat(data.orderRate);
+			 * parseFloat(data.orderRate);
 													} else {
 														tot = parseFloat(data.orderQty)
-																* parseFloat(data.orderMrp);
+			 * parseFloat(data.orderMrp);
 													}
 													tot = tot
 															- (parseFloat(tot)
-																	* parseFloat(data.isPositive) / 100);
+			 * parseFloat(data.isPositive) / 100);
 
 													var tr = $('<tr></tr>');
 													var tb_qty = '<input onChange="changeSubTotal('
@@ -880,20 +893,14 @@
 																	'<td id="tb_isPositive'
 															+ data.orderId
 															+ '" style="display:none;" class="col-md-1" align="left" ></td>')
-																	.html(
-																			data.isPositive));
+																	.html(data.isPositive));
 
-													$('#modeltable tbody')
-															.append(tr);
+													$('#modeltable tbody').append(tr);
 													if (isBillGenerated == 2) {
-														document
-																.getElementById("saveEditAdvOrderBtn").disabled = true;
-														document
-																.getElementById("saveEditAdvOrderBtn").style.display = "none";
+														document.getElementById("saveEditAdvOrderBtn").disabled = true;
+														document.getElementById("saveEditAdvOrderBtn").style.display = "none";
 
-														$(
-																"#saveEditAdvOrderBtn")
-																.hide();
+														$("#saveEditAdvOrderBtn").hide();
 													}
 													
 													
@@ -901,7 +908,7 @@
 													
 												});
 
-							});
+							}); 
 
 		}
 

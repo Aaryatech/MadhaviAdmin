@@ -3,9 +3,9 @@ package com.ats.adminpanel.commons;
 
 public class Constants {
 	
-	public static final String url="http://localhost:8097/";
+	//public static final String url="http://localhost:8099/";
 	
-	//public static final String url="http://107.180.91.43:8080/madhviwebapi/";
+	public static final String url="http://107.180.91.43:8080/madhviwebapi/";
 
 	
 	
@@ -36,14 +36,16 @@ public class Constants {
 
     //public static final String ReportURL ="http://localhost:9090/adminpanel/";
 	public static final String ReportURL ="http://107.180.91.43:8080/admin/";//change
-	public static final String SETTING_KEY = "PB";
+	public static final String SETTING_KEY = "PB"; 
 	public static final int DIS_BY_ACC = 7;
 	public static final int AP_BY_ACC = 6;
 	public static final int DIS_BY_STORE = 5;
 	public static final int AP_BY_STORE = 4;
 	public static final int AP_BY_GATE = 2;
 	public static final int DIS_BY_GATE = 3;
+	
 	public static final String REPORT_SAVE = "/opt/apache-tomcat-8.5.49/webapps/uploads/AdminReport.pdf";
+	//public static final String REPORT_SAVE = "C:/Users/MAXADMIN/Desktop/Report/Report.pdf";
 	public static final String BILL_REPORT_PATH="/opt/apache-tomcat-8.5.49/webapps/uploads/Bill.pdf";
 	public static final String CRN_REPORT_PATH="/opt/apache-tomcat-8.5.49/webapps/uploads/crn.pdf";
     public static final String FINISHEDGOOD_REPORT_PATH="/opt/apache-tomcat-8.5.49/webapps/uploads/fsr.pdf";
@@ -52,7 +54,8 @@ public class Constants {
     public static final String INWARD_PATH="/opt/apache-tomcat-8.5.49/webapps/uploads/Inward.pdf";
     public static final String LOG_PDF_PATH="/opt/apache-tomcat-8.5.49/webapps/uploads/logdf.pdf";
     public static final String DISPATCH_PATH="/opt/apache-tomcat-8.5.49/webapps/uploads/dispatch.pdf";
-		
+    //public static final String DISPATCH_PATH = "C:/Users/MAXADMIN/Desktop/Report/Report.pdf";
+    
 	public static final String SP_CAKE_FOLDER = "http://107.180.91.43:8080/uploads/SPCAKE/";
 	public static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = "http://107.180.91.43:8080/uploads/CUSTCHOICEPHOTOCAKE/";
 	public static final int LOGIS_BILL_PDF_TYPE = 8;
@@ -60,4 +63,11 @@ public class Constants {
 	public static final int MENU_IMAGE_TYPE = 0;
 	public static final String MENU_IMAGE_URL = null;
 	public static final String SPHSN = "19059010";
+	
+	//NEW - TALLY 09/07/2020
+	public static final String TALLY_SAVE = "/opt/apache-tomcat-8.5.49/webapps/uploads/Tally/";
+	public static final String TALLY_VIEW = "http://107.180.91.43:8080/uploads/Tally/";
+	
+	public static final String STORE_URL ="http://107.180.91.43:8080/MadhviStoreApi/";
+	
 }
