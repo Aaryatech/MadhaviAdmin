@@ -316,6 +316,10 @@ type
 
 
 
+
+
+
+
 :checked
 ,
 [
@@ -323,6 +327,10 @@ type
 =
 "radio"
 ]
+
+
+
+
 
 
 
@@ -360,7 +368,11 @@ type
 
 
 
+
+
  
+
+
 
 
 
@@ -387,7 +399,11 @@ type
 
 
 
+
+
  
+
+
 
 
 
@@ -427,7 +443,13 @@ position
 
 
 
+
+
+
+
 :
+
+
 
 
 
@@ -453,7 +475,13 @@ position
 
 
 
+
+
 absolute
+
+
+
+
 
 
 
@@ -504,7 +532,13 @@ left
 
 
 
+
+
+
+
 :
+
+
 
 
 
@@ -530,8 +564,14 @@ left
 
 
 
+
+
 -9999
 px
+
+
+
+
 
 
 
@@ -1063,16 +1103,17 @@ px
 										<!-- </form> -->
 									</div>
 									<div align="center" id="loader"
-										style="background-color: white; display: none;">
+										style="background-color: white; display: none; text-align: center;">
 
 										<span
 											style="background-color: white; font-size: 15px; text-align: center;">
-											<font color="#343690" style="background-color: white;">Loading</font>
 
 										</span> <span class="l-1"></span> <span class="l-2"></span> <span
 											class="l-3"></span> <span class="l-4"></span> <span
 											class="l-5"></span> <span class="l-6"></span>
 									</div>
+
+
 
 
 									<div class="box-content">
@@ -1140,15 +1181,21 @@ px
 													value="0">
 
 												<div class="col-md-1">Remark :</div>
-												<div class="col-md-3">
+												<div class="col-md-5">
 
-													<textarea name="remark" id="remark" rows="4"
-														style="width: 100%;"></textarea>
+													<input type="text" id="remark" name="remark" style="width: 100%;">
+													<!-- <textarea name="remark" id="remark" rows="4"
+														style="width: 100%;">
+													</textarea> -->
 												</div>
 											</div>
 
 
-											<div class="col-md-2">
+
+										</div>
+
+										<div class="row">
+											<div class="col-md-12" style="text-align: center;">
 												<input type="submit" class="btn btn-info" value="ORDER"
 													name="submitorder" id="submitorder" disabled> <input
 													type="submit" class="btn btn-info" value="ORDER_&_BILL"
@@ -1916,6 +1963,7 @@ $(function() {
 
              		$.each(data,function(key, item) {
 
+             			//alert(JSON.stringify(item));
 
              			var tr = $('<tr></tr>');
 
@@ -1928,6 +1976,9 @@ $(function() {
              		  	}
               		  	tr.append($('<td></td>').html(item.minQty+'<input type="hidden" value='+item.minQty+'	id=minqty'+item.itemId+""+item.frId+'  />'));
 
+              		  	//hidden discount percent
+              		  	tr.append($('<td style="text-align:right;display:none;" class="col-md-1"></td>').html('<input type="number" min="0" name=hiddendiscper'+item.itemId+""+item.frId+' id=hiddendiscper'+item.itemId+""+item.frId+' value='+item.isPositive+' > '));
+              		  	
              		  	if(isDairyMart==0){
              		  		if(ordertype==1){
                          		tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+' > '));
@@ -2128,9 +2179,12 @@ $(function() {
 					$('#total' + id + '' + frId).html(total.toFixed(2));
 				} else {
 					var total = 0;
+					
+					var oldPer=$('#hiddendiscper' + id + '' + frId).val();
+					
 					alert("Please Enter Qty or Discount Properly");
 					$('#qty' + id + '' + frId).val(0);
-					$('#discper' + id + '' + frId).val(0);
+					$('#discper' + id + '' + frId).val(oldPer);
 					$('#discamt' + id + '' + frId).val(0);
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
@@ -2153,9 +2207,12 @@ $(function() {
 					
 				} else {
 					var total = 0;
+					
+					var oldPer=$('#hiddendiscper' + id + '' + frId).val();
+					
 					alert("Please Enter Qty Less than or Equal to Limit Qty or Discount Properly ");
 					$('#qty' + id + '' + frId).val(0);
-					$('#discper' + id + '' + frId).val(0);
+					$('#discper' + id + '' + frId).val(oldPer);
 					$('#discamt' + id + '' + frId).val(0);
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
@@ -2308,10 +2365,12 @@ $(function() {
 					
 				} else {
 					var total = 0;
+					
+					var oldPer=$('#hiddendiscper' + id + '' + frId).val();
 
 					alert("Please Enter Qty or Discount Amount Properly");
 					$('#qty' + id + '' + frId).val(0);
-					$('#discper' + id + '' + frId).val(0);
+					$('#discper' + id + '' + frId).val(oldPer);
 					$('#discamt' + id + '' + frId).val(0);
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
@@ -2332,10 +2391,12 @@ $(function() {
 					$('#total' + id + '' + frId).html(tot.toFixed(2));
 				} else {
 					var total = 0;
-
+					
+					var oldPer=$('#hiddendiscper' + id + '' + frId).val();
+					
 					alert("Please Enter Qty Less than or Equal to Limit Qty or Discount Amount Properly ");
 					$('#qty' + id + '' + frId).val(0);
-					$('#discper' + id + '' + frId).val(0);
+					$('#discper' + id + '' + frId).val(oldPer);
 					$('#discamt' + id + '' + frId).val(0);
 					$('#total' + id + '' + frId).html(total);
 					$('#qty' + id + '' + frId).focus();
