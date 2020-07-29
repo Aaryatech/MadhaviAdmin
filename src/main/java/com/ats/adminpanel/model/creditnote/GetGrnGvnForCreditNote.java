@@ -20,7 +20,7 @@ public class GetGrnGvnForCreditNote {
 	
 	private float itemMrp;
 
-	private int aprQtyAcc;
+	private float aprQtyAcc;
 
 	private float aprGrandTotal;
 
@@ -45,7 +45,7 @@ public class GetGrnGvnForCreditNote {
 
 	private int delStatus;
 	
-	private int grnGvnQtyAuto;
+	private float grnGvnQtyAuto;
 	
 	
 	
@@ -167,11 +167,11 @@ public class GetGrnGvnForCreditNote {
 		this.itemMrp = itemMrp;
 	}
 
-	public int getAprQtyAcc() {
+	public float getAprQtyAcc() {
 		return aprQtyAcc;
 	}
 
-	public void setAprQtyAcc(int aprQtyAcc) {
+	public void setAprQtyAcc(float aprQtyAcc) {
 		this.aprQtyAcc = aprQtyAcc;
 	}
 
@@ -239,11 +239,11 @@ public class GetGrnGvnForCreditNote {
 		this.delStatus = delStatus;
 	}
 
-	public int getGrnGvnQtyAuto() {
+	public float getGrnGvnQtyAuto() {
 		return grnGvnQtyAuto;
 	}
 
-	public void setGrnGvnQtyAuto(int grnGvnQtyAuto) {
+	public void setGrnGvnQtyAuto(float grnGvnQtyAuto) {
 		this.grnGvnQtyAuto = grnGvnQtyAuto;
 	}
 

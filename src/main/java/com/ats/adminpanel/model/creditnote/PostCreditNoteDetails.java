@@ -26,7 +26,7 @@ public class PostCreditNoteDetails {
 	
 	private Date grnGvnDate;
 	
-	private int grnGvnQty;
+	private float grnGvnQty;
 	
 	private float taxableAmt;
 	
@@ -146,11 +146,11 @@ public class PostCreditNoteDetails {
 
 	
 
-	public int getGrnGvnQty() {
+	public float getGrnGvnQty() {
 		return grnGvnQty;
 	}
 
-	public void setGrnGvnQty(int grnGvnQty) {
+	public void setGrnGvnQty(float grnGvnQty) {
 		this.grnGvnQty = grnGvnQty;
 	}
 

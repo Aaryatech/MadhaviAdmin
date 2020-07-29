@@ -809,7 +809,7 @@ callRefreshDisAgree();
 	<script type="text/javascript">
 function callRefreshDisAgree(){
 	
-		alert("DisApproved Successfully");
+		alert("Rejected Successfully");
 		window.location.reload();
 	//document.getElementById("validation-form").reload();
 	}
@@ -937,10 +937,10 @@ function getDate(){
 	<script>
 function calcGrn(grnType,baseRate,grnId,sgstPer,cgstPer,grnQty,curQty,discPer){
 	
-	var grandTotal;
-	var aprTotalTax;
-	var grnRate;
-	var aprTaxableAmt;
+	var grandTotal=0;
+	var aprTotalTax=0;
+	var grnRate=0;
+	var aprTaxableAmt=0;
 	
 	checkQty(grnId,grnQty,curQty);//Calling another function 
 	var acc_grn_qty=$("#acc_grn_qty"+grnId).val();
@@ -957,11 +957,16 @@ function calcGrn(grnType,baseRate,grnId,sgstPer,cgstPer,grnQty,curQty,discPer){
 		grnRate=baseRate;
 	}
 	
+	
+	
 	aprTaxableAmt = grnRate * acc_grn_qty;
 	var discAmt=(aprTaxableAmt*discPer)/100;
+	
+	
 	aprTaxableAmt=aprTaxableAmt-discAmt;
 	aprTotalTax = ((aprTaxableAmt) * (sgstPer + cgstPer))/ 100;
 	grandTotal = aprTaxableAmt + aprTotalTax;
+	
 	document.getElementById('grnAmt'+grnId).innerText=grandTotal.toFixed(2);
 }
 

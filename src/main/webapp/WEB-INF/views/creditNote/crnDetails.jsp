@@ -260,7 +260,7 @@
 															id="grnGvnQty${crnDetail.crndId}"
 															value="${crnDetail.grnGvnQty}"
 															onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})"
-															oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+															oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 															 />
 														</td>
 														<td align="left"><input type="text"

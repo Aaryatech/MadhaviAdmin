@@ -252,7 +252,7 @@ public class ManualGrnController {
 
 				if (billNo != null) {
 
-					grnConfList.get(i).setAutoGrnQty(Integer.parseInt(grnQty));
+					grnConfList.get(i).setAutoGrnQty(Float.parseFloat(grnQty));
 					selectedGrn.add(grnConfList.get(i));
 				}
 				System.err.println("grnQty" + grnQty);
@@ -301,7 +301,7 @@ public class ManualGrnController {
 				 * System.out.println("tempGrnQtyAuto ===" + tempGrnQtyAuto);
 				 */
 
-				int grnQty = selectedGrn.get(i).getAutoGrnQty();
+				float grnQty = selectedGrn.get(i).getAutoGrnQty();
 
 				/*
 				 * String frGrnRemark = request.getParameter("grn_remark" +

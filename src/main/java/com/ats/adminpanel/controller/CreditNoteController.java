@@ -1043,7 +1043,10 @@ public class CreditNoteController {
 		ModelAndView model = new ModelAndView("creditNote/crnDetails");
 		System.out.println("In detail Page");
 		try {
-
+			
+			crnHeadersMap = new LinkedHashMap<Integer, GetCreditNoteHeaders>();
+			crnDetailsMap = new LinkedHashMap<Integer, List<GetCrnDetails>>();
+			
 			String fromDate = request.getParameter("from_date");
 			String toDate = request.getParameter("to_date");
 			String selectFr = request.getParameter("selectFr");
@@ -1122,8 +1125,8 @@ public class CreditNoteController {
 
 			for (int i = 0; i < crnDetailListMap.size(); i++) {
 
-				int grnGvnQty = Integer
-						.parseInt(request.getParameter("grnGvnQty" + crnDetailListMap.get(i).getCrndId()));
+				float grnGvnQty = Float
+						.parseFloat(request.getParameter("grnGvnQty" + crnDetailListMap.get(i).getCrndId()));
 				float totalTaxPer = Float
 						.parseFloat(request.getParameter("totalTaxPer" + crnDetailListMap.get(i).getCrndId()));
 				float grnBaseRate = Float

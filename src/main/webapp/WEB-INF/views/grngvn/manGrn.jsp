@@ -438,15 +438,22 @@
 
 			var z = document.getElementById("qty" + id).value;
 
-			if (!/^[0-9]+$/.test(z)) {
+/* 			if (!/^[0-9].+$/.test(z)) {
 				//alert("Please only enter numeric characters only for your Age! (Allowed input:0-9)");
 
 				document.getElementById("qty" + id).value = '0';
 
 			}
-
+ */
+ var qtyId="qty"+id;
+ 
+			$('#qty'+id).on('input', function() {	 this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');	});
+			
 		}
+		
+		
 	</script>
+	
 	
 
 	<script type="text/javascript">

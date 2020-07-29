@@ -19,7 +19,7 @@ private int crndId;
 	
 	private String grnGvnDate;
 	
-	private int grnGvnQty;
+	private float grnGvnQty;
 	
 	private float taxableAmt;
 	
@@ -144,12 +144,12 @@ private int crndId;
 		}
 
 
-		public int getGrnGvnQty() {
+		public float getGrnGvnQty() {
 			return grnGvnQty;
 		}
 
 
-		public void setGrnGvnQty(int grnGvnQty) {
+		public void setGrnGvnQty(float grnGvnQty) {
 			this.grnGvnQty = grnGvnQty;
 		}
 

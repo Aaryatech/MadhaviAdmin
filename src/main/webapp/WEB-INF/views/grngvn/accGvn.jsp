@@ -830,7 +830,7 @@ callfourthRefresh(); */
 	<script type="text/javascript">
 function callRefreshDisAgree(){
 	
-		alert("DisApproved Successfully");
+		alert("Rejected Successfully");
 		window.location.reload();
 	//document.getElementById("validation-form").reload();
 	}

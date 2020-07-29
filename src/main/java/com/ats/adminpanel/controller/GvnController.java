@@ -359,7 +359,7 @@ public class GvnController {
 			UserResponse userResponse = (UserResponse) session.getAttribute("UserDetail");
 			int gateApproveLogin = userResponse.getUser().getId();
 
-			int gateGvnQty = Integer.parseInt(request.getParameter("gate_gvn_qty"));
+			float gateGvnQty = Float.parseFloat(request.getParameter("gate_gvn_qty"));
 
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
 
@@ -505,7 +505,7 @@ public class GvnController {
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
 
 			// Integer.parseInt(request.getParameter("approveGateLogin"));
-			int gateGvnQty = Integer.parseInt(request.getParameter("gate_gvn_qty"));
+			float gateGvnQty = Float.parseFloat(request.getParameter("gate_gvn_qty"));
 			String gateRemark = request.getParameter("gateRemark");
 
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -674,7 +674,7 @@ public class GvnController {
 
 			for (int i = 0; i < grnIdList.length; i++) {
 
-				int gateGvnQty = Integer.parseInt(request.getParameter("gate_gvn_qty" + grnIdList[i]));
+				float gateGvnQty = Float.parseFloat(request.getParameter("gate_gvn_qty" + grnIdList[i]));
 				System.out.println("corresponding gID " + grnIdList[i] + "Gate Qty " + gateGvnQty);
 
 				TempGrnGvnBeanUp data = new TempGrnGvnBeanUp();
@@ -1085,7 +1085,7 @@ public class GvnController {
 			typeValue = Integer.parseInt(request.getParameter("typeValue"));
 
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
-			int storeGvnQty = Integer.parseInt(request.getParameter("store_gvn_qty"));
+			float storeGvnQty = Float.parseFloat(request.getParameter("store_gvn_qty"));
 			// Integer.parseInt(request.getParameter("approveGateLogin"));
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Calendar cal = Calendar.getInstance();
@@ -1245,7 +1245,7 @@ public class GvnController {
 			HttpSession session = request.getSession();
 			UserResponse userResponse = (UserResponse) session.getAttribute("UserDetail");
 			int storeApproveLogin = userResponse.getUser().getId();
-			int storeGvnQty = Integer.parseInt(request.getParameter("store_gvn_qty"));
+			float storeGvnQty = Float.parseFloat(request.getParameter("store_gvn_qty"));
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
 
 			String storeRemark = request.getParameter("storeRemark");
@@ -1430,7 +1430,7 @@ public class GvnController {
 
 			for (int i = 0; i < grnIdList.length; i++) {
 
-				int storeGvnQty = Integer.parseInt(request.getParameter("store_gvn_qty" + grnIdList[i]));
+				float storeGvnQty = Float.parseFloat(request.getParameter("store_gvn_qty" + grnIdList[i]));
 				System.out.println("corresponding gID " + grnIdList[i] + "storeGvnQty Qty " + storeGvnQty);
 
 				TempGrnGvnBeanUp data = new TempGrnGvnBeanUp();
@@ -1889,7 +1889,7 @@ public class GvnController {
 
 				detail = new GetGrnGvnDetails();
 				detail = gvnAccDetailList.get(i);
-				int qty = 0;
+				float qty = 0;
 
 				if (detail.getGrnGvnStatus() == 1 || detail.getGrnGvnStatus() == 2 || detail.getGrnGvnStatus() == 3) {
 					System.out.println("a] fr Grn Qty ");
@@ -2028,7 +2028,7 @@ public class GvnController {
 		try {
 
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
-			int accGvnQty = Integer.parseInt(request.getParameter("acc_gvn_qty"));
+			float accGvnQty = Float.parseFloat(request.getParameter("acc_gvn_qty"));
 			// int accApproveLogin = //
 			// Integer.parseInt(request.getParameter("approveAccLogin"));
 			HttpSession session = request.getSession();
@@ -2362,7 +2362,7 @@ public class GvnController {
 			HttpSession session = request.getSession();
 			UserResponse userResponse = (UserResponse) session.getAttribute("UserDetail");
 			int accApproveLogin = userResponse.getUser().getId();
-			int accGvnQty = Integer.parseInt(request.getParameter("acc_gvn_qty"));
+			float accGvnQty = Float.parseFloat(request.getParameter("acc_gvn_qty"));
 			String accRemark = request.getParameter("accRemark");
 
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -2732,7 +2732,7 @@ public class GvnController {
 
 			for (int j = 0; j < grnIdList.length; j++) {
 
-				int accGvnQty = Integer.parseInt(request.getParameter("acc_gvn_qty" + grnIdList[j]));
+				float accGvnQty = Float.parseFloat(request.getParameter("acc_gvn_qty" + grnIdList[j]));
 
 				for (int i = 0; i < gvnAccDetailList.size(); i++) {
 

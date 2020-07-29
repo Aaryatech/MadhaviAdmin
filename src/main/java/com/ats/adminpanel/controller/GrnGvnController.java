@@ -355,7 +355,7 @@ public class GrnGvnController {
 
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
 
-			int gateGrnQty = Integer.parseInt(request.getParameter("gate_grn_qty"));
+			float gateGrnQty = Float.parseFloat(request.getParameter("gate_grn_qty"));
 
 			System.out.println("Gate Grn QTY RECEIVED " + gateGrnQty);
 
@@ -511,7 +511,7 @@ public class GrnGvnController {
 
 			String gateRemark = request.getParameter("gateRemark");
 
-			int gateGrnQty = Integer.parseInt(request.getParameter("gate_grn_qty"));
+			float gateGrnQty = Float.parseFloat(request.getParameter("gate_grn_qty"));
 
 			System.out.println("Gate Grn QTY RECEIVED " + gateGrnQty);
 
@@ -675,7 +675,7 @@ public class GrnGvnController {
 
 			for (int i = 0; i < grnIdList.length; i++) {
 
-				int gateGrnQty = Integer.parseInt(request.getParameter("gate_grn_qty" + grnIdList[i]));
+				float gateGrnQty = Float.parseFloat(request.getParameter("gate_grn_qty" + grnIdList[i]));
 				System.out.println("corresponding gID " + grnIdList[i] + "Gate Qty " + gateGrnQty);
 
 				TempGrnGvnBeanUp data = new TempGrnGvnBeanUp();
@@ -1166,7 +1166,7 @@ public class GrnGvnController {
 
 			detail = new GetGrnGvnDetails();
 			detail = grnAccDetailList.get(i);
-			int qty = 0;
+			float qty = 0;
 
 			if (detail.getGrnGvnStatus() == 1) {
 				System.out.println("a] fr Grn Qty ");
@@ -1278,7 +1278,7 @@ public class GrnGvnController {
 
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
 
-			int accGrnQty = Integer.parseInt(request.getParameter("acc_grn_qty"));
+			float accGrnQty = Float.parseFloat(request.getParameter("acc_grn_qty"));
 
 			System.out.println("Acc GRN QTY " + accGrnQty + "for GRN ID =" + grnId);
 			HttpSession session = request.getSession();
@@ -1636,7 +1636,7 @@ public class GrnGvnController {
 
 			int grnId = Integer.parseInt(request.getParameter("grnId"));
 
-			int accGrnQty = Integer.parseInt(request.getParameter("acc_grn_qty"));
+			float accGrnQty = Float.parseFloat(request.getParameter("acc_grn_qty"));
 			System.out.println("Acc GRN QTY " + accGrnQty + "for GRN ID =" + grnId);
 
 			String accRemark = request.getParameter("accRemark");
@@ -2038,7 +2038,7 @@ public class GrnGvnController {
 
 			for (int j = 0; j < grnIdList.length; j++) {
 
-				int accGrnQty = Integer.parseInt(request.getParameter("acc_grn_qty" + grnIdList[j]));
+				float accGrnQty = Float.parseFloat(request.getParameter("acc_grn_qty" + grnIdList[j]));
 
 				for (int i = 0; i < grnAccDetailList.size(); i++) {
 

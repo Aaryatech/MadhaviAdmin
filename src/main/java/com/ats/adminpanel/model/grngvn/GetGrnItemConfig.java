@@ -13,7 +13,7 @@ public class GetGrnItemConfig {
     private Integer billNo;
     private float rate;
     private float mrp;
-    private Integer billQty;
+    private float billQty;
     
     Date billDate;
     
@@ -26,7 +26,7 @@ public class GetGrnItemConfig {
     int menuId;
     String invoiceNo;
     
-    private int autoGrnQty;
+    private float autoGrnQty;
 
     private String billDateTime;
     
@@ -145,11 +145,11 @@ public class GetGrnItemConfig {
 		this.mrp = mrp;
 	}
 
-	public Integer getBillQty() {
+	public float getBillQty() {
         return billQty;
     }
 
-    public void setBillQty(Integer billQty) {
+    public void setBillQty(float billQty) {
         this.billQty = billQty;
     }
 
@@ -191,11 +191,11 @@ public class GetGrnItemConfig {
 		this.igstPer = igstPer;
 	}
 
-	public int getAutoGrnQty() {
+	public float getAutoGrnQty() {
 		return autoGrnQty;
 	}
 
-	public void setAutoGrnQty(int autoGrnQty) {
+	public void setAutoGrnQty(float autoGrnQty) {
 		this.autoGrnQty = autoGrnQty;
 	}
 

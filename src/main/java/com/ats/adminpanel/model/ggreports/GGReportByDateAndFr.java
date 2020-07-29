@@ -15,12 +15,12 @@ public class GGReportByDateAndFr {
 
 	private String frName;
 
-	private int reqQty;
+	private float reqQty;
 	
 	private float totalAmt;
 	
 	
-	private int aprQty;
+	private float aprQty;
 	
 	private float aprGrandTotal;
 	
@@ -66,11 +66,11 @@ public class GGReportByDateAndFr {
 		this.frName = frName;
 	}
 
-	public int getReqQty() {
+	public float getReqQty() {
 		return reqQty;
 	}
 
-	public void setReqQty(int reqQty) {
+	public void setReqQty(float reqQty) {
 		this.reqQty = reqQty;
 	}
 
@@ -82,11 +82,11 @@ public class GGReportByDateAndFr {
 		this.totalAmt = totalAmt;
 	}
 
-	public int getAprQty() {
+	public float getAprQty() {
 		return aprQty;
 	}
 
-	public void setAprQty(int aprQty) {
+	public void setAprQty(float aprQty) {
 		this.aprQty = aprQty;
 	}
 

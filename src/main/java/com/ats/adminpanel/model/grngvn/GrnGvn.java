@@ -27,7 +27,7 @@ public class GrnGvn {
 	private float itemMrp;
 
 	
-	private int grnGvnQty;
+	private float grnGvnQty;
 
 	
 	private float grnGvnAmt;
@@ -88,7 +88,7 @@ public class GrnGvn {
 	private int delStatus;
 	
 	
-	private int grnGvnQtyAuto;
+	private float grnGvnQtyAuto;
 	
 	private int billDetailNo;
 	
@@ -151,9 +151,9 @@ public class GrnGvn {
 		
 		//23 FEB new Fields to handle qty variation between entry(insert) and dispatch
 		
-		int aprQtyGate;
-		int aprQtyStore;
-		int aprQtyAcc;
+		float aprQtyGate;
+		float aprQtyStore;
+		float aprQtyAcc;
 		
 		
 		float aprTaxableAmt;
@@ -182,32 +182,32 @@ public class GrnGvn {
 		}
 
 
-	public int getAprQtyGate() {
+	public float getAprQtyGate() {
 			return aprQtyGate;
 		}
 
 
-		public void setAprQtyGate(int aprQtyGate) {
+		public void setAprQtyGate(float aprQtyGate) {
 			this.aprQtyGate = aprQtyGate;
 		}
 
 
-		public int getAprQtyStore() {
+		public float getAprQtyStore() {
 			return aprQtyStore;
 		}
 
 
-		public void setAprQtyStore(int aprQtyStore) {
+		public void setAprQtyStore(float aprQtyStore) {
 			this.aprQtyStore = aprQtyStore;
 		}
 
 
-		public int getAprQtyAcc() {
+		public float getAprQtyAcc() {
 			return aprQtyAcc;
 		}
 
 
-		public void setAprQtyAcc(int aprQtyAcc) {
+		public void setAprQtyAcc(float aprQtyAcc) {
 			this.aprQtyAcc = aprQtyAcc;
 		}
 
@@ -393,12 +393,12 @@ public class GrnGvn {
 	}
 
 
-	public int getGrnGvnQty() {
+	public float getGrnGvnQty() {
 		return grnGvnQty;
 	}
 
 
-	public void setGrnGvnQty(int grnGvnQty) {
+	public void setGrnGvnQty(float grnGvnQty) {
 		this.grnGvnQty = grnGvnQty;
 	}
 
@@ -595,11 +595,11 @@ public class GrnGvn {
 		this.delStatus = delStatus;
 	}
 
-	public void setGrnGvnQtyAuto(int grnGvnQtyAuto) {
+	public void setGrnGvnQtyAuto(float grnGvnQtyAuto) {
 		this.grnGvnQtyAuto = grnGvnQtyAuto;
 	}
 	
-	public int getGrnGvnQtyAuto() {
+	public float getGrnGvnQtyAuto() {
 		return grnGvnQtyAuto;
 	}
 
