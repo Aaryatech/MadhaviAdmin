@@ -93,10 +93,15 @@ public class SaleItemReportController {
 			
 
 			int billType = 1;
-
 			try {
 				billType = Integer.parseInt(request.getParameter("rd"));
 				System.err.println("BILL TYPE - " + billType);
+			} catch (Exception e) {
+			}
+			
+			int configType = 0;
+			try {
+				configType = Integer.parseInt(request.getParameter("configType"));
 			} catch (Exception e) {
 			}
 
@@ -136,6 +141,8 @@ public class SaleItemReportController {
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
 				map.add("dairyList", dairy);
+				map.add("configType", configType);
+				
 
 				SalesReturnItemDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesValueItemReport", map, SalesReturnItemDaoList[].class);
@@ -184,6 +191,7 @@ public class SaleItemReportController {
 				model.addObject("subCatList", subCatList);
 				model.addObject("subCatId", subCatId);
 				model.addObject("catId", catId);
+				model.addObject("configType", configType);
 
 				String bTypeIds = "";
 				if (instruments.equalsIgnoreCase("1,2") || instruments.equalsIgnoreCase("2,1")) {

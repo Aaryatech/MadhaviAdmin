@@ -34,6 +34,7 @@ import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
 import com.ats.adminpanel.model.AddCustemerResponse;
 import com.ats.adminpanel.model.Customer;
+import com.ats.adminpanel.model.FrConfig;
 import com.ats.adminpanel.model.GenerateBill;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.ItemForMOrder;
@@ -624,7 +625,7 @@ public class ManualOrderController {
 
 	@RequestMapping(value = "/generateManualBill", method = RequestMethod.POST)
 	public String generateManualBill(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		int frId = 0;
 		GenerateBill[] orderListResponse = null;
 		String partyName = "";
@@ -1012,9 +1013,9 @@ public class ManualOrderController {
 			String billToGstin = request.getParameter("billToGstin");
 			String billToAddress = request.getParameter("billToAddress");
 			int custId = Integer.parseInt(request.getParameter("cust"));
-			
-			String remark=request.getParameter("remark");
-			
+
+			String remark = request.getParameter("remark");
+
 			System.err.println("  adv order");
 			float advanceAmt = Float.parseFloat(request.getParameter("advanceAmt"));
 			String devDate = request.getParameter("delDate");
@@ -1080,7 +1081,7 @@ public class ManualOrderController {
 			float discAmt = 0.0f;
 			float totGrand = 0;
 			for (int i = 0; i < orderList.size(); i++) {
-				
+
 				System.out.println("Save orderList.get(i).getItemId() " + orderList.get(i).getItemId());
 				float qty = 0;
 				String strQty = null;
@@ -1193,7 +1194,7 @@ public class ManualOrderController {
 					GenerateBill[].class);
 
 			List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(Arrays.asList(orderListResponse1));
-			System.err.println("Goal-------------"+tempGenerateBillList);
+			System.err.println("Goal-------------" + tempGenerateBillList);
 			// to save bill
 			if (tempGenerateBillList != null) {
 				System.err.println("saving bill with Advance" + tempGenerateBillList.toString());
@@ -1518,6 +1519,9 @@ public class ManualOrderController {
 			int custType = Integer.parseInt(request.getParameter("custType"));
 			String ageRange = request.getParameter("ageRange");
 			int gender = Integer.parseInt(request.getParameter("gender"));
+			
+			int frId = Integer.parseInt(request.getParameter("frId"));
+			String email = request.getParameter("email");
 
 			float kms = Float.parseFloat(request.getParameter("kms"));
 			String pincode = request.getParameter("pincode");
@@ -1525,24 +1529,81 @@ public class ManualOrderController {
 
 			String str = pincode + "-" + remark;
 
+			String dateTime = request.getParameter("addedDate");
+
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+			int cityId = 0;
+			if (request.getParameter("cityId") != null) {
+				cityId = Integer.parseInt(request.getParameter("cityId"));
+			}
+
+			int langId = 0;
+			if (request.getParameter("langId") != null) {
+				langId = Integer.parseInt(request.getParameter("langId"));
+			}
+
+			int custPlatform = 0;
+			if (request.getParameter("custAddPlatform") != null) {
+				custPlatform = Integer.parseInt(request.getParameter("custAddPlatform"));
+			}
+
+			int addedFrom = 1;
+			if (request.getParameter("addedFrom") != null) {
+				addedFrom = Integer.parseInt(request.getParameter("addedFrom"));
+			}
+
+			if (custId == 0) {
+
+				dateTime = sdf.format(cal.getTime());
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("frId", frId);
+				FrConfig frConfig = restTemplate.postForObject(Constants.url + "/getFrConfigByFrId", map,
+						FrConfig.class);
+				if (frConfig != null) {
+					cityId = frConfig.getCityIds();
+				}
+
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("settingKey", "POS_default_lang_id");
+				NewSetting settingValue = restTemplate.postForObject(Constants.url + "/findNewSettingByKey", map,
+						NewSetting.class);
+
+				if (settingValue != null) {
+					langId = Integer.parseInt(settingValue.getSettingValue1());
+				}
+
+			}
+
 			Customer save = new Customer();
+			
+			save.setCustId(custId);
 			save.setCustName(customerName);
 			save.setPhoneNumber(mobileNo);
+			save.setWhatsappNo(mobileNo);
 			save.setIsBuissHead(Integer.parseInt(buisness));
 			save.setCustDob(dateOfBirth);
 			save.setCompanyName(companyName);
 			save.setAddress(custAdd);
 			save.setGstNo(gstNo);
 			save.setDelStatus(0);
-			save.setCustId(custId);
+			save.setIsActive(0);
+			save.setAgeGroup(ageRange);
+			save.setExInt1(custType);
 			save.setExVar1("" + kms);
 			save.setGender(gender);
 			save.setExVar2(str);
-
-			save.setAgeGroup(ageRange);
-			save.setExInt1(custType);
-			save.setGender(gender);
-			Customer res = restTemplate.postForObject(Constants.url + "/saveCustomer", save, Customer.class);
+			save.setFrId(frId);
+			save.setCityId(cityId);
+			save.setLangId(langId);
+			save.setCustAddPlatform(custPlatform);
+			save.setAddedFromType(addedFrom);
+			save.setCustAddDatetime(dateTime);
+			save.setEmailId(email);
+			
+			Customer res = restTemplate.postForObject(Constants.url + "/saveCustomerPOS", save, Customer.class);
 
 			Customer[] customer = restTemplate.getForObject(Constants.url + "/getAllCustomers", Customer[].class);
 			List<Customer> customerList = new ArrayList<>(Arrays.asList(customer));

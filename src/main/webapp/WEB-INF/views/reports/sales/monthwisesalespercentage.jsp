@@ -56,16 +56,17 @@
 				<div class="box-content">
 					<div class="row">
 						<div class="form-group">
-							<label class="col-sm-3 col-lg-1	 control-label">Year</label>
+							<label class="col-sm-3 col-lg-2	 control-label">Year</label>
 							<div class="col-sm-6 col-lg-3 controls date_select">
 								<select id="year" name="year" class="form-control">
 
 									<option value="2019-2020">2019-2020</option>
 									<option value="2020-2021">2020-2021</option>
+									<option value="2021-2022">2021-2022</option>
 								</select>
 							</div>
 
-							<div class="col-sm-6 col-lg-2"></div>
+							<div class="col-sm-6 col-lg-1"></div>
 
 
 							<label class="col-sm-3 col-lg-2 control-label">Select
@@ -74,8 +75,10 @@
 
 								<input type="radio" id="rd1" name="rd" value="1"
 									${billType==1 ? 'checked' : ''} checked="checked"
-									onchange="billTypeSelection(this.value)">&nbsp;Fr. Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
-									id="rd2" name="rd" value="2" ${billType==2 ? 'checked' : ''}
+									onchange="billTypeSelection(this.value)">&nbsp;Fr.
+								Bills & Del. Challan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+									type="radio" id="rd2" name="rd" value="2"
+									${billType==2 ? 'checked' : ''}
 									onchange="billTypeSelection(this.value)">&nbsp;Retail
 								Outlet Bills
 
@@ -132,11 +135,22 @@
 
 								</div>
 							</div>
-							
+
 							<div id="dairyDiv" style="display: none;">
 
-								<label class="col-sm-3 col-lg-2 control-label"></label>
-								<div class="col-sm-6 col-lg-4"></div>
+								<br> <label class="col-sm-3 col-lg-2 control-label">Retail
+									Outlet Type</label>
+								<div class="col-sm-6 col-lg-4">
+
+									<select data-placeholder="Choose " class="form-control chosen"
+										tabindex="6" id="configType" name="configType">
+										<option value="0" ${configType==0 ? 'checked' : ''}><c:out
+												value="All" /></option>
+										<option value="1" ${configType==1 ? 'checked' : ''}>POS</option>
+										<option value="2" ${configType==2 ? 'checked' : ''}>Online</option>
+									</select>
+
+								</div>
 
 								<label class="col-sm-3 col-lg-2 control-label">Select
 									Type</label>
@@ -163,15 +177,15 @@
 
 										</c:choose>
 
-										
+
 									</select>
 								</div>
 							</div>
-							
-							
+
+
 						</div>
 					</div>
-
+					<br>
 					<div class="row">
 						<div class="form-group" style="text-align: center;">
 							<input type="submit" id="submit" class="btn btn-primary"

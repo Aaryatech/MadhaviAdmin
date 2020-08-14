@@ -320,6 +320,14 @@ type
 
 
 
+
+
+
+
+
+
+
+
 :checked
 ,
 [
@@ -327,6 +335,14 @@ type
 =
 "radio"
 ]
+
+
+
+
+
+
+
+
 
 
 
@@ -370,7 +386,15 @@ type
 
 
 
+
+
+
+
  
+
+
+
+
 
 
 
@@ -401,7 +425,15 @@ type
 
 
 
+
+
+
+
  
+
+
+
+
 
 
 
@@ -447,7 +479,19 @@ position
 
 
 
+
+
+
+
+
+
+
+
 :
+
+
+
+
 
 
 
@@ -477,7 +521,19 @@ position
 
 
 
+
+
+
+
 absolute
+
+
+
+
+
+
+
+
 
 
 
@@ -536,7 +592,19 @@ left
 
 
 
+
+
+
+
+
+
+
+
 :
+
+
+
+
 
 
 
@@ -566,8 +634,20 @@ left
 
 
 
+
+
+
+
 -9999
 px
+
+
+
+
+
+
+
+
 
 
 
@@ -1128,7 +1208,7 @@ px
 											<div class="col-md-12 table-responsive">
 												<table class="table table-bordered table-striped fill-head "
 													style="width: 100%" id="table_grid">
-													<thead style="background-color: #f3b5db;">
+													<thead style="background-color: #f95d64;">
 														<tr>
 															<th style="text-align: center;">Sr.No.</th>
 															<th style="text-align: center;">Item Name</th>
@@ -1183,7 +1263,8 @@ px
 												<div class="col-md-1">Remark :</div>
 												<div class="col-md-5">
 
-													<input type="text" id="remark" name="remark" style="width: 100%;">
+													<input type="text" id="remark" name="remark"
+														style="width: 100%;">
 													<!-- <textarea name="remark" id="remark" rows="4"
 														style="width: 100%;">
 													</textarea> -->
@@ -1246,14 +1327,7 @@ px
 									<div class="clr"></div>
 								</div>
 
-								<div class="add_frm_one">
-									<div class="add_customer_one">Address *</div>
-									<div class="add_input">
-										<input placeholder="Enter Address" name="custAdd" id="custAdd"
-											onchange="trim(this)" type="text" class="input_add" />
-									</div>
-									<div class="clr"></div>
-								</div>
+
 
 								<div class="add_frm_one">
 									<div class="add_customer_one">Pin Code</div>
@@ -1280,6 +1354,16 @@ px
 										<input type="text" class="input_add"
 											placeholder="Enter Mobile Number" name="mobileNo"
 											id="mobileNo" onchange="trim(this)" maxlength="10" />
+									</div>
+									<div class="clr"></div>
+								</div>
+
+								<div class="add_frm_one">
+									<div class="add_customer_one">Email ID</div>
+									<div class="add_input">
+										<input type="text" class="input_add"
+											placeholder="Enter Email ID" name="emailId" id="emailId"
+											onchange="trim(this)" />
 									</div>
 									<div class="clr"></div>
 								</div>
@@ -1375,6 +1459,17 @@ px
 										</div>
 										<div class="clr"></div>
 									</div>
+
+									<div class="add_frm_one">
+										<div class="add_customer_one">Address</div>
+										<div class="add_input">
+											<input placeholder="Enter Address" name="custAdd"
+												id="custAdd" onchange="trim(this)" type="text"
+												class="input_add" />
+										</div>
+										<div class="clr"></div>
+									</div>
+
 									<div class="add_frm_one">
 										<div class="add_customer_one">GST Number *</div>
 										<div class="add_input">
@@ -1398,6 +1493,16 @@ px
 									</div>
 									<div class="clr"></div>
 								</div>
+
+
+								<input type="hidden" name="cityId" id="cityId" value="0"
+									onchange="trim(this)" /> <input type="hidden" name="langId"
+									id="langId" value="0" onchange="trim(this)" /> <input
+									type="hidden" name="custAddPlatform" id="custAddPlatform"
+									value="0" onchange="trim(this)" /> <input type="hidden"
+									name="addedFrom" id="addedFrom" value="1" onchange="trim(this)" />
+								<input type="hidden" name="addedDate" id="addedDate"
+									onchange="trim(this)" />
 
 							</div>
 
@@ -1571,6 +1676,15 @@ $(function() {
 									document.getElementById("dateOfBirth").value = data.custDob;
 									
 									document.getElementById("kms").value = data.exVar1;
+									document.getElementById("emailId").value = data.emailId;
+									
+									document.getElementById("cityId").value = data.cityId;
+									document.getElementById("langId").value = data.langId;
+									document.getElementById("custAddPlatform").value = data.custAddPlatform;
+									document.getElementById("addedFrom").value = data.addedFromType;
+									document.getElementById("addedDate").value = data.custAddDatetime;
+									
+									
 									
 									var str = data.exVar2;
 									var strArr = str.split('-');
@@ -1628,12 +1742,16 @@ $(function() {
 			
 			document.getElementById("saveCust").style.display="none"; 
 			
+			var frId=document.getElementById("fr_id").value;
+
+			
 			var phNo="";
 			//$('#addcust').modal('hide');
 			//$('#addcust').popup('hide'); //for close popup;
 			var custId = document.getElementById("custId").value;
 			var customerName = document.getElementById("customerName").value;
 			var mobileNo = document.getElementById("mobileNo").value;
+			var email = document.getElementById("emailId").value;
 			phNo=mobileNo;
 			var dateOfBirth = document.getElementById("dateOfBirth").value;
 			var custType = document.getElementById("custType").value;
@@ -1686,16 +1804,24 @@ $(function() {
 			var companyName = document.getElementById("companyName").value;
 			var gstNo = document.getElementById("gstNo").value;
 			var custAdd = document.getElementById("custAdd").value;
+			
+			var cityId=document.getElementById("cityId").value;
+			var langId=document.getElementById("langId").value;
+			var custAddPlatform=document.getElementById("custAddPlatform").value;
+			var addedFrom=document.getElementById("addedFrom").value;
+			var addedDate=document.getElementById("addedDate").value;
 
 			var flag = 0;
 
 			if (customerName == "") {
 				alert("Enter Customer Name");
 				flag = 1;
-			} else if (custAdd == "") {
+			} 
+			/* else if (custAdd == "") {
 				alert("Enter Address");
 				flag = 1;
-			} else if (mobileNo == "" || !validateMobile(mobileNo)) {
+			} */
+			else if (mobileNo == "" || !validateMobile(mobileNo)) {
 				alert("Enter Valid Mobile No");
 				flag = 1;
 			} 
@@ -1730,6 +1856,10 @@ $(function() {
 					flag = 1;
 				} */
 			}
+			
+			if (kms == "") {
+				kms=0;
+			}
 
 			if (flag == 0) {
 				$
@@ -1750,6 +1880,13 @@ $(function() {
 									kms:kms,
 									pincode:pincode,
 									remark:remark,
+									cityId : cityId,
+									langId : langId,
+									custAddPlatform : custAddPlatform,
+									addedFrom : addedFrom,
+									addedDate : addedDate,
+									frId : frId,
+									email : email,
 									ajax : 'true'
 								},
 								function(data) {
@@ -1806,8 +1943,15 @@ $(function() {
 
 										document.getElementById("customerName").value = "";
 										document.getElementById("mobileNo").value = "";
+										document.getElementById("emailId").value = "";
 
 										document.getElementById("dateOfBirth").value = "";
+										
+										var cityId=document.getElementById("cityId").value="";
+										var langId=document.getElementById("langId").value="";
+										var custAddPlatform=document.getElementById("custAddPlatform").value="";
+										var addedFrom=document.getElementById("addedFrom").value="";
+										var addedDate=document.getElementById("addedDate").value="";
 
 										document.getElementById("n-option").checked = true;
 										document.getElementById("companyName").value = "";
@@ -1820,8 +1964,9 @@ $(function() {
 										document.getElementById("ageRange").value ="0";
 										$("#ageRange").trigger("chosen:updated");
 										//$('.chosen-select').trigger('chosen:updated');
-										document
-												.getElementById("add_cust_head_name").innerHTML = "Add Customer";
+										
+										document.getElementById("add_cust_head_name").innerHTML = "Add Customer";
+										
 										$("#isbuissnessdiv").hide();
 
 										if (custId != 0) {
@@ -1871,6 +2016,23 @@ $(function() {
 		}
 
 	</script>
+
+	<script type="text/javascript">
+	
+		function checkEmailId(email){
+			
+			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+			{
+			    return (true)
+			}
+				//document.getElementById("emailId").value
+			    alert("You have entered an invalid email address!")
+			    return (false)
+			}
+		}
+	
+	</script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#addcust').popup({

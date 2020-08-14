@@ -351,6 +351,52 @@
 
 						</div>
 					</div>
+					<br>
+					<c:choose>
+						<c:when test="${billType==2}">
+							<div class="row" id="configTypeDiv">
+
+								<div class="form-group">
+
+									<label class="col-sm-3 col-lg-2 control-label">Retail
+										Outlet Type</label>
+									<div class="col-sm-6 col-lg-4">
+
+										<select data-placeholder="Choose " class="form-control chosen"
+											tabindex="6" id="configType" name="configType">
+											<option value="0" selected="selected"><c:out
+													value="All" /></option>
+											<option value="1">POS</option>
+											<option value="2">Online</option>
+										</select>
+
+									</div>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="row" id="configTypeDiv" style="display: none;">
+
+								<div class="form-group">
+
+									<label class="col-sm-3 col-lg-2 control-label">Retail
+										Outlet Type</label>
+									<div class="col-sm-6 col-lg-4">
+
+										<select data-placeholder="Choose " class="form-control chosen"
+											tabindex="6" id="configType" name="configType">
+											<option value="0" selected="selected"><c:out
+													value="All" /></option>
+											<option value="1">POS</option>
+											<option value="2">Online</option>
+										</select>
+
+									</div>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
+
 
 					<br>
 					<div class="row">
@@ -777,9 +823,12 @@
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
 				document.getElementById("dairyDiv").style.display = "block";
+				document.getElementById("configTypeDiv").style.display = "block";
+				
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
 				document.getElementById("dairyDiv").style.display = "none";
+				document.getElementById("configTypeDiv").style.display = "none";
 			}
 
 		}

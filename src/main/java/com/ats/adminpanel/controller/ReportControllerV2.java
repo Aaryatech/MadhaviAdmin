@@ -133,6 +133,8 @@ public class ReportControllerV2 {
 
 		int billType = Integer.parseInt(request.getParameter("billType"));
 		String dairy = request.getParameter("dairyMartType");
+		
+		int configType = Integer.parseInt(request.getParameter("configType"));
 
 		try {
 
@@ -160,6 +162,7 @@ public class ReportControllerV2 {
 			map.add("typeIdList", typeIdString);
 			map.add("billType", billType);
 			map.add("dairy", dairy);
+			map.add("configType", configType);
 
 			SalesReport[] saleRepArray = restTemplate.postForObject(Constants.url + "getAdminSalesReportV2", map,
 					SalesReport[].class);

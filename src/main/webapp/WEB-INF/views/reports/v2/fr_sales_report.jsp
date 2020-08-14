@@ -147,6 +147,22 @@
 							</div>
 						</div>
 
+						<div id="configTypeDiv" style="display: none;">
+							<label class="col-sm-3 col-lg-2 control-label">Retail
+								Outlet Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									tabindex="6" id="configType" name="configType">
+									<option value="0" selected="selected"><c:out
+											value="All" /></option>
+									<option value="1">POS</option>
+									<option value="2">Online</option>
+								</select>
+
+							</div>
+						</div>
+
 					</div>
 				</div>
 
@@ -285,8 +301,10 @@
 
 				if (val == 2) {
 					document.getElementById("cdcDiv").style.display = "none";
+					document.getElementById("configTypeDiv").style.display = "block";
 				} else {
 					document.getElementById("cdcDiv").style.display = "block";
+					document.getElementById("configTypeDiv").style.display = "none";
 				}
 
 			}
@@ -336,6 +354,8 @@
 				//var selectStatus = document.getElementById("selectStatus").value;
 
 				var dairyMartType = $("#dairy_id").val();
+				
+				var configType=document.getElementById("configType").value;
 
 				var billType = 1;
 				if (document.getElementById("rd1").checked == true) {
@@ -384,6 +404,7 @@
 									typeId : JSON.stringify(typeId),
 									billType : billType,
 									dairyMartType : JSON.stringify(dairyMartType),
+									configType : configType,
 									ajax : 'true'
 
 								},

@@ -836,6 +836,8 @@ public class SalesReportController2 {
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
 			
+			int configType=Integer.parseInt(request.getParameter("configType"));
+			
 			String dairyType = request.getParameter("dairy");
 			dairyType = dairyType.substring(1, dairyType.length() - 1);
 			dairyType = dairyType.replaceAll("\"", "");
@@ -849,6 +851,7 @@ public class SalesReportController2 {
 			map.add("typeIdList", selectedType);
 			map.add("billType", billType);
 			map.add("dairy", dairyType);
+			map.add("configType", configType);
 
 			ParameterizedTypeReference<List<SubCatReport>> typeRef = new ParameterizedTypeReference<List<SubCatReport>>() {
 			};
@@ -1214,6 +1217,8 @@ public class SalesReportController2 {
 			String selectedSubCatIdList = request.getParameter("subCat_id_list");
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
+			
+			int configType=Integer.parseInt(request.getParameter("configType"));
 
 			billType = Integer.parseInt(request.getParameter("billType"));
 
@@ -1249,6 +1254,7 @@ public class SalesReportController2 {
 			map.add("billType", billType);
 			map.add("typeIdList", typeIdList);
 			map.add("dairy", dairyIdList);
+			map.add("configType", configType);
 
 			ParameterizedTypeReference<List<SubCatItemReport>> typeRef = new ParameterizedTypeReference<List<SubCatItemReport>>() {
 			};

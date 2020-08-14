@@ -187,8 +187,19 @@
 
 						<div id="dairyDiv" style="display: none;">
 
-							<label class="col-sm-3 col-lg-2 control-label"></label>
-							<div class="col-sm-6 col-lg-4"></div>
+							<label class="col-sm-3 col-lg-2 control-label">Retail
+								Outlet Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									tabindex="6" id="configType" name="configType">
+									<option value="0" selected="selected"><c:out
+											value="All" /></option>
+									<option value="1">POS</option>
+									<option value="2">Online</option>
+								</select>
+
+							</div>
 
 							<label class="col-sm-3 col-lg-2 control-label">Select
 								Type</label>
@@ -379,6 +390,8 @@
 			var typeId = $("#type_id").val();
 
 			var dairy = $("#dairy_id").val();
+			
+			var configType=document.getElementById("configType").value;
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -431,6 +444,7 @@
 									billType : billType,
 									typeId : JSON.stringify(typeId),
 									dairy : JSON.stringify(dairy),
+									configType : configType,
 									ajax : 'true'
 
 								},

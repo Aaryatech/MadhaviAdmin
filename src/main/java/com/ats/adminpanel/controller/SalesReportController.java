@@ -966,6 +966,8 @@ public class SalesReportController {
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
 			String routeId = request.getParameter("route_id");
+			
+			int configType =Integer.parseInt(request.getParameter("configType"));
 
 			String dairyType = request.getParameter("dairyMartType");
 			dairyType = dairyType.substring(1, dairyType.length() - 1);
@@ -992,6 +994,8 @@ public class SalesReportController {
 			String selectedType = request.getParameter("typeId");
 			selectedType = selectedType.substring(1, selectedType.length() - 1);
 			selectedType = selectedType.replaceAll("\"", "");
+			
+			
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -1028,6 +1032,9 @@ public class SalesReportController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
 
+			
+			map.add("configType", configType);
+			
 			if (isAllFrSelected) {
 
 				System.out.println("Inside If all fr Selected ");
@@ -2124,6 +2131,8 @@ public class SalesReportController {
 			String selectedFr = request.getParameter("fr_id_list");
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
+			
+			int configType=Integer.parseInt(request.getParameter("configType"));
 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
@@ -2142,6 +2151,7 @@ public class SalesReportController {
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("dairyList", dairyType);
+			map.add("configType", configType);
 //			map.add("typeIdList", selectedType);
 
 			ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>> typeRef = new ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>>() {
@@ -2261,6 +2271,8 @@ public class SalesReportController {
 			String selectedFr = request.getParameter("fr_id_list");
 			fromDate = request.getParameter("fromDate");
 			toDate = request.getParameter("toDate");
+			
+			int configType=Integer.parseInt(request.getParameter("configType"));
 
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
@@ -2279,6 +2291,7 @@ public class SalesReportController {
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("dairyList", dairyType);
+			map.add("configType", configType);
 
 			ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>> typeRef = new ParameterizedTypeReference<List<AdminDateWiseCompOutletSale>>() {
 			};
@@ -6689,6 +6702,9 @@ public class SalesReportController {
 			int type = Integer.parseInt(request.getParameter("type"));
 			int isGraph = Integer.parseInt(request.getParameter("is_graph"));
 			billType = Integer.parseInt(request.getParameter("billType"));
+			
+			int configType = Integer.parseInt(request.getParameter("configType"));
+			
 
 			try {
 				sort = Integer.parseInt(request.getParameter("sort"));
@@ -6735,6 +6751,7 @@ public class SalesReportController {
 			map.add("billType", billType);
 			map.add("sort", sort);
 			map.add("dairy", selectedDairy);
+			map.add("configType", configType);
 
 			if (isGraph == 0) {
 				ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
@@ -7075,6 +7092,13 @@ public class SalesReportController {
 		} catch (Exception e) {
 			billType = 1;
 		}
+		
+		int configType=0;
+		try {
+			configType = Integer.parseInt(request.getParameter("configType"));
+		} catch (Exception e) {
+			configType = 0;
+		}
 
 		System.out.println("mId" + typeIds);
 		String instruments = null;
@@ -7123,6 +7147,8 @@ public class SalesReportController {
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
 				map.add("dairy", dairy);
+				map.add("configType", configType);
+				
 
 				SalesReturnQtyReportList[] salesReturnQtyReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnQtyReport", map, SalesReturnQtyReportList[].class);
@@ -7159,6 +7185,9 @@ public class SalesReportController {
 				model.addObject("subCatList", subCatList);
 				model.addObject("billType", billType);
 				model.addObject("typeIds", instruments);
+				model.addObject("configType", configType);
+				
+				
 
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -7341,6 +7370,13 @@ public class SalesReportController {
 			} catch (Exception e) {
 				billType = 1;
 			}
+			
+			int configType = 0;
+			try {
+				configType = Integer.parseInt(request.getParameter("configType"));
+			} catch (Exception e) {
+				configType = 0;
+			}
 
 			List<Integer> idList = new ArrayList<>();
 
@@ -7388,6 +7424,8 @@ public class SalesReportController {
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
 				map.add("dairy", dairy);
+				map.add("configType", configType);
+				
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -7426,6 +7464,8 @@ public class SalesReportController {
 				model.addObject("subCatList", subCatList);
 				model.addObject("typeIds", instruments);
 				model.addObject("billType", billType);
+				model.addObject("configType", configType);
+				
 
 				// exportToExcel
 
@@ -7521,6 +7561,13 @@ public class SalesReportController {
 			} catch (Exception e) {
 				billType = 1;
 			}
+			
+			int configType = 0;
+			try {
+				configType = Integer.parseInt(request.getParameter("configType"));
+			} catch (Exception e) {
+				configType = 0;
+			}
 
 			List<Integer> idList = new ArrayList<>();
 
@@ -7568,6 +7615,8 @@ public class SalesReportController {
 				map.add("typeIdList", instruments);
 				map.add("billType", billType);
 				map.add("dairy", dairy);
+				map.add("configType", configType);
+				
 
 				SalesReturnValueDaoList[] salesReturnValueReportListRes = restTemplate.postForObject(
 						Constants.url + "getAdminSalesReturnValueReport", map, SalesReturnValueDaoList[].class);
@@ -7605,6 +7654,8 @@ public class SalesReportController {
 
 				model.addObject("typeIds", instruments);
 				model.addObject("billType", billType);
+				model.addObject("configType", configType);
+				
 
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();

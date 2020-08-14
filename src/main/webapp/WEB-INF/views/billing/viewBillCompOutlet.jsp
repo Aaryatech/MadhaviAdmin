@@ -210,6 +210,25 @@ table {
 
 								</div>
 
+
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Retail
+										Outlet Type</label>
+									<div class="col-sm-6 col-lg-4">
+
+										<select data-placeholder="Choose " class="form-control chosen"
+											tabindex="6" id="configType" name="configType">
+											<option value="0" selected="selected"><c:out
+													value="All" /></option>
+											<option value="1">POS</option>
+											<option value="2">Online</option>
+										</select>
+
+									</div>
+									<br> <br>
+								</div>
+
+
 								<div class="form-group">
 
 
@@ -836,6 +855,9 @@ table {
 
 			var routeId = document.getElementById("route_id").value;
 			var typeId =  $("#type_id").val(); 
+			
+			var configType = document.getElementById("configType").value;
+			
 
 			$('#loader').show();
 
@@ -848,7 +870,7 @@ table {
 								to_date : toDate,
 								route_id : routeId,
 								typeId : JSON.stringify(typeId),
-								
+								configType : configType,
 								ajax : 'true'
 							},
 							function(data) {

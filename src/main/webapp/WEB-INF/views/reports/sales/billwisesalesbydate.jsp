@@ -184,13 +184,27 @@
 							<br> <br>
 						</div>
 
+						<div id="configTypeDiv" style="display: none;">
+							<label class="col-sm-3 col-lg-2 control-label">Retail Outlet Type</label>
+							<div class="col-sm-6 col-lg-4">
+
+								<select data-placeholder="Choose " class="form-control chosen"
+									tabindex="6" id="configType" name="configType">
+									<option value="0" selected="selected"><c:out
+											value="All" /></option>
+									<option value="1">POS</option>
+									<option value="2">Online</option>
+								</select>
+
+							</div>
+							<br> <br>
+						</div>
+
 
 					</div>
 				</div>
 
-
-
-				<div class="row">
+				<div class="row" style="display: none;">
 					<div class="col-md-2" style="display: none;">Select Category</div>
 					<div class="col-md-4" style="text-align: left; display: none;">
 						<select data-placeholder="Select Group"
@@ -310,8 +324,10 @@
 
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
+				document.getElementById("configTypeDiv").style.display = "block";
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
+				document.getElementById("configTypeDiv").style.display = "none";
 			}
 
 		}
@@ -358,6 +374,8 @@
 			var typeId = $("#type_id").val();
 			var dairyMartType = $("#dairy_id").val();
 			//alert(dairyMartType);
+			
+			var configType=document.getElementById("configType").value;
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -405,6 +423,7 @@
 									billType : billType,
 									dairyMartType : JSON
 											.stringify(dairyMartType),
+									configType : configType,
 									ajax : 'true'
 
 								},
@@ -440,9 +459,9 @@
 
 														if (report.isSameState == 0) {
 															totalIgst = totalIgst
-															+ report.igstSum;
+																	+ report.igstSum;
 														}
-														
+
 														totalSgst = totalSgst
 																+ report.sgstSum;
 														totalCgst = totalCgst
@@ -557,13 +576,15 @@
 																.append($(
 																		'<td style="text-align:right;"></td>')
 																		.html(
-																				report.discPer.toFixed(2)));
+																				report.discPer
+																						.toFixed(2)));
 
 														tr
 																.append($(
 																		'<td style="text-align:right;"></td>')
 																		.html(
-																				report.discAmt.toFixed(2)));
+																				report.discAmt
+																						.toFixed(2)));
 
 														tr
 																.append($(
@@ -573,30 +594,31 @@
 														var total;
 
 														if (report.isSameState == 1) {
-															if(report.taxApplicable==2){
+															if (report.taxApplicable == 2) {
 																total = parseFloat(report.taxableAmt)
-																+ parseFloat(report.cgstSum
-																		+ report.sgstSum)+parseFloat(report.discAmt);
-																
-															}else{
+																		+ parseFloat(report.cgstSum
+																				+ report.sgstSum)
+																		+ parseFloat(report.discAmt);
+
+															} else {
 																total = parseFloat(report.taxableAmt)
-																+ parseFloat(report.cgstSum
-																		+ report.sgstSum);
-																
+																		+ parseFloat(report.cgstSum
+																				+ report.sgstSum);
+
 															}
 														} else {
-															
-															if(report.taxApplicable==2){
+
+															if (report.taxApplicable == 2) {
 																total = report.taxableAmt
-																+ report.igstSum+parseFloat(report.discAmt);
-																
-															}else{
+																		+ report.igstSum
+																		+ parseFloat(report.discAmt);
+
+															} else {
 																total = report.taxableAmt
-																+ report.igstSum;
-																
+																		+ report.igstSum;
+
 															}
 
-															
 														}
 
 														totalFinal = totalFinal
@@ -798,7 +820,7 @@
 			var selectedCat = $("#item_grp1").val();
 
 			var typeIdList = $("#type_id").val();
-			
+
 			var dairyMartType = $("#dairy_id").val();
 
 			var billType = 1;
@@ -821,7 +843,12 @@
 							+ '/'
 							+ selectedCat
 							+ '/'
-							+ typeIdList + '/' + billType + '/' + dairyMartType + '/');
+							+ typeIdList
+							+ '/'
+							+ billType
+							+ '/'
+							+ dairyMartType
+							+ '/');
 
 			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 

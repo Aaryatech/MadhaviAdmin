@@ -156,7 +156,7 @@
 							class="form-control chosen" name="selectStatus" id="selectStatus">
 							<option value="-1">All</option>
 							<option value="1">Taxable</option>
-							<option value="2" selected="selected">Grnad Total</option>
+							<option value="2" selected="selected">Grand Total</option>
 						</select>
 					</div>
 
@@ -190,6 +190,23 @@
 							</select>
 
 						</div>
+					</div>
+
+					<div id="configTypeDiv" style="display: none;">
+						<label class="col-sm-3 col-lg-2 control-label">Retail
+							Outlet Type</label>
+						<div class="col-sm-6 col-lg-4">
+
+							<select data-placeholder="Choose " class="form-control chosen"
+								tabindex="6" id="configType" name="configType">
+								<option value="0" selected="selected"><c:out
+										value="All" /></option>
+								<option value="1">POS</option>
+								<option value="2">Online</option>
+							</select>
+
+						</div>
+						
 					</div>
 
 
@@ -383,8 +400,10 @@
 
 			if (val == 2) {
 				document.getElementById("cdcDiv").style.display = "none";
+				document.getElementById("configTypeDiv").style.display = "block";
 			} else {
 				document.getElementById("cdcDiv").style.display = "block";
+				document.getElementById("configTypeDiv").style.display = "none";
 			}
 
 		}
@@ -479,13 +498,11 @@
 									$('#totalTable').hide();
 									$('#compOutletTable').hide();
 
-
 									$('#table_grid td').remove();
 									$('#table_grid1 td').remove();
 									$('#table_grid2 td').remove();
 									$('#table_grid3 td').remove();
-									
-									
+
 									$('#loader').hide();
 
 									if (data == "") {
@@ -1108,6 +1125,8 @@
 			var selectedFr = $("#selectFr").val();
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
+			
+			var configType=document.getElementById("configType").value;
 
 			var selectStatus = document.getElementById("selectStatus").value;
 			//alert(selectStatus);
@@ -1131,6 +1150,7 @@
 									toDate : to_date,
 									dairyMartType : JSON
 											.stringify(dairyMartType),
+									configType : configType,
 									ajax : 'true'
 
 								},

@@ -2597,6 +2597,8 @@ public class BillController {
 			selectedType = selectedType.replaceAll("\"", "");
 
 			System.err.println("selectedType" + selectedType.toString());
+			
+			int configType=Integer.parseInt(request.getParameter("configType"));
 
 			boolean isAllFrSelected = false;
 
@@ -2636,6 +2638,8 @@ public class BillController {
 				System.out.println("fr Id Route WISE = " + frIdString);
 
 			} // end of if
+			
+			map.add("configType", configType);
 
 			if (isAllFrSelected) {
 
