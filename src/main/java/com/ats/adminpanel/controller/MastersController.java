@@ -34,6 +34,7 @@ import com.ats.adminpanel.model.ItemDepartment;
 import com.ats.adminpanel.model.Route;
 import com.ats.adminpanel.model.SpCakeResponse;
 import com.ats.adminpanel.model.SpecialCake;
+import com.ats.adminpanel.model.SubCategory2;
 import com.ats.adminpanel.model.SubCategoryRes;
 import com.ats.adminpanel.model.RawMaterial.RawMaterialUom;
 import com.ats.adminpanel.model.RawMaterial.RawMaterialUomList;
@@ -681,7 +682,8 @@ public class MastersController {
 			 * Constants.mainAct=1; Constants.subAct=9;
 			 */
 			try {
-
+				SubCategory2 subCategory = new SubCategory2();
+						
 				RestTemplate restTemplate = new RestTemplate();
 				CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
 						CategoryListResponse.class);
@@ -691,8 +693,10 @@ public class MastersController {
 					subCatList.addAll(categoryListResponse.getmCategoryList().get(i).getSubCategoryList());
 
 				}
+				
 				mav.addObject("catList", categoryListResponse.getmCategoryList());
 				mav.addObject("subCatList", subCatList);
+				mav.addObject("subCategory", subCategory);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -701,17 +705,20 @@ public class MastersController {
 
 	}
 
-	@RequestMapping(value = "/updateSubCategory/{subCatId}", method = RequestMethod.GET)
-	public ModelAndView updateSubCategory(@PathVariable("subCatId") int subCatId, HttpServletRequest request,
+	@RequestMapping(value = "/updateSubCategory", method = RequestMethod.GET)
+	public ModelAndView updateSubCategory(HttpServletRequest request,
 			HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("masters/subcategory");
 		try {
+			
+			int subCatId = Integer.parseInt(request.getParameter("subCatId"));
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("subCatId", subCatId);
 			RestTemplate restTemplate = new RestTemplate();
 
-			SubCategoryRes subCategory = restTemplate.postForObject(Constants.url + "getSubCategory", map,
-					SubCategoryRes.class);
+			SubCategory2 subCategory = restTemplate.postForObject(Constants.url + "getSubCategory", map,
+					SubCategory2.class);
 
 			model.addObject("subCategory", subCategory);
 			CategoryListResponse categoryListResponse = restTemplate.getForObject(Constants.url + "showAllCategory",
@@ -748,6 +755,34 @@ public class MastersController {
 		return "redirect:/showSubCatList";
 	}
 
+	
+	
+	
+	
+	@RequestMapping(value = "/chkUniqPrefix", method = RequestMethod.GET)
+	@ResponseBody
+	public ErrorMessage chkUniqPrefix(HttpServletRequest request,
+			HttpServletResponse response) {
+		ErrorMessage errorResponse = new ErrorMessage();
+		try {
+			String prefix = request.getParameter("prefix");
+			int subCatId = Integer.parseInt(request.getParameter("subCatId"));
+			
+			RestTemplate rest = new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+				map.add("prefix", prefix);
+				map.add("subCatId", subCatId);
+
+			errorResponse = rest.postForObject(Constants.url + "getSubCatByPrefix", map,
+					ErrorMessage.class);
+			System.err.println("errorResponse" + errorResponse.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return errorResponse;
+	}
 	@RequestMapping(value = "/addSubCategoryProcess", method = RequestMethod.POST)
 	public String addSubCategoryProcess(HttpServletRequest request, HttpServletResponse response) {
 
@@ -759,7 +794,7 @@ public class MastersController {
 
 			int catId = Integer.parseInt(request.getParameter("cat_id"));
 
-			SubCategoryRes subCategory = new SubCategoryRes();
+			SubCategory2 subCategory = new SubCategory2();
 			if (subCatId == null || subCatId == "") {
 				subCategory.setSubCatId(0);
 			} else {
@@ -769,6 +804,7 @@ public class MastersController {
 			subCategory.setCatId(catId);
 			subCategory.setSubCatName(subCatName);
 			subCategory.setDelStatus(0);
+			subCategory.setPrefix(request.getParameter("prefix"));
 
 			RestTemplate restTemplate = new RestTemplate();
 

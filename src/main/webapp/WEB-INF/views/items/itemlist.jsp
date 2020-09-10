@@ -273,7 +273,7 @@
 										<c:choose>
 											<c:when test="${isEdit==1 and isDelete==1}">
 												<td align="left"><a href="updateItem/${itemsList.id}"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;<a
 													href="showItemDetail/${itemsList.id}"><span
 														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
 													href="deleteItem/${itemsList.id}"
@@ -284,7 +284,7 @@
 
 											<c:when test="${isEdit==1 and isDelete==0}">
 												<td align="left"><a href="updateItem/${itemsList.id}"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;<a
 													href="showItemDetail/${itemsList.id}"><span
 														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
 													href="deleteItem/${itemsList.id}" class="disableClick"
@@ -296,8 +296,8 @@
 											<c:when test="${isEdit==0 and isDelete==1}">
 												<td align="left"><a href="updateItem/${itemsList.id}"
 													class="disableClick"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
-													href="showItemDetail/${itemsList.id}"><span
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;<a
+													href="showItemDetail/${itemsList.id}" class="disableClick"><span
 														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
 													href="deleteItem/${itemsList.id}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
@@ -309,7 +309,7 @@
 
 												<td align="left"><a href="updateItem/${itemsList.id}"
 													class="disableClick"><span
-														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp; <a
+														class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;<a
 													href="${pageContext.request.contextPath}/showItemDetail/${itemsList.id}"><span
 														class="glyphicon glyphicon-list"></span></a> &nbsp;&nbsp; <a
 													href="${pageContext.request.contextPath}/deleteItem/${itemsList.id}"

@@ -6,6 +6,8 @@
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<body>
+	<c:url var="chkUniqPrefix" value="chkUniqPrefix"/>
+	
 	
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 	<div class="container" id="main-container">
@@ -85,10 +87,20 @@
 											data-rule-required="true" value="${subCategory.subCatName}"/>
 									</div>
 								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label" for="item_name">Prefix
+										</label>
+									<div class="col-sm-9 col-lg-10 controls">
+										<input type="text" name="prefix" id="prefix"
+											placeholder="Prefix" class="form-control" 
+											data-rule-required="true" value="${subCategory.prefix}"/>
+									</div>
+								</div>
                               
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
-										<input type="submit" class="btn btn-primary" value="Submit" onclick="return validate()">
+										<input type="submit" class="btn btn-primary" id="subBtn" value="Submit" onclick="return validate()">
 									</div>
 								</div>
 							</form>
@@ -156,7 +168,7 @@
 
 
 										<td align="left"><a
-											href="updateSubCategory/${subCatList.subCatId}"><span
+											href="updateSubCategory?subCatId=${subCatList.subCatId}"><span
 												class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 
 											<a href="deleteSubCategory/${subCatList.subCatId}"
@@ -248,6 +260,32 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 
+<script type="text/javascript">
+$( "#prefix" ).change(function() {
+	
+  var prefix = $("#prefix").val();
+  var subCatId = $("#subCatId").val();  
+
+  $
+	.getJSON(
+			'${chkUniqPrefix}',
+			{
+				subCatId : subCatId,
+				prefix : prefix,				
+				ajax : 'true'
+
+			},
+			function(data) {
+				if(data.error==false){
+					document.getElementById("subBtn").disabled = true;
+					alert("This prefix already exist");				
+				}else{
+					document.getElementById("subBtn").disabled = false;
+				}	
+
+	});
+});
+</script>
 </body>
 
 </html>
