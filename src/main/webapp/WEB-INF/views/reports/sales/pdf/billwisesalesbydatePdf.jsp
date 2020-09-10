@@ -63,7 +63,7 @@ th {
 				<th>Bill No</th>
 				<th>Date</th>
 				<th>Party Name</th>
-				<th>City</th>
+				<!-- <th>City</th> -->
 
 				<c:if test="${billType==2}">
 					<th>Customer</th>
@@ -98,7 +98,7 @@ th {
 					<td style="text-align: center;"><c:out
 							value="${report.billDate}" /></td>
 					<td><c:out value="${report.frName}" /></td>
-					<td><c:out value="${report.frCity}" /></td>
+					<%-- <td><c:out value="${report.frCity}" /></td> --%>
 
 					<c:if test="${billType==2}">
 						<td><c:out value="${report.custName}" /></td>
@@ -189,10 +189,10 @@ th {
 
 				<c:choose>
 					<c:when test="${billType==2}">
-						<td colspan='6' align="left"><b>Total</b></td>
+						<td colspan='5' align="left"><b>Total</b></td>
 					</c:when>
 					<c:otherwise>
-						<td colspan='5' align="left"><b>Total</b></td>
+						<td colspan='4' align="left"><b>Total</b></td>
 					</c:otherwise>
 				</c:choose>
 

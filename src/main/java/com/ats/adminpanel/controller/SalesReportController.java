@@ -1104,7 +1104,7 @@ public class SalesReportController {
 		rowData.add("Invoice Date");
 
 		rowData.add("Franchise");
-		rowData.add("City");
+		/* rowData.add("City"); */
 		rowData.add("GST No");
 		if (billType == 2) {
 			rowData.add("Customer");
@@ -1159,7 +1159,7 @@ public class SalesReportController {
 
 			rowData.add(saleList.get(i).getFrName());
 
-			rowData.add(saleList.get(i).getFrCity());
+			/* rowData.add(saleList.get(i).getFrCity()); */
 			rowData.add(saleList.get(i).getFrGstNo());
 
 			if (billType == 2) {
@@ -1198,7 +1198,7 @@ public class SalesReportController {
 		rowData.add("");
 		rowData.add("");
 		rowData.add("");
-		rowData.add("");
+		/* rowData.add(""); */
 
 		if (billType == 2) {
 			rowData.add("");
@@ -1247,10 +1247,10 @@ public class SalesReportController {
 		return mCategoryList;
 	}
 
-	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/{typeIdList}/{billType}/{dairyType}/", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleReportByDatePdf/{fDate}/{tDate}/{selectedFr}/{routeId}/{selectedCat}/{typeIdList}/{billType}/{dairyType}/{configType}", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByDatePdf(@PathVariable String fDate, @PathVariable String tDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
-			@PathVariable String typeIdList, @PathVariable int billType, @PathVariable String dairyType,
+			@PathVariable String typeIdList, @PathVariable int billType, @PathVariable String dairyType, @PathVariable int configType,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/billwisesalesbydatePdf");
@@ -1294,6 +1294,8 @@ public class SalesReportController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
+			
+			map.add("configType", configType);
 
 			if (isAllFrSelected) {
 

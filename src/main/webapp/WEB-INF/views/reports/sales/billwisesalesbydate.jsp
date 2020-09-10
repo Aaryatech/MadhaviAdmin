@@ -273,7 +273,7 @@
 										<th>Bill No</th>
 										<th>Date</th>
 										<th>Party Name</th>
-										<th>City</th>
+										<!-- <th>City</th> -->
 										<th>GSTIN</th>
 										<th id="custTh" style="display: none;">Customer</th>
 										<th>Basic Value</th>
@@ -428,9 +428,10 @@
 
 								},
 								function(data) {
+									$('#loader').hide();
 
 									$('#table_grid td').remove();
-									$('#loader').hide();
+									
 
 									if (data == "") {
 										alert("No records found !!");
@@ -507,11 +508,11 @@
 																		.html(
 																				report.frName));
 
-														tr
+														/* tr
 																.append($(
 																		'<td></td>')
 																		.html(
-																				report.frCity));
+																				report.frCity)); */
 
 														tr
 																.append($(
@@ -642,7 +643,7 @@
 									tr.append($('<td></td>').html(""));
 									tr.append($('<td></td>').html(""));
 									tr.append($('<td></td>').html(""));
-									tr.append($('<td></td>').html(""));
+									/* tr.append($('<td></td>').html("")); */
 									tr
 											.append($(
 													'<td style="font-weight:bold;"></td>')
@@ -822,6 +823,8 @@
 			var typeIdList = $("#type_id").val();
 
 			var dairyMartType = $("#dairy_id").val();
+			
+			var configType=document.getElementById("configType").value;
 
 			var billType = 1;
 			if (document.getElementById("rd1").checked == true) {
@@ -847,8 +850,9 @@
 							+ '/'
 							+ billType
 							+ '/'
-							+ dairyMartType
-							+ '/');
+							+ dairyMartType							
+							+ '/'
+							+configType);
 
 			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 
