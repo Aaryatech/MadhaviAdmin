@@ -90,7 +90,7 @@
 				<div class="row">
 					<div class="form-group">
 						<label class="col-sm-3 col-lg-2	 control-label">Type</label>
-						<div class="col-sm-6 col-lg-4 controls">
+						<div class="col-sm-6 col-lg-10 controls">
 							<label class="radio-inline"> <input type="radio"
 								name="rd" id="sales" value="1" checked>
 								Sales
@@ -105,6 +105,11 @@
 							<label class="radio-inline"> <input type="radio"
 								name="rd" id="purchase" value="3"
 								data-rule-required="false" />Purchase
+							</label>
+							&nbsp;&nbsp;
+							<label class="radio-inline"> <input type="radio"
+								name="rd" id="dairyMart" value="4"
+								data-rule-required="false" />Dairy Mary
 							</label>
 						</div>
 					</div>
@@ -162,6 +167,8 @@
 				  type = 2;
 			}else if (document.getElementById('purchase').checked) {
 				  type = 3;
+			}else if (document.getElementById('dairyMart').checked) {
+				  type = 4;
 			}
 			
 

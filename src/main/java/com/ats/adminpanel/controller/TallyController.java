@@ -96,12 +96,11 @@ public class TallyController {
 		LocalDate secondDate = LocalDate.parse(toDate, formatter);
 		long days = ChronoUnit.DAYS.between(firstDate, secondDate);
 		System.out.println("Days between: " + days);
-
-		if (days > 5) {
-			info.setError(true);
-			info.setMessage("Date range exceeds!");
-		} else {
-
+		
+		
+		
+		if(type == 4) {
+			
 			String dispFromDate = fromDate;
 			String dispToDate = toDate;
 
@@ -111,216 +110,306 @@ public class TallyController {
 			fromDate = DateConvertor.convertToYMD(fromDate);
 			toDate = DateConvertor.convertToYMD(toDate);
 			System.err.println("DATE - " + fromDate + "  -  " + toDate);
+			
+			TallySalesInvoiceListGroupByBills res = restTemplate.getForObject(
+					Constants.url + "tally/getBillsForTallySyncGroupByOwnFrAndDairyMart?fromDate=" + fromDate + "&toDate=" + toDate,
+					TallySalesInvoiceListGroupByBills.class);
 
-			if (type == 1) {
-				TallySalesInvoiceListGroupByBills res = restTemplate.getForObject(
-						Constants.url + "tally/getBillsForTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
-						TallySalesInvoiceListGroupByBills.class);
+			ObjectMapper Obj = new ObjectMapper();
+			String json = "";
+			try {
+				json = Obj.writeValueAsString(res);
+			} catch (JsonGenerationException e1) {
+				e1.printStackTrace();
+			} catch (JsonMappingException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			// System.out.println("RESULT - " + json);
 
-				ObjectMapper Obj = new ObjectMapper();
-				String json = "";
+			if (json != null) {
+
 				try {
-					json = Obj.writeValueAsString(res);
-				} catch (JsonGenerationException e1) {
-					e1.printStackTrace();
-				} catch (JsonMappingException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					Writer output = null;
+					File file = new File(
+							Constants.TALLY_SAVE + "DairyMart_" + dispFromDate + "-" + dispToDate + ".json");
+					output = new BufferedWriter(new FileWriter(file));
+					output.write(json.toString());
+					output.close();
+
+					String data = Constants.TALLY_VIEW + "DairyMart_" + dispFromDate + "-" + dispToDate + ".zip";
+
+					String fileName = Constants.TALLY_SAVE + "DairyMart_" + dispFromDate + "-" + dispToDate + ".zip";
+
+					String sourceFile = Constants.TALLY_SAVE + "DairyMart_" + dispFromDate + "-" + dispToDate + ".json";
+					FileOutputStream fos = new FileOutputStream(fileName);
+					ZipOutputStream zipOut = new ZipOutputStream(fos);
+					File fileToZip = new File(sourceFile);
+					FileInputStream fis = new FileInputStream(fileToZip);
+					ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+
+					// System.err.println(fileToZip.getName());
+
+					zipOut.putNextEntry(zipEntry);
+					byte[] bytes = new byte[1024];
+					int length;
+					while ((length = fis.read(bytes)) >= 0) {
+						zipOut.write(bytes, 0, length);
+					}
+					zipOut.close();
+					fis.close();
+					fos.close();
+
+					info.setError(false);
+					info.setMessage(data);
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					info.setError(true);
+					info.setMessage("Download Failed!");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					info.setError(true);
+					info.setMessage("Download Failed!");
 				}
-				// System.out.println("RESULT - " + json);
 
-				if (json != null) {
+			}
+			
+		}else {
+			
+			
+			if (days > 5) {
+				info.setError(true);
+				info.setMessage("Date range exceeds!");
+			} else {
 
+				String dispFromDate = fromDate;
+				String dispToDate = toDate;
+
+				map.add("fromDate", fromDate);
+				map.add("toDate", toDate);
+
+				fromDate = DateConvertor.convertToYMD(fromDate);
+				toDate = DateConvertor.convertToYMD(toDate);
+				System.err.println("DATE - " + fromDate + "  -  " + toDate);
+
+				if (type == 1) {
+					TallySalesInvoiceListGroupByBills res = restTemplate.getForObject(
+							Constants.url + "tally/getBillsForTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
+							TallySalesInvoiceListGroupByBills.class);
+
+					ObjectMapper Obj = new ObjectMapper();
+					String json = "";
 					try {
-						Writer output = null;
-						File file = new File(
-								Constants.TALLY_SAVE + "Sales_" + dispFromDate + "-" + dispToDate + ".json");
-						output = new BufferedWriter(new FileWriter(file));
-						output.write(json.toString());
-						output.close();
+						json = Obj.writeValueAsString(res);
+					} catch (JsonGenerationException e1) {
+						e1.printStackTrace();
+					} catch (JsonMappingException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					// System.out.println("RESULT - " + json);
 
-						String data = Constants.TALLY_VIEW + "Sales_" + dispFromDate + "-" + dispToDate + ".zip";
+					if (json != null) {
 
-						String fileName = Constants.TALLY_SAVE + "Sales_" + dispFromDate + "-" + dispToDate + ".zip";
+						try {
+							Writer output = null;
+							File file = new File(
+									Constants.TALLY_SAVE + "Sales_" + dispFromDate + "-" + dispToDate + ".json");
+							output = new BufferedWriter(new FileWriter(file));
+							output.write(json.toString());
+							output.close();
 
-						String sourceFile = Constants.TALLY_SAVE + "Sales_" + dispFromDate + "-" + dispToDate + ".json";
-						FileOutputStream fos = new FileOutputStream(fileName);
-						ZipOutputStream zipOut = new ZipOutputStream(fos);
-						File fileToZip = new File(sourceFile);
-						FileInputStream fis = new FileInputStream(fileToZip);
-						ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+							String data = Constants.TALLY_VIEW + "Sales_" + dispFromDate + "-" + dispToDate + ".zip";
 
-						// System.err.println(fileToZip.getName());
+							String fileName = Constants.TALLY_SAVE + "Sales_" + dispFromDate + "-" + dispToDate + ".zip";
 
-						zipOut.putNextEntry(zipEntry);
-						byte[] bytes = new byte[1024];
-						int length;
-						while ((length = fis.read(bytes)) >= 0) {
-							zipOut.write(bytes, 0, length);
+							String sourceFile = Constants.TALLY_SAVE + "Sales_" + dispFromDate + "-" + dispToDate + ".json";
+							FileOutputStream fos = new FileOutputStream(fileName);
+							ZipOutputStream zipOut = new ZipOutputStream(fos);
+							File fileToZip = new File(sourceFile);
+							FileInputStream fis = new FileInputStream(fileToZip);
+							ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+
+							// System.err.println(fileToZip.getName());
+
+							zipOut.putNextEntry(zipEntry);
+							byte[] bytes = new byte[1024];
+							int length;
+							while ((length = fis.read(bytes)) >= 0) {
+								zipOut.write(bytes, 0, length);
+							}
+							zipOut.close();
+							fis.close();
+							fos.close();
+
+							info.setError(false);
+							info.setMessage(data);
+
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							info.setError(true);
+							info.setMessage("Download Failed!");
+
+						} catch (Exception e) {
+							e.printStackTrace();
+
+							info.setError(true);
+							info.setMessage("Download Failed!");
 						}
-						zipOut.close();
-						fis.close();
-						fos.close();
 
-						info.setError(false);
-						info.setMessage(data);
-
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-						info.setError(true);
-						info.setMessage("Download Failed!");
-
-					} catch (Exception e) {
-						e.printStackTrace();
-
-						info.setError(true);
-						info.setMessage("Download Failed!");
 					}
 
-				}
+				} else if (type == 2) {
 
-			} else if (type == 2) {
+					TallyCrnInvoicesGroupByBills res = restTemplate.getForObject(Constants.url
+							+ "tally/getCreditNoteForTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
+							TallyCrnInvoicesGroupByBills.class);
 
-				TallyCrnInvoicesGroupByBills res = restTemplate.getForObject(Constants.url
-						+ "tally/getCreditNoteForTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
-						TallyCrnInvoicesGroupByBills.class);
-
-				ObjectMapper Obj = new ObjectMapper();
-				String json = "";
-				try {
-					json = Obj.writeValueAsString(res);
-				} catch (JsonGenerationException e1) {
-					e1.printStackTrace();
-				} catch (JsonMappingException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				// System.out.println("RESULT - " + json);
-
-				if (json != null) {
-
+					ObjectMapper Obj = new ObjectMapper();
+					String json = "";
 					try {
-						Writer output = null;
-						File file = new File(Constants.TALLY_SAVE + "CRN_" + dispFromDate + "-" + dispToDate + ".json");
-						output = new BufferedWriter(new FileWriter(file));
-						output.write(json.toString());
-						output.close();
+						json = Obj.writeValueAsString(res);
+					} catch (JsonGenerationException e1) {
+						e1.printStackTrace();
+					} catch (JsonMappingException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					// System.out.println("RESULT - " + json);
 
-						String data = Constants.TALLY_VIEW + "CRN_" + dispFromDate + "-" + dispToDate + ".zip";
+					if (json != null) {
 
-						String fileName = Constants.TALLY_SAVE + "CRN_" + dispFromDate + "-" + dispToDate + ".zip";
+						try {
+							Writer output = null;
+							File file = new File(Constants.TALLY_SAVE + "CRN_" + dispFromDate + "-" + dispToDate + ".json");
+							output = new BufferedWriter(new FileWriter(file));
+							output.write(json.toString());
+							output.close();
 
-						String sourceFile = Constants.TALLY_SAVE + "CRN_" + dispFromDate + "-" + dispToDate + ".json";
-						FileOutputStream fos = new FileOutputStream(fileName);
-						ZipOutputStream zipOut = new ZipOutputStream(fos);
-						File fileToZip = new File(sourceFile);
-						FileInputStream fis = new FileInputStream(fileToZip);
-						ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+							String data = Constants.TALLY_VIEW + "CRN_" + dispFromDate + "-" + dispToDate + ".zip";
 
-						// System.err.println(fileToZip.getName());
+							String fileName = Constants.TALLY_SAVE + "CRN_" + dispFromDate + "-" + dispToDate + ".zip";
 
-						zipOut.putNextEntry(zipEntry);
-						byte[] bytes = new byte[1024];
-						int length;
-						while ((length = fis.read(bytes)) >= 0) {
-							zipOut.write(bytes, 0, length);
+							String sourceFile = Constants.TALLY_SAVE + "CRN_" + dispFromDate + "-" + dispToDate + ".json";
+							FileOutputStream fos = new FileOutputStream(fileName);
+							ZipOutputStream zipOut = new ZipOutputStream(fos);
+							File fileToZip = new File(sourceFile);
+							FileInputStream fis = new FileInputStream(fileToZip);
+							ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+
+							// System.err.println(fileToZip.getName());
+
+							zipOut.putNextEntry(zipEntry);
+							byte[] bytes = new byte[1024];
+							int length;
+							while ((length = fis.read(bytes)) >= 0) {
+								zipOut.write(bytes, 0, length);
+							}
+							zipOut.close();
+							fis.close();
+							fos.close();
+
+							info.setError(false);
+							info.setMessage(data);
+
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							info.setError(true);
+							info.setMessage("Download Failed!");
+
+						} catch (Exception e) {
+							e.printStackTrace();
+
+							info.setError(true);
+							info.setMessage("Download Failed!");
 						}
-						zipOut.close();
-						fis.close();
-						fos.close();
 
-						info.setError(false);
-						info.setMessage(data);
-
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-						info.setError(true);
-						info.setMessage("Download Failed!");
-
-					} catch (Exception e) {
-						e.printStackTrace();
-
-						info.setError(true);
-						info.setMessage("Download Failed!");
 					}
 
-				}
+				} else if (type == 3) {
 
-			} else if (type == 3) {
+					TallyPurchaseGroupByInvoices res = restTemplate.getForObject(
+							Constants.STORE_URL + "getPurchaseTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
+							TallyPurchaseGroupByInvoices.class);
 
-				TallyPurchaseGroupByInvoices res = restTemplate.getForObject(
-						Constants.STORE_URL + "getPurchaseTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
-						TallyPurchaseGroupByInvoices.class);
-
-				ObjectMapper Obj = new ObjectMapper();
-				String json = "";
-				try {
-					json = Obj.writeValueAsString(res);
-				} catch (JsonGenerationException e1) {
-					e1.printStackTrace();
-				} catch (JsonMappingException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				// System.out.println("RESULT - " + json);
-
-				if (json != null) {
-
+					ObjectMapper Obj = new ObjectMapper();
+					String json = "";
 					try {
-						Writer output = null;
-						File file = new File(
-								Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate + ".json");
-						output = new BufferedWriter(new FileWriter(file));
-						output.write(json.toString());
-						output.close();
+						json = Obj.writeValueAsString(res);
+					} catch (JsonGenerationException e1) {
+						e1.printStackTrace();
+					} catch (JsonMappingException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					// System.out.println("RESULT - " + json);
 
-						String data = Constants.TALLY_VIEW + "Purchase_" + dispFromDate + "-" + dispToDate + ".zip";
+					if (json != null) {
 
-						String fileName = Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate + ".zip";
+						try {
+							Writer output = null;
+							File file = new File(
+									Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate + ".json");
+							output = new BufferedWriter(new FileWriter(file));
+							output.write(json.toString());
+							output.close();
 
-						String sourceFile = Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate
-								+ ".json";
-						FileOutputStream fos = new FileOutputStream(fileName);
-						ZipOutputStream zipOut = new ZipOutputStream(fos);
-						File fileToZip = new File(sourceFile);
-						FileInputStream fis = new FileInputStream(fileToZip);
-						ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+							String data = Constants.TALLY_VIEW + "Purchase_" + dispFromDate + "-" + dispToDate + ".zip";
 
-						// System.err.println(fileToZip.getName());
+							String fileName = Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate + ".zip";
 
-						zipOut.putNextEntry(zipEntry);
-						byte[] bytes = new byte[1024];
-						int length;
-						while ((length = fis.read(bytes)) >= 0) {
-							zipOut.write(bytes, 0, length);
+							String sourceFile = Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate
+									+ ".json";
+							FileOutputStream fos = new FileOutputStream(fileName);
+							ZipOutputStream zipOut = new ZipOutputStream(fos);
+							File fileToZip = new File(sourceFile);
+							FileInputStream fis = new FileInputStream(fileToZip);
+							ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+
+							// System.err.println(fileToZip.getName());
+
+							zipOut.putNextEntry(zipEntry);
+							byte[] bytes = new byte[1024];
+							int length;
+							while ((length = fis.read(bytes)) >= 0) {
+								zipOut.write(bytes, 0, length);
+							}
+							zipOut.close();
+							fis.close();
+							fos.close();
+
+							info.setError(false);
+							info.setMessage(data);
+
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							info.setError(true);
+							info.setMessage("Download Failed!");
+
+						} catch (Exception e) {
+							e.printStackTrace();
+
+							info.setError(true);
+							info.setMessage("Download Failed!");
 						}
-						zipOut.close();
-						fis.close();
-						fos.close();
 
-						info.setError(false);
-						info.setMessage(data);
-
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-						info.setError(true);
-						info.setMessage("Download Failed!");
-
-					} catch (Exception e) {
-						e.printStackTrace();
-
-						info.setError(true);
-						info.setMessage("Download Failed!");
 					}
 
 				}
 
 			}
-
+			
+			
 		}
+
+		
 
 		return info;
 

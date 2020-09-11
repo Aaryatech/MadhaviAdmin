@@ -328,6 +328,10 @@ type
 
 
 
+
+
+
+
 :checked
 ,
 [
@@ -335,6 +339,10 @@ type
 =
 "radio"
 ]
+
+
+
+
 
 
 
@@ -390,7 +398,11 @@ type
 
 
 
+
+
  
+
+
 
 
 
@@ -429,7 +441,11 @@ type
 
 
 
+
+
  
+
+
 
 
 
@@ -487,7 +503,13 @@ position
 
 
 
+
+
+
+
 :
+
+
 
 
 
@@ -525,7 +547,13 @@ position
 
 
 
+
+
 absolute
+
+
+
+
 
 
 
@@ -600,7 +628,13 @@ left
 
 
 
+
+
+
+
 :
+
+
 
 
 
@@ -638,8 +672,14 @@ left
 
 
 
+
+
 -9999
 px
+
+
+
+
 
 
 
@@ -1349,6 +1389,15 @@ px
 								</div>
 
 								<div class="add_frm_one">
+									<div class="add_customer_one">Address</div>
+									<div class="add_input">
+										<input placeholder="Enter Address" name="custAdd" id="custAdd"
+											onchange="trim(this)" type="text" class="input_add" />
+									</div>
+									<div class="clr"></div>
+								</div>
+
+								<div class="add_frm_one">
 									<div class="add_customer_one">Mobile Number *</div>
 									<div class="add_input">
 										<input type="text" class="input_add"
@@ -1357,6 +1406,8 @@ px
 									</div>
 									<div class="clr"></div>
 								</div>
+
+
 
 								<div class="add_frm_one">
 									<div class="add_customer_one">Email ID</div>
@@ -1460,15 +1511,7 @@ px
 										<div class="clr"></div>
 									</div>
 
-									<div class="add_frm_one">
-										<div class="add_customer_one">Address</div>
-										<div class="add_input">
-											<input placeholder="Enter Address" name="custAdd"
-												id="custAdd" onchange="trim(this)" type="text"
-												class="input_add" />
-										</div>
-										<div class="clr"></div>
-									</div>
+
 
 									<div class="add_frm_one">
 										<div class="add_customer_one">GST Number *</div>
@@ -1816,11 +1859,10 @@ $(function() {
 			if (customerName == "") {
 				alert("Enter Customer Name");
 				flag = 1;
-			} 
-			/* else if (custAdd == "") {
+			} else if (custAdd == "") {
 				alert("Enter Address");
 				flag = 1;
-			} */
+			} 
 			else if (mobileNo == "" || !validateMobile(mobileNo)) {
 				alert("Enter Valid Mobile No");
 				flag = 1;
@@ -1939,7 +1981,6 @@ $(function() {
 										document.getElementById("pincode").value = "";
 										document.getElementById("remark").value = "";
 										document.getElementById("kms").value = "0";
-
 
 										document.getElementById("customerName").value = "";
 										document.getElementById("mobileNo").value = "";

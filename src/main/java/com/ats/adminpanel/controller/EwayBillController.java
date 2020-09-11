@@ -386,26 +386,26 @@ public class EwayBillController {
 			}
 			List<BillHeadEwayBill> billHeaderList = bRes.getBody();
 
-			// System.err.println("billHeaderList " + billHeaderList.toString());
+			 System.err.println("billHeaderList " + billHeaderList.toString());
 
 			GetAuthToken tokenRes = null; // = restTemplate.getForObject(EwayConstants.getToken, GetAuthToken.class);
-			ResponseEntity<String> tokRes = null;
+//			ResponseEntity<String> tokRes = null;
 
-			ParameterizedTypeReference<String> typeRef2 = new ParameterizedTypeReference<String>() {
-			};
-			try {
-				tokRes = restTemplate.exchange(EwayConstants.getToken, HttpMethod.GET, new HttpEntity<>(map), typeRef2);
-				try {
-					tokenRes = mapperObj.readValue(tokRes.getBody(), GetAuthToken.class);
-					// System.err.println("Token Res " +tokenRes.toString());
-				} catch (Exception e) {
-					System.err.println("Inner try for getToken" + e.getMessage());
-				}
-			} catch (HttpClientErrorException e) {
-				System.err.println("/getToken Http Excep \n " + e.getResponseBodyAsString());
-			}
+//			ParameterizedTypeReference<String> typeRef2 = new ParameterizedTypeReference<String>() {
+//			};
+//			try {
+//				tokRes = restTemplate.exchange(EwayConstants.getToken, HttpMethod.GET, new HttpEntity<>(map), typeRef2);
+//				try {
+//					tokenRes = mapperObj.readValue(tokRes.getBody(), GetAuthToken.class);
+//					 System.err.println("Token Res " +tokenRes.toString());
+//				} catch (Exception e) {
+//					System.err.println("Inner try for getToken" + e.getMessage());
+//				}
+//			} catch (HttpClientErrorException e) {
+//				System.err.println("/getToken Http Excep \n " + e.getResponseBodyAsString());
+//			}
 
-			// System.err.println("tokenRes " + tokenRes.toString());
+//			 System.err.println("tokenRes " + tokenRes.toString());
 
 			Company company = restTemplate.getForObject(Constants.url + "/getCompany", Company.class);
 			System.err.println("company " + company.toString());

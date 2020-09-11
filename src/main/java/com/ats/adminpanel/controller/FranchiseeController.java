@@ -47,11 +47,13 @@ import com.ats.adminpanel.model.ConfigureFrBean;
 import com.ats.adminpanel.model.ConfigureFrListResponse;
 import com.ats.adminpanel.model.ConfiguredSpDayCkResponse;
 import com.ats.adminpanel.model.ExportToExcel;
+import com.ats.adminpanel.model.FrEmpMaster;
 import com.ats.adminpanel.model.FrMenuConfigure;
 import com.ats.adminpanel.model.GetConfiguredSpDayCk;
 import com.ats.adminpanel.model.GetFrMenuConfigure;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.Route;
+import com.ats.adminpanel.model.Setting;
 import com.ats.adminpanel.model.ItemIdOnly;
 import com.ats.adminpanel.model.MCategory;
 import com.ats.adminpanel.model.SpCakeResponse;
@@ -735,6 +737,47 @@ public class FranchiseeController {
 				frIdForSupp = frResponse.getFrId();
 				logger.info("frIdForSupp" + frIdForSupp);
 				isError = false;
+
+				try {
+
+					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+					Setting setting = rest.getForObject(Constants.url + "/getSettingDataById?settingId={settingId}",
+							Setting.class, 57);
+					String empCode = String.valueOf(setting.getSettingValue());
+
+					FrEmpMaster emp = new FrEmpMaster();
+
+					emp.setCurrentBillAmt(0);
+					emp.setDelStatus(0);
+					emp.setDesignation(1);
+					emp.setEmpCode(empCode);
+					emp.setExInt1(0);
+					emp.setExInt2(0);
+					emp.setExInt3(0);
+					emp.setExVar1("");
+					emp.setExVar2("");
+					emp.setExVar3("NA");
+					emp.setFrEmpAddress("Nashik");
+					emp.setFrEmpContact("0000000000");
+					emp.setFrEmpJoiningDate(sdf1.format(Calendar.getInstance().getTime()));
+					emp.setFrEmpName("ATS User");
+					emp.setFrId(frResponse.getFrId());
+					emp.setPassword("123456");
+
+					emp.setFromDate(sdf1.format(Calendar.getInstance().getTime()));
+					emp.setToDate(sdf1.format(Calendar.getInstance().getTime()));
+					emp.setIsActive(0);
+					emp.setTotalLimit(0);
+					emp.setUpdateDatetime(sdf2.format(Calendar.getInstance().getTime()));
+
+					FrEmpMaster saveEmp = rest.postForObject(Constants.url + "/saveFrEmpDetails", emp,
+							FrEmpMaster.class);
+
+				} catch (Exception e) {
+				}
+
 				return "redirect:/showAddFranchiseSup";
 			} else {
 				isError = true;
@@ -1906,7 +1949,7 @@ public class FranchiseeController {
 			String ownerBirthDate = request.getParameter("fr_birth_date");
 			logger.info("18] ownerBirthDate " + ownerBirthDate);
 
-			String frLicenseDate = request.getParameter("fr_license_date");//License No
+			String frLicenseDate = request.getParameter("fr_license_date");// License No
 			logger.info("19] frLicenseDate " + frLicenseDate);
 
 			String frAgreementDate = request.getParameter("fr_agreement_date");
@@ -2017,8 +2060,9 @@ public class FranchiseeController {
 			map.add("frAddress", frAddr);
 			map.add("frTarget", frTarget);
 			map.add("isSameState", isSameState);
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "updateAdminFranchisee", map, ErrorMessage.class);
-			//updateFranchisee
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "updateAdminFranchisee", map,
+					ErrorMessage.class);
+			// updateFranchisee
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
@@ -2591,7 +2635,7 @@ public class FranchiseeController {
 			String pass2 = request.getParameter("weighing_scale1");
 
 			String pass3 = request.getParameter("weighing_scale2");
-			
+
 			String pass4 = request.getParameter("shop_estb_act");
 
 			String pass5 = request.getParameter("fr_status");
@@ -2607,17 +2651,14 @@ public class FranchiseeController {
 				noInRoute = 0;
 			}
 
-			String remainderDate=request.getParameter("pro_tax");
-			
-		
+			String remainderDate = request.getParameter("pro_tax");
+
 //			if(!pestControlDate.isEmpty()) {
 //				Date pestCtrlDate = new SimpleDateFormat("dd-MM-yyyy").parse(pestControlDate);
 //				Date newDate = addDays(pestCtrlDate, frequency);
 //				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 //				remainderDate = dateFormat.format(newDate);
 //			}
-
-			
 
 			FranchiseSup frSup = new FranchiseSup();
 			frSup.setId(id);
@@ -2627,13 +2668,13 @@ public class FranchiseeController {
 			frSup.setFrState(frState);
 			frSup.setDelStatus(0);
 			frSup.setPass1(pass1);
-			frSup.setPass2(pass2);	//Weighing Scale License Date1
-			frSup.setPass3(pass3); 	//Weighing Scale License Date2
-			frSup.setPass4(pass4); //License under Shops & Establishment Act Date
+			frSup.setPass2(pass2); // Weighing Scale License Date1
+			frSup.setPass3(pass3); // Weighing Scale License Date2
+			frSup.setPass4(pass4); // License under Shops & Establishment Act Date
 			frSup.setPass5(pass5);
 			frSup.setPestControlDate(pestControlDate); // Madhvi Franchisee Agreement Expiry Date
 			frSup.setFrequency(frequency);
-			frSup.setRemainderDate(remainderDate); //Professional Tax License Date
+			frSup.setRemainderDate(remainderDate); // Professional Tax License Date
 			frSup.setIsTallySync(0);
 			frSup.setNoInRoute(noInRoute);
 

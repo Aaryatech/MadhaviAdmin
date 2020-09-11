@@ -2598,7 +2598,8 @@ public class BillController {
 
 			System.err.println("selectedType" + selectedType.toString());
 			
-			int configType=Integer.parseInt(request.getParameter("configType"));
+			//int configType=Integer.parseInt(request.getParameter("configType"));
+			int configType=0;
 
 			boolean isAllFrSelected = false;
 
