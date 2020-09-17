@@ -332,6 +332,8 @@ type
 
 
 
+
+
 :checked
 ,
 [
@@ -339,6 +341,8 @@ type
 =
 "radio"
 ]
+
+
 
 
 
@@ -400,7 +404,9 @@ type
 
 
 
+
  
+
 
 
 
@@ -443,7 +449,9 @@ type
 
 
 
+
  
+
 
 
 
@@ -507,7 +515,10 @@ position
 
 
 
+
+
 :
+
 
 
 
@@ -549,7 +560,10 @@ position
 
 
 
+
 absolute
+
+
 
 
 
@@ -632,7 +646,10 @@ left
 
 
 
+
+
 :
+
 
 
 
@@ -674,8 +691,11 @@ left
 
 
 
+
 -9999
 px
+
+
 
 
 
@@ -803,6 +823,30 @@ px
 	text-decoration: none;
 	cursor: pointer;
 }
+
+#overlay2 {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(239, 219, 219, 0.5);
+	z-index: 9992;
+	cursor: pointer;
+}
+
+#text2 {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 25px;
+	color: white;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+}
 </style>
 
 </head>
@@ -825,6 +869,14 @@ px
 
 
 	<div class="container" id="main-container">
+
+		<div id="overlay2">
+			<div id="text2">
+				<img
+					src="${pageContext.request.contextPath}/resources/img/loader.gif"
+					alt="madhvi_logo">
+			</div>
+		</div>
 
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
@@ -1783,6 +1835,8 @@ $(function() {
 
 		function addCustomer() {
 			
+			document.getElementById("overlay2").style.display = "block";
+			
 			document.getElementById("saveCust").style.display="none"; 
 			
 			var frId=document.getElementById("fr_id").value;
@@ -1826,7 +1880,7 @@ $(function() {
 				document.getElementById("saveCust").style.display="block"; 
 				
 				 if(parseInt(saveFlag)>0 && parseInt(saveFlag)!=custId){
-					 
+					 document.getElementById("overlay2").style.display = "none";
 					 document.getElementById("saveCust").style.display="block"; 
 					 alert("Duplicate Mobile Number Found.");	 
 				
@@ -1859,13 +1913,16 @@ $(function() {
 			if (customerName == "") {
 				alert("Enter Customer Name");
 				flag = 1;
+				document.getElementById("overlay2").style.display = "none";
 			} else if (custAdd == "") {
 				alert("Enter Address");
 				flag = 1;
+				document.getElementById("overlay2").style.display = "none";
 			} 
 			else if (mobileNo == "" || !validateMobile(mobileNo)) {
 				alert("Enter Valid Mobile No");
 				flag = 1;
+				document.getElementById("overlay2").style.display = "none";
 			} 
 			/* else if (dateOfBirth == "") {
 				alert("Enter Date of Birth");
@@ -1880,17 +1937,21 @@ $(function() {
 			else if (ageRange == 0) {
 				alert("Please Select Age Group");
 				flag = 1;
+				document.getElementById("overlay2").style.display = "none";
 			} else if (buisness == 1) {
 
 				if (companyName == "") {
 					alert("Enter Company Name");
 					flag = 1;
+					document.getElementById("overlay2").style.display = "none";
 				} else if (gstNo == "") {
 					alert("Enter GST No");
 					flag = 1;
+					document.getElementById("overlay2").style.display = "none";
 				}else if(checkGST(gstNo)==false){
 					alert("Invalid GST No");
 					flag = 1;
+					document.getElementById("overlay2").style.display = "none";
 					
 				}
 				/* else if (custAdd == "") {
@@ -1932,8 +1993,9 @@ $(function() {
 									ajax : 'true'
 								},
 								function(data) {
+									document.getElementById("overlay2").style.display = "none";
 									
-									//document.getElementById("saveCust").style.display="block"; 
+									document.getElementById("saveCust").style.display="block"; 
 
 									//alert(JSON.stringify(data));
 
