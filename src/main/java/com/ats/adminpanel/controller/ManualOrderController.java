@@ -1562,9 +1562,20 @@ public class ManualOrderController {
 				map.add("frId", frId);
 				FrConfig frConfig = restTemplate.postForObject(Constants.url + "/getFrConfigByFrId", map,
 						FrConfig.class);
-				if (frConfig != null) {
-					cityId = frConfig.getCityIds();
+//				if (frConfig != null) {
+//					cityId = frConfig.getCityIds();
+//				}
+				
+				try {
+					if (frConfig != null) {
+						String[] cityStr=frConfig.getCityIds().split(",");
+						cityId = Integer.parseInt(cityStr[0]);
+					}
+				} catch (Exception e) {
+					cityId=0;
 				}
+				
+				
 
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("settingKey", "POS_default_lang_id");

@@ -1933,7 +1933,7 @@ $(function() {
 								},
 								function(data) {
 									
-									document.getElementById("saveCust").style.display="block"; 
+									//document.getElementById("saveCust").style.display="block"; 
 
 									//alert(JSON.stringify(data));
 
@@ -1970,7 +1970,7 @@ $(function() {
 
 										}
 										
-
+										document.getElementById("saveCust").style.display="block";
 
 										$('#cust').html(html);
 
@@ -2023,7 +2023,7 @@ $(function() {
 										
 									} else {
 										alert("Failed To Add Customer");
-										
+										document.getElementById("saveCust").style.display="block";
 									}
 
 								});

@@ -6,7 +6,7 @@ public class FrConfig {
 
 	private int frId;
 	private int frType;
-	private int cityIds;
+	private String cityIds;
 	private String areaIds;
 	private String pincodes;
 	private double fromLatitude;
@@ -51,11 +51,11 @@ public class FrConfig {
 		this.frType = frType;
 	}
 
-	public int getCityIds() {
+	public String getCityIds() {
 		return cityIds;
 	}
 
-	public void setCityIds(int cityIds) {
+	public void setCityIds(String cityIds) {
 		this.cityIds = cityIds;
 	}
 
