@@ -54,7 +54,7 @@ public class ExportExcelController {
 	List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
 	List<ExportToExcel> exportToExcelList2 = new ArrayList<ExportToExcel>();
 	List<ExportToExcel> exportToExcelTally = new ArrayList<ExportToExcel>();
-	
+
 	@RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
 	@ResponseBody
 	public void downloadSpreadsheet(HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -127,31 +127,25 @@ public class ExportExcelController {
 			for (int j = 0; j < exportToExcelList.get(rowIndex).getRowData().size(); j++) {
 
 				XSSFCell cell = row.createCell(j);
-				  cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
-				try 
-		        { 
-		            // checking valid integer using parseInt() method 
-		           int value=Integer.parseInt(exportToExcelList.get(rowIndex).getRowData().get(j)); 
-		            cell.setCellValue(value);
-		        }  
-		        catch (NumberFormatException e)  
-		        { 
-		        	 try
-		             { 
-		        		 XSSFCellStyle cellStyle = wb.createCellStyle();
-		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
-		                 // checking valid float using parseInt() method 
-		                double value=Double.parseDouble(exportToExcelList.get(rowIndex).getRowData().get(j)); 
-		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
-		                cell.setCellStyle(cellStyle);
-		                cell.setCellValue(value);
-		             }  
-		             catch (NumberFormatException e1) 
-		             { 
-		            	 cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
-		             } 
-		               
-		        } 
+				cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
+				try {
+					// checking valid integer using parseInt() method
+					int value = Integer.parseInt(exportToExcelList.get(rowIndex).getRowData().get(j));
+					cell.setCellValue(value);
+				} catch (NumberFormatException e) {
+					try {
+						XSSFCellStyle cellStyle = wb.createCellStyle();
+						XSSFDataFormat xssfDataFormat = wb.createDataFormat();
+						// checking valid float using parseInt() method
+						double value = Double.parseDouble(exportToExcelList.get(rowIndex).getRowData().get(j));
+						cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+						cell.setCellStyle(cellStyle);
+						cell.setCellValue(value);
+					} catch (NumberFormatException e1) {
+						cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
+					}
+
+				}
 			}
 			if (rowIndex == 0)
 				row.setRowStyle(createHeaderStyle(wb));
@@ -174,30 +168,24 @@ public class ExportExcelController {
 
 				XSSFCell cell = row.createCell(j);
 
-				try 
-		        { 
-		            // checking valid integer using parseInt() method 
-		           int value=Integer.parseInt(exportToExcelListDummy.get(rowIndex).getRowData().get(j)); 
-		            cell.setCellValue(value);
-		        }  
-		        catch (NumberFormatException e)  
-		        { 
-		        	 try
-		             { 
-		        		 XSSFCellStyle cellStyle = wb.createCellStyle();
-		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
-		                 // checking valid float using parseInt() method 
-		                double value=Double.parseDouble(exportToExcelListDummy.get(rowIndex).getRowData().get(j)); 
-		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
-		                cell.setCellStyle(cellStyle);
-		                cell.setCellValue(value);
-		             }  
-		             catch (NumberFormatException e1) 
-		             { 
-		            	 cell.setCellValue(exportToExcelListDummy.get(rowIndex).getRowData().get(j));
-		             } 
-		               
-		        } 
+				try {
+					// checking valid integer using parseInt() method
+					int value = Integer.parseInt(exportToExcelListDummy.get(rowIndex).getRowData().get(j));
+					cell.setCellValue(value);
+				} catch (NumberFormatException e) {
+					try {
+						XSSFCellStyle cellStyle = wb.createCellStyle();
+						XSSFDataFormat xssfDataFormat = wb.createDataFormat();
+						// checking valid float using parseInt() method
+						double value = Double.parseDouble(exportToExcelListDummy.get(rowIndex).getRowData().get(j));
+						cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+						cell.setCellStyle(cellStyle);
+						cell.setCellValue(value);
+					} catch (NumberFormatException e1) {
+						cell.setCellValue(exportToExcelListDummy.get(rowIndex).getRowData().get(j));
+					}
+
+				}
 			}
 			if (rowIndex == 0)
 				row.setRowStyle(createHeaderStyle(wb));
@@ -219,30 +207,24 @@ public class ExportExcelController {
 
 				XSSFCell cell = row.createCell(j);
 
-				try 
-		        { 
-		            // checking valid integer using parseInt() method 
-		           int value=Integer.parseInt(exportToExcelList1.get(rowIndex).getRowData().get(j)); 
-		            cell.setCellValue(value);
-		        }  
-		        catch (NumberFormatException e)  
-		        { 
-		        	 try
-		             { 
-		        		 XSSFCellStyle cellStyle = wb.createCellStyle();
-		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
-		                 // checking valid float using parseInt() method 
-		                double value=Double.parseDouble(exportToExcelList1.get(rowIndex).getRowData().get(j)); 
-		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
-		                cell.setCellStyle(cellStyle);
-		                cell.setCellValue(value);
-		             }  
-		             catch (NumberFormatException e1) 
-		             { 
-		            	 cell.setCellValue(exportToExcelList1.get(rowIndex).getRowData().get(j));
-		             } 
-		               
-		        } 
+				try {
+					// checking valid integer using parseInt() method
+					int value = Integer.parseInt(exportToExcelList1.get(rowIndex).getRowData().get(j));
+					cell.setCellValue(value);
+				} catch (NumberFormatException e) {
+					try {
+						XSSFCellStyle cellStyle = wb.createCellStyle();
+						XSSFDataFormat xssfDataFormat = wb.createDataFormat();
+						// checking valid float using parseInt() method
+						double value = Double.parseDouble(exportToExcelList1.get(rowIndex).getRowData().get(j));
+						cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+						cell.setCellStyle(cellStyle);
+						cell.setCellValue(value);
+					} catch (NumberFormatException e1) {
+						cell.setCellValue(exportToExcelList1.get(rowIndex).getRowData().get(j));
+					}
+
+				}
 			}
 			if (rowIndex == 0)
 				row.setRowStyle(createHeaderStyle(wb));
@@ -337,7 +319,7 @@ public class ExportExcelController {
 		session.removeAttribute("exportExcelListNew");
 		System.out.println("Session List" + session.getAttribute("exportExcelListNew"));
 	}
-	 
+
 	private XSSFWorkbook createWorkbookNew(String reportName, String searchBy, String mergeUpto1, String mergeUpto2)
 			throws IOException {
 		XSSFWorkbook wb = new XSSFWorkbook();
@@ -375,7 +357,7 @@ public class ExportExcelController {
 		/*
 		 * writeHeaders(wb, sheet); writeHeaders(wb, sheet); writeHeaders(wb, sheet);
 		 */
-		 XSSFCellStyle cellStyle = wb.createCellStyle();
+		XSSFCellStyle cellStyle = wb.createCellStyle();
 
 		for (int rowIndex = 0; rowIndex < exportToExcelListNew.size(); rowIndex++) {
 			XSSFRow row = sheet.createRow(rowIndex + 2);
@@ -383,33 +365,31 @@ public class ExportExcelController {
 
 				XSSFCell cell = row.createCell(j);
 
-				try 
-		        { 
-		            // checking valid integer using parseInt() method 
-		           int value=Integer.parseInt(exportToExcelListNew.get(rowIndex).getRowData().get(j)); 
-		            cell.setCellValue(value);
-		        }  
-		        catch (NumberFormatException e)  
-		        { 
-		        	 try
-		             { 
-		                 // checking valid float using parseInt() method
-		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
+				try {
+					// checking valid integer using parseInt() method
+					int value = Integer.parseInt(exportToExcelListNew.get(rowIndex).getRowData().get(j));
+					cell.setCellValue(value);
+				} catch (NumberFormatException e) {
+					try {
+						// checking valid float using parseInt() method
+						XSSFDataFormat xssfDataFormat = wb.createDataFormat();
 
-		                double value=Double.parseDouble(exportToExcelListNew.get(rowIndex).getRowData().get(j)); 
-		                
-		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
-		                cell.setCellStyle(cellStyle);
-		                cell.setCellValue(value);
-		                
-		             }  
-		             catch (NumberFormatException e1) 
-		             { 
-		            	 cell.setCellValue(exportToExcelListNew.get(rowIndex).getRowData().get(j));
-		             } 
-		               
-		        } 
-				
+						double value = 0;
+						if (exportToExcelListNew.get(rowIndex).getRowData().get(j) != null) {
+							value = Double.parseDouble(exportToExcelListNew.get(rowIndex).getRowData().get(j));
+						}
+						// double
+						// value=Double.parseDouble(exportToExcelListNew.get(rowIndex).getRowData().get(j));
+
+						cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+						cell.setCellStyle(cellStyle);
+						cell.setCellValue(value);
+
+					} catch (NumberFormatException e1) {
+						cell.setCellValue(exportToExcelListNew.get(rowIndex).getRowData().get(j));
+					}
+
+				}
 
 				// if((rowIndex+1)==1)
 				// cell.setCellStyle(createHeaderStyleHeaderFont(wb,242, 242, 242,1));
@@ -422,9 +402,11 @@ public class ExportExcelController {
 		}
 		return wb;
 	}
+
 	public static float roundUp(float d) {
 		return BigDecimal.valueOf(d).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 	}
+
 	private XSSFCellStyle createHeaderStyleNew(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setWrapText(true);
@@ -555,40 +537,32 @@ public class ExportExcelController {
 
 				XSSFCell cell = row.createCell(j);
 
-				
-				try 
-		        { 
-		            // checking valid integer using parseInt() method 
-		           int value=Integer.parseInt(exportToExcelList2.get(rowIndex).getRowData().get(j)); 
-		            cell.setCellValue(value);
-		        }  
-		        catch (NumberFormatException e)  
-		        { 
-		        	 try
-		             { 
-		        		 XSSFCellStyle cellStyle = wb.createCellStyle();
-		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
+				try {
+					// checking valid integer using parseInt() method
+					int value = Integer.parseInt(exportToExcelList2.get(rowIndex).getRowData().get(j));
+					cell.setCellValue(value);
+				} catch (NumberFormatException e) {
+					try {
+						XSSFCellStyle cellStyle = wb.createCellStyle();
+						XSSFDataFormat xssfDataFormat = wb.createDataFormat();
 
-		                 // checking valid float using parseInt() method 
-		                double value=Double.parseDouble(exportToExcelList2.get(rowIndex).getRowData().get(j)); 
-		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
-		                cell.setCellStyle(cellStyle);
-		                cell.setCellValue(value);
-		             }  
-		             catch (NumberFormatException e1) 
-		             { 
-		            	 cell.setCellValue(exportToExcelList2.get(rowIndex).getRowData().get(j));
-		             } 
-		               
-		        } 
+						// checking valid float using parseInt() method
+						double value = Double.parseDouble(exportToExcelList2.get(rowIndex).getRowData().get(j));
+						cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+						cell.setCellStyle(cellStyle);
+						cell.setCellValue(value);
+					} catch (NumberFormatException e1) {
+						cell.setCellValue(exportToExcelList2.get(rowIndex).getRowData().get(j));
+					}
+
+				}
 			}
 			if (rowIndex == 0)
 				row.setRowStyle(createHeaderStyle(wb));
 		}
 		return wb;
 	}
-	
-	
+
 	@RequestMapping(value = "/exportToExcelTally", method = RequestMethod.GET)
 	@ResponseBody
 	public void exportToExcelTally(HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -596,7 +570,7 @@ public class ExportExcelController {
 		HttpSession session = request.getSession();
 		try {
 
-			exportToExcelTally = (List) session.getAttribute("exportToExcelTally"); 
+			exportToExcelTally = (List) session.getAttribute("exportToExcelTally");
 
 			String excelName = (String) session.getAttribute("excelNameNewTally");
 			String reportName = (String) session.getAttribute("reportNameNewTally");
@@ -620,14 +594,14 @@ public class ExportExcelController {
 		session.removeAttribute("exportToExcelTally");
 		System.out.println("Session List" + session.getAttribute("exportToExcelTally"));
 	}
-	 
-	private XSSFWorkbook createWorkbookNewTally(String reportName, String searchBy, String mergeUpto1, String mergeUpto2)
-			throws IOException {
+
+	private XSSFWorkbook createWorkbookNewTally(String reportName, String searchBy, String mergeUpto1,
+			String mergeUpto2) throws IOException {
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet("Sheet1");
 		sheet.createFreezePane(0, 3);
 
-		CellStyle style = wb.createCellStyle(); 
+		CellStyle style = wb.createCellStyle();
 		style.setAlignment(CellStyle.ALIGN_CENTER);
 
 		Row titleRow = sheet.createRow(0);
@@ -655,7 +629,7 @@ public class ExportExcelController {
 		/*
 		 * writeHeaders(wb, sheet); writeHeaders(wb, sheet); writeHeaders(wb, sheet);
 		 */
-		 XSSFCellStyle cellStyle = wb.createCellStyle();
+		XSSFCellStyle cellStyle = wb.createCellStyle();
 
 		for (int rowIndex = 0; rowIndex < exportToExcelTally.size(); rowIndex++) {
 			XSSFRow row = sheet.createRow(rowIndex + 2);
@@ -663,33 +637,26 @@ public class ExportExcelController {
 
 				XSSFCell cell = row.createCell(j);
 
-				try 
-		        { 
-		            // checking valid integer using parseInt() method 
-		           int value=Integer.parseInt(exportToExcelTally.get(rowIndex).getRowData().get(j)); 
-		            cell.setCellValue(value);
-		        }  
-		        catch (NumberFormatException e)  
-		        { 
-		        	 try
-		             { 
-		                 // checking valid float using parseInt() method
-		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
+				try {
+					// checking valid integer using parseInt() method
+					int value = Integer.parseInt(exportToExcelTally.get(rowIndex).getRowData().get(j));
+					cell.setCellValue(value);
+				} catch (NumberFormatException e) {
+					try {
+						// checking valid float using parseInt() method
+						XSSFDataFormat xssfDataFormat = wb.createDataFormat();
 
-		                double value=Double.parseDouble(exportToExcelTally.get(rowIndex).getRowData().get(j)); 
-		                
-		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
-		                cell.setCellStyle(cellStyle);
-		                cell.setCellValue(value);
-		                
-		             }  
-		             catch (NumberFormatException e1) 
-		             { 
-		            	 cell.setCellValue(exportToExcelTally.get(rowIndex).getRowData().get(j));
-		             } 
-		               
-		        } 
-				
+						double value = Double.parseDouble(exportToExcelTally.get(rowIndex).getRowData().get(j));
+
+						cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+						cell.setCellStyle(cellStyle);
+						cell.setCellValue(value);
+
+					} catch (NumberFormatException e1) {
+						cell.setCellValue(exportToExcelTally.get(rowIndex).getRowData().get(j));
+					}
+
+				}
 
 				// if((rowIndex+1)==1)
 				// cell.setCellStyle(createHeaderStyleHeaderFont(wb,242, 242, 242,1));

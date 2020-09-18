@@ -6,6 +6,9 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
+	<c:url var="getCustomerReportListAjax"
+		value="/getCustomerReportListAjax"></c:url>
+
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
 	<c:url var="getFrListofAllFr" value="/getFrListofAllFrForFrSummery"></c:url>
@@ -78,9 +81,24 @@
 
 						<div class="col-md-4">
 							<input type="submit" class="btn btn-info" value="Search"></input>
-							<button class="btn btn-primary" value="PDF" id="PDFButton"
-								onclick="genPdf()">PDF</button>
+
+							<c:if test="${custList != ''}">
+								<button class="btn btn-primary" value="PDF" id="PDFButton"
+									onclick="genPdf()">PDF</button>
+
+								<button class="btn btn-primary" value="Excel" id="ExcelButton"
+									onclick="exportToExcel()">Excel</button>
+
+								<input type="button" class="btn btn-info" value="Lucky Draw"
+									data-toggle="modal" data-target="#custModal"
+									onclick="luckyDraw()"></input>
+
+							</c:if>
+
+
+
 						</div>
+						<div class="col-md-4" style="text-align: right;"></div>
 					</div>
 
 					<br>
@@ -105,37 +123,48 @@
 
 		<div class="box">
 
+			
 			<div class=" box-content">
+			
+			<input type="text" id="tblSearch" placeholder="Search..."
+				style="border-top: 0px; border-left: 0px; border-right: 0px; border-bottom: 1px solid; margin-bottom: 10px; width: 200px;">
+			
+			
 				<div class="row">
 					<div class="col-md-12 table-responsive">
 						<table class="table table-bordered table-striped fill-head "
 							style="width: 100%" id="table_grid">
 							<thead style="background-color: #f95d64;">
 								<tr>
-									<th>Sr.No.</th>
-									<th>Name</th>
-									<th>Phone</th>
-									<th>Email</th>
-									<th>DOB</th>
-									<th>Gender</th>
-									<th>Business</th>
-									<th>Address</th>
-									<th>Age Group</th>
-									<th>Added From</th>
+									<th style="text-align: center;">Sr.No.</th>
+									<th style="text-align: center;">Name</th>
+									<th style="text-align: center;">Phone</th>
+									<th style="text-align: center;">Email</th>
+									<th style="text-align: center;">Address</th>
+									<th style="text-align: center;">Added From</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tblBody">
 
 								<c:forEach items="${custList}" varStatus="count" var="cust">
 
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${cust.custName}</td>
-										<td>${cust.phoneNumber}</td>
-										<td>${cust.emailId}</td>
-										<td>${cust.custDob}</td>
+										<td style="text-align: center;">${cust.phoneNumber}</td>
 
 										<c:choose>
+											<c:when test="${cust.emailId != ''}">
+												<td>${cust.emailId}</td>
+											</c:when>
+											<c:otherwise>
+												<td>-</td>
+											</c:otherwise>
+										</c:choose>
+
+										<%-- <td style="text-align: center;">${cust.custDob}</td> --%>
+
+										<%-- <c:choose>
 											<c:when test="${cust.gender == 1}">
 												<td>Male</td>
 											</c:when>
@@ -145,11 +174,20 @@
 											<c:otherwise>
 												<td></td>
 											</c:otherwise>
+										</c:choose> --%>
+
+										<%-- <td>${cust.companyName}</td> --%>
+
+										<c:choose>
+											<c:when test="${cust.address != ''}">
+												<td>${cust.address}</td>
+											</c:when>
+											<c:otherwise>
+												<td>NA</td>
+											</c:otherwise>
 										</c:choose>
 
-										<td>${cust.companyName}</td>
-										<td>${cust.address}</td>
-										<td>${cust.ageGroup}</td>
+										<%-- <td>${cust.ageGroup}</td> --%>
 
 										<c:choose>
 											<c:when test="${cust.addedFromType == 1}">
@@ -172,19 +210,77 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="form-group" style="display: none;" id="range">
 
-						<div class="col-sm-3  controls">
-							<input type="button" id="expExcel" class="btn btn-primary"
-								value="EXPORT TO Excel" onclick="exportToExcel();"
-								disabled="disabled">
-						</div>
-					</div>
 				</div>
 
 			</div>
 
 		</div>
+
+		<!-- MODAL -->
+		<div class="modal fade" id="custModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+
+			<!--SAVE LOADER-->
+			<div id="overlay">
+				<div class="clock"></div>
+			</div>
+
+
+
+			<div class="modal-dialog" role="document"
+				style="width: 80%; height: 50%;">
+				<!--Content-->
+				<div class="modal-content form-elegant">
+
+					<a href="#" class="close" data-dismiss="modal" aria-label="Close"
+						style="margin: 10px;" id="closeCustModel"> <i
+						class="fa fa-times" style="color: #000000;"></i>
+					</a>
+
+					<!--Header-->
+					<div class="modal-header text-center">
+						<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3"
+							id="myModalLabel" style="color: #ea4973;">
+							<strong>Lucky Draw</strong>
+						</h3>
+
+						<div></div>
+						<div class="modal-body mx-6">
+
+							<div class="component">
+
+								<table width="80%" id="modelTable" class="table table-advance"
+									style="font-size: 13px; font-weight: bold; border: 1px solid; border-color: #f95d64;">
+									<!-- class="table table-advance" -->
+									<thead>
+										<tr class="bgpink" style="background-color: #f95d64;">
+											<th class="col-sm-1" align="center">Sr No</th>
+											<th class="col-md-2" align="center">Name</th>
+											<th class="col-md-1" align="center">Phone</th>
+											<th class="col-md-1" align="center">Email</th>
+											<th class="col-md-1" align="center">Address</th>
+											<th class="col-md-1" align="center">Added From</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+					</div>
+					<!--Body-->
+
+					<!--Footer-->
+				</div>
+				<!--/.Content-->
+			</div>
+		</div>
+		<!-- MODAL -->
+
+
 	</div>
 	<!-- END Main Content -->
 
@@ -195,446 +291,95 @@
 	<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 		class="fa fa-chevron-up"></i></a>
 
-
-
-
-
-
 	<script type="text/javascript">
-		function searchReport() {
-			//	var isValid = validate();
-
-			var selectedFr = $("#selectFr").val();
-			var selectedSubCat = $("#item_grp2").val();
-
-			var from_date = $("#fromDate").val();
-			var to_date = $("#toDate").val();
-
-			$('#loader').show();
-
-			$
-					.getJSON(
-							'${getBillList}',
-
-							{
-								fr_id_list : JSON.stringify(selectedFr),
-								subCat_id_list : JSON.stringify(selectedSubCat),
-								fromDate : from_date,
-								toDate : to_date,
-								ajax : 'true'
-
-							},
-							function(data) {
-
-								$('#table_grid td').remove();
-								$('#loader').hide();
-
-								if (data == "") {
-									alert("No records found !!");
-									document.getElementById("expExcel").disabled = true;
-								}
-
-								$
-										.each(
-												data.frList,
-												function(key, fr) {
-													var tr = $('<tr></tr>');
-
-													tr.append($('<td></td>')
-															.html(fr.frName));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-													tr.append($('<td></td>')
-															.html(""));
-
-													$('#table_grid tbody')
-															.append(tr);
-
-													var totalSoldQty = 0;
-													var totalSoldAmt = 0;
-													var totalVarQty = 0;
-													var totalVarAmt = 0;
-													var totalRetQty = 0;
-													var totalRetAmt = 0;
-													var totalNetQty = 0;
-													var totalNetAmt = 0;
-													var retAmtPer = 0;
-
-													$
-															.each(
-																	data.subCatFrReportList,
-																	function(
-																			key,
-																			report) {
-																		if (fr.frId == report.frId) {
-																			totalSoldQty = totalSoldQty
-																					+ report.soldQty;
-																			totalSoldAmt = totalSoldAmt
-																					+ report.soldAmt;
-																			totalVarQty = totalVarQty
-																					+ report.varQty;
-																			totalVarAmt = totalVarAmt
-																					+ report.varAmt;
-																			totalRetQty = totalRetQty
-																					+ report.retQty;
-																			totalRetAmt = totalRetAmt
-																					+ report.retAmt;
-																			totalNetQty = totalNetQty
-																					+ report.netQty;
-																			totalNetAmt = totalNetAmt
-																					+ report.netAmt;
-																			retAmtPer = retAmtPer
-																					+ report.retAmtPer;
-
-																			document
-																					.getElementById("expExcel").disabled = false;
-																			document
-																					.getElementById('range').style.display = 'block';
-																			var index = key + 1;
-																			//var tr = "<tr>";
-
-																			var tr = $('<tr></tr>');
-
-																			tr
-																					.append($(
-																							'<td></td>')
-																							.html(
-																									key + 1));
-
-																			tr
-																					.append($(
-																							'<td></td>')
-																							.html(
-																									report.subCatName));
-
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.soldQty
-																											.toFixed(2)));
-
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.soldAmt
-																											.toFixed(2)));
-
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.varQty
-																											.toFixed(2)));
-
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.varAmt
-																											.toFixed(2)));
-
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.retQty
-																											.toFixed(2)));
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.retAmt
-																											.toFixed(2)));
-
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.netQty
-																											.toFixed(2)));
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.netAmt
-																											.toFixed(2)));
-																			tr
-																					.append($(
-																							'<td style="text-align:right;"></td>')
-																							.html(
-																									report.retAmtPer
-																											.toFixed(2)));
-
-																			$(
-																					'#table_grid tbody')
-																					.append(
-																							tr);
-
-																		}
-
-																	})
-
-													var tr = $('<tr></tr>');
-
-													tr.append($('<td  ></td>')
-															.html(" "));
-
-													tr
-															.append($(
-																	'<td style="font-weight:bold;"></td>')
-																	.html(
-																			"Total"));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalSoldQty
-																					.toFixed(2)));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalSoldAmt
-																					.toFixed(2)));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalVarQty
-																					.toFixed(2)));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalVarAmt
-																					.toFixed(2)));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalRetQty
-																					.toFixed(2)));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalRetAmt
-																					.toFixed(2)));
-
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalNetQty
-																					.toFixed(2)));
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			totalNetAmt
-																					.toFixed(2)));
-
-													tr
-															.append($(
-																	'<td style="text-align:right;font-weight:bold;"></td>')
-																	.html(
-																			retAmtPer
-																					.toFixed(2)));
-
-													$('#table_grid tbody')
-															.append(tr);
-
-												})
-
-							});
-		}
-	</script>
-
-
-
-	<script>
-		$('.datepicker').datepicker({
-			format : {
-
-				format : 'mm/dd/yyyy',
-				startDate : '-3d'
-			}
-		});
-
 		function genPdf() {
-			var selectedFr = $("#selectFr").val();
-			var selectedSubCatIdList = $("#item_grp2").val();
-			var from_date = $("#fromDate").val();
-			var to_date = $("#toDate").val();
+			var type = $("#addedFrom").val();
 
 			window
-					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSummeryFrAndSubCatPdf/'
-							+ from_date
-							+ '/'
-							+ to_date
-							+ '/'
-							+ selectedFr
-							+ '/' + selectedSubCatIdList);
+					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/customerReportPdf/'
+							+ type);
 
-		}
-	</script>
-
-
-	<script type="text/javascript">
-		function getSubCategoriesByCatId() {
-			var catId = $("#item_grp1").val();
-
-			$
-					.getJSON(
-							'${getGroup2ByCatId}',
-							{
-								catId : JSON.stringify(catId),
-								ajax : 'true'
-							},
-							function(data) {
-								var html = '<option multiple="multiple" value="">Sub Category</option>';
-
-								var len = data.length;
-
-								$('#item_grp2').find('option').remove().end()
-
-								$("#item_grp2")
-										.append(
-												$("<option ></option>").attr(
-														"value", "").text(
-														"Select Sub Category"));
-								$("#item_grp2").append(
-										$("<option></option>")
-												.attr("value", -1).text("ALL"));
-								for (var i = 0; i < len; i++) {
-									$("#item_grp2").append(
-											$("<option ></option>").attr(
-													"value", data[i].subCatId)
-													.text(data[i].subCatName));
-								}
-								$("#item_grp2").trigger("chosen:updated");
-							});
-		}
-		function setAllSubSelected() {
-			var catId = $("#item_grp1").val();
-			var subCatId = $("#item_grp2").val();
-			if (subCatId == -1) {
-				$
-						.getJSON(
-								'${getGroup2ByCatId}',
-								{
-									catId : JSON.stringify(catId),
-									ajax : 'true'
-								},
-								function(data) {
-									var html = '<option multiple="multiple" value="">Sub Category</option>';
-
-									var len = data.length;
-
-									$('#item_grp2').find('option').remove()
-											.end()
-
-									$("#item_grp2").append(
-											$("<option ></option>").attr(
-													"value", "").text(
-													"Select Sub Category"));
-									$("#item_grp2").append(
-											$("<option></option>").attr(
-													"value", -1).text("ALL"));
-									for (var i = 0; i < len; i++) {
-										$("#item_grp2")
-												.append(
-														$(
-																"<option selected></option>")
-																.attr(
-																		"value",
-																		data[i].subCatId)
-																.text(
-																		data[i].subCatName));
-									}
-									$("#item_grp2").trigger("chosen:updated");
-								});
-			}
-		}
-	</script>
-
-
-	<script type="text/javascript">
-		function disableFr() {
-
-			//alert("Inside Disable Fr ");
-			document.getElementById("selectFr").disabled = true;
-
-		}
-
-		function disableRoute() {
-
-			//alert("Inside Disable route ");
-			var x = document.getElementById("selectRoute")
-			//alert(x.options.length);
-			var i;
-			for (i = 0; i < x; i++) {
-				document.getElementById("selectRoute").options[i].disabled;
-				//document.getElementById("pets").options[2].disabled = true;
-			}
-			//document.getElementById("selectRoute").disabled = true;
-
+			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 		}
 
 		function exportToExcel() {
-
 			window.open("${pageContext.request.contextPath}/exportToExcelNew");
 			document.getElementById("expExcel").disabled = true;
 		}
+
+		function luckyDraw() {
+
+			//down.innerHTML = arr[Math.floor(Math.random() * arr.length)]; 
+
+			$.getJSON('${getCustomerReportListAjax}', {
+				ajax : 'true'
+			}, function(data) {
+				var len = data.length;
+				//alert(JSON.stringify(data));
+
+				$('#modelTable td').remove();
+
+				for (var i = 0; i < 3; i++) {
+
+					var random = Math.floor(Math.random() * len);
+					console.log("" + data[random]);
+
+					var tr = $('<tr></tr>');
+
+					tr.append($('<td style="text-align:left;"></td>').html(
+							i + 1));
+					tr.append($('<td style="text-align:left;"></td>').html(
+							data[random].custName));
+					tr.append($('<td style="text-align:left;"></td>').html(
+							data[random].phoneNumber));
+					tr.append($('<td style="text-align:left;"></td>').html(
+							data[random].emailId));
+					tr.append($('<td style="text-align:left;"></td>').html(
+							data[random].address));
+
+					var type = "";
+					if (data[random].addedFromType == 1) {
+						type = "POS";
+					} else if (data[random].addedFromType == 2) {
+						type = "Online";
+					}
+					tr.append($('<td style="text-align:left;"></td>')
+							.html(type));
+
+					$('#modelTable tbody').append(tr);
+
+				}
+
+			});
+
+		}
 	</script>
 
+
 	<script>
-		function setAllFrSelected(frId) {
-			//alert("hii")
-			if (frId == -1) {
-
-				$.getJSON('${getFrListofAllFr}', {
-
-					ajax : 'true'
-				},
-						function(data) {
-
-							var len = data.length;
-
-							//alert(len);
-
-							$('#selectFr').find('option').remove().end()
-							$("#selectFr").append(
-									$("<option value='-1'>All</option>"));
-							for (var i = 0; i < len; i++) {
-								$("#selectFr").append(
-										$("<option selected ></option>").attr(
-												"value", data[i].frId).text(
-												data[i].frName));
-							}
-							$("#selectFr").trigger("chosen:updated");
+		$(document)
+				.ready(
+						function() {
+							$("#tblSearch")
+									.on(
+											"keyup",
+											function() {
+												var value = $(this).val()
+														.toLowerCase();
+												$("#tblBody tr")
+														.filter(
+																function() {
+																	$(this)
+																			.toggle(
+																					$(
+																							this)
+																							.text()
+																							.toLowerCase()
+																							.indexOf(
+																									value) > -1)
+																});
+											});
 						});
-			}
-		}
 	</script>
 
 
