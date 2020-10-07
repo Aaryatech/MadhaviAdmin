@@ -638,7 +638,7 @@ public class FranchiseeController {
 
 		String frGstNo;
 		if (frGstType == 0) {
-			frGstNo = "NA";
+			frGstNo = "";
 
 		} else {
 			frGstNo = request.getParameter("fr_gst_no");
@@ -1960,7 +1960,7 @@ public class FranchiseeController {
 
 			String frGstNo;
 			if (frGstType == 0) {
-				frGstNo = "NA";
+				frGstNo = "";
 
 			} else {
 				frGstNo = request.getParameter("fr_gst_no");
