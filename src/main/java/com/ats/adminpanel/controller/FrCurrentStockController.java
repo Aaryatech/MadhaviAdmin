@@ -174,8 +174,11 @@ public class FrCurrentStockController {
 
 					map = new LinkedMultiValueMap<String, Object>();
 					map.add("frId", frId);
+					map.add("catId", catId);
+					
+					System.err.println("PARAM ------------- catId="+catId);
 
-					frItemStockHeader = restTemplate.postForObject(Constants.url + "getRunningMonth", map,
+					frItemStockHeader = restTemplate.postForObject(Constants.url + "getRunningMonthWithCat", map,
 							PostFrItemStockHeader.class);
 
 					System.out.println("Fr Opening Stock " + frItemStockHeader.toString());
