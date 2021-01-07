@@ -1404,13 +1404,19 @@ callSearch();
 						document.getElementById("overlay2").style.display = "none";
 						//alert(JSON.stringify(data));
 						
+						if (data.error == true) {
+							alert(data.message);
+						} else {
+							window.open(data.message);
+						}
 						
-						var myjson = JSON.stringify(data, null, 2);
+						
+						/* var myjson = JSON.stringify(data, null, 2);
 					    console.log(myjson);
 					    var x = window.open();
 					    x.document.open();
 					    x.document.write('<html><body><pre>' + myjson + '</pre></body></html>');
-					    x.document.close();
+					    x.document.close(); */
 						
 						
 					});

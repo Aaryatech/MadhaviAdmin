@@ -1,14 +1,26 @@
 package com.ats.adminpanel.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,6 +41,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ats.adminpanel.commons.Constants;
+import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.billing.Company;
 import com.ats.adminpanel.model.ewaybill.BillHeadEwayBill;
 import com.ats.adminpanel.model.ewaybill.CancelEWBModel;
@@ -568,8 +581,11 @@ public class EwayBillController {
 	// NEW JSON FORMAT
 
 	@RequestMapping(value = "/genOutwardEwayBillJson", method = RequestMethod.GET)
-	public @ResponseBody NewEwayBillJsonDisplay genOutwardEwayBillJson(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Info genOutwardEwayBillJson(HttpServletRequest request, HttpServletResponse response) {
 
+		Info info=new Info();
+	
+		
 		NewEwayBillJsonDisplay jsonBill = new NewEwayBillJsonDisplay();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -739,12 +755,78 @@ public class EwayBillController {
 			
 
 			} // End of Bill Header For Loop
+			
+			ObjectMapper Obj = new ObjectMapper();
+			String json = "";
+			try {
+				json = Obj.writeValueAsString(jsonBill);
+			} catch (JsonGenerationException e1) {
+				e1.printStackTrace();
+			} catch (JsonMappingException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			
+			if (json != null) {
+
+				try {
+					Writer output = null;
+					File file = new File(
+							Constants.TALLY_SAVE + "EwayBill.json");
+					output = new BufferedWriter(new FileWriter(file));
+					output.write(json.toString());
+					output.close();
+
+					String data = Constants.TALLY_VIEW + "EwayBill.zip";
+					String fileName = Constants.TALLY_SAVE + "EwayBill.zip";
+					String sourceFile = Constants.TALLY_SAVE + "EwayBill.json";
+					
+					FileOutputStream fos = new FileOutputStream(fileName);
+					ZipOutputStream zipOut = new ZipOutputStream(fos);
+					File fileToZip = new File(sourceFile);
+					FileInputStream fis = new FileInputStream(fileToZip);
+					ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+
+					// System.err.println(fileToZip.getName());
+
+					zipOut.putNextEntry(zipEntry);
+					byte[] bytes = new byte[1024];
+					int length;
+					while ((length = fis.read(bytes)) >= 0) {
+						zipOut.write(bytes, 0, length);
+					}
+					zipOut.close();
+					fis.close();
+					fos.close();
+
+					info.setError(false);
+					info.setMessage(data);
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					info.setError(true);
+					info.setMessage("Download Failed!");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					info.setError(true);
+					info.setMessage("Download Failed!");
+				}
+
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+	
 
-		return jsonBill;
+		return info;
 
 	}
 
