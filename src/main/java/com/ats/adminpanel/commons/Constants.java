@@ -60,11 +60,11 @@ public class Constants {
     public static final String INWARD_PATH="/home/ubuntu/tomcat/apache-tomcat-9.0.41/webapps/ROOT/uploads/Inward.pdf";
     public static final String LOG_PDF_PATH="/home/ubuntu/tomcat/apache-tomcat-9.0.41/webapps/ROOT/uploads/logdf.pdf";
     public static final String DISPATCH_PATH="/home/ubuntu/tomcat/apache-tomcat-9.0.41/webapps/ROOT/uploads/dispatch.pdf";
-	public static final String SP_CAKE_FOLDER = "http://15.207.112.119:8080/admin/uploads/SPCAKE/";
+	public static final String SP_CAKE_FOLDER = "http://15.207.112.119:8080/uploads/SPCAKE/";
 	public static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = "http://15.207.112.119:8080/admin/uploads/CUSTCHOICEPHOTOCAKE/";
-	public static final String LOGIS_BILL_URL = "http://15.207.112.119:8080/admin/uploads/MSPCAKE/";
+	public static final String LOGIS_BILL_URL = "http://15.207.112.119:8080/uploads/MSPCAKE/";
 	public static final String TALLY_SAVE = "/home/ubuntu/tomcat/apache-tomcat-9.0.41/webapps/ROOT/uploads/Tally/";
-	public static final String TALLY_VIEW = "http://15.207.112.119:8080/admin/uploads/Tally/";
+	public static final String TALLY_VIEW = "http://15.207.112.119:8080/uploads/Tally/";
 	
 	
 	public static final int MENU_IMAGE_TYPE = 0;
